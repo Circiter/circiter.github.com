@@ -1,0 +1,5 @@
+name: build-jekyll-blog
+description: 'Build a jekyll site or blog'
+runs:
+  using: docker
+  image: Dockerfile

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="{{ site.lang | default: "en-US" }}">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/assets/css/style.css" />
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml" />
+    <link type="text/plain" rel="author" href="{{ site.baseurl }}humans.txt" />
+    <link rel="shortcut icon" href="http://www.catb.org/hacker-emblem/glider.ico" />
+  </head>
+
+  <body>
+
+    <header>
+      <div class="container">
+        <a id="a-title" href="{{ '/' | relative_url }}">
+          <h1>{{ site.title | default: site.github.repository_name }}</h1>
+        </a>
+        <h2>{{ site.description | default: site.github.project_tagline }}</h2>
+      <br><a href="/about">About</a>
+      &middot
+      <a href="{{ site.email }}">E-Mail</a>
+      </div>
+    </header>
+
+    <div class="container">
+      <section id="main_content">
+        {{ content }}
+      </section>
+    </div>
+
+    <footer>
+        <!-- Copied from github.com/barryclark/jekyll-now (and, probably, this excerp wasoriginally presented at github.com/neilorangepeel/Free-Social-Icons) -->
+        {% if site.footer-links.email %}<a href="mailto:{{ site.footer-links.email }}"><i class="svg-icon email"></i></a>{% endif %}
+        {% if site.footer-links.github %}<a href="https://github.com/{{ site.footer-links.github }}"><i class="svg-icon github"></i></a>{% endif %}
+        {% if site.footer-links.rss %}<a href="{{ site.baseurl }}/feed.xml"><i class="svg-icon rss"></i></a>{% endif %}    
+        {% if site.footer-links.rss %}<a href="{{ site.baseurl }}/{{ site.footer-links.rss }}"><i class="svg-icon rss"></i></a>{% endif %}    
+        <h2><a href="http://catb.org/hacker-emblem"><img src="http://catb.org/hacker-emblem/glider-small.png" /></a>&nbsp;EOF</h2>
+    </footer>
+
+  </body>
+</html>
