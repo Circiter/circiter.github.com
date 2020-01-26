@@ -3,7 +3,7 @@ name: GitHub Pages deploy
 on:
   push:
     branches:
-      - master
+      - source
 
 jobs:
   checkout-and-deploy:
@@ -14,20 +14,12 @@ jobs:
     - name: Checkout
       uses: actions/checkout@master
 
-    - name: Some extra steps
-      run: |
-        mkdir $FOLDER
-        if [ -e .nojekyll ]; then rm .nojekyll; fi # Allow the jekyll to build.
-
     - name: Build jekyll site
       uses: ./
 
     - name: Configuring
       run: |
-        # FIXME: Maybe use the "include" section in the _config.yml?
-        for i in *; do if [ "$i" != $FOLDER ]; then mv --no-clobber "$i" $FOLDER; fi; done
         cd $FOLDER
-        if [ -d .github ]; then rm -r .github; fi # FIXME: Prevent recursion.
         touch .nojekyll # Disable github pages/jekyll.
         if [ -e index.html ]; then mv index.html _.html; fi
         touch index.html
@@ -38,7 +30,7 @@ jobs:
       uses: JamesIves/github-pages-deploy-action@master
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        BASE_BRANCH: master
+        BASE_BRANCH: source
         BRANCH: master
         BUILD_SCRIPT: |
           git add -f $FOLDER && \
@@ -46,3 +38,4 @@ jobs:
           git push $REPOSITORY_PATH \
             `git subtree split --prefix $FOLDER ${BASE_BRANCH:-master}`:$BRANCH --force && \
           echo empty > $FOLDER/.nojekyll
+        CNAME: circiter.tk
