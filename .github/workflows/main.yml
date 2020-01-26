@@ -14,15 +14,20 @@ jobs:
     - name: Checkout
       uses: actions/checkout@master
 
+    - name: Creating destination folder
+      run: mkdir $FOLDER
+
     - name: Build jekyll site
       uses: ./
 
     - name: Configuring
       run: |
+        echo destination folder is "$FOLDER"
         cd $FOLDER
-        touch .nojekyll # Disable github pages/jekyll.
+        #touch .nojekyll # Disable github pages/jekyll.
+        echo > .nojekyll
         if [ -e index.html ]; then mv index.html _.html; fi
-        touch index.html
+        #touch index.html
         echo 'under construction' > index.html
         cd ..
 
@@ -32,10 +37,10 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         BASE_BRANCH: source
         BRANCH: master
-        BUILD_SCRIPT: |
-          git add -f $FOLDER && \
-          git commit -m _ && \
-          git push $REPOSITORY_PATH \
-            `git subtree split --prefix $FOLDER ${BASE_BRANCH:-master}`:$BRANCH --force && \
-          echo empty > $FOLDER/.nojekyll
+        #BUILD_SCRIPT: |
+        #  git add -f $FOLDER && \
+        #  git commit -m _ && \
+        #  git push $REPOSITORY_PATH \
+        #    `git subtree split --prefix $FOLDER ${BASE_BRANCH:-master}`:$BRANCH --force && \
+        #  echo empty > $FOLDER/.nojekyll
         CNAME: circiter.tk
