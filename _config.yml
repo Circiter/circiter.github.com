@@ -68,8 +68,7 @@ liquid_latex:
 
 encoding: "UTF-8"
 
-#include: [assets, humans.txt, robots.txt]
-#exclude: [pages-themes-hacker-docs, LICENSE.md, LICENSE_HACKER.md, README.md, CNAME, Gemfile]
+exclude: [Gemfile, Dockerfile, build.sh, action.yml]
 
 collections:
   blog_posts:
