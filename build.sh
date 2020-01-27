@@ -110,6 +110,7 @@ cd tmp
 git clone "$REPOSITORY_PATH"
 cd `basename "$GITHUB_REPOSITORY"`
 echo empty > .nojekyll
+git add .nojekyll
 git commit -m -
 git push "$REPOSITORY_PATH" master
 echo OK. Cleanup...
