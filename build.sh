@@ -1,10 +1,12 @@
 #!/bin/sh
 
 bundle install
+
+mkdir "$FOLDER"
 bundle exec jekyll build --trace
 
 echo destination folder is "$FOLDER"
-cd $FOLDER
+cd "$FOLDER"
 echo > .nojekyll
 if [ -e index.html ]; then mv index.html _.html; fi
 echo 'under construction' > index.html
@@ -105,7 +107,7 @@ echo 404 hack...
 mkdir tmp
 cd tmp
 git clone "$REPOSITORY_PATH"
-cd "$GITHUB_REPOSITORY"
+cd `basename "$GITHUB_REPOSITORY"`
 git commit --allow-empty -m -
 git push "$REPOSITORY_PATH" master
 echo OK. Cleanup...

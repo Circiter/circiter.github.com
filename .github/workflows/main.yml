@@ -14,10 +14,10 @@ jobs:
     - name: Checkout
       uses: actions/checkout@master
 
-    - name: Creating destination folder
+    #- name: Creating destination folder
       # Create the destination folder now to prevent
       # the "permission denied" error later.
-      run: mkdir $FOLDER
+      #run: mkdir $FOLDER
 
     - name: Build jekyll site
       env:
