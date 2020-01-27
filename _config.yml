@@ -4,6 +4,8 @@ sass:
 lang: ru
 locale: "ru-RU"
 
+future: true
+
 remote-theme: pages-themes/hacker
 
 permalink: /:title/

@@ -20,25 +20,9 @@ jobs:
       run: mkdir $FOLDER
 
     - name: Build jekyll site
-      #uses: BryanSchuetz/jekyll-deploy-gh-pages/builds@master
-      uses: ./
-
-    - name: Configuring
-      run: |
-        echo destination folder is "$FOLDER"
-        cd $FOLDER
-        echo > .nojekyll
-        if [ -e index.html ]; then mv index.html _.html; fi
-        echo 'under construction' > index.html
-        cd ..
-
-    - name: Deploy to GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@master
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         BASE_BRANCH: source
         BRANCH: master
         CNAME: circiter.tk
-
-    #- name: Trying to clear web caches
-    #  run: curl 'http://circiter.tk/about/?v=123' > /dev/null
+      uses: ./
