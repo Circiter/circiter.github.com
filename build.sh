@@ -111,5 +111,5 @@ cd `basename "$GITHUB_REPOSITORY"`
 git commit --allow-empty -m -
 git push "$REPOSITORY_PATH" master
 echo OK. Cleanup...
-cd ..
+cd ../..
 rm -r tmp
