@@ -39,3 +39,6 @@ jobs:
         BASE_BRANCH: source
         BRANCH: master
         CNAME: circiter.tk
+
+    #- name: Trying to clear web caches
+    #  run: curl 'http://circiter.tk/about/?v=123' > /dev/null
