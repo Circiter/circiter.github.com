@@ -38,7 +38,7 @@ kramdown:
   syntax_highlighter: rouge
   auto_ids: false
   hard_wrap: false
-  #math_engine: +nil+
+  math_engine: nil
 
 #plugins_dir: _plugins
 
