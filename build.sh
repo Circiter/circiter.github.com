@@ -104,11 +104,13 @@ git push $REPOSITORY_PATH `git subtree split --prefix $FOLDER ${BASE_BRANCH:-mas
 echo Deployment succesful!
 
 echo 404 hack...
+sleep 10
 mkdir tmp
 cd tmp
 git clone "$REPOSITORY_PATH"
 cd `basename "$GITHUB_REPOSITORY"`
-git commit --allow-empty -m -
+echo empty > .nojekyll
+git commit -m -
 git push "$REPOSITORY_PATH" master
 echo OK. Cleanup...
 cd ../..
