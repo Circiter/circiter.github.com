@@ -53,21 +53,15 @@ if [ "x$CNAME" != x ]; then
   echo "$CNAME" > "$FOLDER/CNAME"
 fi
 
-echo 'Files in' "$FOLDER/"
-ls "$FOLDER/" -a
-
-mkdir work
 rm -r .git
-cd work
 git clone "$REPOSITORY_PATH"
-REP=`basename "$GITHUB_REPOSITORY"`
-cd $REP
+cd `basename "$GITHUB_REPOSITORY"`
 git checkout "$BRANCH"
 echo Files in $BRANCH before moving are
 ls -a
-echo Files in "../../$FOLDER" are
-ls -a "../../$FOLDER/"
-cp -r "../../$FOLDER/*" .
+for i in `ls "../$FOLDER/"`; do
+    cp -r "../$FOLDER/$i" .
+done
 echo Files in $BRANCH after moving are
 ls -a
 if [ -d _site ]; then rm -r _site; fi
