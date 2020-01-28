@@ -56,16 +56,18 @@ fi
 echo 'Files in' "$FOLDER/"
 ls "$FOLDER/" -a
 
+mkdir work
 rm -r .git
+cd work
 git clone "$REPOSITORY_PATH"
 REP=`basename "$GITHUB_REPOSITORY"`
 cd $REP
 git checkout "$BRANCH"
 echo Files in $BRANCH before moving are
 ls -a
-cd ..
-cp -r "$FOLDER/*" "$REP"
-cd $REP
+echo Files in "../../$FOLDER" are
+ls -a "../../$FOLDER/"
+cp -r "../../$FOLDER/*" .
 echo Files in $BRANCH after moving are
 ls -a
 if [ -d _site ]; then rm -r _site; fi
