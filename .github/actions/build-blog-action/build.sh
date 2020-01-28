@@ -41,6 +41,8 @@ git config --global user.name "${COMMIT_NAME}"
 ## Initializes the repository path using the access token.
 REPOSITORY_PATH="https://${ACCESS_TOKEN:-"x-access-token:$GITHUB_TOKEN"}@github.com/${GITHUB_REPOSITORY}.git"
 
+#git checkout "${BASE_BRANCH:-master}"
+
 #rm -r .git
 #git clone "$REPOSITORY_PATH"
 #cd `basename "$GITHUB_REPOSITORY"`
@@ -52,10 +54,10 @@ REPOSITORY_PATH="https://${ACCESS_TOKEN:-"x-access-token:$GITHUB_TOKEN"}@github.
 #git add --all .
 git add -f "$FOLDER"
 git commit --quiet --allow-empty -m -
-git push --force "$REPOSITORY_PATH" "$BRANCH"
+#git push --force "$REPOSITORY_PATH" "$BRANCH"
 
 # Commits the data to Github.
 #git add -f $FOLDER
 #git commit --quiet --allow-empty -m -
 #git push --force "$REPOSITORY_PATH" "$BRANCH"
-#git push $REPOSITORY_PATH `git subtree split --prefix $FOLDER ${BASE_BRANCH:-master}`:$BRANCH --force
+git push $REPOSITORY_PATH `git subtree split --prefix $FOLDER ${BASE_BRANCH:-master}`:$BRANCH --force
