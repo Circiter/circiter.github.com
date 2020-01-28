@@ -58,13 +58,17 @@ ls "$FOLDER/" -a
 
 rm -r .git
 git clone "$REPOSITORY_PATH"
-cd `basename "$GITHUB_REPOSITORY"`
+REP=`basename "$GITHUB_REPOSITORY"`
+cd $REP
 git checkout "$BRANCH"
 echo Files in $BRANCH before moving are
 ls -a
-mv "../$FOLDER/*" .
+cd ..
+cp -r "$FOLDER/*" "$REP"
+cd $REP
 echo Files in $BRANCH after moving are
 ls -a
+if [ -d _site ]; then rm -r _site; fi
 echo empty > .nojekyll
 git add --all .
 git commit --quiet --allow-empty -m _
