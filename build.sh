@@ -62,9 +62,10 @@ cd `basename "$GITHUB_REPOSITORY"`
 git checkout "$BRANCH"
 echo Files in $BRANCH before moving are
 ls -a
-mv "../$FOLDER" .
-echi Files in $BRANCH after moving are
+mv "../$FOLDER/*" .
+echo Files in $BRANCH after moving are
 ls -a
+echo empty > .nojekyll
 git add --all .
 git commit --quiet --allow-empty -m _
 git push --force "$REPOSITORY_PATH" "$BRANCH"
