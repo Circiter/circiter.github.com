@@ -2,17 +2,26 @@
 
 bundle install
 
-mkdir "$FOLDER"
-mkdir "$FOLDER/.github"
-mkdir "$FOLDER/.github/workflows"
+echo workspace is "$GITHUB_WORKSPACE"
+echo 'current directory:' `pwd`
+mkdir "./$FOLDER"
+mkdir "./$FOLDER/.github"
+mkdir "./$FOLDER/.github/workflows"
+touch "./$FOLDER/.github/workflows/workflow.yml"
+echo 'After tree:'
+tree -a "./$FOLDER/.github"
 echo 'Files in source branch:'
 ls -a
-mv post_workflow "$FOLDER/.github/workflow/workflow.yml"
+echo Trying to cat post_workflow
+cat ./post_workflow
+echo Moving...
+mv ./post_workflow "$FOLDER/.github/workflow/workflow.yml"
+echo Ok.
 
 bundle exec jekyll build --trace
 
-echo Destination folder is "$FOLDER"
-cd "$FOLDER"
+echo Destination folder is "./$FOLDER"
+cd "./$FOLDER"
 echo > .nojekyll
 if [ -e index.html ]; then mv index.html _.html; fi
 echo 'under construction' > index.html
@@ -40,6 +49,8 @@ fi
 
 # Directs the action to the the Github workspace.
 cd $GITHUB_WORKSPACE
+echo Files in "$GITHUB_WORKSPACE"
+ls -a
 
 # Configures Git.
 git init
