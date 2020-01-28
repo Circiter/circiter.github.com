@@ -4,18 +4,18 @@ bundle install
 
 echo workspace is "$GITHUB_WORKSPACE"
 echo 'current directory:' `pwd`
-mkdir "./$FOLDER"
-mkdir "./$FOLDER/.github"
-mkdir "./$FOLDER/.github/workflows"
-touch "./$FOLDER/.github/workflows/workflow.yml"
-echo 'After tree:'
-tree -a "./$FOLDER/.github"
-echo 'Files in source branch:'
+mkdir "$FOLDER"
+cd "$FOLDER"
+mkdir .github
+cd .github
+mkdir workflows
+cd workflows
+touch workflow.yml
+cd ../..
+echo 'Files in ' `pwd` ':'
 ls -a
-echo Trying to cat post_workflow
-cat ./post_workflow
 echo Moving...
-mv ./post_workflow "$FOLDER/.github/workflow/workflow.yml"
+cat ./post_workflow > "./$FOLDER/.github/workflow/workflow.yml"
 echo Ok.
 
 bundle exec jekyll build --trace
@@ -47,11 +47,6 @@ then
   COMMIT_NAME="${GITHUB_ACTOR:-GitHub Pages Deploy Action}"
 fi
 
-# Directs the action to the the Github workspace.
-cd $GITHUB_WORKSPACE
-echo Files in "$GITHUB_WORKSPACE"
-ls -a
-
 # Configures Git.
 git init
 git config --global user.email "${COMMIT_EMAIL}"
@@ -63,8 +58,8 @@ REPOSITORY_PATH="https://${ACCESS_TOKEN:-"x-access-token:$GITHUB_TOKEN"}@github.
 # Checks out the base branch to begin the deploy process.
 git checkout "${BASE_BRANCH:-master}"
 
-if [ "$CNAME" ]; then
-  echo $CNAME > $FOLDER/CNAME
+if [ "x$CNAME" != x ]; then
+  echo "$CNAME" > "./$FOLDER/CNAME"
 fi
 
 echo 'Files:'
