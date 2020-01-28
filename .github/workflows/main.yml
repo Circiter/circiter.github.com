@@ -7,17 +7,20 @@ on:
 
 jobs:
   checkout-and-deploy:
-    env:
-      FOLDER: _site
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
       uses: actions/checkout@master
 
-    #- name: Creating destination folder
-      # Create the destination folder now to prevent
-      # the "permission denied" error later.
-      #run: mkdir $FOLDER
+    #- name: Cache some files
+    #  uses: actions/cache@v1
+    #  with:
+    #    path: ~/.npm
+    #    key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+    #    restore-keys: |
+    #      ${{ runner.os }}-build-${{ env.cache-name }}-
+    #      ${{ runner.os }}-build-
+    #      ${{ runner.os }}-
 
     - name: Build jekyll site
       env:
@@ -25,4 +28,5 @@ jobs:
         BASE_BRANCH: source
         BRANCH: master
         CNAME: circiter.tk
+        FOLDER: _site
       uses: ./

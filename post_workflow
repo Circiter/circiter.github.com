@@ -1,0 +1,31 @@
+name: hack404
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  checkout-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+
+    - name: Empty commit
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        ls -a # Expecting .git.
+        git --version
+        repository="https://${ACCESS_TOKEN:-"x-access-token:$GITHUB_TOKEN"}@github.com/${GITHUB_REPOSITORY}.git"
+        echo repository path is "$repository"
+        echo github workspace is "${GITHUB_WORKSPACE}"
+        #git init
+        #git config --global user.email "${GITHUB_ACTOR:-github-pages-deploy-action}"@users.noreply.github.com"
+        #git config --global user.name "${GITHUB_ACTOR:-GitHub Pages Deploy Action}"
+        #echo empty > .nojekyll
+        #git add --all .
+        #git commit --quiet --allow-empty -m _
+        #git push --force "$repository" master
+        

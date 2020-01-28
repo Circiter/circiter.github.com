@@ -5,6 +5,7 @@ lang: ru
 locale: "ru-RU"
 
 future: true
+year: 2020
 
 remote-theme: pages-themes/hacker
 
@@ -35,6 +36,8 @@ footer-links:
 
 repository: "Circiter/circiter.github.io"
 
+markdown: kramdown
+
 kramdown:
   input: GFM
   syntax_highlighter: rouge
@@ -59,18 +62,20 @@ kramdown:
 
 # N.B., texlive & imagemagick are required.
 liquid_latex:
-  debug: false
-  density: 300
+  #debug: false
+  #density: 300
+  usepackages: babel
   #usepackages: pgf-tikz
-  output_directory: /latex
-  latex_cmd: "latex -interaction=nonstopmode $texfile &> /dev/null"
-  dvips_cmd: "dvips -E $dvifile -o $epsfile &> /dev/null"
-  convert_cmd: "convert -density $density $epsfile $pngfile &> /dev/null"
-  temp_filename: "latex_temp"
+  #output_directory: /latex
+  #latex_cmd: "latex -interaction=nonstopmode $texfile &> /dev/null"
+  #dvips_cmd: "dvips -E $dvifile -o $epsfile &> /dev/null"
+  #convert_cmd: "convert -density $density $epsfile $pngfile &> /dev/null"
+  #temp_filename: "latex_temp"
 
 encoding: "UTF-8"
 
-exclude: [Gemfile, Dockerfile, build.sh, action.yml]
+include: [params.json]
+exclude: [Gemfile, Gemfile.lock, .github, Dockerfile, build.sh, action.yml]
 
 collections:
   blog_posts:
