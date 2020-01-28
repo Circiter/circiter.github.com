@@ -2,27 +2,16 @@
 
 bundle install
 
-echo workspace is "$GITHUB_WORKSPACE"
-echo 'current directory:' `pwd`
-mkdir "$FOLDER"
-cd "$FOLDER"
-mkdir .github
-cd .github
-mkdir workflows
-cd workflows
-touch workflow.yml
-cd ../../..
 echo 'Files in ' `pwd` ':'
 ls -a
 #mkdir --parents "./$FOLDER/.github/workflows"
 #touch "./$FOLDER/.github/workflows/workflow.yml"
-echo Moving...
-cat ./post_workflow > "./$FOLDER/.github/workflow/workflow.yml"
-echo Ok.
+#echo Moving...
+#cat ./post_workflow > "./$FOLDER/.github/workflows/workflow.yml"
+#echo Ok.
 
 bundle exec jekyll build --trace
 
-echo Destination folder is "./$FOLDER"
 cd "./$FOLDER"
 echo > .nojekyll
 if [ -e index.html ]; then mv index.html _.html; fi
@@ -61,14 +50,23 @@ REPOSITORY_PATH="https://${ACCESS_TOKEN:-"x-access-token:$GITHUB_TOKEN"}@github.
 git checkout "${BASE_BRANCH:-master}"
 
 if [ "x$CNAME" != x ]; then
-  echo "$CNAME" > "./$FOLDER/CNAME"
+  echo "$CNAME" > "$FOLDER/CNAME"
 fi
 
-echo 'Files:'
+echo 'Files in' "$FOLDER/"
 ls "$FOLDER/" -a
 
-# Commits the data to Github.
-git add -f $FOLDER
+rm -r .git
+git clone "$REPOSITORY_PATH"
+cd `basename "$GITHUB_REPOSITORY"`
+git checkout "$BRANCH"
+mv "../$FOLDER" .
+git add --all .
+git commit --quiet --allow-empty -m _
+git push --force "$REPOSITORY_PATH" "$BRANCH"
 
-git commit --allow-empty -m "Deploying to ${BRANCH} from ${BASE_BRANCH:-master} ${GITHUB_SHA}" --quiet
-git push $REPOSITORY_PATH `git subtree split --prefix $FOLDER ${BASE_BRANCH:-master}`:$BRANCH --force
+# Commits the data to Github.
+#git add -f $FOLDER
+#git commit --quiet --allow-empty -m -
+#git push --force "$REPOSITORY_PATH" "$BRANCH"
+#git push $REPOSITORY_PATH `git subtree split --prefix $FOLDER ${BASE_BRANCH:-master}`:$BRANCH --force
