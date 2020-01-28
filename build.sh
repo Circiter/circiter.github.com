@@ -5,6 +5,8 @@ bundle install
 mkdir "$FOLDER"
 mkdir "$FOLDER/.github"
 mkdir "$FOLDER/.github/workflows"
+echo 'Files in source branch:'
+ls -a
 mv post_workflow "$FOLDER/.github/workflow/workflow.yml"
 
 bundle exec jekyll build --trace
