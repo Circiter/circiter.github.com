@@ -2,7 +2,9 @@
 
 bundle install
 
-mkdir --parents "$FOLDER/.github/workflows"
+mkdir "$FOLDER"
+mkdir "$FOLDER/.github"
+mkdir "$FOLDER/.github/workflows"
 mv post_workflow "$FOLDER/.github/workflow/workflow.yml"
 
 bundle exec jekyll build --trace
@@ -51,6 +53,9 @@ git checkout "${BASE_BRANCH:-master}"
 if [ "$CNAME" ]; then
   echo $CNAME > $FOLDER/CNAME
 fi
+
+echo 'Files:'
+ls "$FOLDER/" -a
 
 # Commits the data to Github.
 git add -f $FOLDER
