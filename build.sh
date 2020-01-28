@@ -11,9 +11,11 @@ cd .github
 mkdir workflows
 cd workflows
 touch workflow.yml
-cd ../..
+cd ../../..
 echo 'Files in ' `pwd` ':'
 ls -a
+#mkdir --parents "./$FOLDER/.github/workflows"
+#touch "./$FOLDER/.github/workflows/workflow.yml"
 echo Moving...
 cat ./post_workflow > "./$FOLDER/.github/workflow/workflow.yml"
 echo Ok.
@@ -68,5 +70,5 @@ ls "$FOLDER/" -a
 # Commits the data to Github.
 git add -f $FOLDER
 
-git commit -m "Deploying to ${BRANCH} from ${BASE_BRANCH:-master} ${GITHUB_SHA}" --quiet
+git commit --allow-empty -m "Deploying to ${BRANCH} from ${BASE_BRANCH:-master} ${GITHUB_SHA}" --quiet
 git push $REPOSITORY_PATH `git subtree split --prefix $FOLDER ${BASE_BRANCH:-master}`:$BRANCH --force
