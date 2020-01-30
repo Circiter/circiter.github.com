@@ -67,7 +67,8 @@ rm -r .git
 git clone $REPOSITORY_PATH
 cd `basename "$GITHUB_REPOSITORY"`
 git checkout $BRANCH
-rm -r * .nojekyll
+[ `ls . | wc -l` = 0 ] || rm -r *
+[ -e .nojekyll ] && rm .nojekyll
 mv ../$FOLDER/* .
 git add --all --force
 git commit --quiet --allow-empty -m -
