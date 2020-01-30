@@ -51,8 +51,7 @@ REPOSITORY_PATH="https://${ACCESS_TOKEN:-"x-access-token:$GITHUB_TOKEN"}@github.
 #    cp -r "../$FOLDER/$i" .
 #done
 
-#git add --all .
-#git add -f "$FOLDER"
+#############################
 echo moving files...
 mv $FOLDER .$FOLDER
 rm -r * .github
@@ -61,11 +60,23 @@ rm -r .$FOLDER
 git add --all --force
 git commit --quiet --allow-empty -m -
 echo pushing...
-git push --force "$REPOSITORY_PATH" "${BRANCH:-master}"
+git push --force "$REPOSITORY_PATH" "$BRANCH"
+#############################
+
+rm -r .git
+mkdir fresh_copy
+cd fresh_copy
+git clone $REPOSITORY_PATH
+git checkout $BRANCH
+rm -r * .nojekyll
+mv ../.$FOLDER/* .
+git add --all --force
+git commit --quiet --allow-empty -m -
+git push --force "$REPOSITORY_PATH" $BRANCH
 
 # Commits the data to Github.
 #git add -f $FOLDER
 #git commit --quiet --allow-empty -m -
-#git push --force "$REPOSITORY_PATH" "$BRANCH"
+#git push --force "$REPOSITORY_PATH" $BRANCH
 
 #git push $REPOSITORY_PATH `git subtree split --prefix $FOLDER ${BASE_BRANCH:-master}`:$BRANCH --force
