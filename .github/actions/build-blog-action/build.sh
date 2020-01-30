@@ -5,7 +5,7 @@ bundle install
 bundle exec jekyll build --trace
 
 cd "./$FOLDER"
-echo > .nojekyll
+#echo > .nojekyll
 if [ -e index.html ]; then mv index.html _.html; fi
 echo 'under construction' > index.html
 if [ "x$CNAME" != x ]; then
@@ -52,12 +52,18 @@ REPOSITORY_PATH="https://${ACCESS_TOKEN:-"x-access-token:$GITHUB_TOKEN"}@github.
 #done
 
 #git add --all .
-git add -f "$FOLDER"
+#git add -f "$FOLDER"
+mv $FOLDER .$FOLDER
+rm -r * .github
+mv .$FOLDER/* .
+rm -r .$FOLDER
+git add --all --force
 git commit --quiet --allow-empty -m -
-#git push --force "$REPOSITORY_PATH" "$BRANCH"
+git push --force "$REPOSITORY_PATH" "$BRANCH"
 
 # Commits the data to Github.
 #git add -f $FOLDER
 #git commit --quiet --allow-empty -m -
 #git push --force "$REPOSITORY_PATH" "$BRANCH"
-git push $REPOSITORY_PATH `git subtree split --prefix $FOLDER ${BASE_BRANCH:-master}`:$BRANCH --force
+
+#git push $REPOSITORY_PATH `git subtree split --prefix $FOLDER ${BASE_BRANCH:-master}`:$BRANCH --force
