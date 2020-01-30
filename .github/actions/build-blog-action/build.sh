@@ -52,21 +52,20 @@ REPOSITORY_PATH="https://${ACCESS_TOKEN:-"x-access-token:$GITHUB_TOKEN"}@github.
 #done
 
 #############################
-echo moving files...
-mv $FOLDER .$FOLDER
-rm -r * .github
-mv .$FOLDER/* .
-rm -r .$FOLDER
-git add --all --force
-git commit --quiet --allow-empty -m -
-echo pushing...
-git push --force "$REPOSITORY_PATH" "$BRANCH"
+#echo moving files...
+#mv $FOLDER .$FOLDER
+#rm -r * .github
+#mv .$FOLDER/* .
+#rm -r .$FOLDER
+#git add --all --force
+#git commit --quiet --allow-empty -m -
+#echo pushing...
+#git push --force "$REPOSITORY_PATH" "$BRANCH"
 #############################
 
 rm -r .git
-mkdir fresh_copy
-cd fresh_copy
 git clone $REPOSITORY_PATH
+cd `basename "$GITHUB_REPOSITORY"`
 git checkout $BRANCH
 rm -r * .nojekyll
 mv ../.$FOLDER/* .
