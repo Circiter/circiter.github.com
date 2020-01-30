@@ -34,7 +34,7 @@ cd ..
 #fi
 
 # Configures Git.
-git init
+#git init
 git config --global user.email "${COMMIT_EMAIL}"
 git config --global user.name "${COMMIT_NAME}"
 
@@ -53,13 +53,15 @@ REPOSITORY_PATH="https://${ACCESS_TOKEN:-"x-access-token:$GITHUB_TOKEN"}@github.
 
 #git add --all .
 #git add -f "$FOLDER"
+echo moving files...
 mv $FOLDER .$FOLDER
 rm -r * .github
 mv .$FOLDER/* .
 rm -r .$FOLDER
 git add --all --force
 git commit --quiet --allow-empty -m -
-git push --force "$REPOSITORY_PATH" "$BRANCH"
+echo pushing...
+git push --force "$REPOSITORY_PATH" "${BRANCH:-master}"
 
 # Commits the data to Github.
 #git add -f $FOLDER
