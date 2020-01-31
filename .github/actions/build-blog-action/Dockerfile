@@ -6,11 +6,11 @@ FROM jekyll/jekyll
 
 ENV RUBYGEMS_VERSION=2.7.0
 
-#ADD b.sh /b.sh
-#ENTRYPOINT ["/bin/sh", "/b.sh"]
+ADD b.sh /b.sh
+ENTRYPOINT ["/bin/sh", "/b.sh"]
 
-RUN bundle install
-RUN bundle exec jekyll build --trace
+#RUN bundle install
+#RUN bundle exec jekyll build --trace
 
 FROM phpirates/texlive-latexbuild:small-2018
 #packages=xkeyval, amsmath, amscls, mathtools, xcolor, pgf, marvosym, amsfonts, opensans, framed, collection-fontsrecommended, collection-langeuropean, graphics
