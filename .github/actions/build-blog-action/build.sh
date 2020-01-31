@@ -1,5 +1,12 @@
 #!/bin/sh
 
+apk update
+apk upgrade
+apk add curl wget bash
+apk add ruby ruby-bundler
+
+#rm -rf /var/cache/apk/*
+
 bundle install
 
 bundle exec jekyll build --trace
