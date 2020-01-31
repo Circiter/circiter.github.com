@@ -5,11 +5,11 @@
 
 apk update
 apk upgrade
-apk add curl wget bash git ruby ruby-dev ruby-bundler gem
+apk add curl wget bash git ruby ruby-dev ruby-bundler jekyll
 
 #apk add jekyll
 
-ruby -S gem install jekyll github-pages kramdown rouge
+#ruby -S gem install jekyll github-pages kramdown rouge
 
 BUNDLE_PATH=`pwd`/.bundle
 
@@ -17,8 +17,8 @@ bundle install
 
 #latex --version
 
-#bundle exec jekyll build --trace
-ruby -S jekyll build --trace
+bundle exec jekyll build --trace
+#ruby -S jekyll build --trace
 
 cd "./$FOLDER"
 #echo > .nojekyll
