@@ -25,14 +25,9 @@ git config --global user.name "${COMMIT_NAME}"
 REPOSITORY_PATH="https://${ACCESS_TOKEN:-"x-access-token:$GITHUB_TOKEN"}@github.com/${GITHUB_REPOSITORY}.git"
 
 rm -r .git
-#git clone $REPOSITORY_PATH
-#cd `basename "$GITHUB_REPOSITORY"`
 mkdir result
 cd result
 git init
-#git checkout $BRANCH
-#[ `ls . | wc -l` = 0 ] || rm -r *
-#[ -e .nojekyll ] && rm .nojekyll
 mv ../$FOLDER/* .
 git add --all --force
 git commit --quiet --allow-empty -m -

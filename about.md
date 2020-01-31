@@ -68,7 +68,7 @@ md-файлы) в единственной на тот момент ветви m
 \int x \mathrm{d}x = \frac{1}{2} x^2 + C.
 {% endlatex %}
 
-![](/assets/images/jekyll-logo.png)
+[здесь был логотип jekyll]
 
 Ссылки:
 - [GitHub Pages](https://pages.github.com)

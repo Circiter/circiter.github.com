@@ -30,3 +30,13 @@ jobs:
         CNAME: circiter.tk
         FOLDER: _site
       uses: ./.github/actions/build-blog-action
+
+    - name: Trying to update the web site
+      uses: actions/github-script@0.4.0
+      with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            github.repos.requestPageBuild({
+              owner: context.repo.owner,
+              repo: context.repo.repo
+            })
