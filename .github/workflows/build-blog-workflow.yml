@@ -12,6 +12,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@master
 
+    # TODO: Consider to cache .bundle, /tmp/texlive/, $HOME/.texlive.
     #- name: Cache some files
     #  uses: actions/cache@v1
     #  with:
