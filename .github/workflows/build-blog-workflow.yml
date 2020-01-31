@@ -36,10 +36,10 @@ jobs:
       with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
-            github.repos.updateFile({
+            github.repos.createOrUpdateFile({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              path: "./empty_file",
+              path: "empty_file",
               message: "Trying to update the web site",
               content: ""
             })
