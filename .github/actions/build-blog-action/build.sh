@@ -5,7 +5,7 @@
 
 apk update
 apk upgrade
-apk add curl wget bash git ruby ruby-dev ruby-bundler jekyll
+apk add curl wget bash git ruby ruby-dev ruby-bundler
 
 #apk add jekyll
 
@@ -13,6 +13,7 @@ apk add curl wget bash git ruby ruby-dev ruby-bundler jekyll
 
 BUNDLE_PATH=`pwd`/.bundle
 
+gem install jekyll github-pages kramdown rouge
 bundle install
 
 #latex --version
