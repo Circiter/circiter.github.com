@@ -4,14 +4,17 @@ FROM jekyll/jekyll
 #FROM rekka/tectonic
 #FROM WtfJoke/tectonic-docker
 
+ENV RUBYGEMS_VERSION=2.7.0
 
-RUN bundler install
-RUN bundler exec jekyll build --trace
+#ADD b.sh /b.sh
+#ENTRYPOINT ["/bin/sh", "/b.sh"]
+
+RUN bundle install
+RUN bundle exec jekyll build --trace
 
 FROM phpirates/texlive-latexbuild:small-2018
 #packages=xkeyval, amsmath, amscls, mathtools, xcolor, pgf, marvosym, amsfonts, opensans, framed, collection-fontsrecommended, collection-langeuropean, graphics
 
-#ENV RUBYGEMS_VERSION=2.7.0
 LABEL "com.github.actions.name"="Build a Jekyll site/blog"
 LABEL "com.github.actions.description"="Builds a Jekyll site or a blog"
 LABEL "repository"="https://github.com/Circiter/circiter.github.io"
