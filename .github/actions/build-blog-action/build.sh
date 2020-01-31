@@ -3,22 +3,22 @@
 #sudo apt-get install texlive-publishers texlive-latex-recommended texlive-latex-extra \
 #    texlive-fonts-recommended texlive-fonts-extra
 
-#apk update
-#apk upgrade
-#apk add curl wget bash git ruby ruby-dev ruby-bundler gem
+apk update
+apk upgrade
+apk add curl wget bash git ruby ruby-dev ruby-bundler gem
 
 #apk add jekyll
 
-#ruby -S gem install jekyll github-pages kramdown rouge
+ruby -S gem install jekyll github-pages kramdown rouge
 
-#BUNDLE_PATH=`pwd`/.bundle
+BUNDLE_PATH=`pwd`/.bundle
 
-#bundle install
+bundle install
 
 #latex --version
 
 #bundle exec jekyll build --trace
-#ruby -S jekyll build --trace
+ruby -S jekyll build --trace
 
 cd "./$FOLDER"
 #echo > .nojekyll
