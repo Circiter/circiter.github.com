@@ -17,7 +17,7 @@ FROM xucheng/texlive-full:latest
 
 ENV JEKYLL_ENV=development
 RUN apk --update add zlib-dev build-base libxml2-dev libxslt-dev readline-dev libffi-dev ruby-dev yaml-dev zlib libxml2 build-base ruby-io-console readline libxslt ruby yaml libffi nodejs ruby-irb ruby-json ruby-rake ruby-rdoc git bash curl ttf-freefont fontconfig
-RUN gem clean && gem install --no-ri --no-rdoc bundler json nokogiri jekyll
+RUN gem clean && gem install --no-rdoc bundler json nokogiri jekyll
 RUN rm -rf /usr/lib/ruby/gems/*/cache/*.gem
 
 LABEL "com.github.actions.name"="Build a Jekyll site/blog"
