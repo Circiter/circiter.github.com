@@ -6,7 +6,8 @@ apk add curl wget bash git ruby ruby-dev ruby-bundler ruby-bigdecimal
 
 BUNDLE_PATH=`pwd`/.bundle
 
-bundle install
+bundle install jekyll
+bundle install github-pages
 
 mkdir $FOLDER
 
