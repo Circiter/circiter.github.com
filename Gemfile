@@ -5,6 +5,6 @@ gem "jekyll-sitemap"
 gem "jekyll-feed"
 gem "github-pages"
 
-#group :jekyll_plugins do
-#    gem 'liquid-latex'
-#end
+group :jekyll_plugins do
+    gem 'liquid-latex'
+end

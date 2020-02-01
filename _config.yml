@@ -45,26 +45,27 @@ kramdown:
   hard_wrap: false
   math_engine: +nil+
 
-#plugins_dir: _plugins
+plugins_dir: _plugins
 
-#plugins:
-#  - jekyll-paginate
-#    - liquid_latex
+plugins:
+  - jekyll-paginate
+    - liquid_latex
 
-#gems:
-#  - jekyll
-#  - jekyll-sitemap
-#  - jekyll-feed
+gems:
+  - jekyll
+  - jekyll-sitemap
+  - jekyll-feed
+  - github-pages
 #  - jekyll-paginate
 #  - jekyll-latex
-#  - liquid_latex
+  - liquid_latex
 #  - html-proofer
 
 # N.B., texlive & imagemagick are required.
 liquid_latex:
   #debug: false
   #density: 300
-  usepackages: babel
+  #usepackages: babel
   #usepackages: pgf-tikz
   #output_directory: /latex
   #latex_cmd: "latex -interaction=nonstopmode $texfile &> /dev/null"
