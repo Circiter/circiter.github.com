@@ -48,17 +48,17 @@ kramdown:
 plugins_dir: _plugins
 
 plugins:
-  - jekyll-paginate
-    - liquid_latex
+  #- jekyll-paginate
+  - liquid_latex
 
-gems:
-  - jekyll
-  - jekyll-sitemap
-  - jekyll-feed
-  - github-pages
+#gems:
+#  - jekyll
+#  - jekyll-sitemap
+#  - jekyll-feed
+#  - github-pages
 #  - jekyll-paginate
 #  - jekyll-latex
-  - liquid_latex
+#  - liquid_latex
 #  - html-proofer
 
 # N.B., texlive & imagemagick are required.
