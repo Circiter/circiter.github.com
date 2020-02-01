@@ -14,14 +14,14 @@ apk add curl wget bash git ruby ruby-dev ruby-bundler
 BUNDLE_PATH=`pwd`/.bundle
 
 gem install bigdecimal jekyll github-pages kramdown rouge
-#bundle install
+bundle install
 
 latex --version
 
 mkdir $FOLDER
 
-#bundle exec jekyll build --trace
-ruby -S jekyll build --trace
+bundle exec jekyll build --trace
+#ruby -S jekyll build --trace
 
 cd "$FOLDER"
 #echo > .nojekyll
