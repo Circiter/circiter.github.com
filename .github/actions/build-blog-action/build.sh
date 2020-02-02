@@ -4,14 +4,13 @@ apk update
 apk upgrade
 apk add curl wget bash git ruby ruby-dev ruby-bundler ruby-bigdecimal
 
-BUNDLE_PATH=`pwd`/.bundle
+#BUNDLE_PATH=`pwd`/.bundle
 
-bundle install jekyll
-bundle install github-pages
+bundle install
 
 mkdir $FOLDER
 
-[ -d .bundle ] && ls -a ".bundle/"
+#[ -d .bundle ] && ls -a ".bundle/"
 
 bundle exec jekyll build --trace
 
