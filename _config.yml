@@ -45,11 +45,11 @@ kramdown:
   hard_wrap: false
   math_engine: +nil+
 
-#plugins_dir: _plugins
+plugins_dir: _plugins
 
-#plugins:
+plugins:
   #- jekyll-paginate
-  #- liquid_latex
+  - liquid_latex
 
 #gems:
 #  - jekyll
