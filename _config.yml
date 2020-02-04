@@ -50,6 +50,10 @@ plugins_dir: _plugins
 plugins:
   #- jekyll-paginate
   - liquid_latex
+  - jekyll-sitemap
+  - jekyll-feed
+
+#gems: [jekyll/liquid_latex]
 
 #gems:
 #  - jekyll
