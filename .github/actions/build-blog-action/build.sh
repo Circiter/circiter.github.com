@@ -13,6 +13,7 @@ BUNDLE_PATH=`pwd`/.bundle
 #gem install jekyll-feed
 #gem install github-pages
 #gem install pygments.rb
+gem install polytexnic
 
 bundle install
 
