@@ -4,20 +4,24 @@ apk update
 apk upgrade
 apk add curl wget bash git ruby ruby-dev ruby-bundler ruby-bigdecimal
 
-#BUNDLE_PATH=`pwd`/.bundle
+echo 'home directory is:'
+[ "x$HOME" = x ] || ls $HOME
 
-gem install jekyll-sitemap
-gem install jekyll-feed
-gem install github-pages
-gem install pygments.rb
+BUNDLE_PATH=`pwd`/.bundle
+
+#gem install jekyll-sitemap
+#gem install jekyll-feed
+#gem install github-pages
+#gem install pygments.rb
 
 bundle install
 
 mkdir $FOLDER
 
-#[ -d .bundle ] && ls -a ".bundle/"
+echo 'content of .bundle/:'
+[ -d .bundle ] && ls -a ".bundle/"
 
-bundle exec jekyll build --trace
+JEKYLL_ENV=production bundle exec jekyll build --trace
 
 cd "$FOLDER"
 if [ -e index.html ]; then mv index.html _.html; fi
@@ -41,6 +45,8 @@ mkdir result
 cd result
 git init
 mv ../$FOLDER/* .
+echo 'Files to push:'
+ls -a
 git add --all --force
 git commit --quiet --allow-empty -m -
 git push --force "$REPOSITORY_PATH" $BRANCH

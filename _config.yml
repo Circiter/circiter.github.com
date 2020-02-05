@@ -52,6 +52,7 @@ plugins:
   #- liquid_latex
   - jekyll-sitemap
   - jekyll-feed
+  - jekyll-latex
 
 #gems: [jekyll/liquid_latex]
 
@@ -79,7 +80,7 @@ liquid_latex:
 
 encoding: "UTF-8"
 
-exclude: [Gemfile, Gemfile.lock, .github, Dockerfile, build.sh, action.yml]
+exclude: [Gemfile, Gemfile.lock, .github, .gitignore, .gemrc]
 
 collections:
   blog_posts:
