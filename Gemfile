@@ -2,10 +2,12 @@ source "https://rubygems.org"
 
 gem "json"
 gem "pygments.rb"
+gem "jekyll"
 #gem "github-pages"
 #gem "polytexnic"
 
 group :jekyll_plugins do
+  #gem "liquid_latex"
   gem "jekyll-sitemap"
   gem "jekyll-feed"
   #gem "jekyll-latex"

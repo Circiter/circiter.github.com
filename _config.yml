@@ -49,7 +49,7 @@ plugins_dir: _plugins
 
 plugins:
   #- jekyll-paginate
-  - liquid_latex
+  #- liquid_latex
   - jekyll-sitemap
   - jekyll-feed
   #- jekyll-latex
