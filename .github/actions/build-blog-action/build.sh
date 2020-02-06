@@ -1,8 +1,9 @@
 #!/bin/sh
 
+
 apk update
 apk upgrade
-apk add curl wget bash git ruby ruby-dev ruby-bundler ruby-bigdecimal
+apk add curl wget bash git ruby ruby-dev ruby-bundler ruby-bigdecimal imagemagick
 
 echo 'home directory is:'
 [ "x$HOME" = x ] || ls $HOME
@@ -13,7 +14,7 @@ BUNDLE_PATH=`pwd`/.bundle
 #gem install jekyll-feed
 #gem install github-pages
 #gem install pygments.rb
-gem install polytexnic
+#gem install polytexnic
 
 bundle install
 

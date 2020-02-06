@@ -49,22 +49,21 @@ plugins_dir: _plugins
 
 plugins:
   #- jekyll-paginate
-  #- liquid_latex
+  - liquid_latex
   - jekyll-sitemap
   - jekyll-feed
-  - jekyll-latex
+  #- jekyll-latex
+  - jekyll/scholar
+  - jekyll-optional-front-matter
+  - jekyll-titles-from-headings
+  - jekyll_inline_highlight
 
-#gems: [jekyll/liquid_latex]
+optional_front_matter:
+  remove_originals: true
 
-#gems:
-#  - jekyll
-#  - jekyll-sitemap
-#  - jekyll-feed
-#  - github-pages
-#  - jekyll-paginate
-#  - jekyll-latex
-#  - liquid_latex
-#  - html-proofer
+titles_from_headings:
+  strip_title: true
+  collection: true
 
 # N.B., texlive & imagemagick are required.
 liquid_latex:
