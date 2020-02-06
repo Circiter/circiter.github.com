@@ -5,8 +5,10 @@ apk update
 apk upgrade
 apk add curl wget bash git ruby ruby-dev ruby-bundler ruby-bigdecimal imagemagick
 
-echo 'home directory is:'
+echo 'home directory is:' $HOME
 [ "x$HOME" = x ] || ls $HOME
+
+cp .gemrc $HOME/
 
 BUNDLE_PATH=`pwd`/.bundle
 
