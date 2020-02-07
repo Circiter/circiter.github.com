@@ -68,15 +68,14 @@ titles_from_headings:
 # N.B., texlive & imagemagick are required.
 liquid_latex:
   debug: true
-  #debug: false
   #density: 300
   #usepackages: babel
   #usepackages: pgf-tikz
   #output_directory: /latex
-  #latex_cmd: "latex -interaction=nonstopmode $texfile &> /dev/null"
-  #dvips_cmd: "dvips -E $dvifile -o $epsfile &> /dev/null"
-  #convert_cmd: "convert -density $density $epsfile $pngfile &> /dev/null"
-  #temp_filename: "latex_temp"
+  latex_cmd: "latex -interaction=nonstopmode $texfile"
+  dvips_cmd: "dvips -E $dvifile -o $epsfile"
+  convert_cmd: "convert -density $density $epsfile $pngfile"
+  temp_filename: "latex_temp"
 
 encoding: "UTF-8"
 
