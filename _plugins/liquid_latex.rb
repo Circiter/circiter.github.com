@@ -104,9 +104,11 @@ module Jekyll
           tex_file.puts(latex_tex)
           tex_file.close
           # Compile the document to PNG
-          ok = execute_cmd(@@globals["latex_cmd"])
-          execute_cmd(@@globals["dvips_cmd"]) if ok
-          execute_cmd(@@globals["convert_cmd"]) if ok
+          execute_cmd(@@globals["latex_cmd"])
+          if File.exists?(@p["dvi_fn"])
+            execute_cmd(@@globals["dvips_cmd"])
+            execute_cmd(@@globals["convert_cmd"])
+          end
           # Delete temporary files
           Dir.glob(@@globals["temp_filename"] + ".*").each do |f|
             File.delete(f)
@@ -123,9 +125,7 @@ module Jekyll
           return "<img src=\"" + png_path + "\" />"
         else
           # Generate a block of text in the post with the original source
-          resp = "Failed to render the following block of LaTeX:<br/>\n"
-          resp << "<pre><code>" + latex_tex + "</code></pre>"
-          return resp
+          return "Can't render <pre><code>" + latex_tex + "</code></pre>"
         end
       end
     end
