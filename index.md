@@ -31,5 +31,3 @@ Some posts:
 - [000064 Gists](https://gist.github.com/Circiter/)
 - [0000C8 Empty <img src="/assets/images/blacktocat.png" />GitHub repository](https://github.com/Circiter)
 - [00012C Mail me](mailto:xcirciter@gmail.com)
-
-[ updated ]

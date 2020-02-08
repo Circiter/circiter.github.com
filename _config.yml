@@ -68,7 +68,7 @@ titles_from_headings:
 # N.B., texlive & imagemagick are required.
 liquid_latex:
   debug: true
-  #density: 300
+  density: 200
   #usepackages: babel
   #usepackages: pgf-tikz
   #output_directory: /latex

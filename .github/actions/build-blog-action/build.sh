@@ -12,12 +12,6 @@ cp .gemrc $HOME/
 
 BUNDLE_PATH=`pwd`/.bundle
 
-#gem install jekyll-sitemap
-#gem install jekyll-feed
-#gem install github-pages
-#gem install pygments.rb
-#gem install polytexnic
-
 bundle install
 
 mkdir $FOLDER
@@ -28,8 +22,8 @@ echo 'content of .bundle/:'
 JEKYLL_ENV=production bundle exec jekyll build --trace
 
 cd "$FOLDER"
-if [ -e index.html ]; then mv index.html _.html; fi
-echo 'under construction' > index.html
+#if [ -e index.html ]; then mv index.html _.html; fi
+#echo 'under construction' > index.html
 if [ "x$CNAME" != x ]; then
   echo "$CNAME" > CNAME
 fi
