@@ -1,9 +1,15 @@
 #!/bin/sh
 
-
 apk update
 apk upgrade
 apk add curl wget bash git ruby ruby-dev ruby-bundler ruby-bigdecimal imagemagick
+
+which latex
+which pdflatex
+which pdfetex
+which pdftohtml
+which dvips
+which ps2pdf
 
 echo 'home directory is:' $HOME
 [ "x$HOME" = x ] || ls $HOME
