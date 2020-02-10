@@ -47,7 +47,7 @@ module Kramdown
                     end
 
                     latex_source="\\documentclass{article}\n"
-                    latex_document<<"\\usepackage{amsmath, amssymb}\n"
+                    latex_source<<"\\usepackage{amsmath, amssymb}\n"
                     latex_source<<"\\begin{document}\n"
                     latex_source<<"\\pagestyle{empty}\n"
                     equation_bracket="$"
