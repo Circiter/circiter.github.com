@@ -2,7 +2,7 @@
 
 apk update
 apk upgrade
-apk add curl wget bash git ruby ruby-dev ruby-bundler ruby-bigdecimal imagemagick
+apk add curl wget bash git ruby ruby-dev ruby-bundler ruby-bigdecimal imagemagick #texlive-dvi
 
 which latex
 which pdflatex
@@ -10,9 +10,10 @@ which pdfetex
 which pdftohtml
 which dvips
 which ps2pdf
+which dvipng
 
-echo searching for interesting programs using apk
-apk search -v
+#echo searching for interesting programs using apk
+#apk search -v
 #apk search -v -d html
 #apk search -v -d pdf
 #apk search -v -d dvi

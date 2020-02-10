@@ -7,7 +7,7 @@ module Converters
         #priority :low
 
         def matches(extension)
-            extension.downcase =~ /^(\.tex)||(\.latex)$/i
+            extension.downcase =~ /^\.tex$/ #/^(\.tex)||(\.latex)$/i
         end
 
         def output_ext(extension)
