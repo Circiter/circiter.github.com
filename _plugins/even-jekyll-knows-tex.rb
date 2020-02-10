@@ -3,11 +3,8 @@ require "fileutils"
 module Jekyll
 module Converters
     class TeXToHTMLConverter < Converter
-        #safe true
-        #priority :low
-
         def matches(extension)
-            extension.downcase =~ /^\.tex$/ #/^(\.tex)||(\.latex)$/i
+            extension.downcase =~ /^\.tex$/
         end
 
         def output_ext(extension)
@@ -15,7 +12,7 @@ module Converters
         end
 
         def convert(content)
-            result=""
+            result="empty"
             source="\\documentclass{article}\n"
             #source<<"\\usepackage[T1]{fontenc}\n"
             source<<"\\usepackage[english,russian]{babel}\n"
@@ -30,8 +27,8 @@ module Converters
             if File.exists?("temp-file.pdf")
                 system("pdftohtml temp-file.pdf temp-file.html")
                 if !File.exists?("temp-file.html")
-                    f=File.new("temp-file.tex", "w")
-                    f.puts("hello world")
+                    f=File.new("temp-file.html", "w")
+                    f.puts("<html>hello world</html>")
                     f.close
                 end
                 if File.exists?("temp-file.html")
@@ -48,7 +45,7 @@ module Converters
             Dir.glob("temp-file.*").each do |f|
                 File.delete(f)
             end
-            return result
+            result
         end
     end
 end
