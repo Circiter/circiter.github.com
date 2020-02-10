@@ -2,7 +2,7 @@ require "fileutils"
 
 module Jekyll
     #module Converters
-    class tex_to_html_converter < Converter
+    class TeXToHTMLConverter < Converter
         #safe true
         #priority :low
 
@@ -27,6 +27,11 @@ module Jekyll
             system("pdflatex -interaction=nonstopmode temp-file.tex")
             if File.exists?("temp-file.pdf")
                 system("pdftohtml temp-file.pdf temp-file.html")
+                if !File.exists?("temp-file.html")
+                    f=File.new("temp-file.tex", "w")
+                    f.puts("hello world")
+                    f.close
+                end
                 if File.exists?("temp-file.html")
                     #htmlfile=File.open("temp-file.html", "r")
                     File.open("temp-file.html", "r") {|f| result=f.read}

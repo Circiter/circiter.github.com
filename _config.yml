@@ -57,6 +57,7 @@ plugins:
   - jekyll-optional-front-matter
   - jekyll-titles-from-headings
   - jekyll_inline_highlight
+  #- jekyll-default-layout
 
 optional_front_matter:
   remove_originals: true

@@ -15,4 +15,5 @@ group :jekyll_plugins do
   gem "jekyll-optional-front-matter"
   gem "jekyll-titles-from-headings"
   gem "jekyll_inline_highlight" # use {% ihighlight python %} from pygame {% endihighlight %}
+  #gem "jekyll-default-layout"
 end
