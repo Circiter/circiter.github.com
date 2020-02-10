@@ -11,6 +11,13 @@ which pdftohtml
 which dvips
 which ps2pdf
 
+echo searching for interesting programs using apk
+apk search -v
+#apk search -v -d html
+#apk search -v -d pdf
+#apk search -v -d dvi
+#apk search -v -d tex
+
 echo 'home directory is:' $HOME
 [ "x$HOME" = x ] || ls $HOME
 

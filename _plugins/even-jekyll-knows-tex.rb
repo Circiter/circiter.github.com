@@ -1,7 +1,7 @@
 require "fileutils"
 
 module Jekyll
-    #module Converters
+module Converters
     class TeXToHTMLConverter < Converter
         #safe true
         #priority :low
@@ -17,6 +17,8 @@ module Jekyll
         def convert(content)
             result=""
             source="\\documentclass{article}\n"
+            #source<<"\\usepackage[T1]{fontenc}\n"
+            source<<"\\usepackage[english,russian]{babel}\n"
             source<<"\\begin{document}\n"
             source<<content
             source<<"\\end{document}"
@@ -49,5 +51,5 @@ module Jekyll
             return result
         end
     end
-    #end
+end
 end

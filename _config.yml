@@ -43,7 +43,8 @@ kramdown:
   syntax_highlighter: rouge
   auto_ids: false
   hard_wrap: false
-  math_engine: +nil+
+  #math_engine: +nil+
+  math_engine: simplemath
 
 plugins_dir: _plugins
 
