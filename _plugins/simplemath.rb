@@ -42,7 +42,7 @@ module Kramdown
                     formula=element.value
 
                     directory="eq"
-                    if !File.exists(directory)
+                    if !File.exists?(directory)
                         FileUtils.mkdir_p(directory)
                     end
 
