@@ -60,7 +60,7 @@ module Kramdown
                     end
                     formula_in_brackets=equation_bracket+formula+equation_bracket
                     latex_source<<formula_in_brackets
-                    latex_source<<"\n\end{document}"
+                    latex_source<<"\n\\end{document}"
                     filename=Digest::MD5.hexdigest(formula_in_brackets)+".png"
 
                     latex_document=File.new("temp-file.tex", "w")
@@ -76,7 +76,8 @@ module Kramdown
                         if File.exists?("temp-file.png")
                             full_filename=File.join(directory, filename)
                             puts "moving the png file..."
-                            system("mv temp-file.png "+full_filename)
+                            File.rename("temp-file.png", full_filename)
+                            #system("mv temp-file.png "+full_filename)
 
                             static_file=Jekyll::StaticFile.new(site, site.source, directory, filename)
                             @@generated_files<<static_file
