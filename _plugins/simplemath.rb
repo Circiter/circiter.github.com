@@ -2,24 +2,6 @@ require "kramdown/converter"
 require "fileutils"
 require "digest"
 
-#module Jekyll
-#    module Site
-#        def write
-#            Kramdown::Converter::MathEngine::SimpleMath::init_globals(self)
-#            source_files=[]
-#            Kramdown::Converter::MathEngine::SimpleMath::generated_files.each do |f|
-#                source_files<<f.path
-#            end
-#            to_remove=Dir.glob("eq/*.png")-source_files
-#            to_remove.each do |f|
-#                if File.exists?(f)
-#                    File.unlink f
-#                end
-#            end
-#        end
-#    end
-#end
-
 module Kramdown
     module Converter
         module MathEngine
@@ -31,7 +13,9 @@ module Kramdown
 
                 #directory="eq"
 
+                #@site
                 def self.init_globals(site)
+                    @site=site
                     #if !File.exists(directory)
                     #    FileUtils.mkdir_p(directory)
                     #end
@@ -73,17 +57,24 @@ module Kramdown
                     result=formula_in_brackets
                     if File.exists?("temp-file.dvi")
                         puts "converting dvi to png..."
-                        system("dvipng -q* -T tight temp-file.dvi -o "+full_filename);
-                        if File.exists?(full_filename)
+                        system("dvipng -q* -T tight temp-file.dvi -o "+filename);
+                        if File.exists?(filename)
                             #puts "moving the png file..."
                             #File.rename("temp-file.png", full_filename)
                             #system("mv temp-file.png "+full_filename)
 
-                            static_file=Jekyll::StaticFile.new(site, site.source, directory, filename)
+                            static_file=Jekyll::StaticFile.new(@site, @site.source, directory, filename)
                             @@generated_files<<static_file
                             site.static_files<<static_file
                             puts "finalizing"
                             result="<img src=\""+full_filename+"\" title=\""+formula+"\" />"
+                            #if display_mode==:block
+                            #    converter.format_as_block_html("img",
+                            #        {"src"=>full_filename, "title"=>formula}, "");
+                            #else
+                            #    converter.format_as_block_html("img",
+                            #        {"src"=>full_filename, "title"=>formula}, "");
+                            #end
                             puts "ok"
                         else
                             puts "png file does not exist"
@@ -101,5 +92,23 @@ module Kramdown
             end
         end
         add_math_engine(:simplemath, MathEngine::SimpleMath)
+    end
+end
+
+module Jekyll
+    module Site
+        def write
+            Kramdown::Converter::MathEngine::SimpleMath::init_globals(self)
+            source_files=[]
+            Kramdown::Converter::MathEngine::SimpleMath::generated_files.each do |f|
+                source_files<<f.path
+            end
+            to_remove=Dir.glob("eq/*.png")-source_files
+            to_remove.each do |f|
+                if File.exists?(f)
+                    File.unlink f
+                end
+            end
+        end
     end
 end
