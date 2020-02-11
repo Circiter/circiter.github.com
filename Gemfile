@@ -1,10 +1,8 @@
 source "https://rubygems.org"
 
-gem "json"
+#gem "json"
 gem "pygments.rb"
-gem "jekyll"
-#gem "github-pages"
-#gem "polytexnic"
+#gem "jekyll"
 
 group :jekyll_plugins do
   #gem "liquid_latex"

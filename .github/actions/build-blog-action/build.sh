@@ -19,11 +19,11 @@ apk add curl wget bash git ruby ruby-dev ruby-bundler ruby-bigdecimal imagemagic
 #apk search -v -d dvi
 #apk search -v -d tex
 
-bundle config
+#bundle config
 #bundle config <name> <value>
 
-echo 'home directory is:' $HOME
-[ "x$HOME" = x ] || ls $HOME
+#echo 'home directory is:' $HOME
+#[ "x$HOME" = x ] || ls $HOME
 
 cp .gemrc $HOME/
 

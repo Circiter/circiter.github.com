@@ -16,7 +16,8 @@ FROM xucheng/texlive-full:latest
 #packages=xkeyval, amsmath, amscls, mathtools, xcolor, pgf, marvosym, amsfonts, opensans, framed, collection-fontsrecommended, collection-langeuropean, graphics
 
 ENV JEKYLL_ENV=development
-RUN apk --update add zlib-dev build-base libxml2-dev libxslt-dev readline-dev libffi-dev ruby-dev yaml-dev zlib libxml2 build-base ruby-io-console readline libxslt ruby yaml libffi nodejs ruby-irb ruby-json ruby-rake ruby-rdoc git bash curl ttf-freefont fontconfig
+#ruby-rdoc
+RUN apk --update add zlib-dev build-base libxml2-dev libxslt-dev readline-dev libffi-dev ruby-dev yaml-dev zlib libxml2 build-base ruby-io-console readline libxslt ruby yaml libffi nodejs ruby-irb ruby-json ruby-rake git bash curl ttf-freefont fontconfig
 RUN gem clean && gem install bundler json nokogiri jekyll
 RUN rm -rf /usr/lib/ruby/gems/*/cache/*.gem
 

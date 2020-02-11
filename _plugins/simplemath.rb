@@ -59,7 +59,7 @@ module Kramdown
                     latex_source<<"\n\end{document}"
                     filename=Digest::MD5.hexdigest(formula_in_brackets)+".png"
 
-                    latex_document=File.new("temp-file.tex")
+                    latex_document=File.new("temp-file.tex", "w")
                     latex_document.puts(latex_source)
                     latex_document.close
                     system("latex -interaction=nonstopmode temp-file.tex")
