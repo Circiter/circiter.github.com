@@ -81,6 +81,7 @@ liquid_latex:
 
 encoding: "UTF-8"
 
+include: [eq]
 exclude: [Gemfile, Gemfile.lock, .github, .gitignore, .gemrc]
 
 collections:

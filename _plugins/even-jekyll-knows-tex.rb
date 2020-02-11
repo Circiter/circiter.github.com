@@ -35,7 +35,7 @@ module Converters
                 end
                 if File.exists?("temp-file.html")
                     #htmlfile=File.open("temp-file.html", "r")
-                    result=Fire.read("temp-file.html")
+                    result=File.read("temp-file.html")
                     #File.open("temp-file.html", "r") {|f| result=f.read}
                     #result=htmlfile.read
                     #htmlfile.close
