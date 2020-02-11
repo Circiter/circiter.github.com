@@ -62,6 +62,7 @@ module Kramdown
                     latex_source<<formula_in_brackets
                     latex_source<<"\n\\end{document}"
                     filename=Digest::MD5.hexdigest(formula_in_brackets)+".png"
+                    full_filename=File.join(directory, filename)
 
                     latex_document=File.new("temp-file.tex", "w")
                     latex_document.puts(latex_source)
@@ -72,11 +73,10 @@ module Kramdown
                     result=formula_in_brackets
                     if File.exists?("temp-file.dvi")
                         puts "converting dvi to png..."
-                        system("dvipng -q* -T tight temp-file.dvi");
-                        if File.exists?("temp-file.png")
-                            full_filename=File.join(directory, filename)
-                            puts "moving the png file..."
-                            File.rename("temp-file.png", full_filename)
+                        system("dvipng -q* -T tight temp-file.dvi -o "+full_filename);
+                        if File.exists?(full_filename)
+                            #puts "moving the png file..."
+                            #File.rename("temp-file.png", full_filename)
                             #system("mv temp-file.png "+full_filename)
 
                             static_file=Jekyll::StaticFile.new(site, site.source, directory, filename)
