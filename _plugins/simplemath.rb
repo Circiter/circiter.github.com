@@ -96,8 +96,10 @@ module Kramdown
 end
 
 module Jekyll
-    module Site
+    class Site
+        alias :super_write :write
         def write
+            super_write
             Kramdown::Converter::MathEngine::SimpleMath::init_globals(self)
             source_files=[]
             Kramdown::Converter::MathEngine::SimpleMath::generated_files.each do |f|
