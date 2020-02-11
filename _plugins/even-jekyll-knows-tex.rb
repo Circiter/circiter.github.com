@@ -14,8 +14,10 @@ module Converters
         def convert(content)
             result="empty"
             source="\\documentclass{article}\n"
-            #source<<"\\usepackage[T1]{fontenc}\n"
+            source<<"\\usepackage[T1]{fontenc}\n"
+            source<<"\\usepackage[utf8]{inputenc}\n"
             source<<"\\usepackage[english,russian]{babel}\n"
+            source<<"\\usepackage{amsmath, amssymb}\n"
             source<<"\\begin{document}\n"
             source<<content
             source<<"\\end{document}"
@@ -33,6 +35,7 @@ module Converters
                 end
                 if File.exists?("temp-file.html")
                     #htmlfile=File.open("temp-file.html", "r")
+                    #result=Fire.read("temp-file.html")
                     File.open("temp-file.html", "r") {|f| result=f.read}
                     #result=htmlfile.read
                     #htmlfile.close

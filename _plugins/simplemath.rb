@@ -46,8 +46,12 @@ module Kramdown
                         FileUtils.mkdir_p(directory)
                     end
 
+                    puts "generating tex document..."
                     latex_source="\\documentclass{article}\n"
+                    latex_source<<"\\usepackage[T1]{fontenc}\n"
+                    latex_source<<"\\usepackage[utf8]{inputenc}\n"
                     latex_source<<"\\usepackage{amsmath, amssymb}\n"
+                    latex_source<<"\\usepackage[english]{babel}\n"
                     latex_source<<"\\begin{document}\n"
                     latex_source<<"\\pagestyle{empty}\n"
                     equation_bracket="$"
@@ -62,21 +66,29 @@ module Kramdown
                     latex_document=File.new("temp-file.tex", "w")
                     latex_document.puts(latex_source)
                     latex_document.close
+                    puts "trying to compile latex document..."
                     system("latex -interaction=nonstopmode temp-file.tex")
 
                     result=formula_in_brackets
                     if File.exists?("temp-file.dvi")
+                        puts "converting dvi to png..."
                         system("dvipng -q* -T tight temp-file.dvi");
                         if File.exists?("temp-file.png")
                             full_filename=File.join(directory, filename)
-                            # FIXME: Move the file.
+                            puts "moving the png file..."
                             system("mv temp-file.png "+full_filename)
 
                             static_file=Jekyll::StaticFile.new(site, site.source, directory, filename)
                             @@generated_files<<static_file
                             site.static_files<<static_file
+                            puts "finalizing"
                             result="<img src=\""+full_filename+"\" title=\""+formula+"\" />"
+                            puts "ok"
+                        else
+                            puts "png file does not exist"
                         end
+                    else
+                        puts "dvi file was not generated"
                     end
 
                     Dir.glob("temp-file.*").each do |f|
