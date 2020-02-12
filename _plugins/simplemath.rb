@@ -58,13 +58,13 @@ module Kramdown
                     result=formula_in_brackets
                     if File.exists?("temp-file.dvi")
                         puts "converting dvi to png..."
-                        system("dvipng -q* -T tight temp-file.dvi -o "+filename);
-                        if File.exists?(filename)
+                        system("dvipng -q* -T tight temp-file.dvi -o "+full_filename);
+                        if File.exists?(full_filename)
                             #puts "moving the png file..."
                             #File.rename("temp-file.png", full_filename)
                             #system("mv temp-file.png "+full_filename)
 
-                            site=Jekyll.sites[0]
+                            site=Jekyll.sites[0] # FIXME.
                             static_file=Jekyll::StaticFile.new(site, site.source, directory, filename)
                             @@generated_files<<static_file
                             site.static_files<<static_file
@@ -102,6 +102,7 @@ module Jekyll
         alias :super_write :write
         def write
             super_write
+            puts "I am in Site.write"
             Kramdown::Converter::MathEngine::SimpleMath::init_globals(self)
             source_files=[]
             Kramdown::Converter::MathEngine::SimpleMath::generated_files.each do |f|
