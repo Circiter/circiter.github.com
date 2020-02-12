@@ -15,6 +15,7 @@ module Kramdown
 
                 #@site
                 def self.init_globals(site)
+                    puts "simplemath initialization"
                     @site=site
                     #if !File.exists(directory)
                     #    FileUtils.mkdir_p(directory)
@@ -63,7 +64,7 @@ module Kramdown
                             #File.rename("temp-file.png", full_filename)
                             #system("mv temp-file.png "+full_filename)
 
-                            static_file=Jekyll::StaticFile.new(@site, "/", directory, filename)
+                            static_file=Jekyll::StaticFile.new(Jekyll.sites[0], "/", directory, filename)
                             @@generated_files<<static_file
                             site.static_files<<static_file
                             puts "finalizing"
