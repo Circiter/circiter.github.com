@@ -90,7 +90,7 @@ module Jekyll
     class Site
         #alias :super_write :write
         def write
-            super
+            :super
             #Kramdown::Converter::MathEngine::SimpleMath::init_globals(self)
             source_files=[]
             puts "generated files:"
