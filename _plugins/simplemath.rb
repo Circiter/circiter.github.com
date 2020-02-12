@@ -63,7 +63,7 @@ module Kramdown
                             #File.rename("temp-file.png", full_filename)
                             #system("mv temp-file.png "+full_filename)
 
-                            static_file=Jekyll::StaticFile.new(@site, @site.source, directory, filename)
+                            static_file=Jekyll::StaticFile.new(@site, "/", directory, filename)
                             @@generated_files<<static_file
                             site.static_files<<static_file
                             puts "finalizing"
