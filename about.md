@@ -67,6 +67,7 @@ md-файлы) в единственной на тот момент ветви m
 Проверка поддержки формул с использованием kramdown: $$\left[\frac{-\hbar}{2m}\nabla^2+U(r)\right]\Psi(r)=i\frac{\partial}{\partial t}\Psi(r).$$
 
 [здесь был логотип jekyll]
+before_substitute
 
 Ссылки:
 - [GitHub Pages](https://pages.github.com)

@@ -11,17 +11,6 @@ module Kramdown
                     @@generated_files
                 end
 
-                #directory="eq"
-
-                #@site
-                def self.init_globals(site)
-                    puts "simplemath initialization"
-                    @site=site
-                    #if !File.exists(directory)
-                    #    FileUtils.mkdir_p(directory)
-                    #end
-                end
-
                 def self.call(converter, element, options)
                     display_mode=element.options[:category]
                     formula=element.value
@@ -99,13 +88,14 @@ end
 
 module Jekyll
     class Site
-        alias :super_write :write
+        #alias :super_write :write
         def write
-            super_write
-            puts "I am in Site.write"
-            Kramdown::Converter::MathEngine::SimpleMath::init_globals(self)
+            super
+            #Kramdown::Converter::MathEngine::SimpleMath::init_globals(self)
             source_files=[]
+            puts "generated files:"
             Kramdown::Converter::MathEngine::SimpleMath::generated_files.each do |f|
+                puts f.path
                 source_files<<f.path
             end
             to_remove=Dir.glob("eq/*.png")-source_files
@@ -116,4 +106,10 @@ module Jekyll
             end
         end
     end
+
 end
+
+Jekyl::Hooks.register :documents, :pre_render do |document, payload|
+    doc.content.gsub("before_substitute", "after_substitute")
+end
+
