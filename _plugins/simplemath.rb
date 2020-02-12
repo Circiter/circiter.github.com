@@ -20,7 +20,7 @@ module Kramdown
                         FileUtils.mkdir_p(directory)
                     end
 
-                    puts "generating tex document..."
+                    puts "generating tex document for formula: "+formula
                     latex_source="\\documentclass{article}\n"
                     latex_source<<"\\usepackage[T1]{fontenc}\n"
                     latex_source<<"\\usepackage[utf8]{inputenc}\n"
@@ -58,7 +58,7 @@ module Kramdown
                             @@generated_files<<static_file
                             site.static_files<<static_file
                             puts "finalizing"
-                            result="<img src=\""+full_filename+"\" title=\""+formula+"\" />"
+                            result="<img src=\"/"+full_filename+"\" title=\""+formula+"\" />"
                             #if display_mode==:block
                             #    converter.format_as_block_html("img",
                             #        {"src"=>full_filename, "title"=>formula}, "");
@@ -109,7 +109,7 @@ module Jekyll
 
 end
 
-Jekyl::Hooks.register :documents, :pre_render do |document, payload|
-    doc.content.gsub("before_substitute", "after_substitute")
+Jekyll::Hooks.register :documents, :pre_render do |document, payload|
+    document.content.gsub("before_substitute", "after_substitute")
 end
 
