@@ -121,7 +121,7 @@ Jekyll::Hooks.register(:site, :after_init) do |site|
 end
 
 #[:documents, :pages, :posts]
-Jekyll::Hooks.register(:documents, :pre_render do |target, payload|
+Jekyll::Hooks.register([:documents, :pages, :posts], :pre_render) do |target, payload|
     puts("jekyll hook [document pre_render]")
     #document.output=document.content.gsub("before_substitute", "after_substitute")
     if target!=nil
