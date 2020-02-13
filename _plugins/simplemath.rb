@@ -3,10 +3,11 @@ require "fileutils"
 require "digest"
 
 # FIXME: module Kramdown::Converter::MathEngine::SimpleMath
-module Kramdown
-    module Converter
-        module MathEngine
-            module SimpleMath
+module Kramdown::Converter
+    #module Converter
+        module MathEngine::module SimpleMath
+                my_site=nil
+
                 @@generated_files=[]
                 def self.generated_files
                     @@generated_files
@@ -78,19 +79,18 @@ module Kramdown
 
                     result
                 end
-            end
+            #end
         end
 
         add_math_engine(:simplemath, MathEngine::SimpleMath)
-    end
+    #end
 end
 
-module Jekyll
-    class Site
+module Jekyll::Site
+    #class Site
         alias :super_write :write
         def write
             super_write #FIXME: Try to replace this with :write
-            #Kramdown::Converter::MathEngine::SimpleMath::init_globals(self)
             source_files=[]
             puts "generated files:"
             Kramdown::Converter::MathEngine::SimpleMath::generated_files.each do |f|
@@ -106,16 +106,23 @@ module Jekyll
             to_remove.each do |f|
                 puts(f)
                 if File.exists?(f)
+                    puts("removing "+f)
                     File.unlink(f)
                 end
             end
         end
-    end
+    #end
+end
 
+Jekyll::Hooks.register(:site, :after_init) do |site|
+    puts("jekyll hooks [site after_init]")
+    my_site=site
 end
 
 Jekyll::Hooks.register(:documents, :pre_render) do |document, payload|
-    document.content.gsub("before_substitute", "after_substitute")
+    puts("jekyll hook [document pre_render]")
+    modified_content=document.content.gsub("before_substitute", "after_substitute")
+    payload["content"]=modified_content
         #.gsub("\$\$", "@@@@").gsub(" \$", " @@@@").gsub("\$ ", "@@@@ ").gsub("\$\.", "@@@@\.")
         #.gsub("\$?", "@@@@?").gsub("\$,", "@@@@,").gsub("\$:", "@@@@:").gsub("\$-", "@@@@-")
         #.gsub("(\$/", "(@@@@/").gsub("\$)", "@@@@)").gsub("^\$", "@@@@").gsub("\$$", "@@@@")
