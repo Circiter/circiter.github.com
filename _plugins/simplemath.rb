@@ -7,11 +7,11 @@ module Kramdown
     module Converter
         module MathEngine
             module SimpleMath
-                my_site=nil
+                @@my_site=nil
 
-                my_generated_files=[]
+                @@my_generated_files=[]
                 def self.generated_files
-                    my_generated_files
+                    @@my_generated_files
                 end
 
                 def self.call(converter, element, options)
@@ -55,7 +55,7 @@ module Kramdown
                         if File.exists?(full_filename)
                             site=Jekyll.sites[0] # FIXME.
                             static_file=Jekyll::StaticFile.new(site, site.source, directory, filename)
-                            my_generated_files<<static_file
+                            @@my_generated_files<<static_file
                             site.static_files<<static_file
                             puts "finalizing"
                             result="<img src=\"/"+full_filename+"\" title=\""+formula+"\" />"
@@ -117,7 +117,7 @@ end
 
 Jekyll::Hooks.register(:site, :after_init) do |site|
     puts("jekyll hooks [site after_init]")
-    my_site=site
+    Kramdown::Converter::MathEngine::SimpleMath.@@my_site=site
 end
 
 #[:documents, :pages, :posts]
