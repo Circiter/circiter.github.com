@@ -87,7 +87,7 @@ module Kramdown
     end
 end
 
-module Jekyll::Site
+class Jekyll::Site
     #class Site
         alias :super_write :write
         def write
@@ -120,9 +120,10 @@ Jekyll::Hooks.register(:site, :after_init) do |site|
     my_site=site
 end
 
-Jekyll::Hooks.register(:documents, :pre_render) do |document, payload|
+Jekyll::Hooks.register([:pages, :posts, :documents], :pre_render) do |object|
     puts("jekyll hook [document pre_render]")
-    document.output=document.content.gsub("before_substitute", "after_substitute")
+    #document.output=document.content.gsub("before_substitute", "after_substitute")
+    object.output.gsub!("before_substitute", "after_substitute")
     #payload["content"]=modified_content
         #.gsub("\$\$", "@@@@").gsub(" \$", " @@@@").gsub("\$ ", "@@@@ ").gsub("\$\.", "@@@@\.")
         #.gsub("\$?", "@@@@?").gsub("\$,", "@@@@,").gsub("\$:", "@@@@:").gsub("\$-", "@@@@-")
