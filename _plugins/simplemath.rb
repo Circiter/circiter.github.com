@@ -87,6 +87,8 @@ module Kramdown
     end
 end
 
+Kramdown::Converter.add_math_engine(:simplemath, Kramdown::Converter::MathEngine::SimpleMath)
+
 class Jekyll::Site
     #class Site
         alias :super_write :write
@@ -120,15 +122,19 @@ Jekyll::Hooks.register(:site, :after_init) do |site|
     my_site=site
 end
 
-Jekyll::Hooks.register([:pages, :posts, :documents], :pre_render) do |object|
+Jekyll::Hooks.register [:documents, :pages, :posts], :pre_render do |target, payload|
     puts("jekyll hook [document pre_render]")
     #document.output=document.content.gsub("before_substitute", "after_substitute")
-    object.output.gsub!("before_substitute", "after_substitute")
+    if target!=nil
+        target.output=target.output.gsub("before_substitute", "after_substitute")
+    else
+        puts("target is nil")
+    end
     #payload["content"]=modified_content
-        #.gsub("\$\$", "@@@@").gsub(" \$", " @@@@").gsub("\$ ", "@@@@ ").gsub("\$\.", "@@@@\.")
-        #.gsub("\$?", "@@@@?").gsub("\$,", "@@@@,").gsub("\$:", "@@@@:").gsub("\$-", "@@@@-")
-        #.gsub("(\$/", "(@@@@/").gsub("\$)", "@@@@)").gsub("^\$", "@@@@").gsub("\$$", "@@@@")
-        #.gsub("@@@@", "\$\$")
+        #.gsub(/\$\$/, "@@@@").gsub(/ \$/, " @@@@").gsub(/\$ /, "@@@@ ").gsub(/\$\./, "@@@@\.")
+        #.gsub(/\$?/, "@@@@?").gsub(/\$,/, "@@@@,").gsub(/\$:/, "@@@@:").gsub(/\$-/, "@@@@-")
+        #.gsub(/(\$\//, "(@@@@/").gsub(/\$)/, "@@@@)").gsub(/^\$/, "@@@@").gsub(/\$$/, "@@@@")
+        #.gsub(/@@@@/, "\$\$")
 end
 
 #s/\$\$/@@@@/g
