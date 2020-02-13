@@ -2,6 +2,7 @@ require "kramdown/converter"
 require "fileutils"
 require "digest"
 
+# FIXME: module Kramdown::Converter::MathEngine::SimpleMath
 module Kramdown
     module Converter
         module MathEngine
@@ -28,6 +29,7 @@ module Kramdown
                     latex_source<<"\\usepackage[english]{babel}\n"
                     latex_source<<"\\begin{document}\n"
                     latex_source<<"\\pagestyle{empty}\n"
+                    #equation_bracket=(display_mode==:block)?"$$":"$"
                     equation_bracket="$"
                     if display_mode==:block
                         equation_bracket="$$"
@@ -49,10 +51,6 @@ module Kramdown
                         puts "converting dvi to png..."
                         system("dvipng -q* -T tight temp-file.dvi -o "+full_filename);
                         if File.exists?(full_filename)
-                            #puts "moving the png file..."
-                            #File.rename("temp-file.png", full_filename)
-                            #system("mv temp-file.png "+full_filename)
-
                             site=Jekyll.sites[0] # FIXME.
                             static_file=Jekyll::StaticFile.new(site, site.source, directory, filename)
                             @@generated_files<<static_file
@@ -82,26 +80,33 @@ module Kramdown
                 end
             end
         end
+
         add_math_engine(:simplemath, MathEngine::SimpleMath)
     end
 end
 
 module Jekyll
     class Site
-        #alias :super_write :write
+        alias :super_write :write
         def write
-            :super
+            super_write #FIXME: Try to replace this with :write
             #Kramdown::Converter::MathEngine::SimpleMath::init_globals(self)
             source_files=[]
             puts "generated files:"
             Kramdown::Converter::MathEngine::SimpleMath::generated_files.each do |f|
-                puts f.path
+                puts(f.path)
                 source_files<<f.path
             end
+            puts "files in eq/:"
+            Dir.glob("eq/*.png").each do |f|
+                puts(f.path)
+            end
             to_remove=Dir.glob("eq/*.png")-source_files
+            puts "to remove:"
             to_remove.each do |f|
+                puts(f.path)
                 if File.exists?(f)
-                    File.unlink f
+                    File.unlink(f)
                 end
             end
         end
@@ -109,7 +114,27 @@ module Jekyll
 
 end
 
-Jekyll::Hooks.register :documents, :pre_render do |document, payload|
+Jekyll::Hooks.register(:documents, :pre_render) do |document, payload|
     document.content.gsub("before_substitute", "after_substitute")
+        #.gsub("\$\$", "@@@@").gsub(" \$", " @@@@").gsub("\$ ", "@@@@ ").gsub("\$\.", "@@@@\.")
+        #.gsub("\$?", "@@@@?").gsub("\$,", "@@@@,").gsub("\$:", "@@@@:").gsub("\$-", "@@@@-")
+        #.gsub("(\$/", "(@@@@/").gsub("\$)", "@@@@)").gsub("^\$", "@@@@").gsub("\$$", "@@@@")
+        #.gsub("@@@@", "\$\$")
 end
 
+#s/\$\$/@@@@/g
+#s/ \$/ @@@@/g
+#s/\$ /@@@@ /g
+
+#s/\$\./@@@@\./g
+#s/\$?/@@@@?/g
+#s/\$,/@@@@,/g
+#s/\$:/@@@@:/g
+#s/\$-/@@@@-/g
+
+#s/(\$/(@@@@/g
+
+#s/\$)/@@@@)/g
+#s/^\$/@@@@/g
+#s/\$$/@@@@/g
+#s/@@@@/\$\$/g
