@@ -99,12 +99,12 @@ module Jekyll
             end
             puts "files in eq/:"
             Dir.glob("eq/*.png").each do |f|
-                puts(f.path)
+                puts(f)
             end
             to_remove=Dir.glob("eq/*.png")-source_files
             puts "to remove:"
             to_remove.each do |f|
-                puts(f.path)
+                puts(f)
                 if File.exists?(f)
                     File.unlink(f)
                 end
