@@ -90,31 +90,29 @@ end
 Kramdown::Converter.add_math_engine(:simplemath, Kramdown::Converter::MathEngine::SimpleMath)
 
 class Jekyll::Site
-    #class Site
-        alias :super_write :write
-        def write
-            super_write #FIXME: Try to replace this with :write
-            source_files=[]
-            puts "generated files:"
-            Kramdown::Converter::MathEngine::SimpleMath::generated_files.each do |f|
-                puts(f.path)
-                source_files<<f.path
-            end
-            puts "files in eq/:"
-            Dir.glob("eq/*.png").each do |f|
-                puts(f)
-            end
-            to_remove=Dir.glob("eq/*.png")-source_files
-            puts "to remove:"
-            to_remove.each do |f|
-                puts(f)
-                if File.exists?(f)
-                    puts("removing "+f)
-                    File.unlink(f)
-                end
+    alias :super_write :write
+    def write
+        super_write #FIXME: Try to replace this with :write
+        source_files=[]
+        puts "generated files:"
+        Kramdown::Converter::MathEngine::SimpleMath::generated_files.each do |f|
+            puts(f.path)
+            source_files<<f.path
+        end
+        puts "files in eq/:"
+        Dir.glob("eq/*.png").each do |f|
+            puts(f)
+        end
+        to_remove=Dir.glob("eq/*.png")-source_files
+        puts "to remove:"
+        to_remove.each do |f|
+            puts(f)
+            if File.exists?(f)
+                puts("removing "+f)
+                File.unlink(f)
             end
         end
-    #end
+    end
 end
 
 Jekyll::Hooks.register(:site, :after_init) do |site|
@@ -122,11 +120,16 @@ Jekyll::Hooks.register(:site, :after_init) do |site|
     my_site=site
 end
 
-Jekyll::Hooks.register [:documents, :pages, :posts], :pre_render do |target, payload|
+#[:documents, :pages, :posts]
+Jekyll::Hooks.register(:documents, :pre_render do |target, payload|
     puts("jekyll hook [document pre_render]")
     #document.output=document.content.gsub("before_substitute", "after_substitute")
     if target!=nil
-        target.output=target.output.gsub("before_substitute", "after_substitute")
+        if target.output!=nil
+            target.output.gsub!("before_substitute", "after_substitute")
+        else
+            puts("target.output is nil")
+        end
     else
         puts("target is nil")
     end
