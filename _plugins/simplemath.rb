@@ -5,12 +5,12 @@ require "digest"
 # FIXME: module Kramdown::Converter::MathEngine::SimpleMath
 module Kramdown::Converter
     #module Converter
-        module MathEngine::module SimpleMath
+        module MathEngine::SimpleMath
                 my_site=nil
 
-                @@generated_files=[]
+                my_generated_files=[]
                 def self.generated_files
-                    @@generated_files
+                    my_generated_files
                 end
 
                 def self.call(converter, element, options)
@@ -54,7 +54,7 @@ module Kramdown::Converter
                         if File.exists?(full_filename)
                             site=Jekyll.sites[0] # FIXME.
                             static_file=Jekyll::StaticFile.new(site, site.source, directory, filename)
-                            @@generated_files<<static_file
+                            my_generated_files<<static_file
                             site.static_files<<static_file
                             puts "finalizing"
                             result="<img src=\"/"+full_filename+"\" title=\""+formula+"\" />"
