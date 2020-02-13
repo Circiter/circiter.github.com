@@ -3,9 +3,10 @@ require "fileutils"
 require "digest"
 
 # FIXME: module Kramdown::Converter::MathEngine::SimpleMath
-module Kramdown::Converter
-    #module Converter
-        module MathEngine::SimpleMath
+module Kramdown
+    module Converter
+        module MathEngine
+            module SimpleMath
                 my_site=nil
 
                 my_generated_files=[]
@@ -79,11 +80,11 @@ module Kramdown::Converter
 
                     result
                 end
-            #end
+            end
         end
 
         add_math_engine(:simplemath, MathEngine::SimpleMath)
-    #end
+    end
 end
 
 module Jekyll::Site
@@ -121,8 +122,8 @@ end
 
 Jekyll::Hooks.register(:documents, :pre_render) do |document, payload|
     puts("jekyll hook [document pre_render]")
-    modified_content=document.content.gsub("before_substitute", "after_substitute")
-    payload["content"]=modified_content
+    document.output=document.content.gsub("before_substitute", "after_substitute")
+    #payload["content"]=modified_content
         #.gsub("\$\$", "@@@@").gsub(" \$", " @@@@").gsub("\$ ", "@@@@ ").gsub("\$\.", "@@@@\.")
         #.gsub("\$?", "@@@@?").gsub("\$,", "@@@@,").gsub("\$:", "@@@@:").gsub("\$-", "@@@@-")
         #.gsub("(\$/", "(@@@@/").gsub("\$)", "@@@@)").gsub("^\$", "@@@@").gsub("\$$", "@@@@")
