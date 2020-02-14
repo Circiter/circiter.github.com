@@ -8,6 +8,9 @@ module Kramdown
         module MathEngine
             module SimpleMath
                 @@my_site=nil
+                def self.my_init(site)
+                    @@my_site=site
+                end
 
                 @@my_generated_files=[]
                 def self.generated_files
@@ -117,7 +120,7 @@ end
 
 Jekyll::Hooks.register(:site, :after_init) do |site|
     puts("jekyll hooks [site after_init]")
-    Kramdown::Converter::MathEngine::SimpleMath.@@my_site=site
+    Kramdown::Converter::MathEngine::SimpleMath.my_init(site)
 end
 
 #[:documents, :pages, :posts]
