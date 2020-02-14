@@ -128,19 +128,21 @@ Jekyll::Hooks.register([:documents, :pages, :posts], :pre_render) do |target, pa
     puts("jekyll hook [document pre_render]")
     #document.output=document.content.gsub("before_substitute", "after_substitute")
     if target!=nil
+        if target.name!=nil
+            puts("target.name="+target.name)
+        end
         if target.content!=nil
-            target.content="hello world"
+            if target.name =~ /^\.md$/
+                puts("editing the content...");
+                target.content=target.content.gsub(/before_substitute/, "after_substitute")
+            end
         else
             puts("target.content is nil")
-        end
-        if target.output!=nil
-            target.output.gsub!("before_substitute", "after_substitute")
-        else
-            puts("target.output is nil")
         end
     else
         puts("target is nil")
     end
+    #target.output
     #payload["content"]=modified_content
         #.gsub(/\$\$/, "@@@@").gsub(/ \$/, " @@@@").gsub(/\$ /, "@@@@ ").gsub(/\$\./, "@@@@\.")
         #.gsub(/\$?/, "@@@@?").gsub(/\$,/, "@@@@,").gsub(/\$:/, "@@@@:").gsub(/\$-/, "@@@@-")
