@@ -128,6 +128,11 @@ Jekyll::Hooks.register([:documents, :pages, :posts], :pre_render) do |target, pa
     puts("jekyll hook [document pre_render]")
     #document.output=document.content.gsub("before_substitute", "after_substitute")
     if target!=nil
+        if target.content!=nil
+            target.content="hello world"
+        else
+            puts("target.content is nil")
+        end
         if target.output!=nil
             target.output.gsub!("before_substitute", "after_substitute")
         else
