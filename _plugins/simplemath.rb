@@ -128,15 +128,15 @@ Jekyll::Hooks.register([:documents, :pages, :posts], :pre_render) do |target, pa
     puts("jekyll hook [document pre_render]")
     #document.output=document.content.gsub("before_substitute", "after_substitute")
     if target!=nil
-        if target.name!=nil
-            puts("target.name="+target.name)
-        end
+        #if target.name!=nil
+        #    puts("target.name="+target.name)
+        #end
         if target.content!=nil
-            if target.name!=nil
-                if target.name =~ /^\.md$/
-                    puts "target.name matches against *.md pattern"
-                end
-            end
+            #if target.name!=nil
+            #    if target.name =~ /^\.md$/
+            #        puts "target.name matches against *.md pattern"
+            #    end
+            #end
             puts("editing the content...");
             puts("----------------------");
             puts(target.content);
