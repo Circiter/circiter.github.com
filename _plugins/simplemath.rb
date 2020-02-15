@@ -132,7 +132,7 @@ end
 #[:documents, :pages, :posts]
 Jekyll::Hooks.register(:pages, :pre_render) do |target, payload|
     puts("page hook")
-    if payload["layout"]=="page"||payload["layout]=="draft"
+    if payload["layout"]=="page"||payload["layout"]=="draft"
         puts("--- rendering page ---")
         puts("title="+payload["title"])
     end
@@ -145,7 +145,7 @@ end
 
 Jekyll::Hooks.register(:documents, :pre_render) do |target, payload|
     puts("document hook");
-    if payload["layout"]=="page"||payload["layout]=="draft"
+    if payload["layout"]=="page"||payload["layout"]=="draft"
         puts("--- rendering document ---")
         puts("title="+payload["title"])
     end
@@ -153,7 +153,7 @@ end
 
 Jekyll::Hooks.register(:posts, :pre_render) do |target, payload|
     puts("post hook");
-    if payload["layout"]=="page"||payload["layout]=="draft"
+    if payload["layout"]=="page"||payload["layout"]=="draft"
         puts("--- rendering post ---")
         puts("title="+payload["title"])
     end
@@ -161,7 +161,7 @@ end
 
 Jekyll::Hooks.register(:blog_posts, :pre_render) do |target, payload|
     puts("blog_post hook");
-    if payload["layout"]=="page"||payload["layout]=="draft"
+    if payload["layout"]=="page"||payload["layout"]=="draft"
         puts("--- rendering blog_post ---")
         puts("title="+payload["title"])
     end
