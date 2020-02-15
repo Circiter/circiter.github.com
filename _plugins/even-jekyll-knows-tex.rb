@@ -31,7 +31,7 @@ module Converters
                 system("pdftohtml temp-file.pdf temp-file.html")
                 if !File.exists?("temp-file.html")
                     f=File.new("temp-file.html", "w")
-                    f.puts("<html><body><div style="color: green">hello world</div></body></html>")
+                    f.puts("<html><body><div style=\"color: green\">hello world</div></body></html>")
                     f.close
                 end
                 if File.exists?("temp-file.html")
