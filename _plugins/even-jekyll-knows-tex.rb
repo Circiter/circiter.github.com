@@ -1,5 +1,6 @@
 require "fileutils"
 
+# FIXME: Jekyll::Converters
 module Jekyll
 module Converters
     class TeXToHTMLConverter < Converter
@@ -30,15 +31,11 @@ module Converters
                 system("pdftohtml temp-file.pdf temp-file.html")
                 if !File.exists?("temp-file.html")
                     f=File.new("temp-file.html", "w")
-                    f.puts("<html>hello world</html>")
+                    f.puts("<html><body><div style="color: green">hello world</div></body></html>")
                     f.close
                 end
                 if File.exists?("temp-file.html")
-                    #htmlfile=File.open("temp-file.html", "r")
                     result=File.read("temp-file.html")
-                    #File.open("temp-file.html", "r") {|f| result=f.read}
-                    #result=htmlfile.read
-                    #htmlfile.close
                 else
                     result="temp-file.html does not exist"
                 end

@@ -2,28 +2,16 @@
 
 apk update
 apk upgrade
-apk add curl wget bash git ruby ruby-dev ruby-bundler ruby-bigdecimal imagemagick #texlive-dvi
+apk add zlib-dev build-base libxml2-dev libxslt-dev \
+    readline-dev libffi-dev ruby-dev yaml-dev zlib \
+    libxml2 build-base ruby-io-console readline libxslt \
+    ruby yaml libffi nodejs ruby-irb ruby-json ruby-rake \
+    git bash curl ttf-freefont fontconfig \
+    bash git ruby-dev ruby-bundler ruby-bigdecimal imagemagick
+gem install bundler json nokogiri jekyll
+rm -rf /usr/lib/ruby/gems/*/cache/*.gem
 
-#which latex
-#which pdflatex
-#which pdfetex
-#which pdftohtml
-#which dvips
-#which ps2pdf
-#which dvipng
-
-#echo searching for interesting programs using apk
-#apk search -v
-#apk search -v -d html
-#apk search -v -d pdf
-#apk search -v -d dvi
-#apk search -v -d tex
-
-#bundle config
 #bundle config <name> <value>
-
-#echo 'home directory is:' $HOME
-#[ "x$HOME" = x ] || ls $HOME
 
 cp .gemrc $HOME/
 
@@ -33,14 +21,9 @@ bundle install
 
 mkdir $FOLDER
 
-echo 'content of .bundle/:'
-[ -d .bundle ] && ls -a ".bundle/"
-
 JEKYLL_ENV=production bundle exec jekyll build --trace
 
 cd "$FOLDER"
-#if [ -e index.html ]; then mv index.html _.html; fi
-#echo 'under construction' > index.html
 if [ "x$CNAME" != x ]; then
   echo "$CNAME" > CNAME
 fi

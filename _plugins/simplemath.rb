@@ -9,6 +9,7 @@ module Kramdown
             module SimpleMath
                 @@my_site=nil
                 def self.my_init(site)
+                    puts("SimpleMath::my_init(): site.source="+site.source)
                     @@my_site=site
                 end
 
@@ -54,9 +55,14 @@ module Kramdown
                     result=formula_in_brackets
                     if File.exists?("temp-file.dvi")
                         puts "converting dvi to png..."
-                        system("dvipng -q* -T tight temp-file.dvi -o "+full_filename);
+                        #system("dvipng -q* -T tight temp-file.dvi -o "+full_filename);
+                        system("dvips -E temp-file.dvi -o temp-file.eps");
+                        system("convert temp-file.eps "+full_filename)
                         if File.exists?(full_filename)
+                            #system("convert "+full_filename+"-fuzz 2% -transparent white "+full_filename)
+                            #convert test.png -background 'rgba(0,0,0,0)' test1.png
                             site=Jekyll.sites[0] # FIXME.
+                            #site=@@my_site
                             static_file=Jekyll::StaticFile.new(site, site.source, directory, filename)
                             @@my_generated_files<<static_file
                             site.static_files<<static_file
@@ -86,7 +92,7 @@ module Kramdown
             end
         end
 
-        add_math_engine(:simplemath, MathEngine::SimpleMath)
+        #add_math_engine(:simplemath, MathEngine::SimpleMath)
     end
 end
 
@@ -106,7 +112,7 @@ class Jekyll::Site
         Dir.glob("eq/*.png").each do |f|
             puts(f)
         end
-        to_remove=Dir.glob("eq/*.png")-source_files
+        to_remove=Dir.glob("eq/*.png")-source_files # FIXME.
         puts "to remove:"
         to_remove.each do |f|
             puts(f)
@@ -120,55 +126,43 @@ end
 
 Jekyll::Hooks.register(:site, :after_init) do |site|
     puts("jekyll hooks [site after_init]")
-    Kramdown::Converter::MathEngine::SimpleMath.my_init(site)
+    Kramdown::Converter::MathEngine::SimpleMath::my_init(site)
 end
 
 #[:documents, :pages, :posts]
-Jekyll::Hooks.register([:documents, :pages, :posts], :pre_render) do |target, payload|
-    puts("jekyll hook [document pre_render]")
-    #document.output=document.content.gsub("before_substitute", "after_substitute")
-    if target!=nil
-        #if target.name!=nil
-        #    puts("target.name="+target.name)
-        #end
-        if target.content!=nil
-            #if target.name!=nil
-            #    if target.name =~ /^\.md$/
-            #        puts "target.name matches against *.md pattern"
-            #    end
-            #end
-            puts("editing the content...");
-            puts("----------------------");
-            puts(target.content);
-            puts("----------------------");
-            target.content=target.content.gsub(/before_substitute/, "after_substitute")
-        else
-            puts("target.content is nil")
-        end
-    else
-        puts("target is nil")
+Jekyll::Hooks.register(:pages, :pre_render) do |target, payload|
+    puts("page hook")
+    if payload["layout"]=="page"||payload["layout]=="draft"
+        puts("--- rendering page ---")
+        puts("title="+payload["title"])
     end
-    #target.output
-    #payload["content"]=modified_content
-        #.gsub(/\$\$/, "@@@@").gsub(/ \$/, " @@@@").gsub(/\$ /, "@@@@ ").gsub(/\$\./, "@@@@\.")
-        #.gsub(/\$?/, "@@@@?").gsub(/\$,/, "@@@@,").gsub(/\$:/, "@@@@:").gsub(/\$-/, "@@@@-")
-        #.gsub(/(\$\//, "(@@@@/").gsub(/\$)/, "@@@@)").gsub(/^\$/, "@@@@").gsub(/\$$/, "@@@@")
-        #.gsub(/@@@@/, "\$\$")
+    target.content=target.content
+        .gsub(/\$\$/, "@@@@").gsub(/ \$/, " @@@@").gsub(/\$ /, "@@@@ ").gsub(/\$\./, "@@@@\.")
+        .gsub(/\$\?/, "@@@@?").gsub(/\$,/, "@@@@,").gsub(/\$:/, "@@@@:").gsub(/\$-/, "@@@@-")
+        .gsub(/\(\$\//, "(@@@@/").gsub(/\$\)/, "@@@@)").gsub(/^\$/, "@@@@").gsub(/\$$/, "@@@@")
+        .gsub(/@@@@/, "\$\$")
 end
 
-#s/\$\$/@@@@/g
-#s/ \$/ @@@@/g
-#s/\$ /@@@@ /g
+Jekyll::Hooks.register(:documents, :pre_render) do |target, payload|
+    puts("document hook");
+    if payload["layout"]=="page"||payload["layout]=="draft"
+        puts("--- rendering document ---")
+        puts("title="+payload["title"])
+    end
+end
 
-#s/\$\./@@@@\./g
-#s/\$?/@@@@?/g
-#s/\$,/@@@@,/g
-#s/\$:/@@@@:/g
-#s/\$-/@@@@-/g
+Jekyll::Hooks.register(:posts, :pre_render) do |target, payload|
+    puts("post hook");
+    if payload["layout"]=="page"||payload["layout]=="draft"
+        puts("--- rendering post ---")
+        puts("title="+payload["title"])
+    end
+end
 
-#s/(\$/(@@@@/g
-
-#s/\$)/@@@@)/g
-#s/^\$/@@@@/g
-#s/\$$/@@@@/g
-#s/@@@@/\$\$/g
+Jekyll::Hooks.register(:blog_posts, :pre_render) do |target, payload|
+    puts("blog_post hook");
+    if payload["layout"]=="page"||payload["layout]=="draft"
+        puts("--- rendering blog_post ---")
+        puts("title="+payload["title"])
+    end
+end

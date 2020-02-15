@@ -49,11 +49,8 @@ kramdown:
 plugins_dir: _plugins
 
 plugins:
-  #- jekyll-paginate
-  #- liquid_latex
   - jekyll-sitemap
   - jekyll-feed
-  #- jekyll-latex
   - jekyll/scholar
   - jekyll-optional-front-matter
   - jekyll-titles-from-headings
@@ -66,18 +63,6 @@ optional_front_matter:
 titles_from_headings:
   strip_title: true
   collection: true
-
-# N.B., texlive & imagemagick are required.
-liquid_latex:
-  debug: true
-  density: 200
-  #usepackages: babel
-  #usepackages: pgf-tikz
-  #output_directory: /latex
-  latex_cmd: "latex -interaction=nonstopmode $texfile"
-  dvips_cmd: "dvips -E $dvifile -o $epsfile"
-  convert_cmd: "convert -density $density $epsfile $pngfile"
-  temp_filename: "latex_temp"
 
 encoding: "UTF-8"
 
