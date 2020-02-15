@@ -63,7 +63,6 @@ md-файлы) в единственной на тот момент ветви m
 другой готовой Jekyll-темы Hyde. Позже я всё-же перешёл на Hacker (в некоторой степени
 из-за лицензии, но в основном просто из-за внешнего вида).
 
-Проверка поддержки формул с использованием liquid-latex: {%latex%}$\left[\frac{-\hbar}{2m}\nabla^2+U(r)\right]\Psi(r)=i\frac{\partial}{\partial t}\Psi(r).${%endlatex%}
 Проверка поддержки формул с использованием kramdown: $$\left[\frac{-\hbar}{2m}\nabla^2+U(r)\right]\Psi(r)=i\frac{\partial}{\partial t}\Psi(r).$$
 
 [здесь был логотип jekyll]
