@@ -9,7 +9,6 @@ module Kramdown
             module SimpleMath
                 @@my_site=nil
                 def self.my_init(site)
-                    puts("SimpleMath::my_init(): site.source="+site.source)
                     @@my_site=site
                 end
 
@@ -27,7 +26,7 @@ module Kramdown
                         FileUtils.mkdir_p(directory)
                     end
 
-                    puts "generating tex document for formula: "+formula
+                    #puts "generating tex document for formula: "+formula
                     latex_source="\\documentclass{article}\n"
                     latex_source<<"\\usepackage[T1]{fontenc}\n"
                     latex_source<<"\\usepackage[utf8]{inputenc}\n"
@@ -49,24 +48,24 @@ module Kramdown
                     latex_document=File.new("temp-file.tex", "w")
                     latex_document.puts(latex_source)
                     latex_document.close
-                    puts "trying to compile latex document..."
-                    system("latex -interaction=nonstopmode temp-file.tex")
+                    #puts "trying to compile latex document..."
+                    system("latex -interaction=nonstopmode temp-file.tex >/dev/null 2>&1")
 
                     result=formula_in_brackets
                     if File.exists?("temp-file.dvi")
-                        puts "converting dvi to png..."
+                        #puts "converting dvi to png..."
                         #system("dvipng -q* -T tight temp-file.dvi -o "+full_filename);
-                        system("dvips -E temp-file.dvi -o temp-file.eps");
-                        system("convert temp-file.eps "+full_filename)
+                        system("dvips -E temp-file.dvi -o temp-file.eps >/dev/null 2>&1");
+                        system("convert -negate -density 200 temp-file.eps "+full_filename+" >/dev/null 2>&1")
                         if File.exists?(full_filename)
                             #system("convert "+full_filename+"-fuzz 2% -transparent white "+full_filename)
                             #convert test.png -background 'rgba(0,0,0,0)' test1.png
-                            site=Jekyll.sites[0] # FIXME.
-                            #site=@@my_site
+                            #site=Jekyll.sites[0]
+                            site=@@my_site
                             static_file=Jekyll::StaticFile.new(site, site.source, directory, filename)
                             @@my_generated_files<<static_file
                             site.static_files<<static_file
-                            puts "finalizing"
+                            #puts "finalizing"
                             result="<img src=\"/"+full_filename+"\" title=\""+formula+"\" />"
                             #if display_mode==:block
                             #    converter.format_as_block_html("img",
@@ -75,7 +74,7 @@ module Kramdown
                             #    converter.format_as_block_html("img",
                             #        {"src"=>full_filename, "title"=>formula}, "");
                             #end
-                            puts "ok"
+                            #puts "ok"
                         else
                             puts "png file does not exist"
                         end
@@ -91,8 +90,6 @@ module Kramdown
                 end
             end
         end
-
-        #add_math_engine(:simplemath, MathEngine::SimpleMath)
     end
 end
 
@@ -101,7 +98,8 @@ Kramdown::Converter.add_math_engine(:simplemath, Kramdown::Converter::MathEngine
 class Jekyll::Site
     alias :super_write :write
     def write
-        super_write #FIXME: Try to replace this with :write
+        #super_write #FIXME: Try to replace this with :write
+        super()
         source_files=[]
         puts "generated files:"
         Kramdown::Converter::MathEngine::SimpleMath::generated_files.each do |f|
@@ -125,44 +123,15 @@ class Jekyll::Site
 end
 
 Jekyll::Hooks.register(:site, :after_init) do |site|
-    puts("jekyll hooks [site after_init]")
     Kramdown::Converter::MathEngine::SimpleMath::my_init(site)
 end
 
-#[:documents, :pages, :posts]
-Jekyll::Hooks.register(:pages, :pre_render) do |target, payload|
-    puts("page hook")
-    if payload["layout"]=="page"||payload["layout"]=="draft"
-        puts("--- rendering page ---")
-        puts("title="+payload["title"])
-    end
+Jekyll::Hooks.register([:pages, :blog_posts], :pre_render) do |target, payload|
+    puts(target.content)
+    puts("-----------------")
     target.content=target.content
         .gsub(/\$\$/, "@@@@").gsub(/ \$/, " @@@@").gsub(/\$ /, "@@@@ ").gsub(/\$\./, "@@@@\.")
         .gsub(/\$\?/, "@@@@?").gsub(/\$,/, "@@@@,").gsub(/\$:/, "@@@@:").gsub(/\$-/, "@@@@-")
         .gsub(/\(\$\//, "(@@@@/").gsub(/\$\)/, "@@@@)").gsub(/^\$/, "@@@@").gsub(/\$$/, "@@@@")
         .gsub(/@@@@/, "\$\$")
-end
-
-Jekyll::Hooks.register(:documents, :pre_render) do |target, payload|
-    puts("document hook");
-    if payload["layout"]=="page"||payload["layout"]=="draft"
-        puts("--- rendering document ---")
-        puts("title="+payload["title"])
-    end
-end
-
-Jekyll::Hooks.register(:posts, :pre_render) do |target, payload|
-    puts("post hook");
-    if payload["layout"]=="page"||payload["layout"]=="draft"
-        puts("--- rendering post ---")
-        puts("title="+payload["title"])
-    end
-end
-
-Jekyll::Hooks.register(:blog_posts, :pre_render) do |target, payload|
-    puts("blog_post hook");
-    if payload["layout"]=="page"||payload["layout"]=="draft"
-        puts("--- rendering blog_post ---")
-        puts("title="+payload["title"])
-    end
 end
