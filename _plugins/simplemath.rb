@@ -98,8 +98,7 @@ Kramdown::Converter.add_math_engine(:simplemath, Kramdown::Converter::MathEngine
 class Jekyll::Site
     alias :super_write :write
     def write
-        #super_write #FIXME: Try to replace this with :write
-        super()
+        super_write # FIXME: Why super() doesn't work?
         source_files=[]
         puts "generated files:"
         Kramdown::Converter::MathEngine::SimpleMath::generated_files.each do |f|
