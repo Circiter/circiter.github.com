@@ -56,7 +56,7 @@ module Kramdown
                         #puts "converting dvi to png..."
                         #system("dvipng -q* -T tight temp-file.dvi -o "+full_filename);
                         system("dvips -E temp-file.dvi -o temp-file.eps >/dev/null 2>&1");
-                        system("convert -negate -density 200 temp-file.eps "+full_filename+" >/dev/null 2>&1")
+                        system("convert -density 150 temp-file.eps "+full_filename+" >/dev/null 2>&1")
                         if File.exists?(full_filename)
                             #system("convert "+full_filename+"-fuzz 2% -transparent white "+full_filename)
                             #convert test.png -background 'rgba(0,0,0,0)' test1.png
@@ -66,14 +66,14 @@ module Kramdown
                             @@my_generated_files<<static_file
                             site.static_files<<static_file
                             #puts "finalizing"
-                            result="<img src=\"/"+full_filename+"\" title=\""+formula+"\" />"
-                            #if display_mode==:block
-                            #    converter.format_as_block_html("img",
-                            #        {"src"=>full_filename, "title"=>formula}, "");
-                            #else
-                            #    converter.format_as_block_html("img",
-                            #        {"src"=>full_filename, "title"=>formula}, "");
-                            #end
+                            #result="<img src=\"/"+full_filename+"\" title=\""+formula+"\" />"
+                            if display_mode==:block
+                                result=converter.format_as_block_html("img",
+                                    {"src"=>full_filename, "title"=>formula}, "");
+                            else
+                                result=converter.format_as_block_html("img",
+                                    {"src"=>full_filename, "title"=>formula}, "");
+                            end
                             #puts "ok"
                         else
                             puts "png file does not exist"
@@ -126,8 +126,6 @@ Jekyll::Hooks.register(:site, :after_init) do |site|
 end
 
 Jekyll::Hooks.register([:pages, :blog_posts], :pre_render) do |target, payload|
-    puts(target.content)
-    puts("-----------------")
     target.content=target.content
         .gsub(/\$\$/, "@@@@").gsub(/ \$/, " @@@@").gsub(/\$ /, "@@@@ ").gsub(/\$\./, "@@@@\.")
         .gsub(/\$\?/, "@@@@?").gsub(/\$,/, "@@@@,").gsub(/\$:/, "@@@@:").gsub(/\$-/, "@@@@-")
