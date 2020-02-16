@@ -126,8 +126,8 @@ Jekyll::Hooks.register(:site, :after_init) do |site|
 end
 
 Jekyll::Hooks.register([:pages, :blog_posts], :pre_render) do |target, payload|
-    if target.ext!=nil&&target.destination!=nil
-        puts("ext="+target.ext+", destination="+target.destination)
+    if target.ext!=nil&&target.basename!=nil
+        puts("ext="+target.ext+", basename="+target.basename)
     end
     target.content=target.content
         .gsub(/\$\$/, "@@@@").gsub(/ \$/, " @@@@").gsub(/\$ /, "@@@@ ").gsub(/\$\./, "@@@@\.")
