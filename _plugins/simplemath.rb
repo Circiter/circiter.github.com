@@ -69,9 +69,9 @@ module Kramdown
                             #result="<img src=\"/"+full_filename+"\" title=\""+formula+"\" />"
                             if display_mode==:block
                                 result=converter.format_as_block_html("img",
-                                    {"src"=>full_filename, "title"=>formula}, "");
+                                    {"src"=>full_filename, "title"=>formula}, "", 0);
                             else
-                                result=converter.format_as_block_html("img",
+                                result=converter.format_as_span_html("img",
                                     {"src"=>full_filename, "title"=>formula}, "");
                             end
                             #puts "ok"
@@ -126,6 +126,7 @@ Jekyll::Hooks.register(:site, :after_init) do |site|
 end
 
 Jekyll::Hooks.register([:pages, :blog_posts], :pre_render) do |target, payload|
+    puts("name="+target.name+", basename="+target.basename+", path="+target.path+", url="+target.url+", ext="+target.ext+", destination="+target.destination)
     target.content=target.content
         .gsub(/\$\$/, "@@@@").gsub(/ \$/, " @@@@").gsub(/\$ /, "@@@@ ").gsub(/\$\./, "@@@@\.")
         .gsub(/\$\?/, "@@@@?").gsub(/\$,/, "@@@@,").gsub(/\$:/, "@@@@:").gsub(/\$-/, "@@@@-")
