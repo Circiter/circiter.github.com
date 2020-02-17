@@ -30,10 +30,11 @@ module Kramdown
                     latex_source="\\documentclass{article}\n"
                     latex_source<<"\\usepackage[T1]{fontenc}\n"
                     latex_source<<"\\usepackage[utf8]{inputenc}\n"
-                    latex_source<<"\\usepackage{amsmath, amssymb}\n"
+                    latex_source<<"\\usepackage{amsmath, amssymb, xcolor}\n"
                     latex_source<<"\\usepackage[english]{babel}\n"
                     latex_source<<"\\begin{document}\n"
                     latex_source<<"\\pagestyle{empty}\n"
+                    latex_source<<"\\color{white}\n"
                     #equation_bracket=(display_mode==:block)?"$$":"$"
                     equation_bracket="$"
                     if display_mode==:block
