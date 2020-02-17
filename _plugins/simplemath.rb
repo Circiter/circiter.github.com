@@ -43,7 +43,7 @@ module Kramdown
                     latex_source<<formula_in_brackets
                     latex_source<<"\n\\end{document}"
                     filename=Digest::MD5.hexdigest(formula_in_brackets)+".png"
-                    full_filename="/"+File.join(directory, filename)
+                    full_filename=File.join(directory, filename)
 
                     latex_document=File.new("temp-file.tex", "w")
                     latex_document.puts(latex_source)
@@ -62,6 +62,7 @@ module Kramdown
                             #convert test.png -background 'rgba(0,0,0,0)' test1.png
                             #site=Jekyll.sites[0]
                             site=@@my_site
+                            puts("site.source="site.source)
                             static_file=Jekyll::StaticFile.new(site, site.source, directory, filename)
                             @@my_generated_files<<static_file
                             site.static_files<<static_file
@@ -69,10 +70,10 @@ module Kramdown
                             #result="<img src=\"/"+full_filename+"\" title=\""+formula+"\" />"
                             if display_mode==:block
                                 result=converter.format_as_block_html("img",
-                                    {"src"=>full_filename, "title"=>formula}, "", 0);
+                                    {"src"=>"/"+full_filename, "title"=>formula}, "", 0);
                             else
                                 result=converter.format_as_span_html("img",
-                                    {"src"=>full_filename, "title"=>formula}, "");
+                                    {"src"=>"/"+full_filename, "title"=>formula}, "");
                             end
                             #puts "ok"
                         else
