@@ -134,15 +134,13 @@ def fix_math(content)
 end
 
 Jekyll::Hooks.register(:pages, :pre_render) do |target, payload|
-    return unless target.ext==".md"
-    return unless target.basename=="about"||target.basename=="index"
-    #target.basename=~/.*\.md/
-    target.content=fix_math(target.content)
+    if target.ext==".md"&&target.basename=="about"||target.basename=="index"
+        target.content=fix_math(target.content)
+    end
 end
 
 Jekyll::Hooks.register(:blog_posts, :pre_render) do |target, payload|
-    puts("target.data[ext]="+target.data["ext"])
-    return unless target.data["ext"]==".md"
-    #target.basename
-    target.content=fix_math(target.content)
+    if target.data["ext"]==".md"
+        target.content=fix_math(target.content)
+    end
 end
