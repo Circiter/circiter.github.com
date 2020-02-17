@@ -43,7 +43,7 @@ module Kramdown
                     latex_source<<formula_in_brackets
                     latex_source<<"\n\\end{document}"
                     filename=Digest::MD5.hexdigest(formula_in_brackets)+".png"
-                    full_filename=File.join(directory, filename)
+                    full_filename="/"+File.join(directory, filename)
 
                     latex_document=File.new("temp-file.tex", "w")
                     latex_document.puts(latex_source)
@@ -125,13 +125,24 @@ Jekyll::Hooks.register(:site, :after_init) do |site|
     Kramdown::Converter::MathEngine::SimpleMath::my_init(site)
 end
 
-Jekyll::Hooks.register([:pages, :blog_posts], :pre_render) do |target, payload|
-    if target.ext!=nil&&target.basename!=nil
-        puts("ext="+target.ext+", basename="+target.basename)
-    end
-    target.content=target.content
+def fix_math(content)
+    return content
         .gsub(/\$\$/, "@@@@").gsub(/ \$/, " @@@@").gsub(/\$ /, "@@@@ ").gsub(/\$\./, "@@@@\.")
         .gsub(/\$\?/, "@@@@?").gsub(/\$,/, "@@@@,").gsub(/\$:/, "@@@@:").gsub(/\$-/, "@@@@-")
         .gsub(/\(\$\//, "(@@@@/").gsub(/\$\)/, "@@@@)").gsub(/^\$/, "@@@@").gsub(/\$$/, "@@@@")
         .gsub(/@@@@/, "\$\$")
+end
+
+Jekyll::Hooks.register(:pages, :pre_render) do |target, payload|
+    return unless target.ext==".md"
+    return unless target.basename=="about"||target.basename=="index"
+    #target.basename=~/.*\.md/
+    target.content=fix_math(target.content)
+end
+
+Jekyll::Hooks.register(:blog_posts, :pre_render) do |target, payload|
+    puts("target.data[ext]="+target.data["ext"])
+    return unless target.data["ext"]==".md"
+    #target.basename
+    target.content=fix_math(target.content)
 end
