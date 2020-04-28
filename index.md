@@ -5,9 +5,9 @@ title: Дневник Circiter'а.
 
 # circiter.tk || circiter.github.io
 
-Заготовка простого публичного дневника (блога).
+Простой публичный дневник (блог).
 
-Здесь будут сообщения-посты:
+Сообщения-статьи:
 {% assign posts_list = site.blog_posts %}
 {% for post in posts_list %}
     {% if post.title != null %}

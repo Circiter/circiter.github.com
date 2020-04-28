@@ -1,3 +1,5 @@
 .sass-cache
 .jekyll-metadata
 _site
+assets_backup
+layouts_backup

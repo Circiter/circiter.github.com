@@ -11,4 +11,4 @@
     
 /* SITE */
     Language: Russian/English
-    Tools: git, github, jekyll, linux, GNU, emacs, gcc, etc.
+    Tools: git, github, jekyll, linux, GNU, emacs, nano, gcc, sed, ruby, markdown, LaTeX, etc.
