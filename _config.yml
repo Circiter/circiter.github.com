@@ -32,7 +32,7 @@ github:
 footer-links:
   email: "mailto:xcirciter@gmail.com"
   github: Circiter
-  rss: feed.xml
+  rss: atom.xml
 
 repository: "Circiter/circiter.github.io"
 
