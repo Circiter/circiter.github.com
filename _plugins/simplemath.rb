@@ -34,7 +34,6 @@ module Kramdown
                     latex_source<<"\\usepackage[english]{babel}\n"
                     latex_source<<"\\begin{document}\n"
                     latex_source<<"\\pagestyle{empty}\n"
-                    latex_source<<"\\color{white}\n"
                     #equation_bracket=(display_mode==:block)?"$$":"$"
                     equation_bracket="$"
                     if display_mode==:block
@@ -71,10 +70,10 @@ module Kramdown
                             #result="<img src=\"/"+full_filename+"\" title=\""+formula+"\" />"
                             if display_mode==:block
                                 result=converter.format_as_block_html("img",
-                                    {"src"=>"/"+full_filename, "title"=>formula}, "", 0);
+                                    {"src"=>"/"+full_filename, "title"=>formula, "border"=>0}, "", 0);
                             else
                                 result=converter.format_as_span_html("img",
-                                    {"src"=>"/"+full_filename, "title"=>formula}, "");
+                                    {"src"=>"/"+full_filename, "title"=>formula, "border"=>0}, "");
                             end
                             #puts "ok"
                         else

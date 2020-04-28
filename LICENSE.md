@@ -5,9 +5,8 @@ Simple, common-sense conditions:
 - Notify the author if you republish any large excerpt.
 - Obey a licenses in a related resources (like, e.g., source code) if you use or copy them.
 
-Nota bene, the visual appearance of this blog is based on the jekyll theme "Hacker,"
-so also see CC0 (i.e., effectively, public domain) LICENSE_HACKER.md (which, it
-needs to be stressed, restricted to the visual theme and does not infect
-other writings and software presented in this blog).
+Nota bene, the visual appearance of this blog is based on the jekyll theme "Hyd,"
+so also see LICENSE_Hyde.md (which, it needs to be stressed, restricted
+to the visual theme and does not infect other writings and software presented in this blog).
 
 EOF.

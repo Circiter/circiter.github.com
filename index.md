@@ -1,18 +1,13 @@
 ---
 layout: default
-title: Home
+title: Дневник Circiter'а.
 ---
 
 # circiter.tk || circiter.github.io
 
-[ nothing to see yet :( ]
+Заготовка простого публичного дневника (блога).
 
-{% comment %}
-{% assign pages_list = site.pages %}
-{% for node in pages_list %}[-]({{ node.url }}).{% endfor %}
-{% endcomment %}
-
-Some posts:
+Здесь будут сообщения-посты:
 {% assign posts_list = site.blog_posts %}
 {% for post in posts_list %}
     {% if post.title != null %}
@@ -20,14 +15,14 @@ Some posts:
 * [{{ post.title }}]({{ post.url }})
         {% endif %}
         {% if post.layout == "draft" %}
-* [[draft] {{ post.title }}]({{ post.url }})
+* [[черновик] {{ post.title }}]({{ post.url }})
         {% endif %}
     {% endif %}
 {% endfor %}
 
 ----------
 
-- [000000 Home](http://circiter.tk)
-- [000064 Gists](https://gist.github.com/Circiter/)
-- [0000C8 Empty <img src="/assets/images/blacktocat.png" />GitHub repository](https://github.com/Circiter)
-- [00012C Mail me](mailto:xcirciter@gmail.com)
+- [000000 Домой](http://circiter.tk)
+- [000064 Минирепозитории gists](https://gist.github.com/Circiter/)
+- [0000C8 Учётная запись на <img src="/assets/images/blacktocat.png" />GitHub](https://github.com/Circiter)
+- [00012C Электронная почта](mailto:xcirciter@gmail.com)
