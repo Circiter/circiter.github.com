@@ -11,9 +11,9 @@ remote-theme: pages-themes/hacker
 
 permalink: /:title/
 
-title: "Circiter's blog"
+title: "Дневник Circiter'а"
 tagline: "Коллекция проектов, мыслей, идей."
-description: "Simple technical blog on programming, mathematics, ham-practice, electronics, and recreational science"
+description: "Технический блок о программировании, математике, радиолюбительской практике, электроннике и занимательной науке."
 baseurl: /
 
 name: "Michael I. Nikitin"
@@ -41,7 +41,7 @@ markdown: kramdown
 kramdown:
   input: GFM
   syntax_highlighter: rouge
-  auto_ids: false
+  #auto_ids: false
   hard_wrap: false
   #math_engine: +nil+
   math_engine: simplemath

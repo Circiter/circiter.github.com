@@ -236,7 +236,8 @@ img {
   max-width: 100%;
   /*margin: 0 0 1rem;*/
   margin: 0; /* Added. */
-  padding: 0; /* Added */
+  padding: 0; /* Added. */
+  padding-bottom: -4px; /* Added. */
   border-radius: 5px;
 }
 
@@ -346,6 +347,7 @@ tbody tr:nth-child(odd) th {
   color: #a0a0a0; /* #303030 */
   background-color: #303030; /* Added. */
   border-radius: 4px; /* Added. */
+  padding: 4px; /* Added. */
 }
 .page-title,
 .post-title {
