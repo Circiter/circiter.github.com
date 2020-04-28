@@ -337,7 +337,9 @@ tbody tr:nth-child(odd) th {
 .page-title,
 .post-title,
 .post-title a {
-  color: #303030;
+  color: #101010; /* #303030 */
+  background-color: #303030; /* Added. */
+  display: block; /* Added. */
 }
 .page-title,
 .post-title {

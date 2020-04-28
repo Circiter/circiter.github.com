@@ -67,14 +67,15 @@ module Kramdown
                             @@my_generated_files<<static_file
                             site.static_files<<static_file
                             #puts "finalizing"
-                            #result="<img src=\"/"+full_filename+"\" title=\""+formula+"\" />"
-                            if display_mode==:block
-                                result=converter.format_as_block_html("img",
-                                    {"src"=>"/"+full_filename, "title"=>formula, "border"=>0}, "", 0);
-                            else
-                                result=converter.format_as_span_html("img",
-                                    {"src"=>"/"+full_filename, "title"=>formula, "border"=>0}, "");
-                            end
+                            result="<img src=\"/"+full_filename+"\" title=\""+formula+"\" />"
+                            #if display_mode==:block
+                            #    result=converter.format_as_block_html("img",
+                            #        {"src"=>"/"+full_filename, "title"=>formula, "border"=>0}, "", 0);
+                            #else
+                            #    result=converter.format_as_span_html("img",
+                            #        {"src"=>"/"+full_filename, "title"=>formula, "border"=>0}, "");
+                            #end
+
                             #puts "ok"
                         else
                             puts "png file does not exist"
