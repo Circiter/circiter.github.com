@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Небольшая коллекция sed-скриптов."
-tags: esoterics meta programming sed
+tags: эзотерика мета программирование sed
 ---
 
 # Нецелевое использование поточного редактора.

@@ -67,9 +67,7 @@ GFM/kramdown) и размещены на <s>халяву</s> небезызве�
 тем-более диаграмм с цветными элементами на прозрачном фоне. Для интересующихся темой оформления `Hacker`,
 до-кучи приведу ссылку на производную тему [hacker-blog][hacker-blog-theme].
 
-http://circiter.tk
-[http://circiter.tk][]
-[http://circiter.tk](http://circiter.tk)
+[http://circiter.tk]()
 [](http://circiter.tk)
 
 ![http://jekyllrb.com](/public/images/jekyll-logo.png)
@@ -81,7 +79,11 @@ http://circiter.tk
 - [Jekyll @ GitHub](https://github.com/jekyll/jekyll)
 - [Hyde](http://hyde.getpoole.com)
 - [Hyde @ GitHub](https://github.com/poole/hyde)
-- [hacker-theme]: https://github.com/pages-themes/hacker "Hacker @ GitHub"
-- [hacker-blog-theme]: https://github.com/ashishchaudhary/hacker-blog "hacker-blog @ GitHub"
+- [Hacker @ GitHub][hacker-theme]
+- [hacker-blog @ GitHub][hacker-blog-theme]
 - [GitHub Actions](https://github.com/features/actions)
 - [TeXify](https://github.com/apps/texify)
+
+[hacker-theme]: https://github.com/pages-themes/hacker
+[hacker-blog-theme]: https://github.com/ashishchaudhary/hacker-blog
+
