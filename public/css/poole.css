@@ -154,6 +154,8 @@ pre {
 }
 code {
   padding: .25em .5em;
+  margin-right: 0; /* Added. */
+  padding-right: 0; /* Added. */
   font-size: 85%;
   color: #bf616a;
   background-color: #f9f9f9;
@@ -174,6 +176,7 @@ pre {
 }
 pre code {
   padding: 0;
+  margin-right: 0; /* Added. */
   font-size: 100%;
   color: inherit;
   background-color: transparent;
@@ -186,6 +189,7 @@ pre code {
 }
 .highlight pre {
   margin-bottom: 0;
+  background-color: green; /* Added. */
 }
 
 /* Gist via GitHub Pages */
@@ -228,7 +232,7 @@ blockquote p:last-child {
 }
 
 img {
-  display: block;
+  #display: block;
   max-width: 100%;
   margin: 0 0 1rem;
   border-radius: 5px;
@@ -337,9 +341,9 @@ tbody tr:nth-child(odd) th {
 .page-title,
 .post-title,
 .post-title a {
-  color: #101010; /* #303030 */
+  color: #a0a0a0; /* #303030 */
   background-color: #303030; /* Added. */
-  display: block; /* Added. */
+  border-radius: 4px; /* Added. */
 }
 .page-title,
 .post-title {
