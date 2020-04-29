@@ -237,7 +237,7 @@ img {
   /*margin: 0 0 1rem;*/
   margin: 0; /* Added. */
   padding: 0; /* Added. */
-  padding-bottom: -4px; /* Added. */
+  padding-bottom: -12px; /* Added. */
   border-radius: 5px;
 }
 
