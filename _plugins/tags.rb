@@ -28,3 +28,4 @@ module Jekyll
             self.data['title']="Tag: #{tag}"
         end
     end
+end
