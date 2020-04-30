@@ -32,10 +32,6 @@ title: Дневник Circiter'а.
 {% assign sortedtags = tags | split:' ' | sort_natural %}
 
 <hr>
-сортированные тэги:
-{% sortedtags %}
-<hr>
-
 список тэгов:
 {% for tag in sortedtags %}
     <h3 id="{{tag}}">{{tag}}</h3>
