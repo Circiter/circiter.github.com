@@ -20,7 +20,9 @@ title: Дневник Circiter'а.
     {% endif %}
 {% endfor %}
 
-----------
+<hr>
+{% site.tags %}
+<hr>
 Метки:
 {% capture tags %}
     {% for tag in site.tags %}
@@ -29,15 +31,19 @@ title: Дневник Circiter'а.
 {% endcapture %}
 {% assign sortedtags = tags | split:'|' | sort_natural %}
 
-{% for tag in sortedtags %}
-    <h3 id="{{ tag }}">{{ tag }}</h3>
+<hr>
+{% sortertags %}
+<hr>
+
+{% for tag_ in sortedtags %}
+    <h3 id="{{tag_}}">{{tag_}}</h3>
     <ul>
-    {% for post in site.tags[tag] %}
+    {% for post in site.tags[tag_] %}
         <li><a href="{{ post.url }}">{{ post.title }}</a></li>
     {% endfor %}
     </ul>
 {% endfor %}
-----------
+<hr>
 
 {% icon fa-spinner fa-spin %}
 
