@@ -32,14 +32,15 @@ github:
 footer-links:
   email: "mailto:xcirciter@gmail.com"
   github: Circiter
-  rss: atom.xml
+  rss: rss.xml
 
 repository: "Circiter/circiter.github.io"
 
 markdown: kramdown
 
 kramdown:
-  input: GFM
+  #input: GFM
+  input: KramdownEasyLink
   syntax_highlighter: rouge
   #auto_ids: false
   hard_wrap: false

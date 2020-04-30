@@ -7,4 +7,4 @@ the "master" branch.
 
 ![build-status](https://github.com/Circiter/circiter.github.io/workflows/GitHub%20Pages%20deploy/badge.svg)
 
-(c) 2020, Circiter, mailto:xcirciter@gmail.com; See `LICENSE.md`.
+(c) 2020, Circiter, mailto:xcirciter@gmail.com; See the file `LICENSE`.

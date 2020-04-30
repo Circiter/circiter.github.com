@@ -21,6 +21,27 @@ title: Дневник Circiter'а.
 {% endfor %}
 
 ----------
+Метки:
+{% capture tags %}
+    {% for tag in site.tags %}
+        {{ tag[0] }}
+    {% endfor %}
+{% endcapture %}
+{% assign sortedtags = tags | split:'|' | sort_natural %}
+
+{% for tag in sortedtags %}
+    <h3 id="{{ tag }}">{{ tag }}</h3>
+    <ul>
+    {% for post in site.tags[tag] %}
+        <li><a href="{{ post.url }}">{{ post.title }}</a></li>
+    {% endfor %}
+    </ul>
+{% endfor %}
+----------
+
+{% icon fa-spinner fa-spin %}
+
+{% tag_cloud font-size: 50 - 150% %}
 
 - [000064 Минирепозитории gists](https://gist.github.com/Circiter/)
 - [0000C8 Учётная запись на <img src="/public/images/github-mark.png" />GitHub](https://github.com/Circiter)
