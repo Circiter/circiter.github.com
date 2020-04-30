@@ -5,10 +5,8 @@
 
 module Jekyll
     class TagPageGenerator < Generator
-        safe true
-
         def generate(site)
-            tags=site.posts.docs.flat_map{|post| post.data['tags']||[]}.to_set
+            tags=site.blog_posts.docs.flat_map{|post| post.data['tags']||[]}.to_set
             tags.each do |tag|
                 site.pages << TagPage.new(site, site.source, tag)
             end
@@ -26,6 +24,7 @@ module Jekyll
             self.read_yaml(File.join(base, '_layouts'), 'tag.html')
             self.data['tag']=tag
             self.data['title']="Tag: #{tag}"
+            self.data['permalink']="/tag/#{tag}"
         end
     end
 end
