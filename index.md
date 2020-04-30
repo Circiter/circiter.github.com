@@ -21,8 +21,6 @@ title: Дневник Circiter'а.
 {% endfor %}
 
 <hr>
-{% site.tags %}
-<hr>
 Метки:
 {% capture tags %}
     {% for tag in site.tags %}
