@@ -22,6 +22,14 @@ title: Дневник Circiter'а.
 
 <hr>
 Метки:
+site.tags:
+{{site.tags}}
+<hr>
+site.tags с использованием цикла:
+{% for post in posts_list %}
+    {{ post.tags }} &emdash; {{ post.url }} &emdash; {{ post.title }}
+{% endfor %}
+<hr>
 {% capture tags %}
     {% for tag in site.tags %}
         {{ tag[0] }}

@@ -87,12 +87,6 @@ Docker-контейнере! Предполагаемые процессорны
 С целью предъявления читателю относительно счастливой концовки, спешу упомянуть, что блог всё-таки
 заработал, с примерно сотого <<commit>>'а...
 
-Тест KramdownEasyLink:
-- http://circiter.tk
-- "http://circiter.tk"
-- 'http://circiter.tk'
-- `http://circiter.tk`
-
 [![http://jekyllrb.com](/public/images/jekyll-logo.png)][jekyll]
 
 Ссылки:
