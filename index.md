@@ -22,14 +22,10 @@ title: Дневник Circiter'а.
 
 <hr>
 Метки:
-site.tags:
-{{site.tags}}
-<hr>
-site.tags с использованием цикла:
 {% for post in posts_list %}
-    {{ post.tags }} &emdash; {{ post.url }} &emdash; {{ post.title }}
+    {{ post.tags | split:' - ' }} - {{ post.url }}
 {% endfor %}
-<hr>
+
 {% capture tags %}
     {% for tag in site.tags %}
         {{ tag[0] }}
@@ -37,8 +33,6 @@ site.tags с использованием цикла:
 {% endcapture %}
 {% assign sortedtags = tags | split:' ' | sort_natural %}
 
-<hr>
-список тэгов:
 {% for tag in sortedtags %}
     <h3 id="{{tag}}">{{tag}}</h3>
     <ul>
@@ -47,13 +41,9 @@ site.tags с использованием цикла:
     {% endfor %}
     </ul>
 {% endfor %}
-<hr>
 
-иконка:
-{% icon fa-spinner fa-spin %}
+[under construction] {% icon fa-spinner fa-spin %}
 
-<hr>
-облако тэгов:
 {% tag_cloud font-size: 50 - 150% %}
 
 <hr>
