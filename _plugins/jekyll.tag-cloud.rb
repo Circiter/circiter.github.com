@@ -56,7 +56,7 @@ module Jekyll
       # get an Array of [tag name, tag count] pairs
       ############
       posts=context.registers[:site].collections["blog_posts"]
-      tags=posts.docs.flat_map{|post| post.data["tags"]||[]}}.to_set
+      tags=posts.docs.flat_map{|post| post.data["tags"]||[]}.to_set
       tags_pairs=tags.each do |tag|
           count=0
           posts.docs.each do |post| # FIXME.
