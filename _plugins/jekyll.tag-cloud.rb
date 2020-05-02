@@ -66,14 +66,12 @@ module Jekyll
           count=0
           posts.docs.each do |post| # FIXME.
               post_tags=post.data["tags"]||[].to_set
-              if post_tags.include?(tag) # FIXME.
-                  count++
-              end
+              count=count+1 if post_tags.include?(tag) # FIXME.
           end
           [tag, count]
       end
-      count=tags_pairs.map do |name, posts|
-          [name, posts.count] if posts.count>=threshold
+      count=tags_pairs.map do |tag, count|
+          [name, count] if count>=threshold
       end
       ############
       #count = context.registers[:site].tags.map do |name, posts|

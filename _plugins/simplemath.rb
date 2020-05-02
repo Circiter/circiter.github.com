@@ -27,13 +27,14 @@ module Kramdown
                     end
 
                     #puts "generating tex document for formula: "+formula
-                    latex_source="\\documentclass{article}\n"
-                    latex_source<<"\\usepackage[T1]{fontenc}\n"
+                    latex_source="\\documentclass[10pt]{article}\n"
                     latex_source<<"\\usepackage[utf8]{inputenc}\n"
-                    latex_source<<"\\usepackage{amsmath, amssymb, xcolor}\n"
-                    latex_source<<"\\usepackage[english]{babel}\n"
-                    latex_source<<"\\begin{document}\n"
-                    latex_source<<"\\pagestyle{empty}\n"
+                    latex_source<<"\\usepackage[T2A,T1]{fontenc}\n"
+                    latex_source<<"\\usepackage{amsmath,amsfonts,amssymb,color,xcolor}\n"
+                    latex_source<<"\\usepackage[english, russian]{babel}\n"
+                    latex_source<<"\\usepackage{type1cm}\n"
+                    latex_source<<"\\newsavebox\\frm\n"
+                    latex_source<<"\\sbox\\frm{"
                     #equation_bracket=(display_mode==:block)?"$$":"$"
                     equation_bracket="$"
                     if display_mode==:block
@@ -41,7 +42,11 @@ module Kramdown
                     end
                     formula_in_brackets=equation_bracket+formula+equation_bracket
                     latex_source<<formula_in_brackets
-                    latex_source<<"\n\\end{document}"
+                    latex_source<<"}\n\\newwrite\\frmdims\n"
+                    latex_source<<"\\immediate\\openout\\frmdims=dimensions.tmp\n"
+                    latex_source<<"\\immediate\\write\\frmdims{\\the\\dp\\frm}\n"
+                    latex_source<<"\\immediate\\closeout\\frmdims\n"
+                    latex_source<<"\n\\begin{document}\\pagestyle{empty}\\usebox\frm\\end{document}"
                     filename=Digest::MD5.hexdigest(formula_in_brackets)+".png"
                     full_filename=File.join(directory, filename)
 
@@ -67,13 +72,17 @@ module Kramdown
                             @@my_generated_files<<static_file
                             site.static_files<<static_file
                             #puts "finalizing"
+                            puts("dimensions:")
+                            puts(File.read("dimensions.tmp"))
+                            baseline_offset="1em"
+                            style="margin-bottom: -"+baseline_offset
                             #result="<img src=\"/"+full_filename+"\" title=\""+formula+"\" />"
                             if display_mode==:block
                                 result=converter.format_as_block_html("img",
-                                    {"src"=>"/"+full_filename, "title"=>formula, "border"=>0}, "", 0);
+                                    {"src"=>"/"+full_filename, "title"=>formula, "border"=>0, "style"=>style}, "", 0);
                             else
                                 result=converter.format_as_span_html("img",
-                                    {"src"=>"/"+full_filename, "title"=>formula, "border"=>0}, "");
+                                    {"src"=>"/"+full_filename, "title"=>formula, "border"=>0; "style"=>style}, "");
                             end
                             #puts "ok"
                         else
