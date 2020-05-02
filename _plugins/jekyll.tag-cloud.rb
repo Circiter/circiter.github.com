@@ -54,9 +54,25 @@ module Jekyll
 
     def render(context)
       # get an Array of [tag name, tag count] pairs
-      count = context.registers[:site].tags.map do |name, posts|
-        [name, posts.count] if posts.count >= threshold
+      ############
+      posts=context.registers[:site].collections["blog_posts"]
+      tags=posts.docs.flat_map{|post| post.data["tags"]||[]}}.to_set
+      tags_pairs=tags.each do |tag|
+          count=0
+          posts.docs.each do |post| # FIXME.
+              post_tags=post.data["tags"]||[].to_set
+              count++ if post_tags.contains?(tag) # FIXME.
+          end
+          [tag, count]
       end
+      count=tags_pairs.map do |name, posts|
+          [name, posts.count] if posts.count>=threshold
+      end
+      ############
+      #count = context.registers[:site].tags.map do |name, posts|
+      #  [name, posts.count] if posts.count >= threshold
+      #end
+      ############
 
       # clear nils if any
       count.compact!

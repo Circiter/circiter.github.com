@@ -6,7 +6,7 @@
     <body>
         <h1>Tag: {{ page.tag }}</h1>
         <ul>
-            {% for post in site.posts %}
+            {% for post in site.blog_posts %}
                 {% if post.tags contains page.tag %}
                     <li><a class="post" href="{{ post.url }}">{{ post.title }}</a></li.
                 {% endif %}
