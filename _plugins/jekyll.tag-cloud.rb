@@ -57,11 +57,18 @@ module Jekyll
       ############
       posts=context.registers[:site].collections["blog_posts"]
       tags=posts.docs.flat_map{|post| post.data["tags"]||[]}.to_set
-      tags_pairs=tags.each do |tag|
+      puts("jekyll.tag-cloud :: tags:")
+      tags.each do |tag|
+          puts(tag)
+          puts(",")
+      end
+      tags_pairs=tags.map do |tag|
           count=0
           posts.docs.each do |post| # FIXME.
               post_tags=post.data["tags"]||[].to_set
-              count++ if post_tags.contains?(tag) # FIXME.
+              if post_tags.include?(tag) # FIXME.
+                  count++
+              end
           end
           [tag, count]
       end
