@@ -46,7 +46,7 @@ module Kramdown
                     latex_source<<"\\immediate\\openout\\frmdims=dimensions.tmp\n"
                     latex_source<<"\\immediate\\write\\frmdims{\\the\\dp\\frm}\n"
                     latex_source<<"\\immediate\\closeout\\frmdims\n"
-                    latex_source<<"\n\\begin{document}\\pagestyle{empty}\\usebox\frm\\end{document}"
+                    latex_source<<"\n\\begin{document}\\pagestyle{empty}\\usebox\\frm\\end{document}"
                     filename=Digest::MD5.hexdigest(formula_in_brackets)+".png"
                     full_filename=File.join(directory, filename)
 

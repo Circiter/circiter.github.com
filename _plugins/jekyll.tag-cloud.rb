@@ -62,7 +62,7 @@ module Jekyll
               post_tags=(post.data["tags"]||[]).to_set
               posts_count++ if post_tags.include?(tag)
           end
-          puts("tag="tag+"; posts_count="+posts_count)
+          puts("tag="+tag+"; posts_count="+posts_count)
           [tag, posts_count]
       end
       count=tags_pairs.map do |tag, count|
