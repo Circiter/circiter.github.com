@@ -60,19 +60,21 @@ module Jekyll
           posts_count=0
           posts.docs.each do |post|
               post_tags=(post.data["tags"]||[]).to_set
-              posts_count++ if post_tags.include?(tag)
+              posts_count=posts_count+1 if post_tags.include?(tag)
           end
-          puts("tag="+tag+"; posts_count="+posts_count)
           [tag, posts_count]
       end
-      count=tags_pairs.map do |tag, count|
-          [tag, count] if count>=threshold
+      count=tags_pairs.map do |tag, posts_count|
+          [tag, posts_count] if posts_count>=threshold
       end
 
       # clear nils if any
       count.compact!
 
-      puts("count="+count)
+      puts("count:")
+      count.each do |item|
+          puts(item)
+      end
 
       # get the minimum, and maximum tag count
       min, max = count.map(&:last).minmax
