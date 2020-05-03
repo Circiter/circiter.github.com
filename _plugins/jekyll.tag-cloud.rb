@@ -54,33 +54,25 @@ module Jekyll
 
     def render(context)
       # get an Array of [tag name, tag count] pairs
-      ############
       posts=context.registers[:site].collections["blog_posts"]
       tags=posts.docs.flat_map{|post| post.data["tags"]||[]}.to_set
-      puts("jekyll.tag-cloud :: tags:")
-      tags.each do |tag|
-          puts(tag)
-          puts(",")
-      end
       tags_pairs=tags.map do |tag|
-          count=0
-          posts.docs.each do |post| # FIXME.
-              post_tags=post.data["tags"]||[].to_set
-              count=count+1 if post_tags.include?(tag) # FIXME.
+          posts_count=0
+          posts.docs.each do |post|
+              post_tags=(post.data["tags"]||[]).to_set
+              posts_count++ if post_tags.include?(tag)
           end
-          [tag, count]
+          puts("tag="tag+"; posts_count="+posts_count)
+          [tag, posts_count]
       end
       count=tags_pairs.map do |tag, count|
-          [name, count] if count>=threshold
+          [tag, count] if count>=threshold
       end
-      ############
-      #count = context.registers[:site].tags.map do |name, posts|
-      #  [name, posts.count] if posts.count >= threshold
-      #end
-      ############
 
       # clear nils if any
       count.compact!
+
+      puts("count="+count)
 
       # get the minimum, and maximum tag count
       min, max = count.map(&:last).minmax
