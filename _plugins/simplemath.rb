@@ -75,14 +75,14 @@ module Kramdown
                             puts("dimensions:")
                             puts(File.read("dimensions.tmp"))
                             baseline_offset="1em"
-                            style="margin-bottom: -"+baseline_offset
+                            style="margin-bottom: -"+baseline_offset+";"
                             #result="<img src=\"/"+full_filename+"\" title=\""+formula+"\" />"
                             if display_mode==:block
                                 result=converter.format_as_block_html("img",
                                     {"src"=>"/"+full_filename, "title"=>formula, "border"=>0, "style"=>style}, "", 0);
                             else
                                 result=converter.format_as_span_html("img",
-                                    {"src"=>"/"+full_filename, "title"=>formula, "border"=>0; "style"=>style}, "");
+                                    {"src"=>"/"+full_filename, "title"=>formula, "border"=>0, "style"=>style}, "");
                             end
                             #puts "ok"
                         else
