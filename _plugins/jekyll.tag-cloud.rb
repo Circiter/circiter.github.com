@@ -71,11 +71,6 @@ module Jekyll
       # clear nils if any
       count.compact!
 
-      puts("count:")
-      count.each do |item|
-          puts(item)
-      end
-
       # get the minimum, and maximum tag count
       min, max = count.map(&:last).minmax
 
@@ -95,9 +90,9 @@ module Jekyll
         name, weight = tag
         size = size_min + ((size_max - size_min) * weight).to_f
         size = sprintf("%.#{@precision}f", size)
-        html << ", " if first==false
+        html << ", \n" if first==false
         first=false
-        html << "<a style='font-size: #{size}#{unit}' href='/tag/#{name}'>#{name}</a>\n"
+        html << "<a style='font-size: #{size}#{unit}' href='/tag/#{name}'>#{name}</a>"
       end
     end
 

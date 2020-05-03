@@ -238,7 +238,12 @@ img {
   margin: 0; /* Added. */
   padding: 0; /* Added. */
   %padding-bottom: -0.6em; /* Added. */
-  %border-radius: 5px;
+  border-radius: 5px;
+}
+
+img.latex { /* Added. */
+  vertical-align: middle;
+  border-radius: 0px;
 }
 
 /* Tables */

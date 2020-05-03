@@ -77,10 +77,10 @@ module Kramdown
                             #result="<img src=\"/"+full_filename+"\" title=\""+formula+"\" />"
                             if display_mode==:block
                                 result=converter.format_as_block_html("img",
-                                    {"src"=>"/"+full_filename, "title"=>formula, "border"=>0, "style"=>style}, "", 0);
+                                    {"src"=>"/"+full_filename, "title"=>formula, "border"=>0, "style"=>style, "class"=>"latex"}, "", 0);
                             else
                                 result=converter.format_as_span_html("img",
-                                    {"src"=>"/"+full_filename, "title"=>formula, "border"=>0, "style"=>style}, "");
+                                    {"src"=>"/"+full_filename, "title"=>formula, "border"=>0, "style"=>style, "class"=>"latex"}, "");
                             end
                             #puts "ok"
                         else

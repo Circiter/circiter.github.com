@@ -3,8 +3,6 @@ layout: default
 title: Дневник Circiter'а.
 ---
 
-[в процессе наполнения] {% icon fa-spinner fa-spin %}
-
 # circiter.tk || circiter.github.io
 
 Простой публичный дневник (блог).
@@ -23,8 +21,7 @@ title: Дневник Circiter'а.
 {% endfor %}
 
 <hr>
-Метки:
-{% tag_cloud font-size: 0.80 - 2.80em %}
+Облако меток: {% tag_cloud font-size: 0.80 - 2.80em %}
 
 <hr>
 

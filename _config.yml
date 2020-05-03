@@ -9,7 +9,8 @@ year: 2020
 
 remote-theme: pages-themes/hacker
 
-permalink: /:title/
+#permalink: /:title/
+permalink: /:title
 
 title: "Дневник Circiter'а"
 tagline: "Коллекция проектов, мыслей, идей."
