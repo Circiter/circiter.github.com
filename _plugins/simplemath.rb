@@ -72,9 +72,7 @@ module Kramdown
                             @@my_generated_files<<static_file
                             site.static_files<<static_file
                             #puts "finalizing"
-                            puts("dimensions:")
-                            puts(File.read("dimensions.tmp"))
-                            baseline_offset="1em"
+                            baseline_offset=File.read("dimensions.tmp")
                             style="margin-bottom: -"+baseline_offset+";"
                             #result="<img src=\"/"+full_filename+"\" title=\""+formula+"\" />"
                             if display_mode==:block

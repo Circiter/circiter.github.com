@@ -90,11 +90,14 @@ module Jekyll
       weight.sort_by! { rand }
 
       # reduce the Array of [tag name, tag weight] pairs to HTML
+      first=true
       weight.reduce("") do |html, tag|
         name, weight = tag
         size = size_min + ((size_max - size_min) * weight).to_f
         size = sprintf("%.#{@precision}f", size)
-        html << "<a style='font-size: #{size}#{unit}' href='/tags.html##{name}'>#{name}</a>\n"
+        html << ", " if first==false
+        first=false
+        html << "<a style='font-size: #{size}#{unit}' href='/tag/#{name}'>#{name}</a>\n"
       end
     end
 
