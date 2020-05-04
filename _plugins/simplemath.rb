@@ -75,7 +75,7 @@ module Kramdown
                             baseline_offset=File.read("dimensions.tmp")
                             # TODO: Consider to round up the baseline_offset.
                             style="margin-bottom: -"+baseline_offset+";"
-                            style="height: "+height+"; vertical-align: -"+baseline_offset+";";
+                            #style="height: "+height+"; vertical-align: -"+baseline_offset+";";
                             #result="<img src=\"/"+full_filename+"\" title=\""+formula+"\" />"
                             if display_mode==:block
                                 result=converter.format_as_block_html("img",
