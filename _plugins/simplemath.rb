@@ -79,11 +79,11 @@ module Kramdown
                             width="10pt"
                             IO.foreach("dimensions.tmp") do |line|
                                 if line =~ /^depth:\s+(.*?)$/
-                                    baseline_offset=[$1]
+                                    baseline_offset=$1
                                 elsif line =~ /^width:\s+(.*?)$/
-                                    width=[$1]
+                                    width=$1
                                 elsif line =~ /^height:\s+(.*?)$/
-                                    height=[$1]
+                                    height=$1
                                 end
                             end
                             puts("size = "+width+" x "+height)
