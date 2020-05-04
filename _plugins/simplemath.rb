@@ -90,8 +90,8 @@ module Kramdown
                             depth_pt_float=depth_pt.to_f
 
                             # Try to use ImageMagick's identify.
-                            system("identify -format %w"+full_filename+"> width.tmp")
-                            heigh_pixels=File.read("width.tmp");
+                            system("identify -ping -format %w"+full_filename+"> height.tmp")
+                            height_pixels=File.read("height.tmp");
 
                             conversion_factor=(height_pixels.to_f)/height_pt_float
                             depth_pixels=(depth_pt_float*conversion_factor).round.to_i #depth_pt_float*height_pixels/height_pt_float
