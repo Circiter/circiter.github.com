@@ -46,7 +46,7 @@ module Kramdown
                     latex_source<<"\\immediate\\openout\\frmdims=dimensions.tmp\n"
                     latex_source<<"\\immediate\\write\\frmdims{depth: \\the\\dp\\frm}\n"
                     latex_source<<"\\immediate\\write\\frmdims{height: \\the\\ht\\frm}\n"
-                    latex_source<<"\\immediate\\write\\frmdims{width: \\the\\wd\\frm}\n"
+                    #latex_source<<"\\immediate\\write\\frmdims{width: \\the\\wd\\frm}\n"
                     latex_source<<"\\immediate\\closeout\\frmdims\n"
                     latex_source<<"\n\\begin{document}\\pagestyle{empty}\\usebox\\frm\\end{document}"
                     filename=Digest::MD5.hexdigest(formula_in_brackets)+".png"
@@ -74,21 +74,33 @@ module Kramdown
                             @@my_generated_files<<static_file
                             site.static_files<<static_file
                             #puts "finalizing"
-                            baseline_offset="0pt" #File.read("dimensions.tmp")
-                            height="10pt"
-                            width="10pt"
+                            depth_pt="0pt" #File.read("dimensions.tmp")
+                            height_pt="10pt"
+                            #width="10pt"
                             IO.foreach("dimensions.tmp") do |line|
                                 if line =~ /^depth:\s+(.*?)$/
-                                    baseline_offset=$1
-                                elsif line =~ /^width:\s+(.*?)$/
-                                    width=$1
-                                elsif line =~ /^height:\s+(.*?)$/
-                                    height=$1
+                                    depth_pt=$1
+                                #elsif line =~ /^width:\s+(.*?)$/
+                                #    width=$1
+                                elsif line =~ /^height:\s+([0-9\.]*?)$/
+                                    height_pt=$1
                                 end
                             end
-                            # TODO: Consider to round up the baseline_offset.
+                            height_pt_float=height_pt.to_f
+                            depth_pt_float=depth_pt.to_f
+
+                            # Try to use ImageMagick's identify.
+                            system("identify -format %w"+full_filename+"> width.tmp")
+                            heigh_pixels=File.read("width.tmp");
+
+                            conversion_factor=(height_pixels.to_f)/height_pt_float
+                            depth_pixels=(depth_pt_float*conversion_factor).round.to_i #depth_pt_float*height_pixels/height_pt_float
+
+                            puts("height: "+height_pixels+"px; depth: "+depth_pixels+"px")
+
                             #style="margin-bottom: -"+baseline_offset+";"
-                            style="width: "+width+"; height: "+height+"; vertical-align: -"+baseline_offset+";";
+                            #style="width: "+width+"; height: "+height+"; vertical-align: -"+baseline_offset+";";
+                            style="height: "+height_pixels+"px; vertical-align: -"+depth_pixels+"px;";
                             #result="<img src=\"/"+full_filename+"\" title=\""+formula+"\" style=\""+style+"\" class=\"inline\" />"
                             if display_mode==:block
                                 result=converter.format_as_block_html("img",
