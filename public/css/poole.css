@@ -237,13 +237,11 @@ img {
   /*margin: 0 0 1rem;*/
   margin: 0; /* Added. */
   padding: 0; /* Added. */
-  %padding-bottom: -0.6em; /* Added. */
   border-radius: 5px;
 }
 
 img.inline { /* Added. */
-  /*vertical-align: middle;*/
-  vertical-align: baseline;
+  vertical-align: middle;
   border-radius: 0px;
 }
 

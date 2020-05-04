@@ -44,7 +44,9 @@ module Kramdown
                     latex_source<<formula_in_brackets
                     latex_source<<"}\n\\newwrite\\frmdims\n"
                     latex_source<<"\\immediate\\openout\\frmdims=dimensions.tmp\n"
-                    latex_source<<"\\immediate\\write\\frmdims{\\the\\dp\\frm}\n"
+                    latex_source<<"\\immediate\\write\\frmdims{depth: \\the\\dp\\frm}\n"
+                    latex_source<<"\\immediate\\write\\frmdims{height: \\the\\ht\\frm}\n"
+                    latex_source<<"\\immediate\\write\\frmdims{width: \\the\\wd\\frm}\n"
                     latex_source<<"\\immediate\\closeout\\frmdims\n"
                     latex_source<<"\n\\begin{document}\\pagestyle{empty}\\usebox\\frm\\end{document}"
                     filename=Digest::MD5.hexdigest(formula_in_brackets)+".png"
@@ -72,10 +74,23 @@ module Kramdown
                             @@my_generated_files<<static_file
                             site.static_files<<static_file
                             #puts "finalizing"
-                            baseline_offset=File.read("dimensions.tmp")
+                            baseline_offset="0pt" #File.read("dimensions.tmp")
+                            height="10pt"
+                            width="10pt"
+                            IO.foreach("dimensions.tmp") do |line|
+                                if line =~ /^depth:\s+(.*?)$/
+                                    baseline_offset=[$1]
+                                elsif line =~ /^width:\s+(.*?)$/
+                                    width=[$1]
+                                elsif line =~ /^height:\s+(.*?)$/
+                                    height=[$1]
+                                end
+                            end
+                            puts("size = "+width+" x "+height)
+                            puts("depth = "+baseline_offset)
                             # TODO: Consider to round up the baseline_offset.
-                            style="margin-bottom: -"+baseline_offset+";"
-                            #style="height: "+height+"; vertical-align: -"+baseline_offset+";";
+                            #style="margin-bottom: -"+baseline_offset+";"
+                            style="width: "+width+"; height: "+height+"; vertical-align: -"+baseline_offset+";";
                             #result="<img src=\"/"+full_filename+"\" title=\""+formula+"\" />"
                             if display_mode==:block
                                 result=converter.format_as_block_html("img",
