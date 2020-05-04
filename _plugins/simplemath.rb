@@ -86,12 +86,10 @@ module Kramdown
                                     height=$1
                                 end
                             end
-                            puts("size = "+width+" x "+height)
-                            puts("depth = "+baseline_offset)
                             # TODO: Consider to round up the baseline_offset.
                             #style="margin-bottom: -"+baseline_offset+";"
                             style="width: "+width+"; height: "+height+"; vertical-align: -"+baseline_offset+";";
-                            #result="<img src=\"/"+full_filename+"\" title=\""+formula+"\" />"
+                            #result="<img src=\"/"+full_filename+"\" title=\""+formula+"\" style=\""+style+"\" class=\"inline\" />"
                             if display_mode==:block
                                 result=converter.format_as_block_html("img",
                                     {"src"=>"/"+full_filename, "title"=>formula, "border"=>0,
