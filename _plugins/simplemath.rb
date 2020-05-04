@@ -73,14 +73,18 @@ module Kramdown
                             site.static_files<<static_file
                             #puts "finalizing"
                             baseline_offset=File.read("dimensions.tmp")
+                            # TODO: Consider to round up the baseline_offset.
                             style="margin-bottom: -"+baseline_offset+";"
+                            style="height: "+height+"; vertical-align: -"+baseline_offset+";";
                             #result="<img src=\"/"+full_filename+"\" title=\""+formula+"\" />"
                             if display_mode==:block
                                 result=converter.format_as_block_html("img",
-                                    {"src"=>"/"+full_filename, "title"=>formula, "border"=>0, "style"=>style, "class"=>"latex"}, "", 0);
+                                    {"src"=>"/"+full_filename, "title"=>formula, "border"=>0,
+                                    "style"=>style, "class"=>"inline"}, "", 0);
                             else
                                 result=converter.format_as_span_html("img",
-                                    {"src"=>"/"+full_filename, "title"=>formula, "border"=>0, "style"=>style, "class"=>"latex"}, "");
+                                    {"src"=>"/"+full_filename, "title"=>formula, "border"=>0,
+                                    "style"=>style, "class"=>"inline"}, "");
                             end
                             #puts "ok"
                         else
@@ -134,11 +138,14 @@ Jekyll::Hooks.register(:site, :after_init) do |site|
 end
 
 def fix_math(content)
+    # FIXME: Try to insert &#8288; (word-joiner) after @@@@
+    # if the following character is not space.
+    # FIXME: gsub(/\(\$\//, "(@@@@@\/").
     return content
-        .gsub(/\$\$/, "@@@@").gsub(/ \$/, " @@@@").gsub(/\$ /, "@@@@ ").gsub(/\$\./, "@@@@\.")
-        .gsub(/\$\?/, "@@@@?").gsub(/\$,/, "@@@@,").gsub(/\$:/, "@@@@:").gsub(/\$-/, "@@@@-")
-        .gsub(/\(\$\//, "(@@@@/").gsub(/\$\)/, "@@@@)").gsub(/^\$/, "@@@@").gsub(/\$$/, "@@@@")
-        .gsub(/@@@@/, "\$\$")
+        .gsub(/\$\$/, "@@@@").gsub(/ \$/, " @@@@").gsub(/\$ /, "@@@@ ").gsub(/\$\./, "@@@@@\.")
+        .gsub(/\$\?/, "@@@@@?").gsub(/\$,/, "@@@@@,").gsub(/\$:/, "@@@@@:").gsub(/\$-/, "@@@@@-")
+        .gsub(/\(\$\//, "(@@@@@\/").gsub(/\$\)/, "@@@@@)").gsub(/^\$/, "@@@@").gsub(/\$$/, "@@@@")
+        .gsub(/@@@@@/, "\$\$&#8288;").gsub(/@@@@/, "\$\$")
 end
 
 Jekyll::Hooks.register(:pages, :pre_render) do |target, payload|

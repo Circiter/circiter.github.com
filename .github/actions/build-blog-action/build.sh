@@ -2,12 +2,13 @@
 
 apk update
 apk upgrade
+# FIXME: Is the nodejs really needed?
 apk add zlib-dev build-base libxml2-dev libxslt-dev \
     readline-dev libffi-dev ruby-dev yaml-dev zlib \
     libxml2 build-base ruby-io-console readline libxslt \
     ruby yaml libffi nodejs ruby-irb ruby-json ruby-rake \
     git bash curl ttf-freefont fontconfig \
-    bash git ruby-dev ruby-bundler ruby-bigdecimal imagemagick
+    ruby-dev ruby-bundler ruby-bigdecimal imagemagick
 gem install bundler json nokogiri jekyll
 rm -rf /usr/lib/ruby/gems/*/cache/*.gem
 

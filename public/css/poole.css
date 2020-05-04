@@ -241,8 +241,9 @@ img {
   border-radius: 5px;
 }
 
-img.latex { /* Added. */
-  vertical-align: middle;
+img.inline { /* Added. */
+  /*vertical-align: middle;*/
+  vertical-align: baseline;
   border-radius: 0px;
 }
 
