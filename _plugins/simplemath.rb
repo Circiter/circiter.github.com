@@ -78,11 +78,12 @@ module Kramdown
                             height_pt="10pt"
                             #width="10pt"
                             IO.foreach("dimensions.tmp") do |line|
-                                if line =~ /^depth:\s+([0-9\.]*?)$/
+                                puts("line="+line)
+                                if line =~ /^depth:\s+(\d+[,.]\d+)[a-b]*$/
                                     depth_pt=$1
                                 #elsif line =~ /^width:\s+(.*?)$/
                                 #    width=$1
-                                elsif line =~ /^height:\s+([0-9\.]*?)$/
+                                elsif line =~ /^height:\s+(\d+[,.]\d+)[a-b]*$/
                                     height_pt=$1
                                 end
                             end
