@@ -105,6 +105,7 @@ module Kramdown
                             #style="width: "+width+"; height: "+height+"; vertical-align: -"+baseline_offset+";";
                             style="height: "+height_pixels+"; vertical-align: -"+depth+";";
                             #result="<img src=\"/"+full_filename+"\" title=\""+formula+"\" style=\""+style+"\" class=\"inline\" />"
+                            # TODO: Add escapement of formula (to use as the title attribute).
                             if display_mode==:block
                                 result=converter.format_as_block_html("img",
                                     {"src"=>"/"+full_filename, "title"=>formula, "border"=>0,
