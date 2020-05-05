@@ -96,11 +96,13 @@ module Kramdown
                             conversion_factor=(height_pixels.to_f)/height_pt_float
                             depth_pixels=(depth_pt_float*conversion_factor).round.to_i #depth_pt_float*height_pixels/height_pt_float
 
-                            puts("height: "+height_pixels+"px; depth: "+depth_pixels+"px")
+                            height=height_pixels.to_s
+                            depth=depth_pixels.to_s
+                            puts("height: "+height+"px; depth: "+depth+"px")
 
                             #style="margin-bottom: -"+baseline_offset+";"
                             #style="width: "+width+"; height: "+height+"; vertical-align: -"+baseline_offset+";";
-                            style="height: "+height_pixels+"px; vertical-align: -"+depth_pixels+"px;";
+                            style="height: "+height+"; vertical-align: -"+depth+";";
                             #result="<img src=\"/"+full_filename+"\" title=\""+formula+"\" style=\""+style+"\" class=\"inline\" />"
                             if display_mode==:block
                                 result=converter.format_as_block_html("img",
