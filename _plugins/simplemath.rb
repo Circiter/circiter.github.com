@@ -80,31 +80,31 @@ module Kramdown
                             IO.foreach("dimensions.tmp") do |line|
                                 puts("line="+line)
                                 if line =~ /^depth:\s+(\d*\.?\d+)[a-z]*$/
-                                    puts("depth readed: "+$1)
+                                    #puts("depth readed: "+$1)
                                     depth_pt=$1
                                 #elsif line =~ /^width:\s+(.*?)$/
                                 #    width=$1
                                 elsif line =~ /^height:\s+(\d*\.?\d+)[a-z]*$/
-                                    puts("height readed: "+$1)
+                                    #puts("height readed: "+$1)
                                     height_pt=$1
-                                else
-                                    puts("line \""+line+"\" does not match anything")
+                                #else
+                                #    puts("line \""+line+"\" does not match anything")
                                 end
                             end
                             height_pt_float=height_pt.to_f
                             depth_pt_float=depth_pt.to_f
-                            puts("depth_pt="+depth_pt+"pt; height_pt="+height_pt+"pt")
+                            #puts("depth_pt="+depth_pt+"pt; height_pt="+height_pt+"pt")
 
                             # Try to use ImageMagick's identify.
                             system("identify -ping -format %w "+full_filename+" > height.tmp")
                             height_pixels=File.read("height.tmp");
 
                             conversion_factor=(height_pixels.to_f)/height_pt_float
-                            puts("conversion_factor="+conversion_factor.to_s)
+                            #puts("conversion_factor="+conversion_factor.to_s)
                             depth_pixels=(depth_pt_float*conversion_factor).round.to_i #depth_pt_float*height_pixels/height_pt_float
 
                             depth=depth_pixels.to_s
-                            puts("height: "+height_pixels+"px; depth: "+depth+"px")
+                            #puts("height: "+height_pixels+"px; depth: "+depth+"px")
 
                             #style="margin-bottom: -"+baseline_offset+";"
                             #style="width: "+width+"; height: "+height+"; vertical-align: -"+baseline_offset+";";

@@ -37,7 +37,7 @@ module Kramdown
       # @return [String] an HTML fragment representing this element
       # @api private
       def convert_easy_link(el, indent)
-        "#{' '*indent}<p><a href=\"#{el.value}\">#{el.value}</a></p>"
+        "#{' '*indent}<a href=\"#{el.value}\">#{el.value}</a>"
       end
     end
   end
