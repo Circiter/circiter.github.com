@@ -96,7 +96,7 @@ module Kramdown
                             puts("depth_pt="+depth_pt+"pt; height_pt="+height_pt+"pt")
 
                             # Try to use ImageMagick's identify.
-                            system("identify -ping -format %w"+full_filename+"> height.tmp")
+                            system("identify -ping -format %w "+full_filename+" > height.tmp")
                             height_pixels=File.read("height.tmp");
 
                             conversion_factor=(height_pixels.to_f)/height_pt_float
