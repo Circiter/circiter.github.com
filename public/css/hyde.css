@@ -114,6 +114,11 @@ a.sidebar-nav-item:focus {
   }
 }
 
+footer {
+  padding: 2rem 1rem;
+  color: rgba(255,255,255,.5);
+  background-color: #202020;
+}
 
 /* Container
  *
