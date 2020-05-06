@@ -77,7 +77,6 @@ module Kramdown
                             depth_pt="0pt"
                             height_pt="10pt"
                             IO.foreach("dimensions.tmp") do |line|
-                                puts("line="+line)
                                 if line =~ /^([a-z]*):\s+(\d*\.?\d+)[a-z]*$/
                                     if $1 == "depth"
                                         depth_pt=$2
@@ -106,17 +105,17 @@ module Kramdown
                             depth=depth_pixels.to_s
 
                             #style="margin-bottom: -"+depth+"px;"
-                            style="height: "+height_pixels+"; vertical-align: -"+depth+";";
+                            style="height: "+height_pixels+"px; vertical-align: -"+depth+"px;";
                             #result="<img src=\"/"+full_filename+"\" title=\""+formula+"\" style=\""+style+"\" class=\"inline\" />"
                             # TODO: Add escapement of formula (to use as the title attribute).
                             if display_mode==:block
                                 result=converter.format_as_block_html("img",
                                     {"src"=>"/"+full_filename, "title"=>formula, "border"=>0,
-                                    "style"=>style, "class"=>"inline"}, "", 0);
+                                    "class"=>"inline", "style"=>style}, "", 0);
                             else
                                 result=converter.format_as_span_html("img",
                                     {"src"=>"/"+full_filename, "title"=>formula, "border"=>0,
-                                    "style"=>style, "class"=>"inline"}, "");
+                                    "class"=>"inline", "style"=>style}, "");
                             end
                             #puts "ok"
                         else
@@ -174,10 +173,10 @@ def fix_math(content)
     # if the following character is not space.
     # FIXME: gsub(/\(\$\//, "(@@@@@\/").
     return content
-        .gsub(/\$\$/, "@@@@").gsub(/ \$/, " @@@@").gsub(/\$ /, "@@@@ ").gsub(/\$\./, "@@@@@\.")
+        .gsub(/\$\$/, "@@@@").gsub(/ \$/, " @@@@").gsub(/\$ /, "@@@@ ").gsub(/\$\./, "@@@@@.")
         .gsub(/\$\?/, "@@@@@?").gsub(/\$,/, "@@@@@,").gsub(/\$:/, "@@@@@:").gsub(/\$-/, "@@@@@-")
         .gsub(/\(\$\//, "(@@@@@\/").gsub(/\$\)/, "@@@@@)").gsub(/^\$/, "@@@@").gsub(/\$$/, "@@@@")
-        .gsub(/@@@@@/, "\$\$&#8288;").gsub(/@@@@/, "\$\$")
+        .gsub(/@@@@@/, "$$\&#8288;").gsub(/@@@@/, "$$")
 end
 
 Jekyll::Hooks.register(:pages, :pre_render) do |target, payload|
@@ -188,6 +187,6 @@ end
 
 Jekyll::Hooks.register(:blog_posts, :pre_render) do |target, payload|
     if target.data["ext"]==".md"
-        target.content=fix_math(target.content)
+        target.content="zzzzzzzz"+fix_math(target.content)
     end
 end
