@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# TODO: Ignore pull requests.
+
 apk update
 apk upgrade
 # FIXME: Is the nodejs really needed?

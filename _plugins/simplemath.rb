@@ -46,7 +46,6 @@ module Kramdown
                     latex_source<<"\\immediate\\openout\\frmdims=dimensions.tmp\n"
                     latex_source<<"\\immediate\\write\\frmdims{depth: \\the\\dp\\frm}\n"
                     latex_source<<"\\immediate\\write\\frmdims{height: \\the\\ht\\frm}\n"
-                    #latex_source<<"\\immediate\\write\\frmdims{width: \\the\\wd\\frm}\n"
                     latex_source<<"\\immediate\\closeout\\frmdims\n"
                     latex_source<<"\n\\begin{document}\\pagestyle{empty}\\usebox\\frm\\end{document}"
                     filename=Digest::MD5.hexdigest(formula_in_brackets)+".png"
@@ -74,40 +73,39 @@ module Kramdown
                             @@my_generated_files<<static_file
                             site.static_files<<static_file
                             #puts "finalizing"
-                            depth_pt="0pt" #File.read("dimensions.tmp")
+
+                            depth_pt="0pt"
                             height_pt="10pt"
-                            #width="10pt"
                             IO.foreach("dimensions.tmp") do |line|
                                 puts("line="+line)
-                                if line =~ /^depth:\s+(\d*\.?\d+)[a-z]*$/
-                                    #puts("depth readed: "+$1)
-                                    depth_pt=$1
-                                #elsif line =~ /^width:\s+(.*?)$/
-                                #    width=$1
-                                elsif line =~ /^height:\s+(\d*\.?\d+)[a-z]*$/
-                                    #puts("height readed: "+$1)
-                                    height_pt=$1
-                                #else
-                                #    puts("line \""+line+"\" does not match anything")
+                                if line =~ /^([a-z]*):\s+(\d*\.?\d+)[a-z]*$/
+                                    if $1 == "depth"
+                                        depth_pt=$2
+                                    elsif $1 == "height"
+                                        height_pt=$2
+                                    end
                                 end
                             end
                             height_pt_float=height_pt.to_f
                             depth_pt_float=depth_pt.to_f
-                            #puts("depth_pt="+depth_pt+"pt; height_pt="+height_pt+"pt")
 
-                            # Try to use ImageMagick's identify.
-                            system("identify -ping -format %w "+full_filename+" > height.tmp")
+                            # For some reason the depth obtained from the latex
+                            # does not give a correct vertical position for a
+                            # image on an html-page. But nevertheless we can use
+                            # the proportionality between actual size of the image
+                            # and the reported dimensions (including the depth) to
+                            # convert from pt to px.
+
+                            # Try to use ImageMagick's identify to get the height in pixels.
+                            system("identify -ping -format %h "+full_filename+" > height.tmp")
                             height_pixels=File.read("height.tmp");
 
                             conversion_factor=(height_pixels.to_f)/height_pt_float
-                            #puts("conversion_factor="+conversion_factor.to_s)
-                            depth_pixels=(depth_pt_float*conversion_factor).round.to_i #depth_pt_float*height_pixels/height_pt_float
+                            depth_pixels=(depth_pt_float*conversion_factor).round.to_i
 
                             depth=depth_pixels.to_s
-                            #puts("height: "+height_pixels+"px; depth: "+depth+"px")
 
-                            #style="margin-bottom: -"+baseline_offset+";"
-                            #style="width: "+width+"; height: "+height+"; vertical-align: -"+baseline_offset+";";
+                            #style="margin-bottom: -"+depth+"px;"
                             style="height: "+height_pixels+"; vertical-align: -"+depth+";";
                             #result="<img src=\"/"+full_filename+"\" title=\""+formula+"\" style=\""+style+"\" class=\"inline\" />"
                             # TODO: Add escapement of formula (to use as the title attribute).
