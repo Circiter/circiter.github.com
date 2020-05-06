@@ -57,7 +57,11 @@ plugins:
   - jekyll-optional-front-matter
   - jekyll-titles-from-headings
   - jekyll_inline_highlight
+  - jekyll-hyphenate_filter
   #- jekyll-default-layout
+
+hyphenate_filter:
+  language: ru
 
 optional_front_matter:
   remove_originals: true

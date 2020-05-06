@@ -171,12 +171,13 @@ end
 def fix_math(content)
     # FIXME: Try to insert &#8288; (word-joiner) after @@@@
     # if the following character is not space.
-    # FIXME: gsub(/\(\$\//, "(@@@@@\/").
+    # FIXME: gsub(/\(\$\//, "(@@@@\/").
     return content
-        .gsub(/\$\$/, "@@@@").gsub(/ \$/, " @@@@").gsub(/\$ /, "@@@@ ").gsub(/\$\./, "@@@@@.")
-        .gsub(/\$\?/, "@@@@@?").gsub(/\$,/, "@@@@@,").gsub(/\$:/, "@@@@@:").gsub(/\$-/, "@@@@@z-")
-        .gsub(/\(\$\//, "(@@@@@\/").gsub(/\$\)/, "@@@@@)").gsub(/^\$/, "@@@@").gsub(/\$$/, "@@@@")
-        .gsub(/@@@@@/, "$$\&#8288;").gsub(/@@@@/, "$$")
+        .gsub(/\$\$/, "@@@@").gsub(/ \$/, " @@@@").gsub(/\$ /, "@@@@ ").gsub(/\$\./, "@@@@.")
+        .gsub(/\$\?/, "@@@@?").gsub(/\$,/, "@@@@,").gsub(/\$:/, "@@@@:").gsub(/\$-/, "@@@@-")
+        .gsub(/\(\$\//, "(@@@@\/").gsub(/\$\)/, "@@@@)").gsub(/^\$/, "@@@@").gsub(/\$$/, "@@@@")
+        #.gsub(/@@@@@/, "$$\&#8288;")
+        .gsub(/@@@@/, "$$")
 end
 
 Jekyll::Hooks.register(:pages, :pre_render) do |target, payload|
