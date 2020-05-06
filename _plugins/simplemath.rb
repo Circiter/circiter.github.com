@@ -174,7 +174,7 @@ def fix_math(content)
     # FIXME: gsub(/\(\$\//, "(@@@@@\/").
     return content
         .gsub(/\$\$/, "@@@@").gsub(/ \$/, " @@@@").gsub(/\$ /, "@@@@ ").gsub(/\$\./, "@@@@@.")
-        .gsub(/\$\?/, "@@@@@?").gsub(/\$,/, "@@@@@,").gsub(/\$:/, "@@@@@:").gsub(/\$-/, "@@@@@-")
+        .gsub(/\$\?/, "@@@@@?").gsub(/\$,/, "@@@@@,").gsub(/\$:/, "@@@@@:").gsub(/\$-/, "@@@@@z-")
         .gsub(/\(\$\//, "(@@@@@\/").gsub(/\$\)/, "@@@@@)").gsub(/^\$/, "@@@@").gsub(/\$$/, "@@@@")
         .gsub(/@@@@@/, "$$\&#8288;").gsub(/@@@@/, "$$")
 end
@@ -187,6 +187,6 @@ end
 
 Jekyll::Hooks.register(:blog_posts, :pre_render) do |target, payload|
     if target.data["ext"]==".md"
-        target.content="zzzzzzzz"+fix_math(target.content)
+        target.content=fix_math(target.content)
     end
 end
