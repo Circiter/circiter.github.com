@@ -1,6 +1,7 @@
 require "kramdown/converter"
 require "fileutils"
 require "digest"
+require "erb"
 
 # FIXME: module Kramdown::Converter::MathEngine::SimpleMath
 module Kramdown
@@ -107,14 +108,16 @@ module Kramdown
                             #style="margin-bottom: -"+depth+"px;"
                             style="height: "+height_pixels+"px; vertical-align: -"+depth+"px;";
                             #result="<img src=\"/"+full_filename+"\" title=\""+formula+"\" style=\""+style+"\" class=\"inline\" />"
-                            # TODO: Add escapement of formula (to use as the title attribute).
+                            #title=CGI.escape(formula) # FIXME.
+                            #title=ERB::Util.url_encode(formula) # FIXME.
+                            title=ERB::Util.html_escape(formula) # FIXME.
                             if display_mode==:block
                                 result=converter.format_as_block_html("img",
-                                    {"src"=>"/"+full_filename, "title"=>formula, "border"=>0,
+                                    {"src"=>"/"+full_filename, "title"=>title, "border"=>0,
                                     "class"=>"inline", "style"=>style}, "", 0);
                             else
                                 result=converter.format_as_span_html("img",
-                                    {"src"=>"/"+full_filename, "title"=>formula, "border"=>0,
+                                    {"src"=>"/"+full_filename, "title"=>title, "border"=>0,
                                     "class"=>"inline", "style"=>style}, "");
                             end
                             #puts "ok"
