@@ -3,10 +3,26 @@ layout: default
 title: "Сообщения с меткой {{ page.tag }}"
 ---
 
+<h1>{{ page.title }}</h1>
+
 <ul>
-{% for post in site.blog_posts %}
-{% if post.tags contains page.tag %}
-<li><a class="post" href="{{ post.url }}">{{ post.title }}</a></li.
-{% endif %}
-{% endfor %}
+   {% for post in site.blog_posts %}
+      {% if post.tags contains page.tag %}
+         <li><a class="post" href="{{ post.url }}">{{ post.title }}</a></li.
+      {% endif %}
+   {% endfor %}
 </ul>
+
+---
+layout: default
+title: "Сообщения с меткой {{ page.tag }}"
+---
+<!doctype html>
+<html>
+    <head>
+        <title>Tag: {{ page.tag }}</title>
+    </head>
+    <body>
+        <h1>Tag: {{ page.tag }}</h1>
+    </body>
+</html>
