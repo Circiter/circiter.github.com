@@ -63,6 +63,12 @@ plugins:
 hyphenate_filter:
   language: ru
 
+scholar:
+  style: mla
+  locale: ru
+  source: ./_bibliography
+  bibliography: bibliography.bib
+
 optional_front_matter:
   remove_originals: true
 

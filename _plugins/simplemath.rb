@@ -176,8 +176,8 @@ def fix_math(content)
         .gsub(/\$\$/, "@@@@").gsub(/ \$/, " @@@@").gsub(/\$ /, "@@@@ ").gsub(/\$\./, "@@@@.")
         .gsub(/\$\?/, "@@@@?").gsub(/\$,/, "@@@@,").gsub(/\$:/, "@@@@:").gsub(/\$-/, "@@@@-")
         .gsub(/\(\$\//, "(@@@@\/").gsub(/\$\)/, "@@@@)").gsub(/^\$/, "@@@@").gsub(/\$$/, "@@@@")
-        #.gsub(/@@@@@/, "$$\&#8288;")
         .gsub(/@@@@/, "$$")
+        #.gsub(/@@@@@/, "$$\&#8288;")
 end
 
 Jekyll::Hooks.register(:pages, :pre_render) do |target, payload|
