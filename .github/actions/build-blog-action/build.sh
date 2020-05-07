@@ -11,10 +11,11 @@ apk add zlib-dev build-base libxml2-dev libxslt-dev \
     ruby yaml libffi nodejs ruby-irb ruby-json ruby-rake \
     git bash curl ttf-freefont fontconfig \
     ruby-dev ruby-bundler ruby-bigdecimal imagemagick
-gem install bundler json nokogiri jekyll
-rm -rf /usr/lib/ruby/gems/*/cache/*.gem
+#gem install bundler json nokogiri jekyll
+gem install bundler json jekyll
 
-bundle clean
+#rm -rf /usr/lib/ruby/gems/*/cache/*.gem
+#bundle clean
 
 #bundle config <name> <value>
 
