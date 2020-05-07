@@ -14,6 +14,8 @@ apk add zlib-dev build-base libxml2-dev libxslt-dev \
 gem install bundler json nokogiri jekyll
 rm -rf /usr/lib/ruby/gems/*/cache/*.gem
 
+bundle clean
+
 #bundle config <name> <value>
 
 cp .gemrc $HOME/

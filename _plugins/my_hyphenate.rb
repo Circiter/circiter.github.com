@@ -31,7 +31,7 @@ module Jekyll
             end
         end
 
-        def hyphenate(content)
+        def my_hyphenate(content)
             hyphenator=Hyphenator.new()
             hyphenator.hyphenate(content)
         end

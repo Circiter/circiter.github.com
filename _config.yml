@@ -78,7 +78,7 @@ titles_from_headings:
 
 encoding: "UTF-8"
 
-include: [eq]
+include: [eq, public]
 exclude: [Gemfile, Gemfile.lock, .github, .gitignore, .gemrc]
 
 collections:
