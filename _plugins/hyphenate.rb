@@ -24,7 +24,7 @@ module Jekyll
                 words.each do |word|
                     #regex=/#{Regexp.escape(word)}(?!\z)/
                     regex=/#{word}(?!\z)/
-                    hyphenate_word=@hyphenator.visualize(word, "&shy;")
+                    hyphenated_word=@hyphenator.visualize(word, "&shy;")
                     #text.gsub!(/#{word}/hyphenated_word)
                     text.gsub!(regex, hyphenated_word)
                 end
