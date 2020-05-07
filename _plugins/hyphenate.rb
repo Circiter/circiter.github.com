@@ -4,7 +4,7 @@ require "text/hyphen"
 # Based on jekyll-hyphenate_filter.
 
 module Jekyll
-    module MyHyphenateFilter
+    module HyphenateFilter
         class Hyphenator
             def initialize()
                 @hyphenator=Text::Hyphen.new(language: "ru", left: 2, right: 2)
@@ -20,7 +20,7 @@ module Jekyll
             end
 
             def hyphenate_text(text)
-                word=text.split
+                words=text.split
                 words.each do |word|
                     #regex=/#{Regexp.escape(word)}(?!\z)/
                     regex=/#{word}(?!\z)/
@@ -31,11 +31,11 @@ module Jekyll
             end
         end
 
-        def my_hyphenate(content)
+        def hyphenate(content)
             hyphenator=Hyphenator.new()
             hyphenator.hyphenate(content)
         end
     end
 end
 
-Liquid::Template.register_filter(Jekyll::MyHyphenateFilter)
+Liquid::Template.register_filter(Jekyll::HyphenateFilter)
