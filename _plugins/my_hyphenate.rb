@@ -4,10 +4,10 @@ require "text/hyphen"
 # Based on jekyll-hyphenate_filter.
 
 module Jekyll
-    module HyphenateFilter
+    module MyHyphenateFilter
         class Hyphenator
             def initialize()
-                @hyphenator=Text::Hyphen.new("ru", 2, 2)
+                @hyphenator=Text::Hyphen.new(language: "ru", left: 2, right: 2)
             end
 
             def hyphenate(content)
@@ -38,4 +38,4 @@ module Jekyll
     end
 end
 
-Liquid::Template.register_filter(Jekyll::HyphenateFilter)
+Liquid::Template.register_filter(Jekyll::MyHyphenateFilter)
