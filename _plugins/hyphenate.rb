@@ -27,16 +27,18 @@ module Jekyll
 
                     # FIXME.
                     stripped_word=word.gsub(/[\(\)\[\],\.\?\!\\\/]/, "")
+                    puts("stripped_word="+stripped_word)
                     #stripped_word=word
                     #stripped_word["("]=""
                     #stripped_word[")"]=""
 
-                    hyphenated_word=@hyphenator.visualize(stripped_word, "&shy;")
+                    if Regexp.escape(stripped_word)==stripped_word do
+                        hyphenated_word=@hyphenator.visualize(stripped_word, "&shy;")
                     #text.gsub!(/#{word}/, hyphenated_word)
                     #text.gsub!(regex, hyphenated_word)
                     #text.gsub!(/#{stripped_word}/, hyphenated_word)
-                    text.gsub!(stripped_word, hyphenated_word)
-
+                        text.gsub!(stripped_word, hyphenated_word)
+                    end
                     #while text[stripped_word]!="" do
                     #    text[stripped_word]="@"
                     #end
