@@ -32,7 +32,7 @@ module Jekyll
                     #stripped_word["("]=""
                     #stripped_word[")"]=""
 
-                    if Regexp.escape(stripped_word)==stripped_word do
+                    if Regexp.escape(stripped_word)==stripped_word
                         hyphenated_word=@hyphenator.visualize(stripped_word, "&shy;")
                     #text.gsub!(/#{word}/, hyphenated_word)
                     #text.gsub!(regex, hyphenated_word)
