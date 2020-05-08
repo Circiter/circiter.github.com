@@ -28,7 +28,7 @@ module Jekyll
                     # FIXME.
                     stripped_word=word.gsub(/\(/, "").gsub(/\./, "")
                         .gsub(/\)/, "").gsub(/,/, "").gsub(/\?/,"")
-                        .gsub(/!/, "")
+                        .gsub(/!/, "").gsub(/\[/, "").gsub(/\]/, "")
 
                     hyphenated_word=@hyphenator.visualize(stripped_word, "&shy;")
                     #text.gsub!(/#{word}/, hyphenated_word)
