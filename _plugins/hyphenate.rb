@@ -23,10 +23,15 @@ module Jekyll
                 words=text.split
                 words.each do |word|
                     #regex=/#{Regexp.escape(word)}(?!\z)/
-                    regex=/#{word}(?!\z)/
-                    hyphenated_word=@hyphenator.visualize(word, "&shy;")
-                    #text.gsub!(/#{word}/hyphenated_word)
-                    text.gsub!(regex, hyphenated_word)
+                    #regex=/#{word}(?!\z)/
+
+                    # FIXME.
+                    stripped_word=word.gsub(/\(/, "").gsub(/\./, "")
+
+                    hyphenated_word=@hyphenator.visualize(stripped_word, "&shy;")
+                    #text.gsub!(/#{word}/, hyphenated_word)
+                    #text.gsub!(regex, hyphenated_word)
+                    text.gsub!(/#{stripped_word}/, hyphenated_word)
                 end
             end
         end
