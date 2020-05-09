@@ -12,7 +12,7 @@ apk add zlib-dev build-base libxml2-dev libxslt-dev \
     git bash curl ttf-freefont fontconfig \
     ruby-dev ruby-bundler ruby-bigdecimal imagemagick
 #gem install bundler json nokogiri jekyll
-gem install bundler json nokogiri jekyll
+gem install bundler json jekyll
 
 #rm -rf /usr/lib/ruby/gems/*/cache/*.gem
 #bundle clean

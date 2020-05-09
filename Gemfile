@@ -2,8 +2,8 @@ source "https://rubygems.org"
 
 #gem "json"
 gem "pygments.rb"
+gem "nokogiri"
 gem "text-hyphen"
-#gem "nokogiri"
 #gem "jekyll"
 
 group :jekyll_plugins do
