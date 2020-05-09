@@ -69,7 +69,7 @@ module Kramdown
                             #convert test.png -background 'rgba(0,0,0,0)' test1.png
                             #site=Jekyll.sites[0]
                             site=@@my_site
-                            puts("site.source="+site.source)
+                            #puts("site.source="+site.source)
                             static_file=Jekyll::StaticFile.new(site, site.source, directory, filename)
                             @@my_generated_files<<static_file
                             site.static_files<<static_file
