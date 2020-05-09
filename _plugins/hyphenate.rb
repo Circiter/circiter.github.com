@@ -15,7 +15,7 @@ module Jekyll
                 #html=fragment.inner_html
                 fragment.css("p").each do |element|
                     element.traverse do |node|
-                        node.content=hyphenate_text(node.to_s) if node.text?
+                        #node.content=hyphenate_text(node.to_s) if node.text?
                     end
                 end
                 fragment.to_s
