@@ -7,11 +7,12 @@ module Jekyll
     module HyphenateFilter
         class Hyphenator
             def initialize()
-                @hyphenator=Text::Hyphen.new(language: "ru", left: 2, right: 2)
+                @hyphenator=Text::Hyphen.new(:language=>"ru", :left=>2, :right=>2)
             end
 
             def hyphenate(content)
                 fragment=Nokogiri::HTML::DocumentFragment.parse(content)
+                #html=fragment.inner_html
                 fragment.css("p").each do |element|
                     element.traverse do |node|
                         node.content=hyphenate_text(node.to_s) if node.text?
@@ -21,10 +22,11 @@ module Jekyll
 
             def hyphenate_text(text)
                 words=text.split(" ").map do |word|
-                    stripped_word=word.gsub(/[\(\)\[\],\.\?\!\\\/]/, "")
+                    stripped_word=word.gsub(/[\(\)\[\],\.\?\!\\\/:\'\"]/).gsub(/\d/)
                     if Regexp.escape(stripped_word)==stripped_word
                         puts("word to hyphenate = "+stripped_word)
-                        @hyphenator.visualize(stripped_word, "&shy;")
+                        #@hyphenator.visualize(stripped_word, "&shy;")
+                        word
                     else
                         word
                     end
