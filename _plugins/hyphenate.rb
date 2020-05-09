@@ -18,6 +18,7 @@ module Jekyll
                         node.content=hyphenate_text(node.to_s) if node.text?
                     end
                 end
+                fragment.to_s
             end
 
             def hyphenate_text(text)

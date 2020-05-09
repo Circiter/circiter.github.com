@@ -21,7 +21,7 @@ title: Дневник Circiter'а.
 {% endfor %}
 
 <hr>
-Облако меток: {% tag_cloud font-size: 0.80 - 2.80em %}
+Облако меток: {% tag_cloud font-size: 0.80 - 1.15em %}
 
 <hr>
 

@@ -189,7 +189,7 @@ pre code {
 }
 .highlight pre {
   margin-bottom: 0;
-  background-color: green; /* Added. */
+  /*background-color: green;*/
 }
 
 /* Gist via GitHub Pages */
