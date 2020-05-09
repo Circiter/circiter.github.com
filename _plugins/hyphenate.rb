@@ -47,7 +47,7 @@ module Jekyll
                     #text.gsub!(regex, hyphenated_word)
                     #text.gsub!(/#{stripped_word}/, hyphenated_word)
                         #text.gsub!(stripped_word, hyphenated_word)
-                    end
+                    #end
                     #while text[stripped_word]!="" do
                     #    text[stripped_word]="@"
                     #end
