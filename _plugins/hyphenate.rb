@@ -20,20 +20,28 @@ module Jekyll
             end
 
             def hyphenate_text(text)
-                words=text.split
-                words.each do |word|
+                words=text.split(" ").map do |word|
+                    stripped_word=word.gsub(/[\(\)\[\],\.\?\!\\\/]/, "")
+                    if Regexp.escape(stripped_word)==stripped_word
+                        puts("word to hyphenate = "+stripped_word)
+                        @hyphenator.visualize(stripped_word, "&shy;")
+                    else
+                        word
+                    end
+                end.join(" ")
+                #words.each do |word|
                     #regex=/#{Regexp.escape(word)}(?!\z)/
                     #regex=/#{word}(?!\z)/
 
                     # FIXME.
-                    stripped_word=word.gsub(/[\(\)\[\],\.\?\!\\\/]/, "")
+                    #stripped_word=word.gsub(/[\(\)\[\],\.\?\!\\\/]/, "")
                     #stripped_word=word
                     #stripped_word["("]=""
                     #stripped_word[")"]=""
 
-                    if Regexp.escape(stripped_word)==stripped_word
-                        puts("word to hyphenate: "+stripped_word);
-                        hyphenated_word=@hyphenator.visualize(stripped_word, "-")
+                    #if Regexp.escape(stripped_word)==stripped_word
+                    #    puts("word to hyphenate: "+stripped_word);
+                    #    hyphenated_word=@hyphenator.visualize(stripped_word, "-")
                         #"&shy;")
                     #text.gsub!(/#{word}/, hyphenated_word)
                     #text.gsub!(regex, hyphenated_word)
@@ -46,7 +54,7 @@ module Jekyll
                     #while text["@"]!="" do
                     #    text["@"]=hyphenated_word
                     #end
-                end
+                #end
             end
         end
 
