@@ -21,17 +21,17 @@ module Jekyll
             end
 
             def hyphenate_text(text)
-                words=text.split(" ").map do |word|
-                    #stripped_word=word.gsub(/[\(\)\[\],\.\?\!\\\/:\'\"]/, "").gsub(/\d/, "")
-                    stripped_word=word
-                    if Regexp.escape(stripped_word)==stripped_word
-                        puts("word to hyphenate = "+stripped_word)
-                        #@hyphenator.visualize(stripped_word, "&shy;")
-                        word
-                    else
-                        word
-                    end
-                end.join(" ")
+                #words=text.split(" ").map do |word|
+                #    #stripped_word=word.gsub(/[\(\)\[\],\.\?\!\\\/:\'\"]/, "").gsub(/\d/, "")
+                #    stripped_word=word
+                #    if Regexp.escape(stripped_word)==stripped_word
+                #        puts("word to hyphenate = "+stripped_word)
+                #        #@hyphenator.visualize(stripped_word, "&shy;")
+                #        word
+                #    else
+                #        word
+                #    end
+                #end.join(" ")
                 text
                 #words.each do |word|
                     #regex=/#{Regexp.escape(word)}(?!\z)/
