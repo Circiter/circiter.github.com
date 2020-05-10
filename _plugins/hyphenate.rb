@@ -31,6 +31,7 @@ module Jekyll
                         hyphenated_word=@hyphenator.visualize(stripped_word, "­")
                     end
                     word.sub(stripped_word, hyphenated_word)
+                    word
                 end.join(" ")
                 #text
                 #words.each do |word|
