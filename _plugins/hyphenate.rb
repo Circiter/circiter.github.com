@@ -15,7 +15,7 @@ module Jekyll
                 #html=fragment.inner_html
                 fragment.css("p").each do |element|
                     element.traverse do |node|
-                        #node.content=hyphenate_text(node.to_s) if node.text?
+                        node.content=hyphenate_text(node.to_s) if node.text?
                     end
                 end
                 fragment.to_s
@@ -24,14 +24,13 @@ module Jekyll
             # FIXME: It doesn't hyphenate inside list items, header captions, etc.
             def hyphenate_text(text)
                 words=text.split(" ").map do |word|
-                    stripped_word=word.gsub(/[\(\)\[\],\.\?\!\\\/:\'\"]/, "").gsub(/\d/, "")
+                    # FIXME: Add some other punctuation characters (e.g. ellipses).
+                    hyphenated_word=stripped_word=word.gsub(/[\(\)\[\],\.\?\!\\\/:\'\"0-9]/, "")
                     if Regexp.escape(stripped_word)==stripped_word
-                        #puts("word to hyphenate = "+stripped_word)
-                        @hyphenator.visualize(stripped_word, "­")
-                        #word
-                    else
-                        word
+                        # FIXME: Replace non-breakable hyphen (&shy;) by its code (U+2011=&#8208;?).
+                        hyphenated_word=@hyphenator.visualize(stripped_word, "­")
                     end
+                    word.sub(stripped_word, hyphenated_word)
                 end.join(" ")
                 #text
                 #words.each do |word|

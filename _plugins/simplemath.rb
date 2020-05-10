@@ -38,10 +38,12 @@ module Kramdown
                     latex_source<<"\\sbox\\frm{"
                     #equation_bracket=(display_mode==:block)?"$$":"$"
                     equation_bracket="$"
+                    puts("equation display mode is "+display_mode.to_s)
                     if display_mode==:block
                         equation_bracket="$$"
                     end
                     formula_in_brackets=equation_bracket+formula+equation_bracket
+                    puts("processing a formula "+formula_in_brackets)
                     latex_source<<formula_in_brackets
                     latex_source<<"}\n\\newwrite\\frmdims\n"
                     latex_source<<"\\immediate\\openout\\frmdims=dimensions.tmp\n"
@@ -63,7 +65,8 @@ module Kramdown
                         #puts "converting dvi to png..."
                         #system("dvipng -q* -T tight temp-file.dvi -o "+full_filename);
                         system("dvips -E temp-file.dvi -o temp-file.eps >/dev/null 2>&1");
-                        system("convert -density 150 temp-file.eps "+full_filename+" >/dev/null 2>&1")
+                        # convert -density 150 ...
+                        system("convert temp-file.eps "+full_filename+" >/dev/null 2>&1")
                         if File.exists?(full_filename)
                             #system("convert "+full_filename+"-fuzz 2% -transparent white "+full_filename)
                             #convert test.png -background 'rgba(0,0,0,0)' test1.png
@@ -175,12 +178,49 @@ def fix_math(content)
     # FIXME: Try to insert &#8288; (word-joiner) after @@@@
     # if the following character is not space.
     # FIXME: gsub(/\(\$\//, "(@@@@\/").
-    return content
-        .gsub(/\$\$/, "@@@@").gsub(/ \$/, " @@@@").gsub(/\$ /, "@@@@ ").gsub(/\$\./, "@@@@.")
-        .gsub(/\$\?/, "@@@@?").gsub(/\$,/, "@@@@,").gsub(/\$:/, "@@@@:").gsub(/\$-/, "@@@@-")
-        .gsub(/\(\$\//, "(@@@@\/").gsub(/\$\)/, "@@@@)").gsub(/^\$/, "@@@@").gsub(/\$$/, "@@@@")
-        .gsub(/@@@@/, "$$")
+    #return content
+    #    .gsub(/\$\$/, "@@@@").gsub(/ \$/, " @@@@").gsub(/\$ /, "@@@@ ").gsub(/\$\./, "@@@@.")
+    #    .gsub(/\$\?/, "@@@@?").gsub(/\$,/, "@@@@,").gsub(/\$:/, "@@@@:").gsub(/\$-/, "@@@@-")
+    #    .gsub(/\(\$\//, "(@@@@\/").gsub(/\$\)/, "@@@@)").gsub(/^\$/, "@@@@").gsub(/\$$/, "@@@@")
+    #    .gsub(/@@@@/, "$$")
         #.gsub(/@@@@@/, "$$\&#8288;")
+    return content.gsub(/[\$ \.\?,\(:-\)\!\[\]]\$[ \.\?,\(:-\)\!\[\]]/, "$$");
+
+    #mathfix=MathFix.new(content)
+    #mathfix.fixup()
+    #content=mathfix.new_content
+end
+
+class MathFix
+    def initialize(content)
+        @content=content
+        @position=0
+        @new_content=""
+    end
+
+    def next_character
+        return false if @position>=@content.length
+        @current_character=@content[@position]
+        @position=@position+1
+        return true
+    end
+
+    def add_character()
+            @new_content=@new_content+@new_character
+    end
+
+    def fixup(level=0)
+        while next_character()==true
+            # TODO: Ignore \$.
+            if @current_character=="$"
+                add_character if level>0
+                fixup(level+1)
+                puts("expected $") if @current_character!="$"
+            else
+                add_character()
+            end
+        end
+    end
 end
 
 Jekyll::Hooks.register(:pages, :pre_render) do |target, payload|
