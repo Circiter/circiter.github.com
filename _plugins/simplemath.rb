@@ -65,8 +65,7 @@ module Kramdown
                         #puts "converting dvi to png..."
                         #system("dvipng -q* -T tight temp-file.dvi -o "+full_filename);
                         system("dvips -E temp-file.dvi -o temp-file.eps >/dev/null 2>&1");
-                        # convert -density 150 ...
-                        system("convert temp-file.eps "+full_filename+" >/dev/null 2>&1")
+                        system("convert -density 120 temp-file.eps "+full_filename+" >/dev/null 2>&1")
                         if File.exists?(full_filename)
                             #system("convert "+full_filename+"-fuzz 2% -transparent white "+full_filename)
                             #convert test.png -background 'rgba(0,0,0,0)' test1.png
