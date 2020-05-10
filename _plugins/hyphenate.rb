@@ -15,7 +15,7 @@ module Jekyll
                 #html=fragment.inner_html
                 fragment.css("p").each do |element|
                     element.traverse do |node|
-                        node.content=hyphenate_text(node.to_s) if node.text?
+                        #node.content=hyphenate_text(node.to_s) if node.text?
                     end
                 end
                 fragment.to_s
@@ -31,10 +31,9 @@ module Jekyll
                         # FIXME: Replace non-breakable hyphen (&shy;) by its code (U+2011=&#8208;?).
                         hyphenated_word=@hyphenator.visualize(stripped_word, "­")
                     end
-                    #my_text.gsub!(stripped_word, hyphenated_word)
+                    my_text.gsub!(stripped_word, hyphenated_word)
                 end#.join(" ")
-                #my_text
-                return text
+                my_text
                 #words.each do |word|
                     #regex=/#{Regexp.escape(word)}(?!\z)/
                     #regex=/#{word}(?!\z)/
