@@ -26,12 +26,12 @@ module Jekyll
                 my_text=text
                 words=my_text.split(" ").map do |word|
                     # FIXME: Add some other punctuation characters (e.g. ellipses).
-                    hyphenated_word=stripped_word=word.gsub(/[\(\)\[\],\.\?\!\\\/:\'\"0-9]/, "")
+                    hyphenated_word=stripped_word=word.gsub(/[\(\)\[\],\.\?\!\\\/:\'\"<>\|0-9]/, "")
                     if Regexp.escape(stripped_word)==stripped_word
                         # FIXME: Replace non-breakable hyphen (&shy;) by its code (U+2011=&#8208;?).
                         hyphenated_word=@hyphenator.visualize(stripped_word, "­")
                     end
-                    my_text.gsub!(stripped_word, hyphenated_word)
+                    #my_text.gsub!(stripped_word, hyphenated_word)
                 end#.join(" ")
                 #my_text
                 return text

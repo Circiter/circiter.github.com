@@ -183,7 +183,7 @@ def fix_math(content)
         .gsub(/\(\$\//, "(@@@@\/").gsub(/\$\)/, "@@@@)").gsub(/^\$/, "@@@@").gsub(/\$$/, "@@@@")
         .gsub(/@@@@/, "$$")
         #.gsub(/@@@@@/, "$$\&#8288;")
-    #return content.gsub(/[\$ \.\?,\(:\-\)\!\[\]]\$[ \.\?,\(:\-\)\!\[\]]/, "$$");
+    #return content.gsub(/[\$ \.\?,\(:\-\)\!\[\]<>\|]\$[ \.\?,\(:\-\)\!\[\]<>\|]/, "$$");
 
     #mathfix=MathFix.new(content)
     #mathfix.fixup()
