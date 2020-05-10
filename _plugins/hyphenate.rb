@@ -34,7 +34,7 @@ module Jekyll
                     my_text.gsub!(stripped_word, hyphenated_word)
                 end#.join(" ")
                 #my_text
-                text
+                return text
                 #words.each do |word|
                     #regex=/#{Regexp.escape(word)}(?!\z)/
                     #regex=/#{word}(?!\z)/
