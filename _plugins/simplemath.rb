@@ -177,18 +177,20 @@ def fix_math(content)
     # FIXME: Try to insert &#8288; (word-joiner) after @@@@
     # if the following character is not space.
     # FIXME: gsub(/\(\$\//, "(@@@@\/").
-    return content
-        .gsub(/\$\$/, "@@@@").gsub(/ \$/, " @@@@").gsub(/\$ /, "@@@@ ").gsub(/\$\./, "@@@@.")
-        .gsub(/\$\?/, "@@@@?").gsub(/\$,/, "@@@@,").gsub(/\$:/, "@@@@:").gsub(/\$-/, "@@@@-")
-        .gsub(/\(\$\//, "(@@@@\/").gsub(/\$\)/, "@@@@)").gsub(/^\$/, "@@@@").gsub(/\$$/, "@@@@")
-        .gsub(/@@@@/, "$$")
+
+    #return content
+    #    .gsub(/\$\$/, "@@@@").gsub(/ \$/, " @@@@").gsub(/\$ /, "@@@@ ").gsub(/\$\./, "@@@@.")
+    #    .gsub(/\$\?/, "@@@@?").gsub(/\$,/, "@@@@,").gsub(/\$:/, "@@@@:").gsub(/\$-/, "@@@@-")
+    #    .gsub(/\(\$\//, "(@@@@\/").gsub(/\$\)/, "@@@@)").gsub(/^\$/, "@@@@").gsub(/\$$/, "@@@@")
+    #    .gsub(/@@@@/, "$$")
+
         #.gsub(/@@@@@/, "$$\&#8288;")
     #return content.gsub(/[\$ \.\?,\(:\-\)\!\[\]<>\|]\$[ \.\?,\(:\-\)\!\[\]<>\|]/, "$$");
     #return content.gsub(/\$\$/, "$$").gsub(/\$/, "$$");
 
-    #mathfix=MathFix.new(content)
-    #mathfix.fixup()
-    #content=mathfix.result()
+    mathfix=MathFix.new(content)
+    mathfix.fixup()
+    content=mathfix.result()
 end
 
 class MathFix

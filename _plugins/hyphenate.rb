@@ -25,18 +25,9 @@ module Jekyll
             # FIXME: It doesn't hyphenate inside list items, header captions, etc.
             def hyphenate_text(text)
                 my_text=text
-
-                #i=text.length
-                #trailing_spaces=""
-                #while (i>=0)&&(text[i]==" ")
-                #    trailing_spaces=trailing_spaces+" "
-                #    i=i-1
-                #end
-
-                words=text.split(" ").map do |word|
+                text.split(" ").map do |word|
                     # FIXME: Add some other punctuation characters (e.g. ellipses).
                     stripped_word=word.gsub(/[\(\)\[\],\.\?\!\\\/:\'\"<>\|0-9]/, "")
-                    hyphenated_word=stripped_word
                     if Regexp.escape(stripped_word)==stripped_word
                         # FIXME: Replace non-breakable hyphen (&shy;) by its code (U+2011=&#8208;?).
                         hyphenated_word=@hyphenator.visualize(stripped_word, "­")
@@ -44,9 +35,7 @@ module Jekyll
                         my_text.gsub!(stripped_word, hyphenated_word)
                     end
                     word
-                    #hyphenated_word
                 end
-                #return words.join(" ")+trailing_spaces
                 return my_text
             end
         end

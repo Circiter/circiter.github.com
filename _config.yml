@@ -39,13 +39,14 @@ repository: "Circiter/circiter.github.io"
 
 markdown: kramdown
 #highlighter: rouge
-#highlighter: pygments
+highlighter: pygments
 
 kramdown:
   #input: GFM
   input: KramdownEasyLink
   #syntax_highlighter: rouge
-  syntax_highlighter: pygments
+  enable_coderay: true
+  #syntax_highlighter: pygments
   # Try coderay, pygments.
   #auto_ids: false
   hard_wrap: false
