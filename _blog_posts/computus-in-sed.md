@@ -99,7 +99,7 @@ push_stack(c);
 
 В основе этого фрагмента лежит соответствующая строке `a-=b` sed-инструкция
 
-{% hightlight sed %}
+{% highlight sed %}
 s/\n(1*)(\n1*)\1(\n1*@)/\n\1\2\3/
 {% endhighlight %}
 
