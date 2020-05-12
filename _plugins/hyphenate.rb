@@ -40,7 +40,7 @@ module Jekyll
                     if Regexp.escape(stripped_word)==stripped_word
                         # FIXME: Replace non-breakable hyphen (&shy;) by its code (U+2011=&#8208;?).
                         hyphenated_word=@hyphenator.visualize(stripped_word, "­")
-                        puts("substitution: \""+sripped_word+"\" -> \""+hyphenated_word+"\"");
+                        puts("substitution: \""+stripped_word+"\" -> \""+hyphenated_word+"\"");
                         my_text.gsub!(stripped_word, hyphenated_word)
                     end
                     word
