@@ -3,6 +3,7 @@ source "https://rubygems.org"
 #gem "json"
 gem "pygments.rb"
 gem "nokogiri"
+gem "coderay"
 gem "text-hyphen"
 #gem "jekyll"
 

@@ -178,19 +178,22 @@ def fix_math(content)
     # if the following character is not space.
     # FIXME: gsub(/\(\$\//, "(@@@@\/").
 
-    #return content
-    #    .gsub(/\$\$/, "@@@@").gsub(/ \$/, " @@@@").gsub(/\$ /, "@@@@ ").gsub(/\$\./, "@@@@.")
-    #    .gsub(/\$\?/, "@@@@?").gsub(/\$,/, "@@@@,").gsub(/\$:/, "@@@@:").gsub(/\$-/, "@@@@-")
-    #    .gsub(/\(\$\//, "(@@@@\/").gsub(/\$\)/, "@@@@)").gsub(/^\$/, "@@@@").gsub(/\$$/, "@@@@")
-    #    .gsub(/@@@@/, "$$")
+    mathfix=MathFix.new(content)
+    puts("<mathfix>"+mathfix.fixup()+"</mathfix>")
+
+    return content
+        .gsub(/\$\$/, "@@@@").gsub(/ \$/, " @@@@").gsub(/\$ /, "@@@@ ").gsub(/\$\./, "@@@@.")
+        .gsub(/\$\?/, "@@@@?").gsub(/\$,/, "@@@@,").gsub(/\$:/, "@@@@:").gsub(/\$-/, "@@@@-")
+        .gsub(/\(\$\//, "(@@@@\/").gsub(/\$\)/, "@@@@)").gsub(/^\$/, "@@@@").gsub(/\$$/, "@@@@")
+        .gsub(/@@@@/, "$$")
 
         #.gsub(/@@@@@/, "$$\&#8288;")
     #return content.gsub(/[\$ \.\?,\(:\-\)\!\[\]<>\|]\$[ \.\?,\(:\-\)\!\[\]<>\|]/, "$$");
     #return content.gsub(/\$\$/, "$$").gsub(/\$/, "$$");
 
-    mathfix=MathFix.new(content)
-    mathfix.fixup()
-    content=mathfix.result()
+    #mathfix=MathFix.new(content)
+    #mathfix.fixup()
+    #content=mathfix.result()
 end
 
 class MathFix
@@ -212,13 +215,9 @@ class MathFix
             @new_content=@new_content+@current_character
     end
 
-    def result()
-        return @new_content
-    end
-
     def fixup(level=0)
+        in_formula=false
         while next_character()==true
-            # TODO: Ignore \$.
             if @current_character=="\\"
                 add_character()
                 if next_character()==true
@@ -226,15 +225,24 @@ class MathFix
                 end
                 next
             end
-            if @current_character=="$"
-                add_character() if level>0
-                fixup(level+1)
-                puts("expected $") if @current_character!="$"
+            add_character()
+            if in_formula
+                if @current_character=="$"
+                    in_formula=false
+                    if next_character()==true
+                        @new_content=@new_content+"$" if @current_character!="$"
+                    end
+                end
             else
-                add_character()
+                if @current_character=="$"
+                    in_formula=true
+                    if next_character()==true
+                        @new_content=@new_content+"$" if @current_character!="$"
+                    end
+                end
             end
         end
-        #return @new_content if level==0
+        return @new_content
     end
 end
 
