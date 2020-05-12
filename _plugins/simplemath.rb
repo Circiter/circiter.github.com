@@ -179,13 +179,14 @@ def fix_math(content)
     # FIXME: gsub(/\(\$\//, "(@@@@\/").
 
     mathfix=MathFix.new(content)
-    puts("<mathfix>"+mathfix.fixup()+"</mathfix>")
+    #puts("<mathfix>"+mathfix.fixup()+"</mathfix>")
+    return mathfix.fixup()
 
-    return content
-        .gsub(/\$\$/, "@@@@").gsub(/ \$/, " @@@@").gsub(/\$ /, "@@@@ ").gsub(/\$\./, "@@@@.")
-        .gsub(/\$\?/, "@@@@?").gsub(/\$,/, "@@@@,").gsub(/\$:/, "@@@@:").gsub(/\$-/, "@@@@-")
-        .gsub(/\(\$\//, "(@@@@\/").gsub(/\$\)/, "@@@@)").gsub(/^\$/, "@@@@").gsub(/\$$/, "@@@@")
-        .gsub(/@@@@/, "$$")
+    #return content
+    #    .gsub(/\$\$/, "@@@@").gsub(/ \$/, " @@@@").gsub(/\$ /, "@@@@ ").gsub(/\$\./, "@@@@.")
+    #    .gsub(/\$\?/, "@@@@?").gsub(/\$,/, "@@@@,").gsub(/\$:/, "@@@@:").gsub(/\$-/, "@@@@-")
+    #    .gsub(/\(\$\//, "(@@@@\/").gsub(/\$\)/, "@@@@)").gsub(/^\$/, "@@@@").gsub(/\$$/, "@@@@")
+    #    .gsub(/@@@@/, "$$")
 
         #.gsub(/@@@@@/, "$$\&#8288;")
     #return content.gsub(/[\$ \.\?,\(:\-\)\!\[\]<>\|]\$[ \.\?,\(:\-\)\!\[\]<>\|]/, "$$");
@@ -231,6 +232,7 @@ class MathFix
                     in_formula=false
                     if next_character()==true
                         @new_content=@new_content+"$" if @current_character!="$"
+                        add_character()
                     end
                 end
             else
@@ -238,6 +240,7 @@ class MathFix
                     in_formula=true
                     if next_character()==true
                         @new_content=@new_content+"$" if @current_character!="$"
+                        add_character()
                     end
                 end
             end
