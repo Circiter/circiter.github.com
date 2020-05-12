@@ -184,10 +184,11 @@ def fix_math(content)
         .gsub(/@@@@/, "$$")
         #.gsub(/@@@@@/, "$$\&#8288;")
     #return content.gsub(/[\$ \.\?,\(:\-\)\!\[\]<>\|]\$[ \.\?,\(:\-\)\!\[\]<>\|]/, "$$");
+    #return content.gsub(/\$\$/, "$$").gsub(/\$/, "$$");
 
     #mathfix=MathFix.new(content)
     #mathfix.fixup()
-    #content=mathfix.new_content
+    #content=mathfix.result()
 end
 
 class MathFix
@@ -208,17 +209,29 @@ class MathFix
             @new_content=@new_content+@new_character
     end
 
+    def result()
+        return @new_content
+    end
+
     def fixup(level=0)
         while next_character()==true
             # TODO: Ignore \$.
+            if @current_character=="\\"
+                add_character()
+                if next_character()==true
+                    add_character();
+                end
+                next
+            end
             if @current_character=="$"
-                add_character if level>0
+                add_character() if level>0
                 fixup(level+1)
                 puts("expected $") if @current_character!="$"
             else
                 add_character()
             end
         end
+        #return @new_content if level==0
     end
 end
 

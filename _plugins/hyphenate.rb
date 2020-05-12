@@ -16,6 +16,11 @@ module Jekyll
                 fragment.css("p").each do |element|
                     element.traverse do |node|
                         #node.content=hyphenate_text(node.to_s) if node.text?
+                        if node.text?
+                            puts("<node.content>"+node.content+"</node.content>");
+                            puts("<node.to_s>"+node.to_s+"</node.to_s>")
+                        end
+                        node.content=node.to_s if node.text?
                     end
                 end
                 fragment.to_s
@@ -24,42 +29,29 @@ module Jekyll
             # FIXME: It doesn't hyphenate inside list items, header captions, etc.
             def hyphenate_text(text)
                 my_text=text
-                words=my_text.split(" ").map do |word|
+
+                #i=text.length
+                #trailing_spaces=""
+                #while (i>=0)&&(text[i]==" ")
+                #    trailing_spaces=trailing_spaces+" "
+                #    i=i-1
+                #end
+
+                words=text.split(" ").map do |word|
                     # FIXME: Add some other punctuation characters (e.g. ellipses).
-                    hyphenated_word=stripped_word=word.gsub(/[\(\)\[\],\.\?\!\\\/:\'\"<>\|0-9]/, "")
+                    stripped_word=word.gsub(/[\(\)\[\],\.\?\!\\\/:\'\"<>\|0-9]/, "")
+                    hyphenated_word=stripped_word
                     if Regexp.escape(stripped_word)==stripped_word
                         # FIXME: Replace non-breakable hyphen (&shy;) by its code (U+2011=&#8208;?).
                         hyphenated_word=@hyphenator.visualize(stripped_word, "­")
+                        puts("substitution: \""+sripped_word+"\" -> \""+hyphenated_word+"\"");
+                        my_text.gsub!(stripped_word, hyphenated_word)
                     end
-                    my_text.gsub!(stripped_word, hyphenated_word)
-                end#.join(" ")
-                my_text
-                #words.each do |word|
-                    #regex=/#{Regexp.escape(word)}(?!\z)/
-                    #regex=/#{word}(?!\z)/
-
-                    # FIXME.
-                    #stripped_word=word.gsub(/[\(\)\[\],\.\?\!\\\/]/, "")
-                    #stripped_word=word
-                    #stripped_word["("]=""
-                    #stripped_word[")"]=""
-
-                    #if Regexp.escape(stripped_word)==stripped_word
-                    #    puts("word to hyphenate: "+stripped_word);
-                    #    hyphenated_word=@hyphenator.visualize(stripped_word, "-")
-                        #"&shy;")
-                    #text.gsub!(/#{word}/, hyphenated_word)
-                    #text.gsub!(regex, hyphenated_word)
-                    #text.gsub!(/#{stripped_word}/, hyphenated_word)
-                        #text.gsub!(stripped_word, hyphenated_word)
-                    #end
-                    #while text[stripped_word]!="" do
-                    #    text[stripped_word]="@"
-                    #end
-                    #while text["@"]!="" do
-                    #    text["@"]=hyphenated_word
-                    #end
-                #end
+                    word
+                    #hyphenated_word
+                end
+                #return words.join(" ")+trailing_spaces
+                return my_text
             end
         end
 
