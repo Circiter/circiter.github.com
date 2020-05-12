@@ -198,6 +198,7 @@ class MathFix
         @content=content
         @position=0
         @new_content=""
+        @current_character=""
     end
 
     def next_character
@@ -208,7 +209,7 @@ class MathFix
     end
 
     def add_character()
-            @new_content=@new_content+@new_character
+            @new_content=@new_content+@current_character
     end
 
     def result()

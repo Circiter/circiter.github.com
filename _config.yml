@@ -53,6 +53,13 @@ kramdown:
   #math_engine: +nil+
   math_engine: simplemath
 
+  coderay:
+      coderay_wrap: div
+      coderay_line_number: nil
+      #coderay_tab_width: 4
+      #coderay_bold_every: 10
+      coderay_css: class
+
 plugins_dir: _plugins
 
 plugins:
