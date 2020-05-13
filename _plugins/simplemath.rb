@@ -38,12 +38,12 @@ module Kramdown
                     latex_source<<"\\sbox\\frm{"
                     #equation_bracket=(display_mode==:block)?"$$":"$"
                     equation_bracket="$"
-                    puts("equation display mode is "+display_mode.to_s)
+                    #puts("equation display mode is "+display_mode.to_s)
                     if display_mode==:block
                         equation_bracket="$$"
                     end
                     formula_in_brackets=equation_bracket+formula+equation_bracket
-                    puts("processing a formula "+formula_in_brackets)
+                    #puts("processing a formula "+formula_in_brackets)
                     latex_source<<formula_in_brackets
                     latex_source<<"}\n\\newwrite\\frmdims\n"
                     latex_source<<"\\immediate\\openout\\frmdims=dimensions.tmp\n"

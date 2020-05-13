@@ -28,9 +28,9 @@ module Jekyll
                     # FIXME: Add some other punctuation characters (e.g. ellipses).
                     stripped_word=word.gsub(/[\(\)\[\],\.\?\!\\\/:\'\"<>\|0-9]/, "")
                     if Regexp.escape(stripped_word)==stripped_word
-                        hyphenated_word=@hyphenator.visualize(stripped_word, "\u2011")
+                        hyphenated_word=@hyphenator.visualize(stripped_word, "­")
                         #puts("substitution: \""+stripped_word+"\" -> \""+hyphenated_word.gsub("­", "-")+"\"");
-                        # &shy;=U+2011=&#8208;=non-breakable hyphen.
+                        # FIXME: &shy;=U+2011=&#8208;=non-breakable hyphen.
                         #puts("substitution: \""+stripped_word+"\" -> \""+hyphenated_word.gsub("\u2011", "-")+"\"");
                         my_text.gsub!(stripped_word, hyphenated_word)
                     end
