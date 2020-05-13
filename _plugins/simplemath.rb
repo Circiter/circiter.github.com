@@ -174,27 +174,11 @@ Jekyll::Hooks.register(:site, :after_init) do |site|
 end
 
 def fix_math(content)
-    # FIXME: Try to insert &#8288; (word-joiner) after @@@@
+    # FIXME: Try to insert &#8288; (word-joiner) after formulas
     # if the following character is not space.
-    # FIXME: gsub(/\(\$\//, "(@@@@\/").
 
     mathfix=MathFix.new(content)
-    #puts("<mathfix>"+mathfix.fixup()+"</mathfix>")
     return mathfix.fixup()
-
-    #return content
-    #    .gsub(/\$\$/, "@@@@").gsub(/ \$/, " @@@@").gsub(/\$ /, "@@@@ ").gsub(/\$\./, "@@@@.")
-    #    .gsub(/\$\?/, "@@@@?").gsub(/\$,/, "@@@@,").gsub(/\$:/, "@@@@:").gsub(/\$-/, "@@@@-")
-    #    .gsub(/\(\$\//, "(@@@@\/").gsub(/\$\)/, "@@@@)").gsub(/^\$/, "@@@@").gsub(/\$$/, "@@@@")
-    #    .gsub(/@@@@/, "$$")
-
-        #.gsub(/@@@@@/, "$$\&#8288;")
-    #return content.gsub(/[\$ \.\?,\(:\-\)\!\[\]<>\|]\$[ \.\?,\(:\-\)\!\[\]<>\|]/, "$$");
-    #return content.gsub(/\$\$/, "$$").gsub(/\$/, "$$");
-
-    #mathfix=MathFix.new(content)
-    #mathfix.fixup()
-    #content=mathfix.result()
 end
 
 class MathFix
@@ -212,35 +196,48 @@ class MathFix
         return true
     end
 
-    def add_character()
-            @new_content=@new_content+@current_character
+    def add_character(character)
+            @new_content=@new_content+character
     end
 
-    def fixup(level=0)
+    def add_current_character()
+        add_character(@current_character)
+    end
+
+    def fixup()
+        npsp="\u2060"
         in_formula=false
         while next_character()==true
             if @current_character=="\\"
-                add_character()
+                add_current_character()
                 if next_character()==true
-                    add_character();
+                    add_current_character();
                 end
                 next
             end
-            add_character()
+            add_current_character()
             if in_formula
                 if @current_character=="$"
                     in_formula=false
                     if next_character()==true
-                        @new_content=@new_content+"$" if @current_character!="$"
-                        add_character()
+                        if @current_character!="$"
+                            add_character("$")
+                            add_character(nbsp) if @current_character!=" "
+                        else
+                            add_current_character()
+                            if next_character()==true
+                                add_character(nbsp) if @current_character!=" "
+                            end
+                        end
+                        add_current_character()
                     end
                 end
             else
                 if @current_character=="$"
                     in_formula=true
                     if next_character()==true
-                        @new_content=@new_content+"$" if @current_character!="$"
-                        add_character()
+                        add_character("$)" if @current_character!="$"
+                        add_current_character()
                     end
                 end
             end

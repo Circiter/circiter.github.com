@@ -15,23 +15,23 @@ module Jekyll
                 #html=fragment.inner_html
                 fragment.css("p").each do |element|
                     element.traverse do |node|
-                        #node.content=hyphenate_text(node.to_s) if node.text?
                         node.content=hyphenate_text(node.content) if node.text?
                     end
                 end
                 fragment.to_s
             end
 
-            # FIXME: It doesn't hyphenate inside list items, header captions, etc.
+            # FIXME: It doesn't hyphenate inside some of list items, header captions, etc.
             def hyphenate_text(text)
                 my_text=text
                 text.split(" ").map do |word|
                     # FIXME: Add some other punctuation characters (e.g. ellipses).
                     stripped_word=word.gsub(/[\(\)\[\],\.\?\!\\\/:\'\"<>\|0-9]/, "")
                     if Regexp.escape(stripped_word)==stripped_word
-                        # FIXME: Replace non-breakable hyphen (&shy;) by its code (U+2011=&#8208;?).
                         hyphenated_word=@hyphenator.visualize(stripped_word, "­")
-                        puts("substitution: \""+stripped_word+"\" -> \""+hyphenated_word.gsub("­", "-")+"\"");
+                        #puts("substitution: \""+stripped_word+"\" -> \""+hyphenated_word.gsub("­", "-")+"\"");
+                        # &shy;=U+2011=&#8208;=non-breakable hyphen.
+                        puts("substitution: \""+stripped_word+"\" -> \""+hyphenated_word.gsub("\u2011", "-")+"\"");
                         my_text.gsub!(stripped_word, hyphenated_word)
                     end
                     word
