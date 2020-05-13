@@ -205,7 +205,7 @@ class MathFix
     end
 
     def fixup()
-        npsp="\u2060"
+        nbsp="\u2060"
         in_formula=false
         while next_character()==true
             if @current_character=="\\"
