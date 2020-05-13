@@ -222,12 +222,12 @@ class MathFix
                     if next_character()==true
                         if @current_character!="$"
                             add_character("$")
-                            add_character(nbsp) if @current_character!=" "
-                        else
-                            add_current_character()
-                            if next_character()==true
-                                add_character(nbsp) if @current_character!=" "
-                            end
+                            #add_character(nbsp) if @current_character!=" "
+                        #else
+                            #add_current_character()
+                            #if next_character()==true
+                            #    add_character(nbsp) if @current_character!=" "
+                            #end
                         end
                         add_current_character()
                     end
