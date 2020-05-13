@@ -236,7 +236,7 @@ class MathFix
                 if @current_character=="$"
                     in_formula=true
                     if next_character()==true
-                        add_character("$)" if @current_character!="$"
+                        add_character("$") if @current_character!="$"
                         add_current_character()
                     end
                 end
