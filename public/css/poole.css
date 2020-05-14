@@ -154,8 +154,8 @@ pre {
 }
 code {
   padding: .25em .5em;
-  margin-right: 0; /* Added. */
-  padding-right: 0; /* Added. */
+  margin-right: 0.05em; /* Added. */
+  padding-right: 0.05em; /* Added. */
   font-size: 85%;
   color: #bf616a;
   background-color: #f9f9f9;

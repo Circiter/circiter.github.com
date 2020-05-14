@@ -31,16 +31,3 @@ jobs:
         CNAME: circiter.tk
         FOLDER: _site
       uses: ./.github/actions/build-blog-action
-
-    #- name: Trying to update the web site
-    #  uses: actions/github-script@0.4.0
-    #  with:
-    #      github-token: ${{secrets.GITHUB_TOKEN}}
-    #      script: |
-    #        github.repos.createOrUpdateFile({
-    #          owner: context.repo.owner,
-    #          repo: context.repo.repo,
-    #          path: "empty_file",
-    #          message: "Trying to update the web site",
-    #          content: ""
-    #        })

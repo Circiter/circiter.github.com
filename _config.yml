@@ -9,7 +9,6 @@ year: 2020
 
 #remote-theme: pages-themes/hyde
 
-#permalink: /:title/
 permalink: /:title
 
 title: "Дневник Circiter'а"
@@ -42,19 +41,18 @@ markdown: kramdown
 kramdown:
   #input: GFM
   input: KramdownEasyLink
-  #syntax_highlighter: rouge
-  syntax_highligher: coderay
+  syntax_highlighter: rouge
+  #syntax_highligher: coderay
   #auto_ids: false
   hard_wrap: false
-  #math_engine: +nil+
   math_engine: simplemath
 
-  syntax_highlighter_opts:
-      wrap: div
-      line_number: nil
-      #tab_width: 4
-      bold_every: 10
-      css: class
+  #syntax_highlighter_opts:
+  #  wrap: div
+  #  line_number: nil
+  #  tab_width: 4
+  #  bold_every: 10
+  #  css: class
 
 plugins_dir: _plugins
 
@@ -88,5 +86,4 @@ exclude: [Gemfile, Gemfile.lock, .github, .gitignore, .gemrc]
 collections:
   blog_posts:
     output: true
-    #permalink: /:collection/:path/
     permalink: /:path
