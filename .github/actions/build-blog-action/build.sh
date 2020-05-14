@@ -51,10 +51,12 @@ REPOSITORY_PATH="https://${ACCESS_TOKEN:-"x-access-token:$GITHUB_TOKEN"}@github.
 rm -r .git
 mkdir result
 cd result
-git init &&
-mv ../$FOLDER/* . &&
+git init
+mv ../$FOLDER/* .
 git add --all --force &&
 git commit --quiet --allow-empty -m - &&
 git push --force "$REPOSITORY_PATH" $BRANCH
 
 [ "x$?" = x0 ] || exit 1
+
+exit 0
