@@ -1,33 +1,37 @@
 #!/bin/sh
 
-# TODO: Ignore pull requests.
+#!/usr/bin/env bash
 
-apk update
-apk upgrade
+which bash
+
+# Stop execution on a first error (needs bash).
+#set -eu
+#set -o pipefail
+
+apk update &&
+apk upgrade &&
 # FIXME: Is the nodejs really needed?
 apk add zlib-dev build-base libxml2-dev libxslt-dev \
     readline-dev libffi-dev ruby-dev yaml-dev zlib \
     libxml2 build-base ruby-io-console readline libxslt \
     ruby yaml libffi nodejs ruby-irb ruby-json ruby-rake \
     git bash curl ttf-freefont fontconfig \
-    ruby-dev ruby-bundler ruby-bigdecimal imagemagick
-#gem install bundler json nokogiri jekyll
-gem install bundler json jekyll
+    ruby-dev ruby-bundler ruby-bigdecimal imagemagick &&
+gem install bundler json jekyll &&
 
-#rm -rf /usr/lib/ruby/gems/*/cache/*.gem
 #bundle clean
-
 #bundle config <name> <value>
+#BUNDLE_PATH=`pwd`/.bundle
 
-cp .gemrc $HOME/
+cp .gemrc $HOME/ &&
 
-BUNDLE_PATH=`pwd`/.bundle
+bundle install &&
 
-bundle install
-
-mkdir $FOLDER
+mkdir $FOLDER &&
 
 JEKYLL_ENV=production bundle exec jekyll build --trace
+
+[ "x$?" != x0 ] || exit 1
 
 cd "$FOLDER"
 if [ "x$CNAME" != x ]; then
@@ -47,10 +51,10 @@ REPOSITORY_PATH="https://${ACCESS_TOKEN:-"x-access-token:$GITHUB_TOKEN"}@github.
 rm -r .git
 mkdir result
 cd result
-git init
-mv ../$FOLDER/* .
-echo 'Files to push:'
-ls -a
-git add --all --force
-git commit --quiet --allow-empty -m -
+git init &&
+mv ../$FOLDER/* . &&
+git add --all --force &&
+git commit --quiet --allow-empty -m - &&
 git push --force "$REPOSITORY_PATH" $BRANCH
+
+[ "x$?" = x0 ] || exit 1
