@@ -2,6 +2,7 @@
 
 #!/usr/bin/env bash
 
+echo 'which bash:'
 which bash
 
 # Stop execution on a first error (needs bash).
@@ -23,15 +24,15 @@ gem install bundler json jekyll &&
 #bundle config <name> <value>
 #BUNDLE_PATH=`pwd`/.bundle
 
-cp .gemrc $HOME/ &&
+cp .gemrc $HOME/ #&&
 
-bundle install &&
+bundle install #&&
 
-mkdir $FOLDER &&
+mkdir $FOLDER #&&
 
 JEKYLL_ENV=production bundle exec jekyll build --trace
 
-[ "x$?" != x0 ] || exit 1
+#[ "x$?" != x0 ] || exit 1
 
 cd "$FOLDER"
 if [ "x$CNAME" != x ]; then
@@ -53,10 +54,10 @@ mkdir result
 cd result
 git init
 mv ../$FOLDER/* .
-git add --all --force &&
-git commit --quiet --allow-empty -m - &&
+git add --all --force #&&
+git commit --quiet --allow-empty -m - #&&
 git push --force "$REPOSITORY_PATH" $BRANCH
 
-[ "x$?" = x0 ] || exit 1
+#[ "x$?" = x0 ] || exit 1
 
 exit 0
