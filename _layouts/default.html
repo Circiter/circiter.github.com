@@ -8,7 +8,8 @@
     {% include sidebar.html %}
 
     <div class="content container">
-      {{ content | hyphenate }}
+      {{ content | toc_only}}
+      {{ content | inject_anchors | hyphenate }}
     </div>
 
   {% include footer.html %}

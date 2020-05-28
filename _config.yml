@@ -43,7 +43,10 @@ kramdown:
   input: KramdownEasyLink
   syntax_highlighter: rouge
   #syntax_highligher: coderay
-  #auto_ids: false
+  #auto_ids: true
+  #auto_id_stripping
+  #transliterated_header_ids
+  #gfm_quirks:
   hard_wrap: false
   math_engine: simplemath
 
@@ -63,6 +66,7 @@ plugins:
   - jekyll-optional-front-matter
   - jekyll-titles-from-headings
   - jekyll_inline_highlight
+  - jekyll-toc
   #- jekyll-default-layout
 
 scholar:
