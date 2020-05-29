@@ -3,7 +3,7 @@ layout: default
 ---
 
 <div class="post">
-  <h2 class="post-title; no-toc">{{ page.title }}</h2>
+  <h2 class="post-title no-toc">{{ page.title }}</h2>
   <span class="post-date">{{ page.date | date: "%-d %B %Y" }}</span>
   {% include toc.html %}
   {{ content | inject_anchors }}
