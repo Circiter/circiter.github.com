@@ -8,7 +8,7 @@
     {% include sidebar.html %}
 
     <div class="content container">
-      {% if page.toc == "true" %}
+      {% if page.toc %}
           <h3>Содержание:</h3>
           {{ content | toc_only}}
       {% endif %}
