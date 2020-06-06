@@ -152,6 +152,11 @@ Perl-скриптом [m2elf.pl](https://github.com/XlogicX/m2elf).
 
 Кроме этого на <http://gist.github.com/Circiter/> хранятся следующие <<минирепозитории>> (gists):
 
+* [dec-to-bin.sed](https://gist.github.com/Circiter/8d19dee9ca046ceae534f40e2ec10ff0) -- перевод десятичного числа
+  в двоичную систему счисления.
+* [dec-to-hex.sed](https://gist.github.com/Circiter/28532a371eeea8d497c53ae81b8d7a80) -- основанный на предыдущем скрипте
+  (`dec-to-bin.sed`) код преобразования числа из десятичной системы счисления в шестнадцатиричную. При необходимости
+  оба примера сравнительно легко обобщаются и на другие системы счисления по основанию 2 (e.g. на восьмиричную).
 * [permutations.sed](https://gist.github.com/Circiter/ab4f8538d3882562e38a2e7525acc480) -- перестановки,
    самые обычные перестановки.
 * [up-n-down.sed](https://gist.github.com/Circiter/aadaad1cc3ddce7cf13b333a65b0f78b) -- экспериментальный
