@@ -3,6 +3,8 @@
 
 # From jameshfisher.com
 
+# TODO: implement equivalence classes of tags.
+
 module Jekyll
     class TagPageGenerator < Generator
         def generate(site)
@@ -26,7 +28,6 @@ module Jekyll
             self.read_yaml(File.join(base, "_layouts"), "tag.html")
             self.data['tag']=tag
             self.data['title']=self.data['title'].gsub(/@/, "#{tag}");
-            #self.data['permalink']="/tag/#{tag}"
             self.data['permalink']=@dir
         end
     end
