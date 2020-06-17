@@ -155,7 +155,7 @@ end
 
 Kramdown::Converter.add_math_engine(:simplemath, Kramdown::Converter::MathEngine::SimpleMath)
 
-class Site << Jekyll::Site
+class Site < Jekyll::Site
     @xfiles=[]
     def register_file(filename)
         @xfiles<<filename
