@@ -108,7 +108,7 @@ def render_latex(formula, is_formula, inline, site)
             #end
             html_code="<img src=\""+full_filename+"\" title=\""+title
                 +"\" border=\"0\" class=\"inline\" style=\""
-                +stule+"\">"
+                +style+"\">"
             result=html_code
             result="<span>"+result+"</span>" unless inline
         else
@@ -133,11 +133,6 @@ module Kramdown
                 def self.my_init(site)
                     @@my_site=site
                 end
-
-                #@@my_generated_files=[]
-                #def self.generated_files
-                #    @@my_generated_files
-                #end
 
                 def self.call(converter, element, options)
                     display_mode=element.options[:category]
