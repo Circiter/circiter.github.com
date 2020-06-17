@@ -106,11 +106,12 @@ def render_latex(formula, is_formula, inline, site)
             #        {"src"=>"/"+full_filename, "title"=>title, "border"=>0,
             #        "class"=>"inline", "style"=>style}, ""); # FIXME: class="inline"?
             #end
-            html_code="<img src=\""+full_filename+"\" title=\""+title
+            #title=...
+            html_code=" <img src=\""+full_filename+
                 +"\" border=\"0\" class=\"inline\" style=\""
-                +style+"\">"
+                +style+"\"></img> "
             result=html_code
-            result="<span>"+result+"</span>" unless inline
+            #result="<span>"+result+"</span>" if inline
         else
             puts "png file does not exist (for formula "+formula+")"
         end
@@ -275,7 +276,6 @@ module Jekyll
 
             def initialize(tag_name, text, tokens)
                 super
-                # ...
             end
 
             def render(context)
