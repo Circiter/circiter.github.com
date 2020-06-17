@@ -16,3 +16,6 @@ layout: default
         {% endfor %}
     </em></small>
 {% endif %}
+{% if page.sig %}
+    <p><small>[<a href="/sig/{{ page.path | split: '/' | last }}.sha256.sig">sha256 RSA ЭЦП</a>] (<a href="https://gist.github.com/Circiter/92e7b9368c1e29c055a688d12d61466c">ключ</a>)<small></p>
+{% endif %}
