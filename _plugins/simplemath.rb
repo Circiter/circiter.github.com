@@ -12,7 +12,7 @@ def render_latex(formula, is_formula, inline, site)
 
     #puts "generating tex document for formula: "+formula
     #latex_source="\\nonstopmode\n"
-    latex_source<<"\\documentclass[10pt]{article}\n"
+    latex_source="\\documentclass[10pt]{article}\n"
     latex_source<<"\\usepackage[utf8]{inputenc}\n"
     latex_source<<"\\usepackage[T2A,T1]{fontenc}\n"
     latex_source<<"\\usepackage{amsmath,amsfonts,amssymb,color,xcolor}\n"
