@@ -10,8 +10,6 @@ def render_latex(formula, is_formula, inline, site)
         FileUtils.mkdir_p(directory)
     end
 
-    #puts "generating tex document for formula: "+formula
-    #latex_source="\\nonstopmode\n"
     latex_source="\\documentclass[10pt]{article}\n"
     latex_source<<"\\usepackage[utf8]{inputenc}\n"
     latex_source<<"\\usepackage[T2A,T1]{fontenc}\n"
@@ -20,52 +18,49 @@ def render_latex(formula, is_formula, inline, site)
     latex_source<<"\\usepackage{type1cm}\n"
     #latex_source<<"\\usepackage{tikz}\n"
     #latex_source<<"\\usepackage{circuitikz}\n"
-    latex_source<<"\\newsavebox\\frm\n"
-    latex_source<<"\\sbox\\frm{"
-    #equation_bracket=(display_mode==:block)?"$$":"$"
-    # Use $ or $$ "brackets" only if is_formula==true.
-    equation_bracket="$"
-    #puts("equation display mode is "+display_mode.to_s)
-    equation_bracket="$$" unless inline
     formula_in_brackets=formula
-    if is_formula
-        formula_in_brackets=equation_bracket+formula_in_brackets+equation_bracket
-    end
-    #puts("processing a formula "+formula_in_brackets)
-    latex_source<<formula_in_brackets
-    latex_source<<"}\n\\newwrite\\frmdims\n"
-    latex_source<<"\\immediate\\openout\\frmdims=dimensions.tmp\n"
-    latex_source<<"\\immediate\\write\\frmdims{depth: \\the\\dp\\frm}\n"
-    latex_source<<"\\immediate\\write\\frmdims{height: \\the\\ht\\frm}\n"
-    latex_source<<"\\immediate\\closeout\\frmdims\n"
-    latex_source<<"\n\\begin{document}\\pagestyle{empty}\\usebox\\frm\\end{document}"
+    #if is_formula
+        latex_source<<"\\newsavebox\\frm\n"
+        latex_source<<"\\sbox\\frm{"
+
+        # Use $ or $$ "brackets" only if is_formula==true.
+        equation_bracket="$"
+        equation_bracket="$$" unless inline
+        if is_formula
+            formula_in_brackets=equation_bracket+formula_in_brackets+equation_bracket
+        end
+
+        latex_source<<formula_in_brackets
+        latex_source<<"}\n\\newwrite\\frmdims\n"
+        latex_source<<"\\immediate\\openout\\frmdims=dimensions.tmp\n"
+        latex_source<<"\\immediate\\write\\frmdims{depth: \\the\\dp\\frm}\n"
+        latex_source<<"\\immediate\\write\\frmdims{height: \\the\\ht\\frm}\n"
+        latex_source<<"\\immediate\\closeout\\frmdims\n"
+    #end
+    latex_source<<"\n\\begin{document}\\pagestyle{empty}\n"
+    #if is_formula
+        latex_source<<"\\usebox\\frm"
+    #end
+    latex_source<<"\n\\end{document}"
     filename=Digest::MD5.hexdigest(formula_in_brackets)+".png"
     full_filename=File.join(directory, filename)
 
     latex_document=File.new("temp-file.tex", "w")
     latex_document.puts(latex_source)
     latex_document.close
-    #puts "trying to compile latex document..."
     system("latex -interaction=nonstopmode temp-file.tex >/dev/null 2>&1")
 
     result="<pre>"+formula_in_brackets+"</pre>"
     if File.exists?("temp-file.dvi")
-        #puts "converting dvi to png..."
         #system("dvipng -q* -T tight temp-file.dvi -o "+full_filename);
         system("dvips -E temp-file.dvi -o temp-file.eps >/dev/null 2>&1");
         # -density 120
         system("convert -density 170 temp-file.eps "+full_filename+" >/dev/null 2>&1")
         if File.exists?(full_filename)
             #system("convert "+full_filename+"-fuzz 2% -transparent white "+full_filename)
-            #convert test.png -background 'rgba(0,0,0,0)' test1.png
-            #site=Jekyll.sites[0]
-            #site=@@my_site
-            #puts("site.source="+site.source)
             static_file=Jekyll::StaticFile.new(site, site.source, directory, filename)
-            #@@my_generated_files<<static_file
-            Site.register_file(static_file.path)
+            #Site.register_file(static_file.path)
             site.static_files<<static_file
-            #puts "finalizing"
 
             depth_pt="0pt"
             height_pt="10pt"
@@ -99,25 +94,23 @@ def render_latex(formula, is_formula, inline, site)
 
             #style="margin-bottom: -"+depth+"px;"
             style="height: "+height_pixels+"px; vertical-align: -"+depth+"px;";
-            #result="<img src=\"/"+full_filename+"\" title=\""+formula+"\" style=\""+style+"\" class=\"inline\" />"
-            #title=CGI.escape(formula) # FIXME.
-            #title=ERB::Util.url_encode(formula) # FIXME.
+            #title=CGI.escape(formula)
+            #title=ERB::Util.url_encode(formula)
             title=ERB::Util.html_escape(formula) # FIXME.
             if !inline
                 result=converter.format_as_block_html("img",
                     {"src"=>"/"+full_filename, "title"=>title, "border"=>0,
                     "class"=>"inline", "style"=>style}, "", 0);
             else
-                    result=converter.format_as_span_html("img",
-                        {"src"=>"/"+full_filename, "title"=>title, "border"=>0,
-                        "class"=>"inline", "style"=>style}, ""); # FIXME: class="inline"?
+                result=converter.format_as_span_html("img",
+                    {"src"=>"/"+full_filename, "title"=>title, "border"=>0,
+                    "class"=>"inline", "style"=>style}, ""); # FIXME: class="inline"?
             end
-            #puts "ok"
         else
-            puts "png file does not exist"
+            puts "png file does not exist (for formula "+formula+")"
         end
     else
-        puts "dvi file was not generated"
+        puts "dvi file was not generated (for formula "+formula+")"
     end
 
     Dir.glob("temp-file.*").each do |f|
