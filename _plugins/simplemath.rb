@@ -63,7 +63,7 @@ def render_latex(formula, is_formula, inline, site)
             #puts("site.source="+site.source)
             static_file=Jekyll::StaticFile.new(site, site.source, directory, filename)
             #@@my_generated_files<<static_file
-            Jekyll::Site.register_file(static_file.path)
+            Site.register_file(static_file.path)
             site.static_files<<static_file
             #puts "finalizing"
 
@@ -155,7 +155,7 @@ end
 
 Kramdown::Converter.add_math_engine(:simplemath, Kramdown::Converter::MathEngine::SimpleMath)
 
-class Jekyll::Site
+class Site << Jekyll::Site
     @xfiles=[]
     def register_file(filename)
         @xfiles<<filename
