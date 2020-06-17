@@ -97,15 +97,20 @@ def render_latex(formula, is_formula, inline, site)
             #title=CGI.escape(formula)
             #title=ERB::Util.url_encode(formula)
             title=ERB::Util.html_escape(formula) # FIXME.
-            if !inline
-                result=converter.format_as_block_html("img",
-                    {"src"=>"/"+full_filename, "title"=>title, "border"=>0,
-                    "class"=>"inline", "style"=>style}, "", 0);
-            else
-                result=converter.format_as_span_html("img",
-                    {"src"=>"/"+full_filename, "title"=>title, "border"=>0,
-                    "class"=>"inline", "style"=>style}, ""); # FIXME: class="inline"?
-            end
+            #if !inline
+            #    result=converter.format_as_block_html("img",
+            #        {"src"=>"/"+full_filename, "title"=>title, "border"=>0,
+            #        "class"=>"inline", "style"=>style}, "", 0);
+            #else
+            #    result=converter.format_as_span_html("img",
+            #        {"src"=>"/"+full_filename, "title"=>title, "border"=>0,
+            #        "class"=>"inline", "style"=>style}, ""); # FIXME: class="inline"?
+            #end
+            html_code="<img src=\""+full_filename+"\" title=\""+title
+                +"\" border=\"0\" class=\"inline\" style=\""
+                +stule+"\">"
+            result=html_code
+            if !inline result="<span>"+result+"</span>"
         else
             puts "png file does not exist (for formula "+formula+")"
         end
