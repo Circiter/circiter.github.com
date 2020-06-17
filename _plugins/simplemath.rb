@@ -110,7 +110,7 @@ def render_latex(formula, is_formula, inline, site)
                 +"\" border=\"0\" class=\"inline\" style=\""
                 +stule+"\">"
             result=html_code
-            if !inline result="<span>"+result+"</span>"
+            result="<span>"+result+"</span>" unless inline
         else
             puts "png file does not exist (for formula "+formula+")"
         end
