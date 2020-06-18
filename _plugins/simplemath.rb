@@ -6,7 +6,6 @@ require "fileutils"
 require "digest"
 require "erb"
 
-# FIXME: Do baseline detection only for inline formulas.
 def render_latex(formula, is_formula, inline, site)
     directory="eq"
     if !File.exists?(directory)
@@ -21,15 +20,13 @@ def render_latex(formula, is_formula, inline, site)
     latex_source<<"\\usepackage{type1cm}\n"
     latex_source<<"\\usepackage{tikz}\n"
     #latex_source<<"\\usepackage{circuitikz}\n"
-    if is_formula
+    if is_formula==true
         latex_source<<"\\newsavebox\\frm\n"
         latex_source<<"\\sbox\\frm{"
 
         equation_bracket="$"
         equation_bracket="$$" unless inline
-        if is_formula
-            formula_in_brackets=equation_bracket+formula+equation_bracket
-        end
+        formula_in_brackets=equation_bracket+formula+equation_bracket
 
         latex_source<<formula_in_brackets
         latex_source<<"}\n\\newwrite\\frmdims\n"
@@ -39,7 +36,7 @@ def render_latex(formula, is_formula, inline, site)
         latex_source<<"\\immediate\\closeout\\frmdims\n"
     end
     latex_source<<"\n\\begin{document}\\pagestyle{empty}\n"
-    if is_formula
+    if is_formula==true
         latex_source<<"\\usebox\\frm"
     else
         latex_source<<formula
@@ -53,7 +50,7 @@ def render_latex(formula, is_formula, inline, site)
     latex_document.close
     system("latex -interaction=nonstopmode temp-file.tex >/dev/null 2>&1")
 
-    result="<pre><code>"+formula_in_brackets+"<\/code><\/pre>"
+    result="<pre>"+formula_in_brackets+"<\/pre>"
     if File.exists?("temp-file.dvi")
         #system("dvipng -q* -T tight temp-file.dvi -o "+full_filename);
         system("dvips -E temp-file.dvi -o temp-file.eps >/dev/null 2>&1");
@@ -65,7 +62,7 @@ def render_latex(formula, is_formula, inline, site)
             site.static_files<<static_file
 
             style=""
-            if is_formula
+            if is_formula==true
                 depth_pt="0pt"
                 height_pt="10pt"
                 IO.foreach("dimensions.tmp") do |line|
@@ -102,7 +99,7 @@ def render_latex(formula, is_formula, inline, site)
             #title=CGI.escape(formula)
             #title=ERB::Util.url_encode(formula)
             title=ERB::Util.html_escape(formula) # FIXME.
-            result="<img src=\""+full_filename+"\" border=\"0\" "+style+" class=\"inline\"><\/img>"
+            result="<img src=\""+full_filename+"\" border=\"0\" "+style+" class=\"inline\"\/>"
         else
             puts "png file does not exist (for formula "+formula+")"
         end
@@ -129,7 +126,10 @@ module Kramdown
                 def self.call(converter, element, options)
                     display_mode=element.options[:category]
                     formula=element.value
-                    inline=(display_mode!=:block)
+                    inline=true
+                    if display_mode==:block
+                        inline=false
+                    end
 
                     render_latex(formula, true, inline, @@my_site)
                 end
@@ -272,8 +272,7 @@ module Jekyll
             def render(context)
                 latex_source=super
                 site=context.registers[:site]
-                #Tags::LatexBlock::init_globals(site)
-                render_latex(latex_source, true, false, site)
+                render_latex(latex_source, false, false, site)
             end
 
         end
