@@ -149,8 +149,8 @@ class Jekyll::Site
     alias :super_write :write
     def write
         super_write
-        #source_files=[]
-        source_files=@xfiles
+        source_files=[]
+        #source_files=@xfiles
         puts "generated files:"
         source_files.each do |f|
             puts(f)
