@@ -39,16 +39,17 @@ repository: "Circiter/circiter.github.io"
 markdown: kramdown
 
 kramdown:
-  #input: GFM
-  input: KramdownEasyLink
+  input: GFM
+  #input: KramdownEasyLink
   syntax_highlighter: rouge
   #syntax_highligher: coderay
-  #auto_ids: true
+  auto_ids: true
   #auto_id_stripping
-  #transliterated_header_ids
+  transliterated_header_ids: true
   #gfm_quirks:
   hard_wrap: false
   math_engine: simplemath
+  parse_block_html: true
 
   #syntax_highlighter_opts:
   #  wrap: div
@@ -62,11 +63,11 @@ plugins_dir: _plugins
 plugins:
   - jekyll-sitemap
   - jekyll-feed
-  - jekyll/scholar
+  #- jekyll/scholar
   - jekyll-optional-front-matter
   - jekyll-titles-from-headings
   - jekyll_inline_highlight
-  - jekyll-toc
+  #- jekyll-toc
   #- jekyll-default-layout
 
 scholar:

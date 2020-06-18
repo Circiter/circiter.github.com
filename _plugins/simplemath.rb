@@ -19,7 +19,7 @@ def render_latex(formula, is_formula, inline, site, converter=0)
     latex_source<<"\\usepackage[english, russian]{babel}\n"
     latex_source<<"\\usepackage{type1cm}\n"
     latex_source<<"\\usepackage{tikz}\n"
-    latex_source<<"\\usepackage[european,emptydiode,americaninductor]{circuitikz}\n"
+    latex_source<<"\\usepackage[european,emptydiode,americaninductor]{circuitikz-0.4}\n"
     formula_in_brackets=formula
     if is_formula
         latex_source<<"\\newsavebox\\frm\n"
@@ -49,7 +49,8 @@ def render_latex(formula, is_formula, inline, site, converter=0)
     latex_document=File.new("temp-file.tex", "w")
     latex_document.puts(latex_source)
     latex_document.close
-    system("latex -interaction=nonstopmode temp-file.tex >/dev/null 2>&1")
+    #system("latex -interaction=nonstopmode temp-file.tex >/dev/null 2>&1")
+    system("latex -interaction=nonstopmode temp-file.tex")
 
     result="<pre>"+formula_in_brackets+"</pre>"
     if File.exists?("temp-file.dvi")
