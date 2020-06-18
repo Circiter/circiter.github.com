@@ -62,7 +62,6 @@ def render_latex(formula, is_formula, inline, site, converter=0)
             #Jekyll::Site::register_file(static_file.path) # FIXME.
             site.static_files<<static_file
 
-            style=""
             if is_formula
                 depth_pt="0pt"
                 height_pt="10pt"
@@ -77,7 +76,17 @@ def render_latex(formula, is_formula, inline, site, converter=0)
                 end
                 height_pt_float=height_pt.to_f
                 depth_pt_float=depth_pt.to_f
+            end
 
+            # Try to use ImageMagick's identify to get the height in pixels.
+            system("identify -ping -format %h "+full_filename+" > height.tmp")
+            height_pixels=File.read("height.tmp");
+            style="height: "+height_pixels+"px;"
+            system("identify -ping -format %w "+full_filename+" > width.tmp")
+            width_pixels=File.read("width.tmp");
+            style=style+" width: "+width_pixels+"px;"
+
+            if is_formula
                 # For some reason the depth obtained from the latex
                 # does not give a correct vertical position for a
                 # image on an html-page. But nevertheless we can use
@@ -85,23 +94,19 @@ def render_latex(formula, is_formula, inline, site, converter=0)
                 # and the reported dimensions (including the depth) to
                 # convert from pt to px.
 
-                # Try to use ImageMagick's identify to get the height in pixels.
-                system("identify -ping -format %h "+full_filename+" > height.tmp")
-                height_pixels=File.read("height.tmp");
-
                 conversion_factor=(height_pixels.to_f)/height_pt_float
                 depth_pixels=(depth_pt_float*conversion_factor).round.to_i
 
                 depth=depth_pixels.to_s
 
                 #style="margin-bottom: -"+depth+"px;"
-                style="height: "+height_pixels+"px; vertical-align: -"+depth+"px;";
+                style=style+" vertical-align: -"+depth+"px;";
             end
             #title=CGI.escape(formula)
             #title=ERB::Util.url_encode(formula)
             title=ERB::Util.html_escape(formula) # FIXME.
             full_filename="/"+full_filename;
-            if is_formula #&&converter!=null
+            if is_formula
                 if inline
                     result=converter.format_as_span_html("img",
                         {"src"=>full_filename, "border"=>0,
@@ -113,7 +118,7 @@ def render_latex(formula, is_formula, inline, site, converter=0)
                         "class"=>"inline", "style"=>style}, "", 0);
                 end
             else
-                result="<img src=\""+full_filename+"\" border=\"0\" class=\"inline\"/>"
+                result="<img src=\""+full_filename+"\" border=\"0\" style=\""+style+"\" class=\"inline\"><\/img>"
             end
         else
             puts "png file does not exist (for formula "+formula+")"
@@ -126,6 +131,7 @@ def render_latex(formula, is_formula, inline, site, converter=0)
         File.delete(f)
     end
 
+    puts("debug: <formula>"+result+"</formula>");
     result
 end
 
