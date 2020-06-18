@@ -7,6 +7,18 @@ require "digest"
 require "erb"
 
 def render_latex(formula, is_formula, inline, site, converter=0)
+    parameters=""
+    if inline
+        parameters=parameters+"inline=true"
+    else
+        parameters=parameters+"inline=false"
+    end
+    if is_formula
+        parameters=parameters+" is_formula=true"
+    else
+        parameters=parameters+" is_formula=false"
+    end
+    puts("debug: <formula>"+formula+"</formula> "+parameters)
     directory="eq"
     if !File.exists?(directory)
         FileUtils.mkdir_p(directory)
@@ -49,8 +61,8 @@ def render_latex(formula, is_formula, inline, site, converter=0)
     latex_document=File.new("temp-file.tex", "w")
     latex_document.puts(latex_source)
     latex_document.close
-    #system("latex -interaction=nonstopmode temp-file.tex >/dev/null 2>&1")
-    system("latex -interaction=nonstopmode temp-file.tex")
+    system("latex -interaction=nonstopmode temp-file.tex >/dev/null 2>&1")
+    #system("latex -interaction=nonstopmode temp-file.tex")
 
     result="<pre>"+formula_in_brackets+"</pre>"
     if File.exists?("temp-file.dvi")
