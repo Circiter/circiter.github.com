@@ -107,9 +107,7 @@ def render_latex(formula, is_formula, inline, site)
             #        "class"=>"inline", "style"=>style}, ""); # FIXME: class="inline"?
             #end
             #title=...
-            html_code=" <img src=\""+full_filename
-                +"\" border=\"0\" class=\"inline\" style=\""
-                +style+"\"></img> "
+            html_code=" <img src=\""+full_filename+"\" title=\""+title+"\" border=\"0\" class=\"inline\" style=\""+style+"\"></img> "
             result=html_code
             #result="<span>"+result+"</span>" if inline
         else
