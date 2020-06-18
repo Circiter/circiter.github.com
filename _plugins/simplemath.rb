@@ -105,7 +105,7 @@ def render_latex(formula, is_formula, inline, site, converter)
                 if inline
                     result=converter.format_as_span_html("img",
                         {"src"=>full_filename, "border"=>0,
-                        "class=>"inline", "style"=>style}, "");
+                        "class"=>"inline", "style"=>style}, "");
                     puts("Debug: html generated: <code>"+result+"</code>");
                 else
                     result=converter.format_as_block_html("img",
