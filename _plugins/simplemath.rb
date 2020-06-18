@@ -84,7 +84,7 @@ def render_latex(formula, is_formula, inline, site, converter=0)
             style="height: "+height_pixels+"px;"
             system("identify -ping -format %w "+full_filename+" > width.tmp")
             width_pixels=File.read("width.tmp");
-            style=style+" width: "+width_pixels+"px;"
+            #style=style+" width: "+width_pixels+"px;" # FIXME: Visually incorrect size.
 
             if is_formula
                 # For some reason the depth obtained from the latex
@@ -111,14 +111,13 @@ def render_latex(formula, is_formula, inline, site, converter=0)
                     result=converter.format_as_span_html("img",
                         {"src"=>full_filename, "border"=>0,
                         "class"=>"inline", "style"=>style}, "");
-                    puts("Debug: html generated: <code>"+result+"</code>");
                 else
                     result=converter.format_as_block_html("img",
                         {"src"=>full_filename, "border"=>0,
                         "class"=>"inline", "style"=>style}, "", 0);
                 end
             else
-                result="<img src=\""+full_filename+"\" border=\"0\" style=\""+style+"\" class=\"inline\"><\/img>"
+                result="<img src=\""+full_filename+"\" border=\"0\" style=\""+style+"\" class=\"inline\"/>"
             end
         else
             puts "png file does not exist (for formula "+formula+")"
@@ -131,7 +130,6 @@ def render_latex(formula, is_formula, inline, site, converter=0)
         File.delete(f)
     end
 
-    puts("debug: <formula>"+result+"</formula>");
     result
 end
 
