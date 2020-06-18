@@ -107,7 +107,7 @@ def render_latex(formula, is_formula, inline, site)
             #        "class"=>"inline", "style"=>style}, ""); # FIXME: class="inline"?
             #end
             #title=...
-            html_code=" <img src=\""+full_filename+
+            html_code=" <img src=\""+full_filename
                 +"\" border=\"0\" class=\"inline\" style=\""
                 +style+"\"></img> "
             result=html_code
@@ -123,6 +123,7 @@ def render_latex(formula, is_formula, inline, site)
         File.delete(f)
     end
 
+    puts "embedded formula: <begin>"+result+"</end>"
     result
 end
 
