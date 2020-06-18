@@ -110,7 +110,7 @@ def render_latex(formula, is_formula, inline, site, converter)
                 else
                     result=converter.format_as_block_html("img",
                         {"src"=>full_filename, "border"=>0,
-                        "class=>"inline", "style"=>style}, "", 0);
+                        "class"=>"inline", "style"=>style}, "", 0);
                 end
             else
                 result="<img src=\""+full_filename+"\" border=\"0\" class=\"inline\"/>"
