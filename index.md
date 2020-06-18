@@ -10,12 +10,11 @@ title: Дневник Circiter'а.
 Сообщения-статьи:
 {% assign posts_list = site.blog_posts %}
 {% for post in posts_list %}
-    {% if post.title != null %}
-        {% if post.layout == "post" %}
+    {% if post.test == null %}
+        {% if post.title != null %}
+            {% if post.layout == "post" %}
 * [{{ post.title }}]({{ post.url }})
-        {% endif %}
-        {% if post.layout == "draft" %}
-* [[черновик] {{ post.title }}]({{ post.url }})
+            {% endif %}
         {% endif %}
     {% endif %}
 {% endfor %}

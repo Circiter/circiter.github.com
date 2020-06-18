@@ -1,3 +1,6 @@
+# Some parts of this code is taken from github.com/fgalindo/jekyll-liquid-latex-plugin
+# but with major rewrite [and, in fact, with considerable downgrade in the functionality].
+
 require "kramdown/converter"
 require "fileutils"
 require "digest"
@@ -16,18 +19,16 @@ def render_latex(formula, is_formula, inline, site)
     latex_source<<"\\usepackage{amsmath,amsfonts,amssymb,color,xcolor}\n"
     latex_source<<"\\usepackage[english, russian]{babel}\n"
     latex_source<<"\\usepackage{type1cm}\n"
-    #latex_source<<"\\usepackage{tikz}\n"
+    latex_source<<"\\usepackage{tikz}\n"
     #latex_source<<"\\usepackage{circuitikz}\n"
-    formula_in_brackets=formula
-    #if is_formula
+    if is_formula
         latex_source<<"\\newsavebox\\frm\n"
         latex_source<<"\\sbox\\frm{"
 
-        # Use $ or $$ "brackets" only if is_formula==true.
         equation_bracket="$"
         equation_bracket="$$" unless inline
         if is_formula
-            formula_in_brackets=equation_bracket+formula_in_brackets+equation_bracket
+            formula_in_brackets=equation_bracket+formula+equation_bracket
         end
 
         latex_source<<formula_in_brackets
@@ -36,11 +37,13 @@ def render_latex(formula, is_formula, inline, site)
         latex_source<<"\\immediate\\write\\frmdims{depth: \\the\\dp\\frm}\n"
         latex_source<<"\\immediate\\write\\frmdims{height: \\the\\ht\\frm}\n"
         latex_source<<"\\immediate\\closeout\\frmdims\n"
-    #end
+    end
     latex_source<<"\n\\begin{document}\\pagestyle{empty}\n"
-    #if is_formula
+    if is_formula
         latex_source<<"\\usebox\\frm"
-    #end
+    else
+        latex_source<<formula
+    end
     latex_source<<"\n\\end{document}"
     filename=Digest::MD5.hexdigest(formula_in_brackets)+".png"
     full_filename=File.join(directory, filename)
@@ -54,62 +57,51 @@ def render_latex(formula, is_formula, inline, site)
     if File.exists?("temp-file.dvi")
         #system("dvipng -q* -T tight temp-file.dvi -o "+full_filename);
         system("dvips -E temp-file.dvi -o temp-file.eps >/dev/null 2>&1");
-        # -density 120
-        system("convert -density 170 temp-file.eps "+full_filename+" >/dev/null 2>&1")
+        system("convert -density 120 temp-file.eps "+full_filename+" >/dev/null 2>&1")
         if File.exists?(full_filename)
             #system("convert "+full_filename+"-fuzz 2% -transparent white "+full_filename)
             static_file=Jekyll::StaticFile.new(site, site.source, directory, filename)
             #Site.register_file(static_file.path)
             site.static_files<<static_file
 
-            depth_pt="0pt"
-            height_pt="10pt"
-            IO.foreach("dimensions.tmp") do |line|
-                if line =~ /^([a-z]*):\s+(\d*\.?\d+)[a-z]*$/
-                    if $1 == "depth"
-                        depth_pt=$2
-                    elsif $1 == "height"
-                        height_pt=$2
+            if is_formula
+                depth_pt="0pt"
+                height_pt="10pt"
+                IO.foreach("dimensions.tmp") do |line|
+                    if line =~ /^([a-z]*):\s+(\d*\.?\d+)[a-z]*$/
+                        if $1 == "depth"
+                            depth_pt=$2
+                        elsif $1 == "height"
+                            height_pt=$2
+                        end
                     end
                 end
+                height_pt_float=height_pt.to_f
+                depth_pt_float=depth_pt.to_f
+
+                # For some reason the depth obtained from the latex
+                # does not give a correct vertical position for a
+                # image on an html-page. But nevertheless we can use
+                # the proportionality between actual size of the image
+                # and the reported dimensions (including the depth) to
+                # convert from pt to px.
+
+                # Try to use ImageMagick's identify to get the height in pixels.
+                system("identify -ping -format %h "+full_filename+" > height.tmp")
+                height_pixels=File.read("height.tmp");
+
+                conversion_factor=(height_pixels.to_f)/height_pt_float
+                depth_pixels=(depth_pt_float*conversion_factor).round.to_i
+
+                depth=depth_pixels.to_s
+
+                #style="margin-bottom: -"+depth+"px;"
+                style="style=\"height: "+height_pixels+"px; vertical-align: -"+depth+"px;\"";
             end
-            height_pt_float=height_pt.to_f
-            depth_pt_float=depth_pt.to_f
-
-            # For some reason the depth obtained from the latex
-            # does not give a correct vertical position for a
-            # image on an html-page. But nevertheless we can use
-            # the proportionality between actual size of the image
-            # and the reported dimensions (including the depth) to
-            # convert from pt to px.
-
-            # Try to use ImageMagick's identify to get the height in pixels.
-            system("identify -ping -format %h "+full_filename+" > height.tmp")
-            height_pixels=File.read("height.tmp");
-
-            conversion_factor=(height_pixels.to_f)/height_pt_float
-            depth_pixels=(depth_pt_float*conversion_factor).round.to_i
-
-            depth=depth_pixels.to_s
-
-            #style="margin-bottom: -"+depth+"px;"
-            style="height: "+height_pixels+"px; vertical-align: -"+depth+"px;";
             #title=CGI.escape(formula)
             #title=ERB::Util.url_encode(formula)
             title=ERB::Util.html_escape(formula) # FIXME.
-            #if !inline
-            #    result=converter.format_as_block_html("img",
-            #        {"src"=>"/"+full_filename, "title"=>title, "border"=>0,
-            #        "class"=>"inline", "style"=>style}, "", 0);
-            #else
-            #    result=converter.format_as_span_html("img",
-            #        {"src"=>"/"+full_filename, "title"=>title, "border"=>0,
-            #        "class"=>"inline", "style"=>style}, ""); # FIXME: class="inline"?
-            #end
-            #title=...
-            html_code=" <img src=\""+full_filename+"\" title=\""+title+"\" border=\"0\" class=\"inline\" style=\""+style+"\"></img> "
-            result=html_code
-            #result="<span>"+result+"</span>" if inline
+            result="<span><img src=\""+full_filename+"\" title=\""+title+"\" border=\"0\" "+style+" class=\"inline\"></img></span>"
         else
             puts "png file does not exist (for formula "+formula+")"
         end
@@ -121,7 +113,6 @@ def render_latex(formula, is_formula, inline, site)
         File.delete(f)
     end
 
-    puts "embedded formula: <begin>"+result+"</end>"
     result
 end
 
