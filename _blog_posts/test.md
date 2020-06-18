@@ -21,3 +21,11 @@ Another block:
 {% latex %}
 \LaTeX
 {% endlatex %}
+
+Circuitikz test:
+{% latex %}
+\begin{circuitikz}
+\draw (0,0) node[npn=$VT1$] (VT1) {};
+\draw (VT1.emitter) to[R=$R7$] ++(0,-3) node[ground]{};
+\end{circuitikz}
+{% endlatex %}

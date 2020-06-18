@@ -19,7 +19,7 @@ def render_latex(formula, is_formula, inline, site, converter=0)
     latex_source<<"\\usepackage[english, russian]{babel}\n"
     latex_source<<"\\usepackage{type1cm}\n"
     latex_source<<"\\usepackage{tikz}\n"
-    #latex_source<<"\\usepackage{circuitikz}\n"
+    latex_source<<"\\usepackage[european,emptydiode,americaninductor]{circuitikz}\n"
     formula_in_brackets=formula
     if is_formula
         latex_source<<"\\newsavebox\\frm\n"
@@ -84,7 +84,8 @@ def render_latex(formula, is_formula, inline, site, converter=0)
             style="height: "+height_pixels+"px;"
             system("identify -ping -format %w "+full_filename+" > width.tmp")
             width_pixels=File.read("width.tmp");
-            #style=style+" width: "+width_pixels+"px;" # FIXME: Visually incorrect size.
+            style=style+" width: "+width_pixels+"px;"
+            # FIXME: Visually incorrect size.
 
             if is_formula
                 # For some reason the depth obtained from the latex
@@ -109,15 +110,15 @@ def render_latex(formula, is_formula, inline, site, converter=0)
             if is_formula
                 if inline
                     result=converter.format_as_span_html("img",
-                        {"src"=>full_filename, "border"=>0,
+                        {"src"=>full_filename,
                         "class"=>"inline", "style"=>style}, "");
                 else
                     result=converter.format_as_block_html("img",
-                        {"src"=>full_filename, "border"=>0,
+                        {"src"=>full_filename,
                         "class"=>"inline", "style"=>style}, "", 0);
                 end
             else
-                result="<img src=\""+full_filename+"\" border=\"0\" style=\""+style+"\" class=\"inline\"/>"
+                result="<img src=\""+full_filename+"\" style=\""+style+"\" class=\"inline\"/>"
             end
         else
             puts "png file does not exist (for formula "+formula+")"
