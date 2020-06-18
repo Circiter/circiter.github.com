@@ -6,7 +6,7 @@ require "fileutils"
 require "digest"
 require "erb"
 
-def render_latex(formula, is_formula, inline, site, converter)
+def render_latex(formula, is_formula, inline, site, converter=0)
     directory="eq"
     if !File.exists?(directory)
         FileUtils.mkdir_p(directory)
@@ -288,7 +288,7 @@ module Jekyll
             def render(context)
                 latex_source=super
                 site=context.registers[:site]
-                render_latex(latex_source, false, false, site, null)
+                render_latex(latex_source, false, false, site)
             end
 
         end
