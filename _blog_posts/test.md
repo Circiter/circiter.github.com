@@ -8,7 +8,7 @@ Inline formula: $\frac{d}{dx}x^2=2x$.
 
 Block formula: $$y(t)=\int_{-\infty}^\infty x(\xi-t)h(\xi)d\xi.$$
 
-Another block formula: {% latex %}$$y(t)=\int_{-\infty}^\infty x(\tau-t)h(\tau)d\tau.$${% endlatex %}
+Another block formula: {% latex %}\begin{displaymath}y(t)=\int_{-\infty}^\infty x(\tau-t)h(\tau)d\tau.\end{displaymath}{% endlatex %}
 
 Block of latex code:
 {% latex %}

@@ -51,10 +51,9 @@ def render_latex(formula, is_formula, inline, site)
     latex_document=File.new("temp-file.tex", "w")
     latex_document.puts(latex_source)
     latex_document.close
-    #system("latex -interaction=nonstopmode temp-file.tex >/dev/null 2>&1")
-    system("latex -interaction=nonstopmode temp-file.tex")
+    system("latex -interaction=nonstopmode temp-file.tex >/dev/null 2>&1")
 
-    result="<pre>"+formula_in_brackets+"</pre>"
+    result="<pre><code>"+formula_in_brackets+"<\/code><\/pre>"
     if File.exists?("temp-file.dvi")
         #system("dvipng -q* -T tight temp-file.dvi -o "+full_filename);
         system("dvips -E temp-file.dvi -o temp-file.eps >/dev/null 2>&1");
@@ -103,7 +102,7 @@ def render_latex(formula, is_formula, inline, site)
             #title=CGI.escape(formula)
             #title=ERB::Util.url_encode(formula)
             title=ERB::Util.html_escape(formula) # FIXME.
-            result="<img src=\""+full_filename+"\" border=\"0\" "+style+" class=\"inline\"></img>"
+            result="<img src=\""+full_filename+"\" border=\"0\" "+style+" class=\"inline\"><\/img>"
         else
             puts "png file does not exist (for formula "+formula+")"
         end
@@ -264,7 +263,7 @@ end
 module Jekyll
     module Tags
         class LatexBlock < Liquid::Block
-            #include Liquid::StandardFilters
+            include Liquid::StandardFilters
 
             def initialize(tag_name, text, tokens)
                 super
