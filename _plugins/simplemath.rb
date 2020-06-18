@@ -51,7 +51,8 @@ def render_latex(formula, is_formula, inline, site)
     latex_document=File.new("temp-file.tex", "w")
     latex_document.puts(latex_source)
     latex_document.close
-    system("latex -interaction=nonstopmode temp-file.tex >/dev/null 2>&1")
+    #system("latex -interaction=nonstopmode temp-file.tex >/dev/null 2>&1")
+    system("latex -interaction=nonstopmode temp-file.tex")
 
     result="<pre>"+formula_in_brackets+"</pre>"
     if File.exists?("temp-file.dvi")
@@ -64,6 +65,7 @@ def render_latex(formula, is_formula, inline, site)
             #Site.register_file(static_file.path)
             site.static_files<<static_file
 
+            style=""
             if is_formula
                 depth_pt="0pt"
                 height_pt="10pt"
@@ -101,7 +103,7 @@ def render_latex(formula, is_formula, inline, site)
             #title=CGI.escape(formula)
             #title=ERB::Util.url_encode(formula)
             title=ERB::Util.html_escape(formula) # FIXME.
-            result="<span><img src=\""+full_filename+"\" title=\""+title+"\" border=\"0\" "+style+" class=\"inline\"></img></span>"
+            result="<img src=\""+full_filename+"\" border=\"0\" "+style+" class=\"inline\"></img>"
         else
             puts "png file does not exist (for formula "+formula+")"
         end
@@ -139,7 +141,7 @@ end
 
 Kramdown::Converter.add_math_engine(:simplemath, Kramdown::Converter::MathEngine::SimpleMath)
 
-class Site < Jekyll::Site
+class Jekyll::Site
     @xfiles=[]
     def register_file(filename)
         @xfiles<<filename
