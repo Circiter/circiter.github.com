@@ -49,7 +49,7 @@ kramdown:
   #gfm_quirks:
   hard_wrap: false
   math_engine: simplemath
-  parse_block_html: true
+  #parse_block_html: true
 
   #syntax_highlighter_opts:
   #  wrap: div
@@ -67,7 +67,7 @@ plugins:
   - jekyll-optional-front-matter
   - jekyll-titles-from-headings
   - jekyll_inline_highlight
-  #- jekyll-toc
+  - jekyll-toc
   #- jekyll-default-layout
 
 scholar:

@@ -1,6 +1,4 @@
 {% if page.toc %}
     <h3>Содержание:</h3>
-    * list
-    {:toc}
-    <!-- content | toc_only -->
+    {{ content | toc_only }}
 {% endif %}
