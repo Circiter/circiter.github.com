@@ -42,22 +42,18 @@ def render_latex(formula, is_formula, inline, site, converter=0)
     latex_source<<"\\usepackage{type1cm}\n"
     latex_source<<"\\usepackage{tikz}\n"
     latex_source<<"\\usepackage[european,emptydiode,americaninductor]{circuitikz-0.4}\n"
-    if is_formula
-        latex_source<<"\\newsavebox\\frm\n"
-        latex_source<<"\\sbox\\frm{"
-        latex_source<<formula_in_brackets
-        latex_source<<"}\n\\newwrite\\frmdims\n"
-        latex_source<<"\\immediate\\openout\\frmdims=dimensions.tmp\n"
-        latex_source<<"\\immediate\\write\\frmdims{depth: \\the\\dp\\frm}\n"
-        latex_source<<"\\immediate\\write\\frmdims{height: \\the\\ht\\frm}\n"
-        latex_source<<"\\immediate\\closeout\\frmdims\n"
-    end
+
+    latex_source<<"\\newsavebox\\frm\n"
+    latex_source<<"\\sbox\\frm{"
+    latex_source<<formula_in_brackets
+    latex_source<<"}\n\\newwrite\\frmdims\n"
+    latex_source<<"\\immediate\\openout\\frmdims=dimensions.tmp\n"
+    latex_source<<"\\immediate\\write\\frmdims{depth: \\the\\dp\\frm}\n"
+    latex_source<<"\\immediate\\write\\frmdims{height: \\the\\ht\\frm}\n"
+    latex_source<<"\\immediate\\closeout\\frmdims\n"
+
     latex_source<<"\n\\begin{document}\\pagestyle{empty}\n"
-    if is_formula
-        latex_source<<"\\usebox\\frm"
-    else
-        latex_source<<formula
-    end
+    latex_source<<"\\usebox\\frm"
     latex_source<<"\n\\end{document}"
 
     puts("[debug] latex source for "+filename+": "+latex_source);
@@ -284,7 +280,7 @@ class MathFix
 
     def fixup()
         next_character()
-        while @positon<@content.length
+        while @position<@content.length
             if process_escaped()
                 next
             end
