@@ -58,6 +58,8 @@ def render_latex(formula, is_formula, inline, site, converter=0)
     filename=Digest::MD5.hexdigest(formula_in_brackets)+".png"
     full_filename=File.join(directory, filename)
 
+    puts("[debug] latex source for "+filename+": "+latex_source);
+
     latex_document=File.new("temp-file.tex", "w")
     latex_document.puts(latex_source)
     latex_document.close
@@ -67,7 +69,7 @@ def render_latex(formula, is_formula, inline, site, converter=0)
     result="<pre>"+formula_in_brackets+"</pre>"
     if File.exists?("temp-file.dvi")
         #system("dvipng -q* -T tight temp-file.dvi -o "+full_filename);
-        system("dvips -E temp-file.dvi -o temp-file.eps >/dev/null 2>&1");
+        system("dvips -E -q temp-file.dvi -o temp-file.eps >/dev/null 2>&1");
         system("convert -density 120 temp-file.eps "+full_filename+" >/dev/null 2>&1")
         if File.exists?(full_filename)
             #system("convert "+full_filename+"-fuzz 2% -transparent white "+full_filename)
