@@ -24,6 +24,16 @@ def render_latex(formula, is_formula, inline, site, converter=0)
         FileUtils.mkdir_p(directory)
     end
 
+    formula_in_brackets=formula
+    if is_formula
+        equation_bracket="$"
+        equation_bracket="$$" unless inline
+        formula_in_brackets=equation_bracket+formula+equation_bracket
+    end
+    filename=Digest::MD5.hexdigest(formula_in_brackets)+".png"
+    full_filename=File.join(directory, filename)
+    #if !File.exists?(full_filename) # Do not generate the same formula again.
+
     latex_source="\\documentclass[10pt]{article}\n"
     latex_source<<"\\usepackage[utf8]{inputenc}\n"
     latex_source<<"\\usepackage[T2A,T1]{fontenc}\n"
@@ -32,15 +42,9 @@ def render_latex(formula, is_formula, inline, site, converter=0)
     latex_source<<"\\usepackage{type1cm}\n"
     latex_source<<"\\usepackage{tikz}\n"
     latex_source<<"\\usepackage[european,emptydiode,americaninductor]{circuitikz-0.4}\n"
-    formula_in_brackets=formula
     if is_formula
         latex_source<<"\\newsavebox\\frm\n"
         latex_source<<"\\sbox\\frm{"
-
-        equation_bracket="$"
-        equation_bracket="$$" unless inline
-        formula_in_brackets=equation_bracket+formula+equation_bracket
-
         latex_source<<formula_in_brackets
         latex_source<<"}\n\\newwrite\\frmdims\n"
         latex_source<<"\\immediate\\openout\\frmdims=dimensions.tmp\n"
@@ -55,10 +59,9 @@ def render_latex(formula, is_formula, inline, site, converter=0)
         latex_source<<formula
     end
     latex_source<<"\n\\end{document}"
-    filename=Digest::MD5.hexdigest(formula_in_brackets)+".png"
-    full_filename=File.join(directory, filename)
 
     puts("[debug] latex source for "+filename+": "+latex_source);
+
 
     latex_document=File.new("temp-file.tex", "w")
     latex_document.puts(latex_source)
@@ -225,6 +228,9 @@ class MathFix
         @position=0
         @new_content=""
         @current_character=""
+
+        @bracket=""
+        @in_formula=false
     end
 
     def next_character
@@ -242,42 +248,53 @@ class MathFix
         add_character(@current_character)
     end
 
+    def process_escaped()
+        return false unless @current_character=="\\"
+        add_current_character()
+        if next_character()==true
+            add_current_character();
+        end
+        next_character()
+        return true
+    end
+
+    def detect_bracket()
+        return false unless @current_character=="$"
+        @bracket="$"
+        if next_character()==true
+            if @current_character=="$"
+                @bracket="$$"
+                next_character()
+            end
+        end
+        return true
+    end
+
+    def process_bracket()
+        if @bracket=="$"
+            add_character("$")
+        else
+            add_character("\n") unless @in_formula
+            add_character("$")
+            add_character("$")
+            add_character("\n") if @in_formula
+        end
+        @in_formula=!@in_formula
+    end
+
     def fixup()
-        nbsp="\u2060"
-        in_formula=false
-        while next_character()==true
-            if @current_character=="\\"
-                add_current_character()
-                if next_character()==true
-                    add_current_character();
-                end
+        next_character()
+        while @positon<@content.length
+            if process_escaped()
                 next
             end
-            add_current_character()
-            if in_formula
-                if @current_character=="$"
-                    in_formula=false
-                    if next_character()==true
-                        if @current_character!="$"
-                            add_character("$")
-                            #add_character(nbsp) if @current_character!=" "
-                        #else
-                            #add_current_character()
-                            #if next_character()==true
-                            #    add_character(nbsp) if @current_character!=" "
-                            #end
-                        end
-                        add_current_character()
-                    end
-                end
+
+            if detect_bracket()
+                process_bracket()
+                next
             else
-                if @current_character=="$"
-                    in_formula=true
-                    if next_character()==true
-                        add_character("$") if @current_character!="$"
-                        add_current_character()
-                    end
-                end
+                add_current_character()
+                next_character()
             end
         end
         return @new_content

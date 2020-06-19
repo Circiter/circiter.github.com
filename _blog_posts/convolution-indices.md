@@ -145,8 +145,7 @@ $$\mathcal{F}[f\star g]=\overline{\mathcal{F}[f]}\cdot\mathcal{F}[g].$$
 использования  лишней операции комплексного сопряжения.
 
 # Ссылки:
-* <http://en.wikipedia.org/wiki/convolution>
-* <http://en.wikipedia.org/wiki/cross-correlation>
-[fft]: http://en.wikipedia.org/wiki/Fast_Fourier_Transform
+- <http://en.wikipedia.org/wiki/convolution>
+- <http://en.wikipedia.org/wiki/cross-correlation>
 
-\end{document}
+[fft]: http://en.wikipedia.org/wiki/Fast_Fourier_Transform
