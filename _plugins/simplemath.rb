@@ -267,14 +267,10 @@ class MathFix
     end
 
     def process_bracket()
-        if @bracket=="$"
-            add_character("$")
-        else
-            add_character("\n") unless @in_formula
-            add_character("$")
-            add_character("$")
-            add_character("\n") if @in_formula
-        end
+        add_character("\n") if (@bracket=="$$"&&!@in_formula)
+        add_character("$")
+        add_character("$")
+        add_character("\n") if (@bracket=="$$"&&@in_formula)
         @in_formula=!@in_formula
     end
 
