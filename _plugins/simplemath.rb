@@ -55,7 +55,9 @@ def render_latex(formula, is_formula, inline, site, converter=0)
 
     latex_source<<"\n\\geometry{papersize={\\wd\\frm,\\ht\\frm},margin=0pt,bindingoffset=0pt}\n"
     latex_source<<"\n\\begin{document}\\pagestyle{empty}\n"
-    latex_source<<"\\tikz[remember picture,overlay] \\node[anchor=north west, inner sep=0pt] at (current page.north west) {\\usebox\\frm};%\n"
+    latex_source<<"\\begin{tikzpicture}[remember picture,overlay]\n"
+    latex_source<<"\\node[anchor=north west, inner sep=0pt] at (current page.north west) {\\usebox\\frm};%\n"
+    latex_source<<"\\end{tikzpicture}"
     latex_source<<"\n\\end{document}"
 
     puts("[debug] latex source for "+filename+": "+latex_source);
@@ -66,8 +68,8 @@ def render_latex(formula, is_formula, inline, site, converter=0)
     latex_document.close
     # FIXME: How to eliminate the second pass?
     system("latex -interaction=nonstopmode temp-file.tex >/dev/null 2>&1")
-    system("latex -interaction=nonstopmode temp-file.tex >/dev/null 2>&1")
-    #system("latex -interaction=nonstopmode temp-file.tex")
+    #system("latex -interaction=nonstopmode temp-file.tex >/dev/null 2>&1")
+    system("latex -interaction=nonstopmode temp-file.tex")
 
     result="<pre>"+formula_in_brackets+"</pre>"
     if File.exists?("temp-file.dvi")
