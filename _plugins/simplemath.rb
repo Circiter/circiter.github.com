@@ -42,6 +42,7 @@ def render_latex(formula, is_formula, inline, site, converter=0)
     latex_source<<"\\usepackage{type1cm}\n"
     latex_source<<"\\usepackage{tikz}\n"
     latex_source<<"\\usepackage[european,emptydiode,americaninductor]{circuitikz-0.4}\n"
+    latex_source<<"\\usepackage{geometry}\n\\usetikzlibrary{backgrounds}\n"
 
     latex_source<<"\\newsavebox\\frm\n"
     latex_source<<"\\sbox\\frm{"
@@ -52,8 +53,9 @@ def render_latex(formula, is_formula, inline, site, converter=0)
     latex_source<<"\\immediate\\write\\frmdims{height: \\the\\ht\\frm}\n"
     latex_source<<"\\immediate\\closeout\\frmdims\n"
 
+    latex_source<<"\n\\geometry{papersize={\\wd\\frm,\\ht\\frm},margin=0pt,bindingoffset=0pt}\n"
     latex_source<<"\n\\begin{document}\\pagestyle{empty}\n"
-    latex_source<<"\\usebox\\frm"
+    latex_source<<"\\tikz[remember picture,overlay] \\node[anchor=north west, inner sep=0pt] at (current page.north west) {\\usebox\\frm};%\n"
     latex_source<<"\n\\end{document}"
 
     puts("[debug] latex source for "+filename+": "+latex_source);
@@ -62,6 +64,8 @@ def render_latex(formula, is_formula, inline, site, converter=0)
     latex_document=File.new("temp-file.tex", "w")
     latex_document.puts(latex_source)
     latex_document.close
+    # FIXME: How to eliminate the second pass?
+    system("latex -interaction=nonstopmode temp-file.tex >/dev/null 2>&1")
     system("latex -interaction=nonstopmode temp-file.tex >/dev/null 2>&1")
     #system("latex -interaction=nonstopmode temp-file.tex")
 
@@ -267,10 +271,10 @@ class MathFix
     end
 
     def process_bracket()
-        add_character("\n") if (@bracket=="$$"&&!@in_formula)
+        add_character("\n") if ((@bracket=="$$")&&!@in_formula)
         add_character("$")
         add_character("$")
-        add_character("\n") if (@bracket=="$$"&&@in_formula)
+        add_character("\n") if ((@bracket=="$$")&&@in_formula)
         @in_formula=!@in_formula
     end
 
