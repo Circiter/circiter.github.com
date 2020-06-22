@@ -30,6 +30,8 @@ def generate_html(filename, full_filename, formula, is_formula, inline, style, c
     puts "debug: writing cache data to "+filename+".html_cache"
     cache.puts(result)
     cache.close
+
+    return result
 end
 
 def render_latex(formula, is_formula, inline, site, converter=0)
@@ -151,6 +153,7 @@ def render_latex(formula, is_formula, inline, site, converter=0)
                 style=style+" vertical-align: -"+depth+"px;";
             end
 
+            puts "debug: generating html..."
             result=generate_html(filename, full_filename, formula,
                 is_formula, inline, style, converter)
         else
@@ -164,7 +167,7 @@ def render_latex(formula, is_formula, inline, site, converter=0)
         File.delete(f)
     end
 
-    puts "debug: <generated_html>"+result+"</generated_html>"
+    #puts "debug: <generated_html>"+result+"</generated_html>"
     return result
 end
 
