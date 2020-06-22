@@ -27,6 +27,7 @@ def generate_html(filename, full_filename, formula, is_formula, inline, style, c
     end
 
     cache=File.new(filename+".html_cache", "w")
+    puts "debug: writing cache data to "+filename+".html_cache"
     cache.puts(result)
     cache.close
 end
@@ -47,7 +48,12 @@ def render_latex(formula, is_formula, inline, site, converter=0)
     full_filename=File.join(directory, filename)
     cache=filename+".html_cache"
     # Do not generate the same formula again.
-    return File.read(cache) if File.exists?(cache)
+    #return File.read(cache) if File.exists?(cache)
+    if File.exists?(cache)
+        cached_formula=File.read(cache)
+        puts "debug: formula cached("+filename+".html_cache):" + cached_formula
+        return cached_formula
+    end
 
     #latex_source="\\documentclass[10pt]{article}\n"
     latex_source="\\documentclass[preview]{standalone}\n"
@@ -84,12 +90,13 @@ def render_latex(formula, is_formula, inline, site, converter=0)
     end
     latex_source<<"\\end{document}"
 
-    puts("[debug] latex source for "+filename+": "+latex_source);
+    #puts("[debug] latex source for "+filename+": "+latex_source);
 
     latex_document=File.new("temp-file.tex", "w")
     latex_document.puts(latex_source)
     latex_document.close
-    system("latex -interaction=nonstopmode temp-file.tex >/dev/null 2>&1")
+    #system("latex -interaction=nonstopmode temp-file.tex >/dev/null 2>&1")
+    system("latex -interaction=nonstopmode temp-file.tex")
 
     result="<pre>"+formula_in_brackets+"</pre>"
     if File.exists?("temp-file.dvi")
@@ -147,16 +154,17 @@ def render_latex(formula, is_formula, inline, site, converter=0)
             result=generate_html(filename, full_filename, formula,
                 is_formula, inline, style, converter)
         else
-            puts "png file does not exist (for formula "+formula+")"
+            puts "debug: png file does not exist (for formula "+formula+")"
         end
     else
-        puts "dvi file was not generated (for formula "+formula+")"
+        puts "debug: dvi file was not generated (for formula "+formula+")"
     end
 
     Dir.glob("temp-file.*").each do |f|
         File.delete(f)
     end
 
+    puts "debug: <generated_html>"+result+"</generated_html>"
     return result
 end
 
