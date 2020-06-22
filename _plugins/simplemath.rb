@@ -12,6 +12,8 @@ def generate_html(filename, full_filename, formula, is_formula, inline, style, c
     title=ERB::Util.html_escape(formula) # FIXME.
     absolute_path="/"+full_filename;
 
+    style=style+" text-align: center;" unless is_formula&&inline
+
     if is_formula
         if inline
             result=converter.format_as_span_html("img",
@@ -293,9 +295,9 @@ class MathFix
     end
 
     def process_bracket()
-        add_character("\n\n") if ((@bracket=="$$")&&!@in_formula)
+        add_character("<br/>\n") if ((@bracket=="$$")&&!@in_formula)
         add_character("$$")
-        add_character("\n\n") if ((@bracket=="$$")&&@in_formula)
+        add_character("\n<br/>") if ((@bracket=="$$")&&@in_formula)
         @in_formula=!@in_formula
     end
 
