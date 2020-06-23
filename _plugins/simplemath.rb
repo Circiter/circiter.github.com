@@ -282,16 +282,16 @@ end
 
 Jekyll::Hooks.register(:pages, :pre_render) do |target, payload|
     if target.ext==".md"&&(target.basename=="about"||target.basename=="index")
-        target.content=fix_math(target.content)
+        #target.content=fix_math(target.content)
     end
 end
 
 # TODO: Try a modes other than :pre_render.
 Jekyll::Hooks.register(:blog_posts, :pre_render) do |target, payload|
     if target.data["ext"]==".md"
-        target.content=fix_math(target.content)
-        puts "[debug] after math-fixup: ---------\n"+target.content+"\n--------\n\n"
-        target.content
+        #target.content=fix_math(target.content)
+        #puts "[debug] after math-fixup: ---------\n"+target.content+"\n--------\n\n"
+        #target.content
     end
 end
 
