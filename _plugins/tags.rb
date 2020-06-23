@@ -9,10 +9,10 @@ module Jekyll
     class TagPageGenerator < Generator
         def generate(site)
             posts=site.collections["blog_posts"]
-            #tags=posts.docs.flat_map{|post| post.data["tags"]||[]}.to_set
-            #tags.each do |tag|
-            #    site.pages << TagPage.new(site, site.source, tag)
-            #end
+            tags=posts.docs.flat_map{|post| post.data["tags"]||[]}.to_set
+            tags.each do |tag|
+                site.pages << TagPage.new(site, site.source, tag)
+            end
         end
     end
 
