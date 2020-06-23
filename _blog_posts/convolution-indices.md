@@ -45,7 +45,7 @@ $\mathcal{F}$ -- преобразование Фурье; причем пере�
 спектров исходных сигналов.
 
 Набросок доказательства:
-{% latex %}
+{% tex block %}
 \begin{eqnarray*}
 \mathcal{F}[a]_k\cdot\mathcal{F}[b]_k&=&\sum_x a_x z^{kx} \sum_y b_y z^{ky}=\\
 &=&\sum_x a_x z^{kz} \sum_{\tau-x} b_{\tau-x}^{k(\tau-x)}=\left[y=\tau-x\right]=\\
@@ -54,7 +54,7 @@ $\mathcal{F}$ -- преобразование Фурье; причем пере�
 &=&\left(\mathcal{F}\left[\sum_x a_x b_{\tau-x}\right]\right)_k=
 \left(\mathcal{F}[a\ast b]\right)_k,
 \end{eqnarray*}
-{% endlatex %}
+{% endtex %}
 где $z\equiv\exp(\sigma 2\pi i/n)$.
 
 (Аналогичный результат известен и для преобразования Лапласа:

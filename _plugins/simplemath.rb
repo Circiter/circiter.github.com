@@ -6,74 +6,47 @@ require "fileutils"
 require "digest"
 require "erb"
 
-def generate_html(filename, full_filename, formula, is_formula, inline, style, converter)
+def generate_html(filename, full_filename, formula, inline, style)
     #title=CGI.escape(formula)
     #title=ERB::Util.url_encode(formula)
-    title=ERB::Util.html_escape(formula) # FIXME.
+    #title=ERB::Util.html_escape(formula) # FIXME.
     absolute_path="/"+full_filename;
 
-    style=style+" text-align: center;" unless is_formula&&inline
-
-    if is_formula
-        if inline
-            result=converter.format_as_span_html("img",
-                {"src"=>absolute_path,
-                "class"=>"inline", "style"=>style}, "");
-        else
-            result=converter.format_as_block_html("img",
-                {"src"=>absolute_path,
-                "class"=>"inline", "style"=>style}, "", 0);
-        end
-    else
-        result="<img src=\""+absolute_path+"\" style=\""+style+"\" class=\"inline\"/>"
-    end
+    result="<img src=\""+absolute_path+"\" style=\""+style+"\" class=\"latex\"\/>"
+    result="<div style=\"text-align: center\">"+result+"</div>" unless inline
 
     cache=File.new(filename+".html_cache", "w")
-    puts "debug: writing cache data to "+filename+".html_cache"
     cache.puts(result)
     cache.close
 
     return result
 end
 
-def render_latex(formula, is_formula, inline, site, converter=0)
+def render_latex(formula, inline, site)
     directory="eq"
-    if !File.exists?(directory)
-        FileUtils.mkdir_p(directory)
-    end
+    FileUtils.mkdir_p(directory) unless File.exists?(directory)
 
-    formula_in_brackets=formula
-    if is_formula
-        equation_bracket="$"
-        equation_bracket="$$" unless inline
-        formula_in_brackets=equation_bracket+formula+equation_bracket
-    end
-    filename=Digest::MD5.hexdigest(formula_in_brackets)+".png"
+    filename=Digest::MD5.hexdigest(formula)+".png"
     full_filename=File.join(directory, filename)
     cache=filename+".html_cache"
     # Do not generate the same formula again.
-    #return File.read(cache) if File.exists?(cache)
-    if File.exists?(cache)
-        cached_formula=File.read(cache)
-        puts "debug: formula cached("+filename+".html_cache):" + cached_formula
-        return cached_formula
-    end
+    return File.read(cache) if File.exists?(cache)
 
-    #latex_source="\\documentclass[10pt]{article}\n"
-    latex_source="\\documentclass[preview]{standalone}\n"
+    tikz=""
+    tikz=",tikz" unless inline
+    latex_source="\\documentclass[preview,border=0pt"+tikz+"]{standalone}\n"
     latex_source<<"\\usepackage[utf8]{inputenc}\n"
     latex_source<<"\\usepackage[T2A,T1]{fontenc}\n"
     latex_source<<"\\usepackage{amsmath,amsfonts,amssymb,color,xcolor}\n"
     latex_source<<"\\usepackage[english, russian]{babel}\n"
     latex_source<<"\\usepackage{type1cm}\n"
-    latex_source<<"\\usepackage{tikz}\n"
-    latex_source<<"\\usepackage[european,emptydiode,americaninductor]{circuitikz-0.4}\n"
-    #latex_source<<"\\usepackage{geometry}\n\\usetikzlibrary{backgrounds}\n"
 
-    if formula&&inline
+    if !inline
+        latex_source<<"\\usepackage[european,emptydiode,americaninductor]{circuitikz-0.4}\n"
+    else
         latex_source<<"\\newsavebox\\frm\n"
         latex_source<<"\\sbox\\frm{"
-        latex_source<<formula_in_brackets
+        latex_source<<formula
         latex_source<<"}\n\\newwrite\\frmdims\n"
         latex_source<<"\\immediate\\openout\\frmdims=dimensions.tmp\n"
         latex_source<<"\\immediate\\write\\frmdims{depth: \\the\\dp\\frm}\n"
@@ -81,39 +54,29 @@ def render_latex(formula, is_formula, inline, site, converter=0)
         latex_source<<"\\immediate\\closeout\\frmdims\n"
     end
 
-    #latex_source<<"\n\\geometry{papersize={\\wd\\frm,\\ht\\frm},margin=0pt,bindingoffset=0pt}\n"
     latex_source<<"\n\\begin{document}\n"
-    #latex_source<<"\\pagestyle{empty}\n"
-    #latex_source<<"\\begin{tikzpicture}[remember picture,overlay]\n"
-    #latex_source<<"\\node[anchor=north west, inner sep=0pt] at (current page.north west) {\\usebox\\frm};%\n"
-    #latex_source<<"\\end{tikzpicture}\n"
     if inline
         latex_source<<"\\usebox\\frm\n"
     else
-        latex_source<<formula_in_brackets
+        latex_source<<formula
     end
     latex_source<<"\\end{document}"
-
-    #puts("[debug] latex source for "+filename+": "+latex_source);
 
     latex_document=File.new("temp-file.tex", "w")
     latex_document.puts(latex_source)
     latex_document.close
-    #system("latex -interaction=nonstopmode temp-file.tex >/dev/null 2>&1")
-    system("latex -interaction=nonstopmode temp-file.tex")
+    system("latex -interaction=nonstopmode temp-file.tex >/dev/null 2>&1")
 
-    result="<pre>"+formula_in_brackets+"</pre>"
+    result="<pre>"+formula+"</pre>" # FIXME: Add escaping, maybe.
     if File.exists?("temp-file.dvi")
-        #system("dvipng -q* -T tight temp-file.dvi -o "+full_filename);
         system("dvips -E -q temp-file.dvi -o temp-file.eps >/dev/null 2>&1");
-        system("convert -density 120 -trim temp-file.eps "+full_filename+" >/dev/null 2>&1")
+        system("convert -density 120 -quality 90 -trim temp-file.eps "+full_filename+" >/dev/null 2>&1")
         if File.exists?(full_filename)
-            #system("convert "+full_filename+"-fuzz 2% -transparent white "+full_filename)
             static_file=Jekyll::StaticFile.new(site, site.source, directory, filename)
             #Jekyll::Site::register_file(static_file.path) # FIXME.
             site.static_files<<static_file
 
-            if is_formula&&inline
+            if inline
                 depth_pt="0pt"
                 height_pt="10pt"
                 IO.foreach("dimensions.tmp") do |line|
@@ -136,9 +99,8 @@ def render_latex(formula, is_formula, inline, site, converter=0)
             system("identify -ping -format %w "+full_filename+" > width.tmp")
             width_pixels=File.read("width.tmp");
             style=style+" width: "+width_pixels+"px;"
-            # FIXME: Visually incorrect size.
 
-            if is_formula&&inline
+            if inline
                 # For some reason the depth obtained from the latex
                 # does not give a correct vertical position for a
                 # image on an html-page. But nevertheless we can use
@@ -155,9 +117,7 @@ def render_latex(formula, is_formula, inline, site, converter=0)
                 style=style+" vertical-align: -"+depth+"px;";
             end
 
-            puts "debug: generating html..."
-            result=generate_html(filename, full_filename, formula,
-                is_formula, inline, style, converter)
+            result=generate_html(filename, full_filename, formula, inline, style)
         else
             puts "debug: png file does not exist (for formula "+formula+")"
         end
@@ -183,14 +143,7 @@ module Kramdown
                 end
 
                 def self.call(converter, element, options)
-                    display_mode=element.options[:category]
-                    formula=element.value
-                    inline=true
-                    if display_mode==:block
-                        inline=false
-                    end
-
-                    return render_latex(formula, true, inline, @@my_site, converter)
+                    return element.value
                 end
             end
         end
@@ -233,9 +186,9 @@ class Jekyll::Site
     end
 end
 
-Jekyll::Hooks.register(:site, :after_init) do |site|
-    Kramdown::Converter::MathEngine::SimpleMath::my_init(site)
-end
+#Jekyll::Hooks.register(:site, :after_init) do |site|
+#    Kramdown::Converter::MathEngine::SimpleMath::my_init(site)
+#end
 
 def fix_math(content)
     # FIXME: Try to insert &#8288; (word-joiner) after formulas
@@ -245,7 +198,6 @@ def fix_math(content)
     return mathfix.fixup()
 end
 
-# FIXME: How it will interoperate with a "latex" tag defined below?
 class MathFix
     def initialize(content)
         @content=content
@@ -285,28 +237,36 @@ class MathFix
     def detect_bracket()
         return false unless @current_character=="$"
         @bracket="$"
-        if next_character()
-            if @current_character=="$"
-                @bracket="$$"
-                next_character()
-            end
+        if next_character()&&@current_character=="$"
+            @bracket="$$"
+            next_character()
         end
         return true
     end
 
     def process_bracket()
-        add_character("<br/>\n") if ((@bracket=="$$")&&!@in_formula)
-        add_character("$$")
-        add_character("\n<br/>") if ((@bracket=="$$")&&@in_formula)
+        if !@in_formula
+            if @bracket=="$$"
+                add_character("{% tex block %}")
+            else
+                add_character("{% tex %}")
+            end
+        end
+        add_character(@bracket)
+        add_character("{% endtex %}") if @in_formula
         @in_formula=!@in_formula
+    end
+
+
+    # TODO: Ignore all the liquid tags already present.
+    def ignore_liquid_tags()
     end
 
     def fixup()
         next_character()
         while @position<@content.length
-            if process_escaped()
-                next
-            end
+            ignore_liquid_tags()
+            next if process_escaped()
 
             if detect_bracket()
                 process_bracket()
@@ -321,14 +281,17 @@ class MathFix
 end
 
 Jekyll::Hooks.register(:pages, :pre_render) do |target, payload|
-    if target.ext==".md"&&target.basename=="about"||target.basename=="index"
+    if target.ext==".md"&&(target.basename=="about"||target.basename=="index")
         target.content=fix_math(target.content)
     end
 end
 
+# TODO: Try a modes other than :pre_render.
 Jekyll::Hooks.register(:blog_posts, :pre_render) do |target, payload|
     if target.data["ext"]==".md"
         target.content=fix_math(target.content)
+        puts "[debug] after math-fixup: ---------\n"+target.content+"\n--------\n\n"
+        target.content
     end
 end
 
@@ -339,16 +302,20 @@ module Jekyll
 
             def initialize(tag_name, text, tokens)
                 super
+                @inline=true
+                text.gsub("  ", " ").split(" ").each do |x|
+                    @inline=false if x=="block"
+                end
             end
 
             def render(context)
                 latex_source=super
                 site=context.registers[:site]
-                return render_latex(latex_source, false, false, site)
+                return render_latex(latex_source, false, @inline, site)
             end
 
         end
     end
 end
 
-Liquid::Template.register_tag("latex", Jekyll::Tags::LatexBlock)
+Liquid::Template.register_tag("tex", Jekyll::Tags::LatexBlock)

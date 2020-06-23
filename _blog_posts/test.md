@@ -8,24 +8,25 @@ Inline formula: $\frac{d}{dx}x^2=2x$.
 
 Block formula: $$y(t)=\int_{-\infty}^\infty x(\xi-t)h(\xi)\mathrm{d}\xi.$$
 
-Another block formula: {% latex %}\begin{displaymath}y(t)=\int_{-\infty}^\infty x(\tau-t)h(\tau)\mathrm{d}\tau.\end{displaymath}{% endlatex %}
+Another inline formula (using `tex` tag): {% tex inline %}$y(t)=\int_{-\infty}^\infty x(\tau-t)h(\tau)\mathrm{d}\tau.${% endtex %}
 
-Block of latex code:
-{% latex %}
+Block of latex code(): {% tex block %}
 \begin{tikzpicture}
     \draw (0,0) -- (2,1) arc (90:-90:.5) -- cycle;
 \end{tikzpicture}
-{% endlatex %}
+{% endtex %}
 
 Another block:
-{% latex %}
+
+{% tex block %}
 \LaTeX
-{% endlatex %}
+{% endtex %}
 
 Circuitikz test:
-{% latex %}
+
+{% tex block %}
 \begin{circuitikz}
-\draw (0,0) node[npn] (VT1) {};
-\draw (VT1.emitter) to[R] ++(0,-3) node[ground]{};
+    \draw (0,0) node[npn] (VT1) {};
+    \draw (VT1.emitter) to[R] ++(0,-3) node[ground]{};
 \end{circuitikz}
-{% endlatex %}
+{% endtex %}

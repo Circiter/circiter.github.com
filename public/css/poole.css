@@ -245,6 +245,10 @@ img.inline { /* Added. */
   border-radius: 0px;
 }
 
+img.latex { /* Added. */
+    border-radius: 0px;
+}
+
 /* Tables */
 table {
   margin-bottom: 1rem;
