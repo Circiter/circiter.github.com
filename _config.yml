@@ -1,4 +1,4 @@
-'sass:
+sass:
   sass_dir: _sass
 
 lang: ru
@@ -48,7 +48,7 @@ kramdown:
   transliterated_header_ids: true
   #gfm_quirks:
   hard_wrap: false
-  math_engine: simplemath
+  #math_engine: simplemath
   #parse_block_html: true
 
   #syntax_highlighter_opts:

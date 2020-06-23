@@ -186,9 +186,9 @@ class Jekyll::Site
     end
 end
 
-#Jekyll::Hooks.register(:site, :after_init) do |site|
-#    Kramdown::Converter::MathEngine::SimpleMath::my_init(site)
-#end
+Jekyll::Hooks.register(:site, :after_init) do |site|
+    Kramdown::Converter::MathEngine::SimpleMath::my_init(site)
+end
 
 def fix_math(content)
     # FIXME: Try to insert &#8288; (word-joiner) after formulas
@@ -283,6 +283,7 @@ end
 Jekyll::Hooks.register(:pages, :pre_render) do |target, payload|
     if target.ext==".md"&&(target.basename=="about"||target.basename=="index")
         #target.content=fix_math(target.content)
+        target.content
     end
 end
 
@@ -291,7 +292,7 @@ Jekyll::Hooks.register(:blog_posts, :pre_render) do |target, payload|
     if target.data["ext"]==".md"
         #target.content=fix_math(target.content)
         #puts "[debug] after math-fixup: ---------\n"+target.content+"\n--------\n\n"
-        #target.content
+        target.content
     end
 end
 
@@ -318,4 +319,4 @@ module Jekyll
     end
 end
 
-Liquid::Template.register_tag("tex", Jekyll::Tags::LatexBlock)
+#Liquid::Template.register_tag("tex", Jekyll::Tags::LatexBlock)
