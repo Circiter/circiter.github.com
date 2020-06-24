@@ -8,7 +8,7 @@ Inline formula: $\frac{d}{dx}x^2=2x$.
 
 Block formula: $$y(t)=\int_{-\infty}^\infty x(\xi-t)h(\xi)\mathrm{d}\xi.$$
 
-Another inline formula (using `tex` tag): {% tex inline %}$y(t)=\int_{-\infty}^\infty x(\tau-t)h(\tau)\mathrm{d}\tau.${% endtex %}
+Another inline formula: {% tex inline %}\begin{equation}y(t)=\int_{-\infty}^\infty x(\tau-t)h(\tau)\mathrm{d}\tau.\end{equation}{% endtex %}
 
 Block of latex code(): {% tex block %}
 \begin{tikzpicture}
@@ -19,7 +19,7 @@ Block of latex code(): {% tex block %}
 Another block:
 
 {% tex block %}
-\LaTeX
+\mbox{\LaTeX}
 {% endtex %}
 
 Circuitikz test:

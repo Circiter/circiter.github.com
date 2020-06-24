@@ -13,7 +13,8 @@ def generate_html(filename, full_filename, formula, inline, style)
     absolute_path="/"+full_filename;
 
     result="<img src=\""+absolute_path+"\" style=\""+style+"\" class=\"latex\"\/>"
-    result="<div style=\"text-align: center\">"+result+"</div>" unless inline
+    #result="<div style=\"text-align: center\">"+result+"</div>" unless inline
+    result="<br><center>"+result+"</center><br>" unless inline
 
     cache=File.new(filename+".html_cache", "w")
     cache.puts(result)
@@ -65,7 +66,8 @@ def render_latex(formula, inline, site)
     latex_document=File.new("temp-file.tex", "w")
     latex_document.puts(latex_source)
     latex_document.close
-    system("latex -interaction=nonstopmode temp-file.tex >/dev/null 2>&1")
+    #system("latex -interaction=nonstopmode temp-file.tex >/dev/null 2>&1")
+    system("latex -interaction=nonstopmode temp-file.tex")
 
     result="<pre>"+formula+"</pre>" # FIXME: Add escaping, maybe.
     if File.exists?("temp-file.dvi")
@@ -249,7 +251,7 @@ class MathFix
             if @bracket=="$$"
                 add_character("{% tex block %}")
             else
-                add_character("{% tex %}")
+                add_character("{% tex inline %}")
             end
         end
         add_character(@bracket)
@@ -283,7 +285,7 @@ end
 Jekyll::Hooks.register(:pages, :pre_render) do |target, payload|
     if target.ext==".md"&&(target.basename=="about"||target.basename=="index")
         target.content=fix_math(target.content)
-        target.content
+        #target.content
     end
 end
 
