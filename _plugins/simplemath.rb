@@ -33,9 +33,9 @@ def render_latex(formula, inline, site)
     # Do not generate the same formula again.
     return File.read(cache) if File.exists?(cache)
 
-    s="false"
-    s="true" if inline
-    puts "\n<formula inline="+s+">"+formula+"</formula>"
+    #s="false"
+    #s="true" if inline
+    #puts "\n<formula inline="+s+">"+formula+"</formula>"
 
     tikz=""
     tikz=",tikz" unless inline
@@ -66,6 +66,8 @@ def render_latex(formula, inline, site)
         latex_source<<formula
     end
     latex_source<<"\\end{document}"
+
+    puts "[debug] <latex>"+latex_source+"</latex>"
 
     latex_document=File.new("temp-file.tex", "w")
     latex_document.puts(latex_source)
@@ -230,6 +232,7 @@ class MathFix
         add_character(@current_character)
     end
 
+    # FIXME: Is it correct for a formulas?
     def process_escaped()
         return false unless @current_character=="\\"
         add_current_character()
@@ -255,7 +258,7 @@ class MathFix
             if @bracket=="$$"
                 add_character("{% tex block %}")
             else
-                add_character("{% tex inline %}")
+                add_character("{% tex %}")
             end
         end
         add_character(@bracket)
@@ -289,7 +292,6 @@ end
 Jekyll::Hooks.register(:pages, :pre_render) do |target, payload|
     if target.ext==".md"&&(target.basename=="about"||target.basename=="index")
         target.content=fix_math(target.content)
-        #target.content
     end
 end
 
@@ -297,8 +299,8 @@ end
 Jekyll::Hooks.register(:blog_posts, :pre_render) do |target, payload|
     if target.data["ext"]==".md"
         target.content=fix_math(target.content)
-        puts "[debug] after math-fixup: ---------\n"+target.content+"\n--------\n\n"
-        target.content
+        #puts "[debug] after math-fixup: ---------\n"+target.content+"\n--------\n\n"
+        #target.content
     end
 end
 
