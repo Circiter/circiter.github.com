@@ -12,7 +12,7 @@ def generate_html(filename, full_filename, formula, inline, style)
     #title=ERB::Util.html_escape(formula) # FIXME.
     absolute_path="/"+full_filename;
 
-    result="<img src=\""+absolute_path+"\" style=\""+style+"\" class=\"latex\"\/>"
+    result="<img src=\""+absolute_path+"\" style=\""+style+"\" class=\"latex\"></img>"
     #result="<div style=\"text-align: center\">"+result+"</div>" unless inline
     result="<br><center>"+result+"</center><br>" unless inline
 
@@ -32,6 +32,10 @@ def render_latex(formula, inline, site)
     cache=filename+".html_cache"
     # Do not generate the same formula again.
     return File.read(cache) if File.exists?(cache)
+
+    s="false"
+    s="true" if inline
+    puts "\n<formula inline="+s+">"+formula+"</formula>"
 
     tikz=""
     tikz=",tikz" unless inline
