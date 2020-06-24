@@ -12,7 +12,7 @@ def generate_html(filename, full_filename, formula, inline, style)
     #title=ERB::Util.html_escape(formula) # FIXME.
     absolute_path="/"+full_filename;
 
-    result="<img src=\""+absolute_path+"\" style=\""+style+"\" class=\"latex\"></img>"
+    result="<img src=\""+absolute_path+"\" style=\""+style+"\" class=\"latex\">"
     #result="<div style=\"text-align: center\">"+result+"</div>" unless inline
     result="<br><center>"+result+"</center><br>" unless inline
 
