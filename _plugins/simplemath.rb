@@ -37,9 +37,7 @@ def render_latex(formula, inline, site)
     #s="true" if inline
     #puts "\n<formula inline="+s+">"+formula+"</formula>"
 
-    tikz=""
-    tikz=",tikz" unless inline
-    latex_source="\\documentclass[preview,border=0pt"+tikz+"]{standalone}\n"
+    latex_source="\\documentclass[preview,border=0pt]{standalone}\n"
     latex_source<<"\\usepackage[utf8]{inputenc}\n"
     latex_source<<"\\usepackage[T2A,T1]{fontenc}\n"
     latex_source<<"\\usepackage{amsmath,amsfonts,amssymb,color,xcolor}\n"
@@ -47,6 +45,7 @@ def render_latex(formula, inline, site)
     latex_source<<"\\usepackage{type1cm}\n"
 
     if !inline
+        latex_source<<"\\usepackage{tikz}\n"
         latex_source<<"\\usepackage[european,emptydiode,americaninductor]{circuitikz-0.4}\n"
     else
         latex_source<<"\\newsavebox\\frm\n"
@@ -67,13 +66,13 @@ def render_latex(formula, inline, site)
     end
     latex_source<<"\\end{document}"
 
-    puts "[debug] <latex>"+latex_source+"</latex>"
+    #puts "[debug] <latex>"+latex_source+"</latex>"
 
     latex_document=File.new("temp-file.tex", "w")
     latex_document.puts(latex_source)
     latex_document.close
-    #system("latex -interaction=nonstopmode temp-file.tex >/dev/null 2>&1")
-    system("latex -interaction=nonstopmode temp-file.tex")
+    system("latex -interaction=nonstopmode temp-file.tex >/dev/null 2>&1")
+    #system("latex -interaction=nonstopmode temp-file.tex")
 
     result="<pre>"+formula+"</pre>" # FIXME: Add escaping, maybe.
     if File.exists?("temp-file.dvi")
