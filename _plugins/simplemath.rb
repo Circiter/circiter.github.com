@@ -312,7 +312,7 @@ module Jekyll
             def render(context)
                 latex_source=super
                 site=context.registers[:site]
-                return render_latex(latex_source, false, @inline, site)
+                return render_latex(latex_source, @inline, site)
             end
 
         end
