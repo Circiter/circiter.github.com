@@ -133,8 +133,6 @@ footer {
   text-align: justify; /* Added. */
 }
 
-.content:first-letter {font-size: 150%;}
-
 @media (min-width: 48em) {
   .content {
     max-width: 38rem;
