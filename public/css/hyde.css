@@ -131,8 +131,9 @@ footer {
   padding-bottom: 4rem;
   text-indent: 11px; /* Added. */
   text-align: justify; /* Added. */
-  P:first-letter {font-size: 150%;}
 }
+
+.content:first-letter {font-size: 150%;}
 
 @media (min-width: 48em) {
   .content {
