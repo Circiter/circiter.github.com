@@ -81,11 +81,14 @@ a:focus {
 
 /* Headings */
 h1, h2, h3, h4, h5, h6 {
+  font-family: "Exo 2", sans-serif; /* Added. */
   margin-bottom: .5rem;
   font-weight: bold;
   line-height: 1.25;
   color: #313131;
   text-rendering: optimizeLegibility;
+  text-indent: 0px; /* Added. */
+  text-align: left; /* Added. */
 }
 h1 {
   font-size: 2rem;
@@ -132,8 +135,8 @@ hr {
   position: relative;
   margin: 1.5rem 0;
   border: 0;
-  border-top: 1px solid #eee;
-  border-bottom: 1px solid #fff;
+  border-top: 1px solid #777;
+  border-bottom: 1px solid #aaa;
 }
 
 abbr {
