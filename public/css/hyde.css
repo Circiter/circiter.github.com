@@ -129,10 +129,12 @@ footer {
 .content {
   padding-top:    4rem;
   padding-bottom: 4rem;
-  /*:first-letter {
+  text-indent: 11px; /* Added. */
+  text-align: justify; /* Added. */
+  p:first-letter { /* Added. */
       color: red;
       font-size: 130%;
-  }*/
+  }
 }
 
 @media (min-width: 48em) {
