@@ -129,10 +129,10 @@ footer {
 .content {
   padding-top:    4rem;
   padding-bottom: 4rem;
-  :first-letter { /* Added. */
+  /*:first-letter {
       color: red;
       font-size: 130%;
-  }
+  }*/
 }
 
 @media (min-width: 48em) {
