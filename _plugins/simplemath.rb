@@ -265,9 +265,31 @@ class MathFix
         @in_formula=!@in_formula
     end
 
+    def match(fragment)
+    end
+
+    def expect(fragment)
+    end
+
+    def read_word()
+    end
+
+    def skip_and_match(fragment)
+    end
 
     # TODO: Ignore all the liquid tags already present.
     def ignore_liquid_tags()
+        # Stub. To be completed.
+        return
+        return if @in_formula
+        match("{%");
+        tag=read_word()
+        skip_and_match("%}")
+        while tag!=""
+            skip_and_match("{%")
+            tag="" if expect("end"+tag);
+            skip_and_math("%}");
+        end
     end
 
     def fixup()
