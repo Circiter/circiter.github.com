@@ -156,6 +156,7 @@ pre {
   font-family: Menlo, Monaco, "Courier New", monospace;
 }
 code {
+  text-indent: 0px; /* Added. */
   padding: .25em .5em;
   margin-right: 0.05em; /* Added. */
   padding-right: 0.05em; /* Added. */
@@ -165,6 +166,7 @@ code {
   border-radius: 3px;
 }
 pre {
+  text-indent: 0px; /* Added. */
   display: block;
   margin-top: 0;
   margin-bottom: 1rem;
