@@ -359,7 +359,6 @@ class MathFix
     def fixup()
         next_character()
         while @position<@content.length
-            #ignore_liquid_tags()
             detect_liquid_tag()
             next if process_escaped()
 
@@ -369,7 +368,6 @@ class MathFix
             else
                 add_current_character()
                 next_character()
-                #puts "after next_character(): position="+@position.to_s
             end
         end
         return @new_content
