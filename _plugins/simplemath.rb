@@ -82,7 +82,7 @@ def render_latex(formula, inline, site)
             static_file=Jekyll::StaticFile.new(site, site.source, directory, filename)
             #Jekyll::Site::register_file(static_file.path) # FIXME.
             site.static_files<<static_file
-            FilesSingleton::register_file(static_file.path)
+            FilesSingleton::register(static_file.path)
 
             if inline
                 depth_pt="0pt"
@@ -173,20 +173,11 @@ module FilesSingleton
 end
 
 class Jekyll::Site
-    def initialize()
-        @xfiles=[]
-    end
-
-    def register_file(filename)
-        @xfiles<<filename
-    end
-
     alias :super_write :write
 
     def write
         super_write
-        source_files=[]
-        #source_files=@xfiles
+        source_files=FilesSingleton::get_files()
         puts "generated files:"
         source_files.each do |f|
             puts(f)
