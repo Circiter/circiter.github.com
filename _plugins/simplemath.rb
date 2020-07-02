@@ -336,24 +336,24 @@ class MathFix
     end
 
     def detect_liquid_tag()
-        match("{%")
+        return unless match("{%")
         word=read_word()
         match("%}", false)
 
         puts "tag found: {% "+word+" %}"
-        if @xtag==""
-            puts "(open tag)"
-        else
-            puts "(may be close tag)"
-        end
+        #if @xtag==""
+        #    puts "(open tag)"
+        #else
+        #    puts "(may be close tag)"
+        #end
 
-        if @xtag==""
-            @xtag=word
-        else
-            if word=="end"+@xtag
-                @xtag=""
-            end
-        end
+        #if @xtag==""
+        #    @xtag=word
+        #else
+        #    if word=="end"+@xtag
+        #        @xtag=""
+        #    end
+        #end
     end
 
     def fixup()
