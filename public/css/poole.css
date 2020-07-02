@@ -236,9 +236,14 @@ blockquote p:last-child {
   }
 }
 
+.abstract { /* Added. */
+    text-align: justify;
+    width: 90%;
+}
+
 img {
   /*display: block;*/
-  max-width: 100%;
+  /*max-width: 100%;*/
   /*margin: 0 0 1rem;*/
   margin: 0; /* Added. */
   padding: 0; /* Added. */
