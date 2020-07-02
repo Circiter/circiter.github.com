@@ -301,16 +301,20 @@ class MathFix
 
     # TODO: Ignore all the liquid tags already present.
     def ignore_liquid_tags()
-        return # Stub.
         return if @in_formula
         return unless match("{%");
         tag=read_word()
         match("%}", false)
-        while tag!=""
+        puts "{% "+tag+" %}"
+        while @position<@content.length
             match("{%", false)
-            tag="" if match("end"+tag);
+            matched=match("end"+tag);
             match("%}", false);
+            break if matched
+            puts(@content[@position]) if @position<@content.length
+            @position+=1
         end
+        puts "{% end"+tag+" %}";
     end
 
     def fixup()
