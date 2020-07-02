@@ -308,7 +308,7 @@ class MathFix
         while tag!=""
             match("{%", false)
             tag="" if match("end"+tag);
-            math("%}", false);
+            match("%}", false);
         end
     end
 
