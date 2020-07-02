@@ -276,6 +276,7 @@ class MathFix
     def skip_white()
         while is_white(@current_character)
             puts "skip_white(): current_character="+@current_character
+            add_current_character()
             break unless next_character()
         end
     end
@@ -288,6 +289,7 @@ class MathFix
             puts "match(): fragment=("+fragment+") content substring=("+@content[pos, 
                 fragment.length]+"), pos="+pos.to_s
             if fragment==@content[pos, fragment.length]
+                add_character(@content[@position,pos+fragment.length-@position])
                 @position=pos+fragment.length
                 puts "matched!"
                 return true
@@ -324,7 +326,7 @@ class MathFix
             match("%}", false);
             break if matched
             puts "not matched; continue..."
-            puts(@content[@position]) if @position<@content.length
+            #puts(@content[@position]) if @position<@content.length
             @position+=1
         end
         puts "{% end"+tag+" %}";
@@ -333,7 +335,7 @@ class MathFix
     def fixup()
         next_character()
         while @position<@content.length
-            #ignore_liquid_tags()
+            ignore_liquid_tags()
             next if process_escaped()
 
             if detect_bracket()
@@ -342,7 +344,7 @@ class MathFix
             else
                 add_current_character()
                 next_character()
-                puts "after next_character(): position="+@position.to_s
+                #puts "after next_character(): position="+@position.to_s
             end
         end
         return @new_content
