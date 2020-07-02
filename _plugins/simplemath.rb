@@ -82,6 +82,7 @@ def render_latex(formula, inline, site)
             static_file=Jekyll::StaticFile.new(site, site.source, directory, filename)
             #Jekyll::Site::register_file(static_file.path) # FIXME.
             site.static_files<<static_file
+            FilesSingleton::register_file(static_file.path)
 
             if inline
                 depth_pt="0pt"
@@ -158,6 +159,18 @@ module Kramdown
 end
 
 Kramdown::Converter.add_math_engine(:simplemath, Kramdown::Converter::MathEngine::SimpleMath)
+
+module FilesSingleton
+    @list=[]
+
+    def self.register(filename)
+        @list<<filename
+    end
+
+    def self.get_files()
+        return @list
+    end
+end
 
 class Jekyll::Site
     def initialize()
