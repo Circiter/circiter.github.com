@@ -301,6 +301,7 @@ class MathFix
 
     # TODO: Ignore all the liquid tags already present.
     def ignore_liquid_tags()
+        return # Stub.
         return if @in_formula
         return unless match("{%");
         tag=read_word()
