@@ -333,7 +333,7 @@ class MathFix
     def fixup()
         next_character()
         while @position<@content.length
-            ignore_liquid_tags()
+            #ignore_liquid_tags()
             next if process_escaped()
 
             if detect_bracket()
