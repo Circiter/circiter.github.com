@@ -269,30 +269,46 @@ class MathFix
         @in_formula=!@in_formula
     end
 
-    def match(fragment)
+    def skip_white()
+        while @current_character==" " # FIXME.
+            break unless next_character()
+        end
     end
 
-    def expect(fragment)
+    def match(fragment, exactly_here=true)
+        skip_white()
+        pos=@position
+        while true
+            return false if pos+fragment.length>=@content.length
+            if fragment==@content[pos, fragment.length]
+                @position=pos+fragment.length
+                return true
+            end
+            return false if exactly_here
+            pos+=1
+        end
     end
 
     def read_word()
-    end
-
-    def skip_and_match(fragment)
+        skip_white()
+        word=""
+        while @current_character!=" " # FIXME.
+            word+=@current_character
+            break unless next_character()
+        end
+        return word
     end
 
     # TODO: Ignore all the liquid tags already present.
     def ignore_liquid_tags()
-        # Stub. To be completed.
-        return
         return if @in_formula
-        match("{%");
+        return unless match("{%");
         tag=read_word()
-        skip_and_match("%}")
+        match("%}", false)
         while tag!=""
-            skip_and_match("{%")
-            tag="" if expect("end"+tag);
-            skip_and_math("%}");
+            match("{%", false)
+            tag="" if match("end"+tag);
+            math("%}", false);
         end
     end
 
