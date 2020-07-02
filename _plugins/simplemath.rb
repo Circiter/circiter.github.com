@@ -269,8 +269,14 @@ class MathFix
         @in_formula=!@in_formula
     end
 
+    def is_white(c)
+    {
+        return c==" "||c=="\n"||c=="\t"
+    }
+
     def skip_white()
-        while @current_character==" " # FIXME.
+        while is_white(@current_character)
+            puts "skip_white(): current_character="+@current_character
             break unless next_character()
         end
     end
@@ -280,6 +286,8 @@ class MathFix
         pos=@position
         while true
             return false if pos+fragment.length>=@content.length
+            puts "match(): fragment=("+fragment+") content substring=("+@content[pos, 
+                fragment.length]+")"
             if fragment==@content[pos, fragment.length]
                 @position=pos+fragment.length
                 return true
@@ -292,25 +300,29 @@ class MathFix
     def read_word()
         skip_white()
         word=""
-        while @current_character!=" " # FIXME.
+        while !is_white(@current_character)
+            puts "read_word(): current_character="+@current_character
             word+=@current_character
             break unless next_character()
         end
         return word
     end
 
-    # TODO: Ignore all the liquid tags already present.
+    # Ignore all the liquid tags already present.
     def ignore_liquid_tags()
         return if @in_formula
         return unless match("{%");
         tag=read_word()
         match("%}", false)
-        puts "{% "+tag+" %}"
+        puts "{% begin("+tag+") %}"
         while @position<@content.length
+            puts "searching for the closing tag..."
             match("{%", false)
+            puts "candidate found"
             matched=match("end"+tag);
             match("%}", false);
             break if matched
+            puts "not matched; continue..."
             puts(@content[@position]) if @position<@content.length
             @position+=1
         end
