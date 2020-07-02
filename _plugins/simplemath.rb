@@ -286,9 +286,10 @@ class MathFix
         while true
             return false if pos+fragment.length>=@content.length
             puts "match(): fragment=("+fragment+") content substring=("+@content[pos, 
-                fragment.length]+")"
+                fragment.length]+"), pos="+pos
             if fragment==@content[pos, fragment.length]
                 @position=pos+fragment.length
+                puts "matched!"
                 return true
             end
             return false if exactly_here
@@ -311,6 +312,7 @@ class MathFix
     def ignore_liquid_tags()
         return if @in_formula
         return unless match("{%");
+        puts "reading a word..."
         tag=read_word()
         match("%}", false)
         puts "{% begin("+tag+") %}"
@@ -340,6 +342,7 @@ class MathFix
             else
                 add_current_character()
                 next_character()
+                puts "after next_character(): position="+@position
             end
         end
         return @new_content
