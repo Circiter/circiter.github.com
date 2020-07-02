@@ -270,9 +270,8 @@ class MathFix
     end
 
     def is_white(c)
-    {
         return c==" "||c=="\n"||c=="\t"
-    }
+    end
 
     def skip_white()
         while is_white(@current_character)
