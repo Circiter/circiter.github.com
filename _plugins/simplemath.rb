@@ -218,6 +218,8 @@ class MathFix
 
         @bracket=""
         @in_formula=false
+
+        @xtag=""
     end
 
     def next_character
@@ -247,6 +249,7 @@ class MathFix
     end
 
     def detect_bracket()
+        return false if @xtag!=""
         return false unless @current_character=="$"
         @bracket="$"
         if next_character()&&@current_character=="$"
@@ -332,10 +335,32 @@ class MathFix
         puts "{% end"+tag+" %}";
     end
 
+    def detect_liquid_tag()
+        match("{%")
+        word=read_word()
+        match("%}", false)
+
+        puts "tag found: {% "+word+" %}"
+        if @xtag==""
+            puts "(open tag)"
+        else
+            puts "(may be close tag)"
+        end
+
+        if @xtag==""
+            @xtag=word
+        else
+            if word=="end"+@xtag
+                @xtag=""
+            end
+        end
+    end
+
     def fixup()
         next_character()
         while @position<@content.length
-            ignore_liquid_tags()
+            #ignore_liquid_tags()
+            detect_liquid_tag()
             next if process_escaped()
 
             if detect_bracket()
