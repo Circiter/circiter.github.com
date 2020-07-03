@@ -289,7 +289,7 @@ class MathFix
         while true
             return false if pos+fragment.length>=@content.length
             #puts "match(): fragment=("+fragment+") content substring=("+@content[pos, 
-                fragment.length]+"), pos="+pos.to_s
+            #    fragment.length]+"), pos="+pos.to_s
             if fragment==@content[pos, fragment.length]
                 add_character(@content[@position,pos+fragment.length-@position])
                 #puts "add_character("+@content[@position,pos+fragment.length-@position]+")"
