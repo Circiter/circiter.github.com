@@ -66,7 +66,7 @@ def render_latex(formula, inline, site)
     end
     latex_source<<"\\end{document}"
 
-    #puts "[debug] <latex>"+latex_source+"</latex>"
+    puts "[debug] <latex>"+latex_source+"</latex>"
 
     latex_document=File.new("temp-file.tex", "w")
     latex_document.puts(latex_source)
@@ -324,12 +324,12 @@ class MathFix
 
         if @xtag==""
             if word==tag_to_ignore
-                puts "open tag: {% tex %}"
+                #puts "open tag: {% tex %}"
                 @xtag=word
             end
         else
             if word=="end"+@xtag
-                puts "close tag: {% endtex %}"
+                #puts "close tag: {% endtex %}"
                 @xtag=""
             end
         end
@@ -345,9 +345,9 @@ class MathFix
                 process_bracket()
                 next
             else
-                if @xtag!=""
-                    print @current_character
-                end
+                #if @xtag!=""
+                #    print @current_character
+                #end
                 add_current_character()
                 next_character()
             end
