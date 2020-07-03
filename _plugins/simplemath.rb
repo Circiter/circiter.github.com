@@ -212,7 +212,7 @@ end
 class MathFix
     def initialize(content)
         @content=content
-        @position=0
+        @position=-1
         @new_content=""
         @current_character=""
 
@@ -223,9 +223,9 @@ class MathFix
     end
 
     def next_character
+        @position=@position+1
         return false if @position>=@content.length
         @current_character=@content[@position]
-        @position=@position+1
         return true
     end
 
@@ -318,14 +318,14 @@ class MathFix
     def detect_liquid_tag()
         return unless match("{%", true)
         word=read_word()
-        match("%}", false)
+        #match("%}", false)
 
         puts "tag found: {% "+word+" %}"
-        if @xtag==""
-            puts "(open tag)"
-        else
-            puts "(may be close tag)"
-        end
+        #if @xtag==""
+        #    puts "(open tag)"
+        #else
+        #    puts "(may be close tag)"
+        #end
 
         #if @xtag==""
         #    @xtag=word
@@ -339,7 +339,7 @@ class MathFix
     def fixup()
         next_character()
         while @position<@content.length
-            detect_liquid_tag()
+            #detect_liquid_tag()
             next if process_escaped()
 
             if detect_bracket()
