@@ -338,7 +338,7 @@ class MathFix
     def fixup()
         next_character()
         while @position<@content.length
-            detect_liquid_tag()
+            detect_liquid_tag("tex")
             next if process_escaped()
 
             if @xtag==""&&detect_bracket()
