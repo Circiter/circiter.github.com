@@ -273,7 +273,7 @@ class MathFix
     end
 
     def is_white(c)
-        return c==" "||c=="\n"||c=="\t"
+        return (c==" "||c=="\n"||c=="\t")
     end
 
     def skip_white()
@@ -284,7 +284,7 @@ class MathFix
         end
     end
 
-    def match(fragment, exactly_here=true)
+    def match(fragment, exactly_here)
         skip_white()
         pos=@position
         while true
@@ -293,7 +293,9 @@ class MathFix
                 fragment.length]+"), pos="+pos.to_s
             if fragment==@content[pos, fragment.length]
                 add_character(@content[@position,pos+fragment.length-@position])
+                puts "add_character("+@content[@position,pos+fragment.length-@position]+")"
                 @position=pos+fragment.length
+                @current_character=@content[@position]
                 puts "matched!"
                 return true
             end
@@ -313,39 +315,17 @@ class MathFix
         return word
     end
 
-    # Ignore all the liquid tags already present.
-    def ignore_liquid_tags()
-        return if @in_formula
-        return unless match("{%");
-        puts "reading a word..."
-        tag=read_word()
-        match("%}", false)
-        puts "{% begin("+tag+") %}"
-        while @position<@content.length
-            puts "searching for the closing tag..."
-            match("{%", false)
-            puts "candidate found"
-            matched=match("end"+tag);
-            match("%}", false);
-            break if matched
-            puts "not matched; continue..."
-            #puts(@content[@position]) if @position<@content.length
-            @position+=1
-        end
-        puts "{% end"+tag+" %}";
-    end
-
     def detect_liquid_tag()
-        return unless match("{%")
+        return unless match("{%", true)
         word=read_word()
         match("%}", false)
 
         puts "tag found: {% "+word+" %}"
-        #if @xtag==""
-        #    puts "(open tag)"
-        #else
-        #    puts "(may be close tag)"
-        #end
+        if @xtag==""
+            puts "(open tag)"
+        else
+            puts "(may be close tag)"
+        end
 
         #if @xtag==""
         #    @xtag=word
