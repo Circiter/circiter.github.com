@@ -322,19 +322,19 @@ class MathFix
         match("%}", false)
 
         puts "tag found: {% "+word+" %}"
-        #if @xtag==""
-        #    puts "(open tag)"
-        #else
-        #    puts "(may be close tag)"
-        #end
+        if @xtag==""
+            puts "(open tag)"
+        else
+            puts "(may be close tag)"
+        end
 
-        #if @xtag==""
-        #    @xtag=word
-        #else
-        #    if word=="end"+@xtag
-        #        @xtag=""
-        #    end
-        #end
+        if @xtag==""
+            @xtag=word
+        else
+            if word=="end"+@xtag
+                @xtag=""
+            end
+        end
     end
 
     def fixup()
@@ -361,12 +361,10 @@ Jekyll::Hooks.register(:pages, :pre_render) do |target, payload|
     end
 end
 
-# TODO: Try a modes other than :pre_render.
+# FIXME: Try a modes other than :pre_render.
 Jekyll::Hooks.register(:blog_posts, :pre_render) do |target, payload|
     if target.data["ext"]==".md"
         target.content=fix_math(target.content)
-        #puts "[debug] after math-fixup: ---------\n"+target.content+"\n--------\n\n"
-        #target.content
     end
 end
 
