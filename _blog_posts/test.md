@@ -27,6 +27,6 @@ Circuitikz test:
 {% tex block %}
 \begin{circuitikz}
     \draw (0,0) node[npn] (VT1) {};
-    \draw (VT1.emitter) to[R] ++(0,-3) node[ground]{};
+    \draw (VT1.emitter) to[R=$R1$] ++(0,-3) node[ground]{};
 \end{circuitikz}
 {% endtex %}
