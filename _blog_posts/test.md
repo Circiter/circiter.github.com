@@ -8,9 +8,10 @@ Inline formula: $\frac{d}{dx}x^2=2x$.
 
 Block formula: $$y(t)=\int\limits_{-\infty}^\infty x(\xi-t)h(\xi)\mathrm{d}\xi.$$
 
-Another inline formula: {% tex inline %}\begin{equation}y(t)=\int_{-\infty}^\infty x(\tau-t)h(\tau)\mathrm{d}\tau.\end{equation}{% endtex %}
+Another inline formula: {% tex inline %}$$y(t)=\int_{-\infty}^\infty 
+x(\tau-t)h(\tau)\mathrm{d}\tau.$${% endtex %}
 
-Block of latex code(): {% tex block %}
+Block of latex code: {% tex block %}
 \begin{tikzpicture}
     \draw (0,0) -- (2,1) arc (90:-90:.5) -- cycle;
 \end{tikzpicture}

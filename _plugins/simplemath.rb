@@ -71,8 +71,8 @@ def render_latex(formula, inline, site)
     latex_document=File.new("temp-file.tex", "w")
     latex_document.puts(latex_source)
     latex_document.close
-    #system("latex -interaction=nonstopmode temp-file.tex >/dev/null 2>&1")
-    system("latex -interaction=nonstopmode temp-file.tex")
+    system("latex -interaction=nonstopmode temp-file.tex >/dev/null 2>&1")
+    #system("latex -interaction=nonstopmode temp-file.tex")
 
     result="<pre>"+formula+"</pre>" # FIXME: Add escaping, maybe.
     if File.exists?("temp-file.dvi")
@@ -317,22 +317,19 @@ class MathFix
 
     # FIXME: Consider to use a stack to keep
     # track of the multi-level structure of tags.
-    def detect_liquid_tag()
+    def detect_liquid_tag(tag_to_ignore)
         return unless match("{%", true)
         word=read_word()
         match("%}", false)
 
-        puts "tag found: {% "+word+" %}"
         if @xtag==""
-            puts "(open tag)"
-        else
-            puts "(may be close tag)"
-        end
-
-        if @xtag==""
-            @xtag=word
+            if word==tag_to_ignore
+                puts "open tag: {% tex %}"
+                @xtag=word
+            end
         else
             if word=="end"+@xtag
+                puts "close tag: {% endtex %}"
                 @xtag=""
             end
         end
@@ -348,6 +345,9 @@ class MathFix
                 process_bracket()
                 next
             else
+                if @xtag!=""
+                    print @current_character
+                end
                 add_current_character()
                 next_character()
             end
