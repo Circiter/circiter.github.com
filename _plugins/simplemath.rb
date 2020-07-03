@@ -310,6 +310,7 @@ class MathFix
         while !is_white(@current_character)
             puts "read_word(): current_character="+@current_character
             word+=@current_character
+            add_current_character()
             break unless next_character()
         end
         return word
@@ -318,7 +319,7 @@ class MathFix
     def detect_liquid_tag()
         return unless match("{%", true)
         word=read_word()
-        #match("%}", false)
+        match("%}", false)
 
         puts "tag found: {% "+word+" %}"
         #if @xtag==""

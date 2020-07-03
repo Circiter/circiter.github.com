@@ -236,9 +236,10 @@ blockquote p:last-child {
   }
 }
 
-.abstract { /* Added. */
+p.abstract { /* Added. */
     text-align: justify;
-    width: 90%;
+    padding-left: 5ex;
+    padding-right: 5ex;
 }
 
 img {

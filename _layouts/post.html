@@ -6,10 +6,11 @@ layout: default
   <h2 class="post-title no-toc">{{ page.title }}</h2>
   <span class="post-date">{{ page.date | date: "%-d %B %Y" }}</span>
   {% if page.abstract %}
-    <hr/><p class="abstract">
+    <p class="abstract">
     <center><b>Аннотация</b></center>
     {{ page.abstract }}
-    </p><hr/>
+    <hr/>
+    </p>
   {% endif %}
   {% include toc.html %}
   {{ content | inject_anchors }}
