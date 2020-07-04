@@ -76,8 +76,10 @@ def render_latex(formula, inline, site)
 
     result="<pre>"+formula+"</pre>" # FIXME: Add escaping, maybe.
     if File.exists?("temp-file.dvi")
-        system("dvips -E -q temp-file.dvi -o temp-file.eps >/dev/null 2>&1");
-        system("convert -density 120 -quality 90 -trim temp-file.eps "+full_filename+" >/dev/null 2>&1")
+        #system("dvips -E -q temp-file.dvi -o temp-file.eps >/dev/null 2>&1");
+        #system("convert -density 120 -quality 90 -trim temp-file.eps "+full_filename+" >/dev/null 2>&1")
+        system("dvips -E temp-file.dvi -o temp-file.eps");
+        system("convert -density 120 -quality 90 -trim temp-file.eps "+full_filename)
         if File.exists?(full_filename)
             static_file=Jekyll::StaticFile.new(site, site.source, directory, filename)
             #Jekyll::Site::register_file(static_file.path) # FIXME.
