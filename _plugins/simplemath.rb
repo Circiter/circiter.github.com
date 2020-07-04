@@ -66,20 +66,25 @@ def render_latex(formula, inline, site)
     end
     latex_source<<"\\end{document}"
 
-    puts "[debug] <latex>"+latex_source+"</latex>"
+    #puts "[debug] <latex>"+latex_source+"</latex>"
 
     latex_document=File.new("temp-file.tex", "w")
     latex_document.puts(latex_source)
     latex_document.close
-    system("latex -interaction=nonstopmode temp-file.tex >/dev/null 2>&1")
+    #system("latex -interaction=nonstopmode temp-file.tex >/dev/null 2>&1")
     #system("latex -interaction=nonstopmode temp-file.tex")
+    #system("pdflatex -interaction=nonstopmode temp-file.tex >/dev/null 2>&1")
+    system("pdflatex -interaction=nonstopmode temp-file.tex")
 
     result="<pre>"+formula+"</pre>" # FIXME: Add escaping, maybe.
-    if File.exists?("temp-file.dvi")
+    #if File.exists?("temp-file.dvi")
+    if File.exists?("temp-file.pdf")
         #system("dvips -E -q temp-file.dvi -o temp-file.eps >/dev/null 2>&1");
         #system("convert -density 120 -quality 90 -trim temp-file.eps "+full_filename+" >/dev/null 2>&1")
-        system("dvips -E temp-file.dvi -o temp-file.eps");
-        system("convert -density 120 -quality 90 -trim temp-file.eps "+full_filename)
+        #system("dvips -E temp-file.dvi -o temp-file.eps");
+        #system("convert temp-file.eps -density 120 -quality 90 -trim "+full_filename)
+        #system("dvips -E temp-file.dvi -o temp-file.eps");
+        system("convert temp-file.pdf -density 120 -quality 90 -trim "+full_filename)
         if File.exists?(full_filename)
             static_file=Jekyll::StaticFile.new(site, site.source, directory, filename)
             #Jekyll::Site::register_file(static_file.path) # FIXME.
