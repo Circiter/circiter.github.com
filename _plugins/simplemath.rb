@@ -71,20 +71,15 @@ def render_latex(formula, inline, site)
     latex_document=File.new("temp-file.tex", "w")
     latex_document.puts(latex_source)
     latex_document.close
-    #system("latex -interaction=nonstopmode temp-file.tex >/dev/null 2>&1")
-    #system("latex -interaction=nonstopmode temp-file.tex")
+    system("latex -interaction=nonstopmode temp-file.tex >/dev/null 2>&1")
     #system("pdflatex -interaction=nonstopmode temp-file.tex >/dev/null 2>&1")
-    system("pdflatex -interaction=nonstopmode temp-file.tex")
 
     result="<pre>"+formula+"</pre>" # FIXME: Add escaping, maybe.
-    #if File.exists?("temp-file.dvi")
-    if File.exists?("temp-file.pdf")
-        #system("dvips -E -q temp-file.dvi -o temp-file.eps >/dev/null 2>&1");
-        #system("convert -density 120 -quality 90 -trim temp-file.eps "+full_filename+" >/dev/null 2>&1")
-        #system("dvips -E temp-file.dvi -o temp-file.eps");
-        #system("convert temp-file.eps -density 120 -quality 90 -trim "+full_filename)
-        #system("dvips -E temp-file.dvi -o temp-file.eps");
-        system("convert temp-file.pdf -density 120 -quality 90 -trim "+full_filename)
+    if File.exists?("temp-file.dvi")
+    #if File.exists?("temp-file.pdf")
+        system("dvips -E -q temp-file.dvi -o temp-file.eps >/dev/null 2>&1");
+        system("convert -density 120 -quality 90 -trim temp-file.eps "+full_filename+" >/dev/null 2>&1")
+        #system("convert temp-file.pdf -trim "+full_filename)
         if File.exists?(full_filename)
             static_file=Jekyll::StaticFile.new(site, site.source, directory, filename)
             #Jekyll::Site::register_file(static_file.path) # FIXME.
@@ -314,7 +309,6 @@ class MathFix
         skip_white()
         word=""
         while !is_white(@current_character)
-            #puts "read_word(): current_character="+@current_character
             word+=@current_character
             add_current_character()
             break unless next_character()
@@ -322,23 +316,15 @@ class MathFix
         return word
     end
 
-    # FIXME: Consider to use a stack to keep
-    # track of the multi-level structure of tags.
     def detect_liquid_tag(tag_to_ignore)
         return unless match("{%", true)
         word=read_word()
         match("%}", false)
 
         if @xtag==""
-            if word==tag_to_ignore
-                #puts "open tag: {% tex %}"
-                @xtag=word
-            end
+            @xtag=word if word==tag_to_ignore
         else
-            if word=="end"+@xtag
-                #puts "close tag: {% endtex %}"
-                @xtag=""
-            end
+            @xtag="" if word=="end"+@xtag
         end
     end
 
@@ -352,9 +338,6 @@ class MathFix
                 process_bracket()
                 next
             else
-                #if @xtag!=""
-                #    print @current_character
-                #end
                 add_current_character()
                 next_character()
             end
