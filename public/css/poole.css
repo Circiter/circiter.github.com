@@ -237,8 +237,8 @@ blockquote p:last-child {
 }
 
 .abstract { /* Added. */
-    margin-left: 5ex;
-    margin-right: 5ex;
+    padding-left: 5rem;
+    padding-right: 5rem;
     text-align: justify;
 }
 

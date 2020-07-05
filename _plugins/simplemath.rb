@@ -71,18 +71,17 @@ def render_latex(formula, inline, site)
     latex_document=File.new("temp-file.tex", "w")
     latex_document.puts(latex_source)
     latex_document.close
-    system("latex -interaction=nonstopmode temp-file.tex >/dev/null 2>&1")
-    #system("pdflatex -interaction=nonstopmode temp-file.tex >/dev/null 2>&1")
+    #system("latex -interaction=nonstopmode temp-file.tex >/dev/null 2>&1")
+    system("pdflatex -interaction=nonstopmode temp-file.tex >/dev/null 2>&1")
 
     result="<pre>"+formula+"</pre>" # FIXME: Add escaping, maybe.
-    if File.exists?("temp-file.dvi")
-    #if File.exists?("temp-file.pdf")
-        system("dvips -E -q temp-file.dvi -o temp-file.eps >/dev/null 2>&1");
-        system("convert -density 120 -quality 90 -trim temp-file.eps "+full_filename+" >/dev/null 2>&1")
-        #system("convert temp-file.pdf -trim "+full_filename)
+    #if File.exists?("temp-file.dvi")
+    if File.exists?("temp-file.pdf")
+        #system("dvips -E -q temp-file.dvi -o temp-file.eps >/dev/null 2>&1");
+        #system("convert -density 120 -quality 90 -trim temp-file.eps "+full_filename+" >/dev/null 2>&1")
+        system("convert -density 120 -trim -quality 90 temp-file.pdf "+full_filename)
         if File.exists?(full_filename)
             static_file=Jekyll::StaticFile.new(site, site.source, directory, filename)
-            #Jekyll::Site::register_file(static_file.path) # FIXME.
             site.static_files<<static_file
             FilesSingleton::register(static_file.path)
 
