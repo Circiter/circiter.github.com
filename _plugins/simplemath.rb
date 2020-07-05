@@ -13,7 +13,6 @@ def generate_html(filename, full_filename, formula, inline, style)
     absolute_path="/"+full_filename;
 
     result="<img src=\""+absolute_path+"\" style=\""+style+"\" class=\"latex\">"
-    #result="<div style=\"text-align: center\">"+result+"</div>" unless inline
     result="<br><center>"+result+"</center><br>" unless inline
 
     cache=File.new(filename+".html_cache", "w")
@@ -32,10 +31,6 @@ def render_latex(formula, inline, site)
     cache=filename+".html_cache"
     # Do not generate the same formula again.
     return File.read(cache) if File.exists?(cache)
-
-    #s="false"
-    #s="true" if inline
-    #puts "\n<formula inline="+s+">"+formula+"</formula>"
 
     latex_source="\\documentclass[preview,border=0pt]{standalone}\n"
     latex_source<<"\\usepackage[utf8]{inputenc}\n"
@@ -278,7 +273,6 @@ class MathFix
 
     def skip_white()
         while is_white(@current_character)
-            #puts "skip_white(): current_character="+@current_character
             add_current_character()
             break unless next_character()
         end
@@ -289,14 +283,10 @@ class MathFix
         pos=@position
         while true
             return false if pos+fragment.length>=@content.length
-            #puts "match(): fragment=("+fragment+") content substring=("+@content[pos, 
-            #    fragment.length]+"), pos="+pos.to_s
             if fragment==@content[pos, fragment.length]
                 add_character(@content[@position,pos+fragment.length-@position])
-                #puts "add_character("+@content[@position,pos+fragment.length-@position]+")"
                 @position=pos+fragment.length
                 @current_character=@content[@position]
-                #puts "matched!"
                 return true
             end
             return false if exactly_here
