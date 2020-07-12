@@ -8,7 +8,8 @@
     [future] contributors
     git creators
     viewers
+    many others
     
 /* SITE */
     Language: Russian/English
-    Tools: git, github, jekyll, linux, GNU, emacs, nano, gcc, sed, ruby, markdown, LaTeX, etc.
+    Tools: nano, git, github, jekyll, ruby, linux, GNU, emacs, nano, gcc, sed, markdown, LaTeX, etc.
