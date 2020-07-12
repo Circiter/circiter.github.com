@@ -74,7 +74,7 @@ def render_latex(formula, inline, site)
     if File.exists?("temp-file.pdf")
         #system("dvips -E -q temp-file.dvi -o temp-file.eps >/dev/null 2>&1");
         #system("convert -density 120 -quality 90 -trim temp-file.eps "+full_filename+" >/dev/null 2>&1")
-        system("convert -density 120 -trim -quality 90 temp-file.pdf "+full_filename)
+        system("convert -density 120 -trim -quality 90 temp-file.pdf "+full_filename+" >/dev/null 2>&1")
         if File.exists?(full_filename)
             static_file=Jekyll::StaticFile.new(site, site.source, directory, filename)
             site.static_files<<static_file
