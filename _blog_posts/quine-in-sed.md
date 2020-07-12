@@ -810,7 +810,7 @@ $\lambda$-исчислении], естественно возникает ид�
 В [12, 49] приводится интересный метод генерации квайнов с использованием логического 
 программирования. Авторы использовали язык логического программирования miniKanren, 
 позволяющий написать на нём аналог <<основного уравнения квайнов>> $\llbracket q\rrbracket(x)=q$ 
-и дать системе решить его относительно $q$. Квайны вычисляются быстро (за секунду) и имеют 
+и дать системе решить его относительно $q.$ Квайны вычисляются быстро (за секунду) и имеют 
 малые размеры.
 
 ## Эволюционные алгоритмы
@@ -913,7 +913,7 @@ I'_L)$ и $\llbracket I'L\rrbracket (q, x)=q$? Выше мы видели, чт�
 - [19] H.Rogers, Theory of Recursive Functions and Effective Computability
 - [20] T.A.Hansen, T.Nikolajsen, J.L.Traff, N.D.Jones, Experiments with Implementation of two Theoretical Constructions
 - [21] G.Bonfante, M.Kaczmarek, J-Y.Marion, Toward an Abstract Computer Virology
-- [22] _____, _____, _____, A Classification of Viruses through Recursion Theorems, 2007
+- [22] G.Bonfante, M.Kaczmarek, J-Y.Marion, A Classification of Viruses through Recursion Theorems, 2007
 - [23] Julia L. Lawall, Olivier Danvy, Continuation-Based Partial Evaluation
 - [24] Anders Bondorf, Improving Binding Times Without Explicit CPS-Conversion
 - [25] D.A.Wheeler, Fully Countering Trusting Trust through Diverse Double-Compiling, 2009
