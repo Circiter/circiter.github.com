@@ -20,8 +20,7 @@ layout: default
   {{ content | inject_anchors }}
 </div>
 
-{% capture difference %} {{ page.tags | size | minus: 1 }} {% endcapture %}
-{% if difference contains '-' %}
+{% if page.tags %}
     <small>метки-категории: <em>
         {% for tag in page.tags %}
             <a class="post" href="/tag/{{tag}}">{{tag}}</a>{% unless forloop.last %}, {% endunless %}

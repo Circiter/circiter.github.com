@@ -305,22 +305,28 @@ class MathFix
         return word
     end
 
-    def detect_liquid_tag(tag_to_ignore)
+    def detect_liquid_tag(tags_to_ignore)
         return unless match("{%", true)
         word=read_word()
         match("%}", false)
 
         if @xtag==""
-            @xtag=word if word==tag_to_ignore
+            @xtag=word if tags_to_ignore.contains?(word)
         else
             @xtag="" if word=="end"+@xtag
         end
+
+        #if @xtag==""
+        #    @xtag=word if word==tag_to_ignore
+        #else
+        #    @xtag="" if word=="end"+@xtag
+        #end
     end
 
     def fixup()
         next_character()
         while @position<@content.length
-            detect_liquid_tag("tex")
+            detect_liquid_tag ["tex", "raw", "highlight"]
             next if process_escaped()
 
             if @xtag==""&&detect_bracket()
