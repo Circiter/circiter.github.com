@@ -92,8 +92,13 @@ def render_latex(formula, inline, site)
                         end
                     end
                 end
-                height_pt_float=height_pt.to_f
-                depth_pt_float=depth_pt.to_f
+                begin
+                    height_pt_float=height_pt.to_f
+                    depth_pt_float=depth_pt.to_f
+                rescue
+                    height_pt_float=0
+                    depth_pt_float=0
+                end
             end
 
             # Try to use ImageMagick's identify to get the height in pixels.
@@ -112,8 +117,14 @@ def render_latex(formula, inline, site)
                 # and the reported dimensions (including the depth) to
                 # convert from pt to px.
 
-                conversion_factor=(height_pixels.to_f)/height_pt_float
-                depth_pixels=(depth_pt_float*conversion_factor).round.to_i
+                depth_pixels=0
+                if height_pt_float!=0
+                    begin
+                        conversion_factor=(height_pixels.to_f)/height_pt_float
+                        depth_pixels=(depth_pt_float*conversion_factor).round.to_i
+                    rescue
+                    end
+                end
 
                 depth=depth_pixels.to_s
 
