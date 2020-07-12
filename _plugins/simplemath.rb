@@ -311,7 +311,7 @@ class MathFix
         match("%}", false)
 
         if @xtag==""
-            @xtag=word if tags_to_ignore.contains?(word)
+            @xtag=word if tags_to_ignore.include?(word)
         else
             @xtag="" if word=="end"+@xtag
         end
