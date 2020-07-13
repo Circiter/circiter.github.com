@@ -12,4 +12,4 @@
     
 /* SITE */
     Language: Russian/English
-    Tools: nano, git, github, jekyll, ruby, linux, GNU, emacs, nano, gcc, sed, markdown, LaTeX, etc.
+    Tools: nano, git, latex, github, jekyll, ruby, linux, gnu, emacs, nano, gcc, sed, markdown, etc.
