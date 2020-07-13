@@ -50,6 +50,7 @@ def render_latex(formula, inline, site)
         latex_source<<"\\immediate\\openout\\frmdims=dimensions.tmp\n"
         latex_source<<"\\immediate\\write\\frmdims{depth: \\the\\dp\\frm}\n"
         latex_source<<"\\immediate\\write\\frmdims{height: \\the\\ht\\frm}\n"
+        latex_source<<"\\immediate\\write\\frmdims{width: \\the\\wd\\frm}\n"
         latex_source<<"\\immediate\\closeout\\frmdims\n"
     end
 
@@ -82,32 +83,47 @@ def render_latex(formula, inline, site)
 
             if inline
                 depth_pt="0pt"
-                height_pt="10pt"
+                height_pt="0pt"
+                width_pt="0pt"
                 IO.foreach("dimensions.tmp") do |line|
                     if line =~ /^([a-z]*):\s+(\d*\.?\d+)[a-z]*$/
                         if $1 == "depth"
                             depth_pt=$2
                         elsif $1 == "height"
                             height_pt=$2
+                        elsif $1 == "width"
+                            width_pt=$2
                         end
                     end
                 end
-                #begin
-                    height_pt_float=height_pt.to_f
-                    depth_pt_float=depth_pt.to_f
-                #rescue
-                #    height_pt_float=0
-                #    depth_pt_float=0
-                #end
+                height_pt_float=height_pt.to_f
+                #width_pt_float=width_pt.to_f
+                depth_pt_float=depth_pt.to_f
             end
 
             # Try to use ImageMagick's identify to get the height in pixels.
             system("identify -ping -format %h "+full_filename+" > height.tmp")
             height_pixels=File.read("height.tmp");
-            style="height: "+height_pixels+"px;"
+
+            if inline
+                total_height_pt_float=height_pt_float+depth_pt_float
+            end
+
+            if inline
+                height_str=total_height_pt_float.to_s
+                style="height: "+height_str+"pt;"
+            else
+                style="height: "+height_pixels+"px;"
+            end
+
             system("identify -ping -format %w "+full_filename+" > width.tmp")
             width_pixels=File.read("width.tmp");
-            style=style+" width: "+width_pixels+"px;"
+
+            if inline
+                style=style+" width: "+width_pt+"pt;"
+            else
+                style=style+" width: "+width_pixels+"px;"
+            end
 
             if inline
                 # For some reason the depth obtained from the latex
@@ -118,19 +134,14 @@ def render_latex(formula, inline, site)
                 # convert from pt to px.
 
                 depth_pixels=0
-                total_height_pt_float=height_pt_float+depth_pt_float
                 if total_height_pt_float!=0
-                    #begin
-                        conversion_factor=(height_pixels.to_f)/total_height_pt_float
-                        depth_pixels=(depth_pt_float*conversion_factor).round.to_i
-                    #rescue
-                    #end
+                    conversion_factor=(height_pixels.to_f)/total_height_pt_float
+                    depth_pixels=(depth_pt_float*conversion_factor).round.to_i
                 end
 
-                depth=depth_pixels.to_s
-
-                #style="margin-bottom: -"+depth+"px;"
-                style=style+" vertical-align: -"+depth+"px;";
+                #depth=depth_pixels.to_s
+                #style=style+" vertical-align: -"+depth+"px;";
+                style=style+" vertical-align: -"+depth_pt+"pt;";
             end
 
             result=generate_html(filename, full_filename, formula, inline, style)
