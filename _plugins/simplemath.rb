@@ -32,7 +32,8 @@ def render_latex(formula, inline, site)
     # Do not generate the same formula again.
     return File.read(cache) if File.exists?(cache)
 
-    latex_source="\\documentclass[preview,border=0pt]{standalone}\n"
+    #latex_source="\\documentclass[preview,border=0pt]{standalone}\n"
+    latex_source="\\documentclass[preview]{standalone}\n"
     latex_source<<"\\usepackage[utf8]{inputenc}\n"
     latex_source<<"\\usepackage[T2A,T1]{fontenc}\n"
     latex_source<<"\\usepackage{amsmath,amsfonts,amssymb,color,xcolor,stmaryrd}\n"
@@ -239,6 +240,8 @@ class MathFix
         @in_formula=false
 
         @xtag=""
+
+        @in_span=false
     end
 
     def next_character
@@ -282,6 +285,10 @@ class MathFix
             if @bracket=="$$"
                 add_character("{% tex block %}")
             else
+                if !@in_span
+                    add_character("<span>")
+                    @in_span=true
+                end
                 add_character("{% tex %}")
             end
         end
@@ -356,10 +363,17 @@ class MathFix
                 process_bracket()
                 next
             else
+                if @in_span
+                    if @current_character==" "
+                        add_character("</span>");
+                        @in_span=false
+                    end
+                end
                 add_current_character()
                 next_character()
             end
         end
+        add_character("</span>") if @in_span
         return @new_content
     end
 end
