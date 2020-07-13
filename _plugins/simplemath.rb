@@ -96,8 +96,8 @@ def render_latex(formula, inline, site)
                     height_pt_float=height_pt.to_f
                     depth_pt_float=depth_pt.to_f
                 #rescue
-                    height_pt_float=0
-                    depth_pt_float=0
+                #    height_pt_float=0
+                #    depth_pt_float=0
                 #end
             end
 
