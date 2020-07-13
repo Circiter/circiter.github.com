@@ -285,10 +285,9 @@ class MathFix
             if @bracket=="$$"
                 add_character("{% tex block %}")
             else
-                if !@in_span
-                    add_character("<span>")
-                    @in_span=true
-                end
+                add_character("</span>") if @in_span
+                add_character("<span>")
+                @in_span=true
                 add_character("{% tex %}")
             end
         end
@@ -345,12 +344,6 @@ class MathFix
         else
             @xtag="" if word=="end"+@xtag
         end
-
-        #if @xtag==""
-        #    @xtag=word if word==tag_to_ignore
-        #else
-        #    @xtag="" if word=="end"+@xtag
-        #end
     end
 
     def fixup()
@@ -363,11 +356,9 @@ class MathFix
                 process_bracket()
                 next
             else
-                if @in_span
-                    if @current_character==" "
-                        add_character("</span>");
-                        @in_span=false
-                    end
+                if @in_span&&!@in_formula&&is_white(@current_character)
+                    add_character("</span>");
+                    @in_span=false
                 end
                 add_current_character()
                 next_character()
