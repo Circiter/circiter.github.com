@@ -118,9 +118,10 @@ def render_latex(formula, inline, site)
                 # convert from pt to px.
 
                 depth_pixels=0
-                if height_pt_float!=0
+                total_height_pt_float=height_pt_float+depth_pt_float
+                if total_height_pt_float!=0
                     #begin
-                        conversion_factor=(height_pixels.to_f)/height_pt_float
+                        conversion_factor=(height_pixels.to_f)/total_height_pt_float
                         depth_pixels=(depth_pt_float*conversion_factor).round.to_i
                     #rescue
                     #end
