@@ -1,5 +1,7 @@
 # Copyright (C) 2011 Anurag Priyam - MIT License
 
+require "fileutils"
+
 module Jekyll
 
   # Jekyll plugin to generate tag clouds.
@@ -49,24 +51,53 @@ module Jekyll
       process_font_size(@params['font-size'])
       process_threshold(@params['threshold'])
 
+      @ntags=Set.new
+      IO.foreach("tags_synonyms.txt") do |line|
+          puts("[debug]: a line was readed from tags_synonyms.txt: "+line)
+          @ntags<<line.split(" ");
+      end
+
       super
+    end
+
+    # TODO: case normalization.
+    def normalize(tag)
+      @ntags.each do |synonyms|
+        if synonyms.include?(tag)
+            puts "[debug]: "+tag+" normalized to "+synonyms.first
+        end
+        return synonyms.first if synonyms.include?(tag)
+      end
+      puts "[debug]: cannot normalize "+tag
+      return tag # Cannot normalize; return as is.
     end
 
     def render(context)
       # get an Array of [tag name, tag count] pairs
       posts=context.registers[:site].collections["blog_posts"]
-      tags=posts.docs.flat_map{|post| post.data["tags"]||[]}.to_set
-      tags_pairs=tags.map do |tag|
-          posts_count=0
-          posts.docs.each do |post|
-              post_tags=(post.data["tags"]||[]).to_set
-              posts_count=posts_count+1 if post_tags.include?(tag)
-          end
-          [tag, posts_count]
+      tags=posts.docs.flat_map{|post| post.data["tags"]||[]}
+
+      #tags_pairs=tags.map do |tag|
+      #    posts_count=0
+      #    posts.docs.each do |post|
+      #        post_tags=(post.data["tags"]||[]).to_set
+      #        posts_count=posts_count+1 if post_tags.include?(tag)
+      #    end
+      #    [tag, posts_count]
+      #end
+
+      normalized_tags=(tags.map {|tag| normalize(tag)}).to_set
+
+      tags_pairs=normalized_tags.map do |tag|
+        # TODO: do not count the test posts.
+        posts_count=posts.docs.count do |post|
+          post_tags=post.data["tags"]||[]
+          post_tags.any? {|post_tag| normalize(post_tag)==tag}
+        end
+        [tag, posts_count]
       end
-      count=tags_pairs.map do |tag, posts_count|
-          [tag, posts_count] if posts_count>=threshold
-      end
+
+      count=tags_pairs.map {|tag, posts_count| [tag, posts_count] if posts_count>=threshold}
 
       # clear nils if any
       count.compact!
