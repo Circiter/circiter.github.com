@@ -1,5 +1,8 @@
 # Copyright (C) 2011 Anurag Priyam - MIT License
 
+# The support for equivalence classes of tags was
+# added by Circiter (mailto:xcirciter@gmail.com).
+
 require "fileutils"
 
 module Jekyll
@@ -87,13 +90,13 @@ module Jekyll
       #    [tag, posts_count]
       #end
 
-      normalized_tags=(tags.map {|tag| Normalizer.normalize(tag)}).to_set
+      normalized_tags=(tags.map {|tag| @normalizer.normalize(tag)}).to_set
 
       tags_pairs=normalized_tags.map do |tag|
         # TODO: do not count the test posts.
         posts_count=posts.docs.count do |post|
           post_tags=post.data["tags"]||[]
-          post_tags.any? {|post_tag| Normalizer.normalize(post_tag)==tag}
+          post_tags.any? {|post_tag| @normalizer.normalize(post_tag)==tag}
         end
         [tag, posts_count]
       end

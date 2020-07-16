@@ -3,8 +3,6 @@
 
 # From jameshfisher.com
 
-# TODO: implement equivalence classes of tags.
-
 module Jekyll
     class TagPageGenerator < Generator
         def generate(site)
