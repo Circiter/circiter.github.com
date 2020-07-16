@@ -10,12 +10,8 @@ title: Дневник Circiter'а.
 Сообщения-статьи:
 {% assign posts_list = site.blog_posts %}
 {% for post in posts_list %}
-    {% if post.test == null %}
-        {% if post.title != null %}
-            {% if post.layout == "post" %}
+    {% if post.layout == "post" and post.title != null and post.test == null %}
 * [{{ post.title }}]({{ post.url }})
-            {% endif %}
-        {% endif %}
     {% endif %}
 {% endfor %}
 

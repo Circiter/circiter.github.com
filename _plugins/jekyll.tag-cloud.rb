@@ -4,6 +4,23 @@ require "fileutils"
 
 module Jekyll
 
+  class Normalizer
+    def initialize()
+      @ntags=Set.new
+      IO.foreach("tags_synonyms.txt") do |line|
+        @ntags<<line.split(" ");
+      end
+    end
+
+    # TODO: case normalization.
+    def normalize(tag)
+      @ntags.each do |synonyms|
+        return synonyms.first if synonyms.include?(tag)
+      end
+      return tag # Cannot normalize; return as is.
+    end
+  end
+
   # Jekyll plugin to generate tag clouds.
   #
   # The plugin defines a `tag_cloud` tag that is rendered by Liquid into a tag
@@ -51,25 +68,9 @@ module Jekyll
       process_font_size(@params['font-size'])
       process_threshold(@params['threshold'])
 
-      @ntags=Set.new
-      IO.foreach("tags_synonyms.txt") do |line|
-          puts("[debug]: a line was readed from tags_synonyms.txt: "+line)
-          @ntags<<line.split(" ");
-      end
+      @normalizer=Normalizer.new
 
       super
-    end
-
-    # TODO: case normalization.
-    def normalize(tag)
-      @ntags.each do |synonyms|
-        if synonyms.include?(tag)
-            puts "[debug]: "+tag+" normalized to "+synonyms.first
-        end
-        return synonyms.first if synonyms.include?(tag)
-      end
-      puts "[debug]: cannot normalize "+tag
-      return tag # Cannot normalize; return as is.
     end
 
     def render(context)
@@ -86,13 +87,13 @@ module Jekyll
       #    [tag, posts_count]
       #end
 
-      normalized_tags=(tags.map {|tag| normalize(tag)}).to_set
+      normalized_tags=(tags.map {|tag| Normalizer.normalize(tag)}).to_set
 
       tags_pairs=normalized_tags.map do |tag|
         # TODO: do not count the test posts.
         posts_count=posts.docs.count do |post|
           post_tags=post.data["tags"]||[]
-          post_tags.any? {|post_tag| normalize(post_tag)==tag}
+          post_tags.any? {|post_tag| Normalizer.normalize(post_tag)==tag}
         end
         [tag, posts_count]
       end
@@ -147,3 +148,14 @@ module Jekyll
 end
 
 Liquid::Template.register_tag('tag_cloud', Jekyll::TagCloud)
+
+module Jekyll
+    module NormalizeFilter
+        def normalize(content)
+            normalizer=Normalizer.new()
+            normalizer.normalize(content)
+        end
+    end
+end
+
+Liquid::Template.register_filter(Jekyll::NormalizeFilter)
