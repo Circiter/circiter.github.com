@@ -59,6 +59,7 @@ Circuitikz test:
 Соответствующий код:
 
 {% highlight latex %}
+{% raw %}
 \def\CalcC(#1){%
 \coordinate (base) at (#1.base);
 \coordinate (collector) at (#1.collector);
@@ -78,6 +79,7 @@ Circuitikz test:
     \draw (4,|-VT1.E) to[R,-o] (6,|-VT1.E);
     \draw (4,|-VT1.E) to[C,-o] ++(0,1);
 \end{circuitikz}
+{% raw %}
 {% endhighlight %}
 
 {% tex block %}
