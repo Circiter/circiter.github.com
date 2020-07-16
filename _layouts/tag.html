@@ -6,12 +6,13 @@ title: "Сообщения с меткой \"@\""
 <h1>{{ page.title }}</h1>
 
 <ul>
-    {% assign blog_posts = site.blog_posts %}
-    {% for post in blog_posts %}
+    {% assign posts = site.blog_posts %}
+    {% for post in posts %}
         {% assign post_tags = post.tags | split: " " %}
         {% for tag in post_tags %}
-            {% assign normal_post_tag = tag | normalize %}
-            {% assign normal_page_tag = page.tag | normalize %}
+            <li>tag: {{ tag }} in {{ post.title }}</li>
+            {% assign normal_post_tag = tag %}
+            {% assign normal_page_tag = page.tag %}
             {% if normal_post_tag == normal_page_tag %}
                 <li><a class="post" href="{{ post.url }}">{{ post.title }}</a></li>
             {% endif %}
