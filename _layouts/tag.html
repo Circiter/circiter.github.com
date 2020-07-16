@@ -8,9 +8,8 @@ title: "Сообщения с меткой \"@\""
 <ul>
     {% assign posts = site.blog_posts %}
     {% for post in posts %}
-        {% assign post_tags = post.tags | split: " " %}
-        {% for tag in post_tags %}
-            <li>tag: {{ tag }} in {{ post.title }}</li>
+        {% for tag in post.tags %}
+            <li>tag: {{ tag }} in {{ post.title }} (normalized version: {{ tag | normalize }})</li>
             {% assign normal_post_tag = tag %}
             {% assign normal_page_tag = page.tag %}
             {% if normal_post_tag == normal_page_tag %}
