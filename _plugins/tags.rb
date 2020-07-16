@@ -1,5 +1,5 @@
 # For each tag like "programming", you will have a page that lists all posts with that tag
-# at /tag/programming.
+# at /programming.
 
 # From jameshfisher.com
 

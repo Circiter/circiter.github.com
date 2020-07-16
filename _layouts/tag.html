@@ -13,7 +13,10 @@ title: "Сообщения с меткой \"@\""
             {% assign normal_page_tag = page.tag | normalize %}
             {% if normal_post_tag == normal_page_tag %}
                 <li><a class="post" href="{{ post.url }}">{{ post.title }}</a></li>
+                {% break %}
             {% endif %}
         {% endfor %}
+    {% else %}
+        <li>[Нет записей]</li>
     {% endfor %}
 </ul>
