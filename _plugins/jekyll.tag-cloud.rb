@@ -84,7 +84,6 @@ module Jekyll
       tags_pairs=normalized_tags.map do |tag|
         posts_count=posts.docs.count do |post|
           if post.data.has_key?("test")
-            puts("[debug]: post "+post.data["title"]+" ignored.")
             false
           else
             post_tags=post.data["tags"]||[]
