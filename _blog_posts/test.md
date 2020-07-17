@@ -79,7 +79,7 @@ Circuitikz test:
     \draw (4,|-VT1.E) to[R,-o] (6,|-VT1.E);
     \draw (4,|-VT1.E) to[C,-o] ++(0,1);
 \end{circuitikz}
-{% raw %}
+{% endraw %}
 {% endhighlight %}
 
 {% tex block %}
