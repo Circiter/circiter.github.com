@@ -239,7 +239,7 @@ GNU в Posix и смогло ли бы это решить проблему по
 * <http://sed.sourceforge.net/grabbag/scripts/turing.sed> -- машина Тьюринга на sed; да,
    это -- готовое [конструктивное] доказательство вычислительной универсальности языка sed.
 * <http://sed.sourceforge.net/grabbag/scripts/sokoban.sed> -- широкоизвестная игра
-   ![i18n-sokoban](http://circiter.github.io/public/images/sokoban.png){:.inline} (сокобан);
+   ![i18n-sokoban](/public/images/sokoban.png){:.inline} (сокобан);
    эта реализация интересна, разумеется, перемещением персонажа во всех
    направлениях (в т.ч. вверх-вниз), чего обычно на sed достичь не так-то просто.
 * <http://sed.sourceforge.net/grabbag/scripts/bf2c.sed> -- транслятор из, --- ну кто

@@ -5,8 +5,6 @@ title: Дневник Circiter'а.
 
 # circiter.tk || circiter.github.io
 
-Простой публичный дневник (блог).
-
 Сообщения-статьи:
 {% assign posts_list = site.blog_posts %}
 {% for post in posts_list %}
