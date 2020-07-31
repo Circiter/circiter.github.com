@@ -6,6 +6,12 @@ require "fileutils"
 require "digest"
 require "erb"
 
+# TODO: Try to typeset each of the formulas on its own page in one large document (one per
+# a *.md file). At the end, try to create this document and include all the formulas into it.
+# Finally, compile this document in such a way that each rendered formula be placed in its
+# own *.png file. Such a scheme would allow the usage of the latex equation labeling, and,
+# also, it would make it possible to compile a latex code faster.)
+
 def generate_html(filename, full_filename, formula, inline, style)
     #title=CGI.escape(formula)
     #title=ERB::Util.url_encode(formula)
