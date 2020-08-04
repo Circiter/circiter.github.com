@@ -11,6 +11,8 @@ require "erb"
 # Finally, compile this document in such a way that each rendered formula be placed in its
 # own *.png file. Such a scheme would allow the usage of the latex equation labeling, and,
 # also, it would make it possible to compile a latex code faster.)
+# But note that such a scheme needs a second pass emit a correct html code with actual sizes
+# and [vertical] positions.
 
 def generate_html(filename, full_filename, formula, inline, style)
     #title=CGI.escape(formula)
