@@ -237,6 +237,11 @@ def fix_math(content)
     return mathfix.fixup()
 end
 
+
+# FIXME: There is a problem with a extra newline or paragraph
+# after a $...$ formula at the end of a line.
+# Is the \n after a {% tex %}...{% endtex %} block causes the
+# insertion a new unwanted paragraph brake?
 class MathFix
     def initialize(content)
         @content=content
@@ -268,9 +273,7 @@ class MathFix
     def process_escaped()
         return false unless @current_character=="\\"
         add_current_character()
-        if next_character()
-            add_current_character()
-        end
+        add_current_character() if next_character()
         next_character()
         return true
     end

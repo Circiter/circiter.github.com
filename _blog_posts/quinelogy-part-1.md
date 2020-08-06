@@ -760,10 +760,18 @@ $f_1=\llbracket p_1\rrbracket$. Пусть $\varphi$ -- универсальна
 {% endtex %}
 
 К оператору $\Phi$ напрямую применима первая рекурсивная теорема, т.е. существует $f$, такая, 
-что $f=\Phi(f)$. Из этого следует, что существуют программы $q_0$ и $q_1$ (в общем случае может 
-быть $q_0\neq q_1$), такие, что $f=\llbracket q_0\rrbracket$ и $f=\llbracket q_1\rrbracket$. 
-Тогда на основе любой из этих программ, применением $\operatorname{quote}$, можно получить 
-неподвижную точку $q$, т.е. настоящий квайн, такой, что $q=\operatorname{quote} 
+что $f=\Phi(f)$. Из этого следует, что существуют программы $q_0$ и $$q_1=\operatorname{quote} 
+q_0,\eqno (4)$$ такие, что $f=\llbracket q_0\rrbracket$ и $f=\llbracket q_1\rrbracket$, т.е. 
+$$\llbracket q_0\rrbracket=\llbracket q_1\rrbracket.\eqno (5)$$ Подставляя (4) в (5) и применяя 
+определение оператора $\operatorname{quote}$ получаем $\forall z\ \llbracket q_0\rrbracket(z) = 
+\llbracket\operatorname{quote} q_0\rrbracket(z) = q_0$, т.е. $q_0$ удовлетворяет <<уравнению 
+квайна>> $\llbracket q_0\rrbracket(z)=q_0$ и, соответственно, является квайном.
+
+Очевидно, $q_1$ -- квайн, т.к. $\Phi(\llbracket 
+q_1\rrbracket$)=\llbracket q_1\rrbracket.
+
+Тогда на основе любой из этих программ, применением $\operatorname{quote}$, 
+можно получить неподвижную точку $q$, т.е. настоящий квайн, такой, что $q=\operatorname{quote} 
 q_0 = \operatorname{quote} q$.
 
 (Для меня остается открытым вопрос о возможности применения первой рекурсивной теоремы для 
