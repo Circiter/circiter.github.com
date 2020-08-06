@@ -5,6 +5,7 @@ gem "pygments.rb"
 gem "nokogiri"
 gem "coderay"
 gem "text-hyphen"
+gem "kramdown"
 gem "kramdown-parser-gfm"
 #gem "jekyll"
 
