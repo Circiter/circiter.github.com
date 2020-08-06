@@ -36,7 +36,8 @@ footer-links:
 
 repository: "Circiter/circiter.github.io"
 
-markdown: kramdown
+#markdown: kramdown
+markdown: redkarpet
 
 kramdown:
   input: GFM

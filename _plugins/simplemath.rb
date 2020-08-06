@@ -1,7 +1,7 @@
 # Some parts of this code is taken from github.com/fgalindo/jekyll-liquid-latex-plugin
 # but with major rewrite [and, in fact, with considerable downgrade in the functionality].
 
-require "kramdown/converter"
+#require "kramdown/converter"
 require "fileutils"
 require "digest"
 require "erb"
@@ -169,22 +169,22 @@ def render_latex(formula, inline, site)
     return result
 end
 
-module Kramdown
-    module Converter
-        module MathEngine
-            module SimpleMath
-                #@@my_site=nil
-                #def self.my_init(site)
-                #    @@my_site=site
-                #end
-
-                def self.call(converter, element, options)
-                    return element.value
-                end
-            end
-        end
-    end
-end
+#module Kramdown
+#    module Converter
+#        module MathEngine
+#            module SimpleMath
+#                #@@my_site=nil
+#                #def self.my_init(site)
+#                #    @@my_site=site
+#                #end
+#
+#                def self.call(converter, element, options)
+#                    return element.value
+#                end
+#            end
+#        end
+#    end
+#end
 
 Kramdown::Converter.add_math_engine(:simplemath, ::Kramdown::Converter::MathEngine::SimpleMath)
 
