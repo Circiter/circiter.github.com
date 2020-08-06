@@ -186,7 +186,7 @@ end
 #    end
 #end
 
-Kramdown::Converter.add_math_engine(:simplemath, ::Kramdown::Converter::MathEngine::SimpleMath)
+#Kramdown::Converter.add_math_engine(:simplemath, ::Kramdown::Converter::MathEngine::SimpleMath)
 
 module FilesSingleton
     @list=[]
