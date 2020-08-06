@@ -46,13 +46,14 @@ kramdown:
   auto_ids: true
   #auto_id_stripping
   transliterated_header_ids: true
-  #gfm_quirks:
+  gfm_quirks: paragraph_end
   hard_wrap: false
-  #math_engine: simplemath
-  math_engine: +nil+
+  math_engine: simplemath
+  #math_engine: nil
   #parse_block_html: true
 
-  #syntax_highlighter_opts:
+  syntax_highlighter_opts:
+    default_lang: plaintext
   #  wrap: div
   #  line_number: nil
   #  tab_width: 4
