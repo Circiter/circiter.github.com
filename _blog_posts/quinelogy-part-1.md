@@ -767,9 +767,6 @@ $$\llbracket q_0\rrbracket=\llbracket q_1\rrbracket.\eqno (5)$$ Подставл
 \llbracket\operatorname{quote} q_0\rrbracket(z) = q_0$, т.е. $q_0$ удовлетворяет <<уравнению 
 квайна>> $\llbracket q_0\rrbracket(z)=q_0$ и, соответственно, является квайном.
 
-Очевидно, $q_1$ -- квайн, т.к. $\Phi(\llbracket 
-q_1\rrbracket$)=\llbracket q_1\rrbracket.
-
 Тогда на основе любой из этих программ, применением $\operatorname{quote}$, 
 можно получить неподвижную точку $q$, т.е. настоящий квайн, такой, что $q=\operatorname{quote} 
 q_0 = \operatorname{quote} q$.
