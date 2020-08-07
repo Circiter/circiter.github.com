@@ -21,6 +21,15 @@ module Jekyll
                 fragment.to_s
             end
 
+            # FIXME: Does it break a code, preformatted text, etc?
+            # FIXME: Consider to somehow insert this functionality
+            # into smartypants mechanism.
+            def convert_quotes(text)
+                text.gsub!("<<", "&laquo;")
+                text.gsub!(">>", "&raquo;")
+                return text
+            end
+
             # FIXME: It doesn't hyphenate inside some of list items, header captions, etc.
             def hyphenate_text(text)
                 my_text=text
@@ -38,14 +47,6 @@ module Jekyll
                 end
                 return convert_quotes(my_text)
             end
-
-            # FIXME: Does it break a code, preformatted text, etc?
-            # FIXME: Consider to somehow insert this functionality
-            # into smartypants mechanism.
-            def convert_quotes(text)
-                text.gsub!("<<", "&laquo;").gsub!(">>", "&raquo;")
-            end
-
         end
 
         def hyphenate(content)
