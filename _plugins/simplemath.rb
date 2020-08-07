@@ -40,8 +40,9 @@ def render_latex(formula, inline, site)
     # Do not generate the same formula again.
     return File.read(cache) if File.exists?(cache)
 
+    latex_source="\\documentclass[preview,border=1pt]{standalone}\n"
     #latex_source="\\documentclass[preview,border=0pt]{standalone}\n"
-    latex_source="\\documentclass[preview]{standalone}\n"
+    #latex_source="\\documentclass[preview]{standalone}\n"
     latex_source<<"\\usepackage[utf8]{inputenc}\n"
     latex_source<<"\\usepackage[T2A,T1]{fontenc}\n"
     latex_source<<"\\usepackage{amsmath,amsfonts,amssymb,color,xcolor,stmaryrd}\n"
