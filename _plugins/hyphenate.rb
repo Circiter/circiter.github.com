@@ -36,8 +36,16 @@ module Jekyll
                     end
                     word
                 end
-                return my_text
+                return convert_quotes(my_text)
             end
+
+            # FIXME: Does it break a code, preformatted text, etc?
+            # FIXME: Consider to somehow insert this functionality
+            # into smartypants mechanism.
+            def convert_quotes(text)
+                text.gsub!("<<", "&laquo;").gsub!(">>", "&raquo;")
+            end
+
         end
 
         def hyphenate(content)
