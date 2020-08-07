@@ -7,7 +7,7 @@ gem "coderay"
 gem "text-hyphen"
 #gem "kramdown"
 #gem "kramdown-parser-gfm"
-gem redkarpet
+gem "redkarpet"
 #gem "jekyll"
 
 group :jekyll_plugins do
