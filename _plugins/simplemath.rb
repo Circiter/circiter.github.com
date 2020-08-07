@@ -293,9 +293,9 @@ class MathFix
             if @bracket=="$$"
                 add_character("{% tex block %}")
             else
-                add_character("</span>") if @in_span
-                add_character("<span>")
-                @in_span=true
+                #add_character("</span>") if @in_span
+                #add_character("<span>")
+                #@in_span=true
                 add_character("{% tex %}")
             end
         end
@@ -364,15 +364,15 @@ class MathFix
                 process_bracket()
                 next
             else
-                if @in_span&&!@in_formula&&is_white(@current_character)
-                    add_character("</span>");
-                    @in_span=false
-                end
+                #if @in_span&&!@in_formula&&is_white(@current_character)
+                #    add_character("</span>");
+                #    @in_span=false
+                #end
                 add_current_character()
                 next_character()
             end
         end
-        add_character("</span>") if @in_span
+        #add_character("</span>") if @in_span
         return @new_content
     end
 end
