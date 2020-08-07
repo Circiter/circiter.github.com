@@ -1,13 +1,13 @@
 source "https://rubygems.org"
 
 #gem "json"
-gem "pygments.rb"
+#gem "pygments.rb"
 gem "nokogiri"
 gem "coderay"
 gem "text-hyphen"
 #gem "kramdown"
 #gem "kramdown-parser-gfm"
-gem "redkarpet"
+gem "redcarpet"
 #gem "jekyll"
 
 group :jekyll_plugins do
