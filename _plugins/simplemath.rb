@@ -40,8 +40,8 @@ def render_latex(formula, inline, site)
     # Do not generate the same formula again.
     return File.read(cache) if File.exists?(cache)
 
-    latex_source="\\documentclass[preview,border=0pt]{standalone}\n"
-    #latex_source="\\documentclass[preview]{standalone}\n"
+    #latex_source="\\documentclass[preview,border=0pt]{standalone}\n"
+    latex_source="\\documentclass[preview]{standalone}\n"
     latex_source<<"\\usepackage[utf8]{inputenc}\n"
     latex_source<<"\\usepackage[T2A,T1]{fontenc}\n"
     latex_source<<"\\usepackage{amsmath,amsfonts,amssymb,color,xcolor,stmaryrd}\n"
@@ -118,21 +118,12 @@ def render_latex(formula, inline, site)
                 total_height_pt_float=height_pt_float+depth_pt_float
             end
 
-            #if inline
-            #    height_str=total_height_pt_float.to_s
-            #    style="height: "+height_str+"pt;"
-            #else
-                style="height: "+height_pixels+"px;"
-            #end
+            #style="height: "+height_pixels+"px;"
 
             system("identify -ping -format %w "+full_filename+" > width.tmp")
             width_pixels=File.read("width.tmp");
 
-            #if inline
-            #    style=style+" width: "+width_pt+"pt;"
-            #else
-                style=style+" width: "+width_pixels+"px;"
-            #end
+            #style=style+" width: "+width_pixels+"px;"
 
             if inline
                 # For some reason the depth obtained from the latex
