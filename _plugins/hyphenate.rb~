@@ -14,8 +14,8 @@ module Jekyll
             # FIXME: Consider to somehow insert this functionality
             # into smartypants mechanism.
             def convert_quotes(text)
-                text.gsub!("<<", "«")
-                text.gsub!(">>", "»")
+                text.gsub!("<<", "&laquo;")
+                text.gsub!(">>", "&raquo;")
                 #text.gsub!("<<", "&laquo;")
                 #text.gsub!(">>", "&raquo;")
                 #text.gsub!("<<", "[left_quote]")
