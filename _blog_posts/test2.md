@@ -4,6 +4,6 @@ title: "Проверка."
 test: true
 ---
 
-Проверка <<неразрывного пробела>>: <span>![](/public/images/sokoban.png){:.inline}-игра</span>
+Проверка <<неразрывного пробела>>: <span>![](/public/images/sokoban.png)-игра</span>
 
 EOF.
