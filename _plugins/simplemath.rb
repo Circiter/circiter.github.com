@@ -287,10 +287,10 @@ class MathFix
                 add_character("{% tex block %}")
             else
                 #add_character("</span>") if @in_span
-                if !@in_span
-                    add_character("<span>")
-                    @in_span=true
-                end
+                #if !@in_span
+                #    add_character("<span>")
+                #    @in_span=true
+                #end
                 add_character("{% tex %}")
             end
         end
@@ -355,10 +355,10 @@ class MathFix
             detect_liquid_tag ["tex", "raw", "highlight"]
             next if process_escaped()
 
-            if @in_span&&(!@in_formula)&&is_white(@current_character)
-                add_character("</span>");
-                @in_span=false
-            end
+            #if @in_span&&(!@in_formula)&&is_white(@current_character)
+            #    add_character("</span>");
+            #    @in_span=false
+            #end
 
             if @xtag==""&&detect_bracket()
                 process_bracket()
@@ -368,7 +368,7 @@ class MathFix
                 next_character()
             end
         end
-        add_character("</span>") if @in_span
+        #add_character("</span>") if @in_span
         return @new_content
     end
 end
