@@ -41,8 +41,10 @@ repository: "Circiter/circiter.github.io"
 markdown: CommonMarkGhPages
 
 commonmark:
-  options: ["SMART", "FOOTNOTES", "UNSAFE", "LIBERAL_HTML_TAG", "STRIKETHROUGH_DOUBLE_TILDE"]
-  extensions: ["strikethrough", "autolink", "table"]
+  # UNSAFE
+  options: ["SMART", "FOOTNOTES", "LIBERAL_HTML_TAG", "STRIKETHROUGH_DOUBLE_TILDE"]
+  #autolink
+  extensions: ["strikethrough", "table"]
 
 redcarpet:
   extensions: ["no_intra_emphasis", "tables", "autolink", "strikethrough", "with_toc_data", "fenced_code_blocks", "disable_indented_code_blocks", "lax_spacing", "space_after_headers", "footnotes", "xhtml", "smart"]
