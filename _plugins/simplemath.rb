@@ -85,7 +85,7 @@ def render_latex(formula, inline, site)
     if File.exists?("temp-file.pdf")
         #system("dvips -E -q temp-file.dvi -o temp-file.eps >/dev/null 2>&1");
         #system("convert -density 120 -quality 90 -trim temp-file.eps "+full_filename+" >/dev/null 2>&1")
-        system("convert -density 120 -trim -quality 90 temp-file.pdf "+full_filename+" >/dev/null 2>&1")
+        system("convert -density 120 -trim temp-file.pdf "+full_filename+" >/dev/null 2>&1")
         if File.exists?(full_filename)
             static_file=Jekyll::StaticFile.new(site, site.source, directory, filename)
             site.static_files<<static_file
@@ -287,8 +287,10 @@ class MathFix
                 add_character("{% tex block %}")
             else
                 #add_character("</span>") if @in_span
-                #add_character("<span>")
-                #@in_span=true
+                if !@in_span
+                    add_character("<span>")
+                    @in_span=true
+                end
                 add_character("{% tex %}")
             end
         end
@@ -353,19 +355,20 @@ class MathFix
             detect_liquid_tag ["tex", "raw", "highlight"]
             next if process_escaped()
 
+            if @in_span&&(!@in_formula)&&is_white(@current_character)
+                add_character("</span>");
+                @in_span=false
+            end
+
             if @xtag==""&&detect_bracket()
                 process_bracket()
                 next
             else
-                #if @in_span&&!@in_formula&&is_white(@current_character)
-                #    add_character("</span>");
-                #    @in_span=false
-                #end
                 add_current_character()
                 next_character()
             end
         end
-        #add_character("</span>") if @in_span
+        add_character("</span>") if @in_span
         return @new_content
     end
 end

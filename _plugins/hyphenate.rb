@@ -12,15 +12,11 @@ module Jekyll
 
             # FIXME: Does it break a code, preformatted text, etc?
             # FIXME: Consider to somehow insert this functionality
-            # into smartypants mechanism.
+            # into the "smartypants" mechanism.
             def convert_quotes(text)
-                text.gsub!("<<", "«")
-                text.gsub!(">>", "»")
-                #text.gsub!("<<", "&laquo;")
-                #text.gsub!(">>", "&raquo;")
-                #text.gsub!("<<", "[left_quote]")
-                #text.gsub!(">>", "[right_quote]")
-                return text
+                # << -> &laquo;
+                # >> -> &raquo;
+                return text.gsub("<<", "«").gsub(">>", "»")
             end
 
             def hyphenate(content)
@@ -31,10 +27,7 @@ module Jekyll
                         node.content=convert_quotes(hyphenate_text(node.content)) if node.text?
                     end
                 end
-                string=fragment.to_s
-                #string.gsub!("[left_quote]", "&laquo;")
-                #string.gsub!("[right_quote]", "&raquo;")
-                #return string
+                return fragment.to_s
             end
 
             # FIXME: It doesn't hyphenate inside some of list items, header captions, etc.
