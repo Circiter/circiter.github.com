@@ -255,6 +255,7 @@ class MathFix
     end
 
     def add_character(character)
+        #close_span() if @in_regular_text&&is_white(character)
         @new_content=@new_content+character
     end
 
@@ -281,21 +282,37 @@ class MathFix
         return true
     end
 
+    def close_span(check_white=false)
+        if @in_span&&!@in_formula
+            return if(check_white&&!is_white(@current_character))
+            add_character("[end span]");
+            @in_span=false
+        end
+    end
+
+    def open_span()
+        if !@in_span
+            add_character("[span]")
+            @in_span=true
+        end
+    end
+
     def process_bracket()
         if !@in_formula
             if @bracket=="$$"
+                close_span()
                 add_character("{% tex block %}")
             else
-                #add_character("</span>") if @in_span
-                if !@in_span
-                    add_character("[span]")
-                    @in_span=true
-                end
+                open_span()
                 add_character("{% tex %}")
             end
         end
         add_character(@bracket)
-        add_character("{% endtex %}") if @in_formula
+        #add_character("{% endtex %}") if @in_formula
+        if @in_formula
+            add_character("{% endtex %}")
+            close_span()
+        end
         @in_formula=!@in_formula
     end
 
@@ -358,11 +375,6 @@ class MathFix
             detect_liquid_tag ["tex", "raw", "highlight"]
             next if process_escaped()
 
-            if @in_span&&(!@in_formula)&&is_white(@current_character)
-                add_character("[end span]");
-                @in_span=false
-            end
-
             if @xtag==""&&detect_bracket()
                 process_bracket()
                 next
@@ -371,7 +383,7 @@ class MathFix
                 next_character()
             end
         end
-        add_character("[end span]") if @in_span
+        close_span()
         return @new_content
     end
 end
