@@ -23,7 +23,8 @@ module Jekyll
                 ignored_tags=%w[ area audio canvas code embed footer form img map math nav object pre script svg table track video]
                 root.children.each{|node|
                     if node.text?
-                        node.text=hyphenate_text(node.text).gsub(".", "[dot]") # node.text vs. node.content
+                        node.content=hyphenate_text(node.text).gsub(".", "[dot]")
+                        # node.text vs. node.content
                     elsif not ignored_tags.include?(node.name)
                         process_text_nodes!(node)
                     end
