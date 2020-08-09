@@ -19,7 +19,24 @@ module Jekyll
                 return text.gsub("<<", "«").gsub(">>", "»")
             end
 
+            def process_text_nodes!(root)
+                ignored_tags=%w[ area audio canvas code embed footer form img map math nav object pre script svg table track video]
+                root.children.each{|node|
+                    if node.text?
+                        node.text=hyphenate_text(node.text).gsub(".", "[dot]") # node.text vs. node.content
+                    elsif not ignored_tags.include?(node.name)
+                        process_nodes(node)
+                    end
+                }
+            end
+
             def hyphenate(content)
+                fragment=Nokogiri::HTML::fragment(content)
+                process_text_nodes!(fragment)
+                return fragment.to_s
+
+#####################################################
+
                 fragment=Nokogiri::HTML::DocumentFragment.parse(content)
                 #html=fragment.inner_html
                 fragment.css("p").each do |element|
