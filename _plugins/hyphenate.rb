@@ -23,7 +23,7 @@ module Jekyll
                 ignored_tags=%w[ area audio canvas code embed footer form img map math nav object pre script svg table track video]
                 root.children.each{|node|
                     if node.text?
-                        node.content=hyphenate_text(node.text).gsub(".", "[dot]")
+                        node.content=convert_quotes(hyphenate_text(node.text))
                         # node.text vs. node.content
                     elsif not ignored_tags.include?(node.name)
                         process_text_nodes!(node)
@@ -35,17 +35,14 @@ module Jekyll
                 fragment=Nokogiri::HTML::fragment(content)
                 process_text_nodes!(fragment)
                 return fragment.to_s
-
-#####################################################
-
-                fragment=Nokogiri::HTML::DocumentFragment.parse(content)
-                #html=fragment.inner_html
-                fragment.css("p").each do |element|
-                    element.traverse do |node|
-                        node.content=convert_quotes(hyphenate_text(node.content)) if node.text?
-                    end
-                end
-                return fragment.to_s
+                #fragment=Nokogiri::HTML::DocumentFragment.parse(content)
+                ##html=fragment.inner_html
+                #fragment.css("p").each do |element|
+                #    element.traverse do |node|
+                #        node.content=convert_quotes(hyphenate_text(node.content)) if node.text?
+                #    end
+                #end
+                #return fragment.to_s
             end
 
             # FIXME: It doesn't hyphenate inside some of list items, header captions, etc.
