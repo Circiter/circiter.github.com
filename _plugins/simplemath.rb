@@ -51,7 +51,8 @@ def render_latex(formula, inline, site)
 
     if !inline
         latex_source<<"\\usepackage{tikz}\n"
-        latex_source<<"\\usepackage[european,emptydiode,americaninductor]{circuitikz-0.4}\n"
+        #latex_source<<"\\usepackage[european,emptydiode,americaninductor]{circuitikz-0.4}\n"
+        latex_source<<"\\usepackage[european,emptydiode,americaninductor]{circuitikz}\n"
     else
         latex_source<<"\\newsavebox\\frm\n"
         latex_source<<"\\sbox\\frm{"
@@ -245,6 +246,7 @@ class MathFix
         @in_formula=false
         @xtag=""
         @in_span=false
+        @in_regular_text=true
     end
 
     def next_character
@@ -255,7 +257,8 @@ class MathFix
     end
 
     def add_character(character)
-        #close_span() if @in_regular_text&&is_white(character)
+        # FIXME: Consider a larger class of character (not only the whitespace).
+        close_span() if @xtag==""&&@in_regular_text&&is_white(character)
         @new_content=@new_content+character
     end
 
@@ -266,9 +269,11 @@ class MathFix
     # FIXME: Is it correct for a formulas?
     def process_escaped()
         return false unless @current_character=="\\"
+        @in_regular_text=false
         add_current_character()
         add_current_character() if next_character()
         next_character()
+        @in_regular_text=true
         return true
     end
 
@@ -284,15 +289,18 @@ class MathFix
 
     def close_span()#(check_white=false)
         if @in_span&&!@in_formula
-            #return if(check_white&&!is_white(@current_character))
+            @in_regular_text=false
             add_character("[end span]");
+            @in_regular_text=true
             @in_span=false
         end
     end
 
     def open_span()
         if !@in_span&&!@in_formula
+            @in_regular_text=false
             add_character("[span]")
+            @in_regular_text=true
             @in_span=true
         end
     end
@@ -301,16 +309,18 @@ class MathFix
         if !@in_formula
             if @bracket=="$$"
                 close_span()
+                @in_regular_text=false
                 add_character("{% tex block %}")
             else
                 open_span()
+                @in_regular_text=false
                 add_character("{% tex %}")
             end
         end
         add_character(@bracket)
         add_character("{% endtex %}") if @in_formula
         @in_formula=!@in_formula
-        close_span() if !@in_formula
+        if(!@in_formula) @in_regular_text=true
     end
 
     def is_white(c)
@@ -352,9 +362,12 @@ class MathFix
     end
 
     def detect_liquid_tag(tags_to_ignore)
+        @in_regular_text=true # FIXME.
         return unless match("{%", true)
+        @in_regular_text=false
         word=read_word()
         match("%}", false)
+        @in_regular_text=true
 
         if @xtag==""
             @xtag=word if tags_to_ignore.include?(word)

@@ -263,7 +263,7 @@ GNU в Posix и смогло ли бы это решить проблему по
    можно найти в [habr/191006](https://habr.com/ru/post/191006).
 * [sedtris](https://github.com/uuner/sedtris) -- реализация игры <<тетрис>>, выполненная
    [Юлией Йомантайте](https://github.com/uuner) (из Нью-Йорка). У меня есть
-   [производный репозиторий](https://github.com/Circiter/sedtris) (<<fork>>) с небольшим
+   [производный репозиторий](https://github.com/Circiter/sedtris), <<fork>>, с небольшим
    улучшением (добавлен ГПСЧ на основе клеточного автомата, реализующего <<правило 30>> по-Вольфраму).
 * <https://gist.github.com/xsot/99a8a4304660916455ba2c2c774e623a> -- написанная
    Wei Heng (aka [xsot](htts://github.com/xsot)) программа решения лабиринтов (т.е. поиска пути,
