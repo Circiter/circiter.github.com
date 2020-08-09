@@ -25,7 +25,7 @@ module Jekyll
                     if node.text?
                         node.text=hyphenate_text(node.text).gsub(".", "[dot]") # node.text vs. node.content
                     elsif not ignored_tags.include?(node.name)
-                        process_text_nodes(node)
+                        process_text_nodes!(node)
                     end
                 }
             end
