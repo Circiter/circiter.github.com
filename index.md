@@ -19,5 +19,5 @@ title: Дневник Circiter'а.
 <hr>
 
 - [000064 Минирепозитории gists](https://gist.github.com/Circiter/)
-- [0000C8 Учётная запись на ![](/public/images/github-mark.png){:.inline}GitHub](https://github.com/Circiter)
+- [0000C8 Учётная запись на <span style="inline">![](/public/images/github-mark.png)</span>GitHub](https://github.com/Circiter)
 - [00012C Электронная почта](mailto:xcirciter@gmail.com)
