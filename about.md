@@ -129,7 +129,7 @@ commonmark, плагин перестал использоваться и был
 
 (В `Gemfile` и `_config.yml` также можно обраружить подключенными плагины `jekyll-feed`,
 `jekyll-scholar`, `jekyll-sitemap`, `jekyll-optional-front-matter`, `jekyll-titles-from-headings`,
-`jekyll_inline_highlight`, `jekyll-toc`, `jekyll-commonmark-ghpages`.)
+`jekyll_inline_highlight`, `jekyll-toc`, `jekyll-commonmark`.)
 
 ## Формулы
 

@@ -287,10 +287,10 @@ class MathFix
         return true
     end
 
-    def close_span()#(check_white=false)
+    def close_span()
         if @in_span&&!@in_formula
             @in_regular_text=false
-            add_character("[end span]");
+            add_character("</span>");
             @in_regular_text=true
             @in_span=false
         end
@@ -299,7 +299,7 @@ class MathFix
     def open_span()
         if !@in_span&&!@in_formula
             @in_regular_text=false
-            add_character("[span]")
+            add_character("<span>")
             @in_regular_text=true
             @in_span=true
         end
@@ -393,7 +393,6 @@ class MathFix
                 next_character()
             end
         end
-        add_character("[final span]") if @in_span
         close_span()
         return @new_content
     end
