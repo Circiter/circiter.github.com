@@ -119,13 +119,13 @@ def render_latex(formula, inline, site)
                 total_height_pt_float=height_pt_float+depth_pt_float
             end
 
-            #style="height: "+height_pixels+"px;"
+            style="height: "+height_pixels+"px;"
             style=""
 
             system("identify -ping -format %w "+full_filename+" > width.tmp")
             width_pixels=File.read("width.tmp");
 
-            #style=style+" width: "+width_pixels+"px;"
+            style=style+" width: "+width_pixels+"px;"
 
             if inline
                 # For some reason the depth obtained from the latex
@@ -287,10 +287,10 @@ class MathFix
                 add_character("{% tex block %}")
             else
                 #add_character("</span>") if @in_span
-                #if !@in_span
-                #    add_character("<span>")
-                #    @in_span=true
-                #end
+                if !@in_span
+                    add_character("[span]")
+                    @in_span=true
+                end
                 add_character("{% tex %}")
             end
         end
@@ -349,16 +349,19 @@ class MathFix
         end
     end
 
+    # FIXME: The insertion of the <span> tags seems incompatible with
+    # the "redcarpet" and the "kramdown" converters.
+    # I'll test the "commonmark" next.
     def fixup()
         next_character()
         while @position<@content.length
             detect_liquid_tag ["tex", "raw", "highlight"]
             next if process_escaped()
 
-            #if @in_span&&(!@in_formula)&&is_white(@current_character)
-            #    add_character("</span>");
-            #    @in_span=false
-            #end
+            if @in_span&&(!@in_formula)&&is_white(@current_character)
+                add_character("[end span]");
+                @in_span=false
+            end
 
             if @xtag==""&&detect_bracket()
                 process_bracket()
@@ -368,7 +371,7 @@ class MathFix
                 next_character()
             end
         end
-        #add_character("</span>") if @in_span
+        add_character("[end span]") if @in_span
         return @new_content
     end
 end

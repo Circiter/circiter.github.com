@@ -21,6 +21,26 @@ tags: тестирование meta
    text 2
 3. list item 3
 
+-------------
+
+```pascal
+var
+    Variable: PChar;
+begin
+    Variable="<<Value>>";
+end
+```
+
+{% tex block %}
+<<картинка>>.
+{% endtex %}
+
+{% tex block %}
+{% raw %}
+<<картинка 2>>.
+{% endraw %}
+{% endtex %}
+
 --------------
 
 <<Кавычки>>
@@ -107,5 +127,13 @@ Circuitikz test:
 {% tex block %}
 {% raw %}
 \LaTeX
+{% endraw %}
+{% endtex %}
+
+{% tex block %}
+{% raw %}
+\begin{circuitikz}
+    \draw (0,0) node[triode,filament]{};
+\end{circuitikz}
 {% endraw %}
 {% endtex %}
