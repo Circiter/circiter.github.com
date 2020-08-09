@@ -282,16 +282,16 @@ class MathFix
         return true
     end
 
-    def close_span(check_white=false)
+    def close_span()#(check_white=false)
         if @in_span&&!@in_formula
-            return if(check_white&&!is_white(@current_character))
+            #return if(check_white&&!is_white(@current_character))
             add_character("[end span]");
             @in_span=false
         end
     end
 
     def open_span()
-        if !@in_span
+        if !@in_span&&!@in_formula
             add_character("[span]")
             @in_span=true
         end
@@ -308,12 +308,9 @@ class MathFix
             end
         end
         add_character(@bracket)
-        #add_character("{% endtex %}") if @in_formula
-        if @in_formula
-            add_character("{% endtex %}")
-            close_span()
-        end
+        add_character("{% endtex %}") if @in_formula
         @in_formula=!@in_formula
+        close_span() if !@in_formula
     end
 
     def is_white(c)
@@ -383,6 +380,7 @@ class MathFix
                 next_character()
             end
         end
+        add_character("[final span]") if @in_span
         close_span()
         return @new_content
     end
