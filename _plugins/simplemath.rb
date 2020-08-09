@@ -320,7 +320,7 @@ class MathFix
         add_character(@bracket)
         add_character("{% endtex %}") if @in_formula
         @in_formula=!@in_formula
-        if(!@in_formula) @in_regular_text=true
+        @in_regular_text=true if(!@in_formula)
     end
 
     def is_white(c)

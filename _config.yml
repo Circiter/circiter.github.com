@@ -39,6 +39,7 @@ repository: "Circiter/circiter.github.io"
 #markdown: kramdown
 #markdown: redcarpet
 markdown: CommonMarkGhPages
+#markdown: CommonMark
 
 commonmark:
   # UNSAFE
