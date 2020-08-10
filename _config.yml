@@ -44,7 +44,7 @@ markdown: CommonMark
 commonmark:
   # UNSAFE
   # LIBERAL_HTML_TAG
-  options: ["SMART", "FOOTNOTES", "STRIKETHROUGH_DOUBLE_TILDE"]
+  options: ["UNSAFE", "SMART", "FOOTNOTES", "STRIKETHROUGH_DOUBLE_TILDE"]
   #autolink
   extensions: ["strikethrough", "table"]
 
