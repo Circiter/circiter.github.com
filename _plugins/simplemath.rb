@@ -276,6 +276,24 @@ class MathFix
         return true
     end
 
+    #"<<" -> "«", ">>" -> "»"
+    def process_quotes()
+        return false unless (@current_character=="<"||@current_character==">")
+        quote_character=@current_character
+        if next_character()
+            if @current_character==quote_character
+                add_character(@current_character=="<"?"«":"»")
+            else
+                add_character(quote_character)
+                add_character(@current_character)
+            end
+            next_character()
+        else
+            add_character(quote_character)
+        end
+        return true
+    end
+
     def detect_bracket()
         return false unless @current_character=="$"
         @bracket="$"
@@ -383,6 +401,7 @@ class MathFix
         while @position<@content.length
             detect_liquid_tag ["tex", "raw", "highlight"]
             next if process_escaped()
+            next if process_quotes()
 
             if @xtag==""&&detect_bracket()
                 process_bracket()

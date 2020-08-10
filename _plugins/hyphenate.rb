@@ -16,7 +16,8 @@ module Jekyll
             def convert_quotes(text)
                 # << -> &laquo;
                 # >> -> &raquo;
-                return text.gsub("<<", "«").gsub(">>", "»")
+                #return text.gsub("<<", "«").gsub(">>", "»")
+                return text
             end
 
             def process_text_nodes!(root)
