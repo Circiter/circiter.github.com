@@ -38,13 +38,13 @@ repository: "Circiter/circiter.github.io"
 
 #markdown: kramdown
 #markdown: redcarpet
-markdown: CommonMarkGhPages
-#markdown: CommonMark
+#markdown: CommonMarkGhPages
+markdown: CommonMark
 
 commonmark:
   # UNSAFE
   # LIBERAL_HTML_TAG
-  options: ["SMART", "FOOTNOTES", "STRIKETHROUGH_DOUBLE_TILDE", "LIBERAL_HTML_TAG"]
+  options: ["SMART", "FOOTNOTES", "STRIKETHROUGH_DOUBLE_TILDE"]
   #autolink
   extensions: ["strikethrough", "table"]
 

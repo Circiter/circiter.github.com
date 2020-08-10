@@ -138,6 +138,7 @@ Circuitikz test:
 {% tex block %}
 {% raw %}
 \begin{circuitikz}
+    % TODO: Connect the cathode/filament to the vertical line on the left side.
     \draw (0,0) node[triode,nocathode,filament,anchor=anode,rotate=-90] (Q) {}
         (Q.anode) ++(1,0) node[batteryshape,xscale=-1](B1){} ++(1,0)
         coordinate(P0) to[C,*-*] ++(0,1.5) coordinate(P1)
