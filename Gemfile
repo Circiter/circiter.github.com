@@ -11,8 +11,8 @@ gem "text-hyphen"
 #gem "jekyll"
 
 group :jekyll_plugins do
-  gem "jekyll-commonmark-ghpages"
-  #gem "jekyll-commonmark"
+  #gem "jekyll-commonmark-ghpages"
+  gem "jekyll-commonmark"
   gem "jekyll-sitemap"
   gem "jekyll-feed"
   gem "jekyll-scholar"
