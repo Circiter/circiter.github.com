@@ -121,7 +121,6 @@ def render_latex(formula, inline, site)
             end
 
             style="height: "+height_pixels+"px;"
-            style=""
 
             system("identify -ping -format %w "+full_filename+" > width.tmp")
             width_pixels=File.read("width.tmp");

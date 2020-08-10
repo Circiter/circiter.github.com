@@ -143,7 +143,7 @@ Circuitikz test:
         coordinate(P0) to[C,*-*] ++(0,1.5) coordinate(P1)
         (Q.anode) -- (B1.east) (B1.west) -- (P0)
         (Q.control|-P1) -- (Q.control) -- (Q.control|-P1) to[battery1] (P1)
-        (P0) -- ++(0,-1) coordinate(P4) to[L,l=L2] ++(-4,0) coordinate(P2)
+        (P0) -- ++(0,-1) coordinate(P4) to[L,l=L2] ++(-5,0) coordinate(P2)
         -- (P2|-P1) -- ++(0,1) coordinate(P3) to[L,l=L1] (P1|-P3) -- (P1)
         (Q.filament 1) to[short,-*] (Q.filament 1|-P4);
 \end{circuitikz}
