@@ -400,10 +400,12 @@ class MathFix
         next_character()
         while @position<@content.length
             detect_liquid_tag ["tex", "raw", "highlight"]
-            next if process_escaped()
-            next if process_quotes()
+            next if process_escaped() # FIXME: Is it correct inside formulas?
+            #next if process_quotes()
 
-            if @xtag==""&&detect_bracket()
+            if @xtag==""&&process_quotes()
+                next
+            elsif @xtag==""&&detect_bracket()
                 process_bracket()
                 next
             else
