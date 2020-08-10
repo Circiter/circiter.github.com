@@ -220,7 +220,7 @@ a << b
 {% endraw %}
 {% endtex %}
 
-{% highlight lang=cpp %}
+{% highlight plaintext %}
 int main()
 {
     std::cout << "Hello world!" << std::endl;
@@ -228,7 +228,7 @@ int main()
 }
 {% endhighlight %}
 
-{% highlight lang=cpp %}
+{% highlight plaintext %}
 {% raw %}
 int main()
 {
