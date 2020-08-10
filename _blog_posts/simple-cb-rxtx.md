@@ -508,3 +508,5 @@ coordinate(ant) -- ++(0,.3)
 - [6] D.W.Knight, Variable Inductors (<http://www.g3ynh.info/comps/Vari_L.html>) -- немного о 
    вариометрах (катушках с переменной индуктивностью).
 - [7] <http://www.b-kainka.de/bastel121.htm> -- walkie-talkie dissection.
+________________
+________________

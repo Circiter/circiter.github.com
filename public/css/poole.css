@@ -237,9 +237,9 @@ blockquote p:last-child {
 }
 
 .abstract { /* Added. */
-    padding-left: 5rem;
-    padding-right: 5rem;
-    text-align: justify;
+  padding-left: 5rem;
+  padding-right: 5rem;
+  text-align: justify;
 }
 
 img {
@@ -252,13 +252,17 @@ img {
 }
 
 /* img.inline */
-inline { /* Added. */
+.inline { /* Added. */
   vertical-align: middle;
   border-radius: 0px;
 }
 
 img.latex { /* Added. */
-    border-radius: 0px;
+  border-radius: 0px;
+}
+
+.nolinebreak { /* Added. */
+  white-space: nowrap;
 }
 
 /* Tables */

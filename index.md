@@ -13,11 +13,12 @@ title: Дневник Circiter'а.
     {% endif %}
 {% endfor %}
 
-<hr>
+-----------
+
 Облако меток: {% tag_cloud font-size: 0.80 - 1.15em %}
 
-<hr>
+----------
 
 - [000064 Минирепозитории gists](https://gist.github.com/Circiter/)
-- [0000C8 Учётная запись на <span style="inline">![](/public/images/github-mark.png)</span>GitHub](https://github.com/Circiter)
+- [0000C8 Учётная запись на <span class="inline">![](/public/images/github-mark.png)</span>GitHub](https://github.com/Circiter)
 - [00012C Электронная почта](mailto:xcirciter@gmail.com)

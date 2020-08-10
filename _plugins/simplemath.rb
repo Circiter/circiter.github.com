@@ -316,7 +316,7 @@ class MathFix
     def open_span()
         if !@in_span&&!@in_formula
             @in_regular_text=false
-            add_character("<span>")
+            add_character("<span class=\"nolinebreak\">")
             @in_regular_text=true
             @in_span=true
         end
