@@ -252,13 +252,18 @@ img {
 }
 
 /* img.inline */
-.inline { /* Added. */
+.inline, img.inline { /* Added. */
   vertical-align: middle;
   border-radius: 0px;
 }
 
 img.latex { /* Added. */
   border-radius: 0px;
+}
+
+.bib ul { /* Added */
+    list-style: none;
+    margin-left: 0;
 }
 
 .nolinebreak { /* Added. */

@@ -235,6 +235,8 @@ end
 # after a $...$ formula at the end of a line.
 # Is the \n after a {% tex %}...{% endtex %} block causes the
 # insertion a new unwanted paragraph brake?
+# TODO: Do not look inside ``` and liquid tags while processing
+# escapes, quotes, and formula brackets ($, $$).
 class MathFix
     def initialize(content)
         @content=content

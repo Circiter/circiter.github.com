@@ -10,11 +10,11 @@ layout: default
     <center><span class="post-date">{{ page.xdate | capitalize }}</span></center>
   {% endif %}
   {% if page.abstract %}
-    <p class="abstract">
+    <span class="abstract">
     <center><b>Аннотация</b></center>
     {{ page.abstract }}
     <hr/>
-    </p>
+    </span>
   {% endif %}
   {% include toc.html %}
   {{ content | inject_anchors }}

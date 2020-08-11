@@ -31,6 +31,14 @@ begin
 end
 ```
 
+{% highlight pascal %}
+var
+    Variable: PChar;
+begin
+    Variable="<<Value>>";
+end
+{% endhighlight %}
+
 {% tex block %}
 <<картинка>>.
 {% endtex %}
@@ -170,7 +178,7 @@ Circuitikz test:
 {% endraw %}
 {% endtex %}
 
-Катод соединён с нитью накала:
+Катод соединён с нитью накала (рекомендуемый вариант изображения):
 {% tex block %}
 {% raw %}
 \begin{circuitikz}
@@ -182,8 +190,9 @@ Circuitikz test:
         (P0) -- ++(0,-1.5) coordinate(P4) to[L,l=L2] ++(-5,0) coordinate(P2)
         -- (P2|-P1) -- ++(0,1) coordinate(P3) to[L,l=L1] (P1|-P3) -- (P1)
         (Q.cathode) to[short,-*] (P2|-Q.cathode)
-        (Q.filament 2) -- ++(0,-0.4) to[battery1] ++(-0.7,0)
-            coordinate(P5) to[short,-*] (P5|-Q.cathode)
+        %(Q.filament 2) -- ++(0,-0.4) coordiante(P5) to[battery1] (P2|-P5)
+        (Q.filament 2) to[battery1,-*] (Q.filament 2|-P2)
+            %++(-0.7,0) coordinate(P5) to[short,-*] (P5|-Q.cathode)
         (Q.filament 1) to[short,-*] (Q.filament 1|-Q.cathode);
 \end{circuitikz}
 {% endraw %}
@@ -220,7 +229,7 @@ a << b
 {% endraw %}
 {% endtex %}
 
-{% highlight plaintext %}
+{% highlight cpp %}
 int main()
 {
     std::cout << "Hello world!" << std::endl;
@@ -228,7 +237,7 @@ int main()
 }
 {% endhighlight %}
 
-{% highlight plaintext %}
+{% highlight cpp %}
 {% raw %}
 int main()
 {
