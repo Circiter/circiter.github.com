@@ -264,3 +264,19 @@ int main()
 }
 {% endraw %}
 ```
+
+<span class="bib">
+
+- item 1
+- item 2
+- item 3
+
+</span>
+
+<div class="bib">
+
+- item 1
+- item 2
+- item 3
+
+</div>
