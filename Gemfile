@@ -11,8 +11,8 @@ gem "text-hyphen"
 #gem "jekyll"
 
 group :jekyll_plugins do
-  #gem "jekyll-commonmark-ghpages"
-  gem "jekyll-commonmark"
+  gem "jekyll-commonmark-ghpages"
+  #gem "jekyll-commonmark"
   gem "jekyll-sitemap"
   gem "jekyll-feed"
   gem "jekyll-scholar"
@@ -20,5 +20,5 @@ group :jekyll_plugins do
   gem "jekyll-titles-from-headings"
   gem "jekyll_inline_highlight" # use {% ihighlight python %} from pygame {% endihighlight %}
   #gem "jekyll-default-layout"
-  #gem "jekyll-toc"
+  gem "jekyll-toc"
 end
