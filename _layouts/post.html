@@ -16,8 +16,7 @@ layout: default
     <hr/>
     </span>
   {% endif %}
-  {% include toc.html %}
-  {{ content | inject_anchors }}
+  {{ content | toc_generate }}
 </div>
 
 {% if page.tags %}

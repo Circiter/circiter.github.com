@@ -82,7 +82,7 @@ plugins:
   #- jekyll-optional-front-matter
   - jekyll-titles-from-headings
   - jekyll_inline_highlight
-  - jekyll-toc
+  #- jekyll-toc
   #- jekyll-default-layout
 
 scholar:

@@ -20,5 +20,5 @@ group :jekyll_plugins do
   gem "jekyll-titles-from-headings"
   gem "jekyll_inline_highlight" # use {% ihighlight python %} from pygame {% endihighlight %}
   #gem "jekyll-default-layout"
-  gem "jekyll-toc"
+  #gem "jekyll-toc"
 end
