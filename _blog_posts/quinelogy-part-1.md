@@ -979,6 +979,8 @@ I'_L)$ и $\llbracket I'_L\rrbracket (q, x)=q$? Выше мы видели, чт
 
 # Ссылки
 
+<div class="bib">
+
 - [1] <http://www.madore.org/~david/computers/quine.html>
 - [2] <http://math.berkeley.edu/~kmill/blog/blog_2018_5_31_universality_quines.html>
 - [3] <http://en.wikipedia.org/wiki/Smn_theorem>
@@ -1039,3 +1041,5 @@ I'_L)$ и $\llbracket I'_L\rrbracket (q, x)=q$? Выше мы видели, чт
 - [53] <http://www.michaelwehar.com/quines>
 - [54] <http://www.keithschwarz.com/kleene>
 - [55] <http://www.nyx.net/~gthompso/quine-1.1.0.tar.gz>
+
+</div>
