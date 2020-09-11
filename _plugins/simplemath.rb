@@ -12,7 +12,8 @@ require "erb"
 # own *.png file. Such a scheme would allow the usage of the latex equation labeling, and,
 # also, it would make it possible to compile a latex code faster.)
 # But note that such a scheme needs a second pass emit a correct html code with actual sizes
-# and [vertical] positions.
+# and [vertical] positions. But note, that such an approach is incompatible with the
+# caching mechanism.
 
 def generate_html(filename, full_filename, formula, inline, style)
     #title=CGI.escape(formula)

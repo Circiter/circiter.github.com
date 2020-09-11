@@ -23,14 +23,6 @@ tags: тестирование meta
 
 -------------
 
-```pascal
-var
-    Variable: PChar;
-begin
-    Variable="<<Value>>";
-end
-```
-
 {% highlight pascal %}
 var
     Variable: PChar;
@@ -143,41 +135,6 @@ Circuitikz test:
 {% endraw %}
 {% endtex %}
 
-Нить накала выполняет функцию катода:
-{% tex block %}
-{% raw %}
-\begin{circuitikz}
-    \draw (0,0) node[triode,nocathode,filament,anchor=anode,rotate=-90] (Q) {}
-        (Q.anode) ++(1,0) node[batteryshape,xscale=-1](B1){} ++(1,0)
-        coordinate(P0) to[C,*-*] ++(0,1.5) coordinate(P1)
-        (Q.anode) -- (B1.east) (B1.west) -- (P0)
-        (Q.control|-P1) -- (Q.control) -- (Q.control|-P1) to[battery1] (P1)
-        (P0) -- ++(0,-1.5) coordinate(P4) to[L,l=L2] ++(-5,0) coordinate(P2)
-        -- (P2|-P1) -- ++(0,1) coordinate(P3) to[L,l=L1] (P1|-P3) -- (P1)
-        %(Q.filament 1) to[short,-*] (Q.filament 1|-P4);
-        (Q.filament 1) to[short,-*] (P2|-Q.filament 1)
-        (Q.filament 2) -- ++(0,-0.4) to[battery1] ++(-0.7,0)
-            coordinate(P5) to[short,-*] (P5|-Q.filament 1);
-\end{circuitikz}
-{% endraw %}
-{% endtex %}
-
-Батарея накала не показана:
-{% tex block %}
-{% raw %}
-\begin{circuitikz}
-    \draw (0,0) node[triode,filament,anchor=anode,rotate=-90] (Q) {}
-        (Q.anode) ++(1,0) node[batteryshape,xscale=-1](B1){} ++(1,0)
-        coordinate(P0) to[C,*-*] ++(0,1.5) coordinate(P1)
-        (Q.anode) -- (B1.east) (B1.west) -- (P0)
-        (Q.control|-P1) -- (Q.control) -- (Q.control|-P1) to[battery1] (P1)
-        (P0) -- ++(0,-1.5) coordinate(P4) to[L,l=L2] ++(-5,0) coordinate(P2)
-        -- (P2|-P1) -- ++(0,1) coordinate(P3) to[L,l=L1] (P1|-P3) -- (P1)
-        (Q.cathode) to[short,-*] (P2|-Q.cathode)
-\end{circuitikz}
-{% endraw %}
-{% endtex %}
-
 Катод соединён с нитью накала (рекомендуемый вариант изображения):
 {% tex block %}
 {% raw %}
@@ -190,9 +147,7 @@ Circuitikz test:
         (P0) -- ++(0,-1.5) coordinate(P4) to[L,l=L2] ++(-5,0) coordinate(P2)
         -- (P2|-P1) -- ++(0,1) coordinate(P3) to[L,l=L1] (P1|-P3) -- (P1)
         (Q.cathode) to[short,-*] (P2|-Q.cathode)
-        %(Q.filament 2) -- ++(0,-0.4) coordiante(P5) to[battery1] (P2|-P5)
         (Q.filament 2) to[battery1,-*] (Q.filament 2|-P2)
-            %++(-0.7,0) coordinate(P5) to[short,-*] (P5|-Q.cathode)
         (Q.filament 1) to[short,-*] (Q.filament 1|-Q.cathode);
 \end{circuitikz}
 {% endraw %}
@@ -237,23 +192,6 @@ int main()
 }
 {% endhighlight %}
 
-{% highlight cpp %}
-{% raw %}
-int main()
-{
-    std::cout << "Hello world!" << std::endl;
-    return 0;
-}
-{% endraw %}
-{% endhighlight %}
-
-```cpp
-int main()
-{
-    std::cout << "Hello world!" << std::endl;
-    return 0;
-}
-```
 
 ```cpp
 {% raw %}

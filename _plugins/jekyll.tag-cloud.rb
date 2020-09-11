@@ -3,6 +3,8 @@
 # The support for equivalence classes of tags was
 # added by Circiter (mailto:xcirciter@gmail.com).
 
+# TODO: Add support for category/tags description.
+
 require "fileutils"
 
 module Jekyll
@@ -10,8 +12,10 @@ module Jekyll
   class Normalizer
     def initialize()
       @ntags=Set.new
+      read_line=true
       IO.foreach("tags_synonyms.txt") do |line|
-        @ntags<<line.downcase.split(" ");
+        @ntags<<line.downcase.split(" ") if read_line
+        read_line=!read_line
       end
     end
 
