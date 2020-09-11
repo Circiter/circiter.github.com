@@ -23,7 +23,7 @@ module Jekyll
             @base=base
             @dir=File.join('tag', tag)
             @name='index.html'
-            @tagdescriptor=TagDescriptr.new
+            @tagdescriptor=TagDescriptor.new
 
             self.process(@name)
             self.read_yaml(File.join(base, "_layouts"), "tag.html")
