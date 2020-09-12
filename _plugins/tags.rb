@@ -28,7 +28,7 @@ module Jekyll
             self.process(@name)
             self.read_yaml(File.join(base, "_layouts"), "tag.html")
             self.data['tag']=tag
-            self.data['description']=tagdescriptor.get_description(tag)
+            self.data['description']=@tagdescriptor.get_description(tag)
             self.data['title']=self.data['title'].gsub(/@/, "#{tag}");
             self.data['permalink']=@dir
         end
