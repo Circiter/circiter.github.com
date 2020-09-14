@@ -1,10 +1,9 @@
 # For each tag like "programming", you will have a page that lists all posts with that tag
-# at /programming.
+# at /tag/programming.
 
-# Original code from jameshfisher.com
-# Modified by Circiter.
+# From jameshfisher.com
 
-require "fileutils"
+# TODO: implement equivalence classes of tags.
 
 module Jekyll
     class TagPageGenerator < Generator
@@ -23,41 +22,12 @@ module Jekyll
             @base=base
             @dir=File.join('tag', tag)
             @name='index.html'
-            @tagdescriptor=TagDescriptor.new
 
             self.process(@name)
             self.read_yaml(File.join(base, "_layouts"), "tag.html")
             self.data['tag']=tag
-            self.data['description']=@tagdescriptor.get_description(tag)
             self.data['title']=self.data['title'].gsub(/@/, "#{tag}");
             self.data['permalink']=@dir
-        end
-    end
-
-    class TagDescriptor
-        def initialize()
-            i=0
-            @descriptions=Array.new
-            @ntags=Set.new
-            read_description=false
-            IO.foreach("tags_synonyms.txt") do |line|
-                if read_description
-                    @descriptions[i]=line.downcase
-                    i=i+1
-                else
-                    @ntags<<line.downcase.split(" ");
-                end
-                read_description=!read_description
-            end
-        end
-
-        def get_description(tag)
-            tag=tag.downcase
-            i=0
-            @ntags.each do |synonyms|
-                return @descriptions[i] if synonyms.include?(tag)
-                i=i+1
-            end
         end
     end
 end

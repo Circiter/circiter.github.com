@@ -14,7 +14,7 @@ module Jekyll
       @ntags=Set.new
       read_line=true
       IO.foreach("tags_synonyms.txt") do |line|
-        @ntags<<line.downcase.split(" ") if read_line
+        @ntags<<line.downcase.split(" ") #if read_line
         read_line=!read_line
       end
     end
