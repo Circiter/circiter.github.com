@@ -44,7 +44,10 @@ markdown: CommonMarkGhPages
 commonmark:
   # UNSAFE
   # LIBERAL_HTML_TAG
-  options: ["UNSAFE", "SMART", "FOOTNOTES", "STRIKETHROUGH_DOUBLE_TILDE"]
+
+  #options: ["UNSAFE", "SMART", "FOOTNOTES", "STRIKETHROUGH_DOUBLE_TILDE"]
+  options: ["SMART", "FOOTNOTES", "STRIKETHROUGH_DOUBLE_TILDE"]
+
   #autolink
   extensions: ["strikethrough", "table"]
 
