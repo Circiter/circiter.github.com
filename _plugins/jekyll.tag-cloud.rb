@@ -13,12 +13,12 @@ module Jekyll
     def initialize()
       @ntags=Set.new
       read_line=true
-      printf "[debug] in jekyll.tag-cloud.rb: reading tags and synonyms..."
+      #printf "[debug] in jekyll.tag-cloud.rb: reading tags and synonyms..."
       IO.foreach("tags_synonyms.txt") do |line|
-        printf "[debug] in ...tag-cloud.rb: current line: "+line
-        print "[debug] in ...tag-cloud.rb: line readed: "+line if read_line
+        #printf "[debug] in ...tag-cloud.rb: current line: "+line
+        #print "[debug] in ...tag-cloud.rb: line readed: "+line if read_line
         @ntags<<line.downcase.split(" ") if read_line
-        print "[debug]"
+        #print "[debug]"
         read_line=!read_line
       end
     end
