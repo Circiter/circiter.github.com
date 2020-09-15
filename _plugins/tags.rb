@@ -64,6 +64,7 @@ module Jekyll
                 return @descriptions[i] if synonyms.include?(tag)
                 i=i+1
             end
+            print "[debug] description for the tag "+tag+" not found"
             return ""
         end
     end
