@@ -8,14 +8,16 @@ title: "Сообщения с меткой \"@\" (или с синонимичн
 <ul>
     {% assign posts = site.blog_posts %}
     {% for post in posts %}
-        {% for tag in post.tags %}
-            {% assign normal_post_tag = tag | normalize %}
-            {% assign normal_page_tag = page.tag | normalize %}
-            {% if normal_post_tag == normal_page_tag %}
-                <li><a class="post" href="{{ post.url }}">{{ post.title }}</a></li>
-                {% break %}
-            {% endif %}
-        {% endfor %}
+        {% if post.layout == "post" and post.title != null and post.test == null %}
+            {% for tag in post.tags %}
+                {% assign normal_post_tag = tag | normalize %}
+                {% assign normal_page_tag = page.tag | normalize %}
+                {% if normal_post_tag == normal_page_tag %}
+                    <li><a class="post" href="{{ post.url }}">{{ post.title }}</a></li>
+                    {% break %}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
     {% else %}
         <li>[Нет записей]</li>
     {% endfor %}
@@ -23,5 +25,7 @@ title: "Сообщения с меткой \"@\" (или с синонимичн
 </ul>
 
 <small>
-Краткое описание категории: {{ page.description }}
+{% if page.description != "" %}
+    Краткое описание категории: {{ page.description }}
+{% endif %}
 </small>
