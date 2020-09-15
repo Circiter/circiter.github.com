@@ -41,17 +41,15 @@ $\mathcal{M}_{i+1}=\{m\in M_{i+1} | m>p_i\}$. Если же $\mathcal{M}=\varnot
 
 Более структурированно:
 {% tex block %}
-{% raw %}
-\begin{eqnarray*}
-1.&&M=[2; n]\\
-2.&&p=2\\
-3.&&M\gets M\setminus\{x=kp\}_{k=2}\\
-4.&&\mathcal{M}=\{m\in M \mid m>p\}
-5.&&\mathcal{M}=\varnothing \Rightarrow \operatorname{return} M\\
-6.&&p\gets \min\mathcal{M}\\
-7.&&\operatorname{goto} 3
-\end{eqnarray*}
-{% endraw %}
+\begin{align*}
+1.\ &M=[2; n]\\
+2.\ &p=2\\ 
+3.\ &M\gets M\setminus\{x=kp\}_{k=2}\\
+4.\ &\mathcal{M}=\{m\in M \mid m>p\}\\
+5.\ &\mathcal{M}=\varnothing \Rightarrow \operatorname{return} M\\
+6.\ &p\gets \min\mathcal{M}\\
+7.\ &\operatorname{goto} 3.
+\end{align*}
 {% endtex %}
 
 Утверждается, что $M=\{p\in\mathbb{P} | p\leqslant n\}$, где $\mathbb{P}$ -- множество простых 
