@@ -257,9 +257,13 @@ XIX и далее в глубь веков. В противоположном н
 
 ## Ссылки
 
+<div class="bib">
+
 - [1] Jean Meeus, Astronomical Algorithms, 1991
 - [2] <http://ru.wikipedia.org/wiki/пасхалия>
 - [3] <https://github.com/Circiter/computus-in-sed>
 - [4] <http://search.cpan.org/dist/Date-Easter>
 - [5] <http://sed.sourceforge.net/grabbag/scripts/dc.sed>
 - [6] Календарный вопрос: Сборник статей / Редактор-составитель А.Чхартишвили, 2000
+
+</div>

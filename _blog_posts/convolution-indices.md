@@ -234,6 +234,9 @@ $x(u)\mapsto X(t)$, приходим к уравнению $(x\ast h)(t)=F_t x(u
 класса реальных систем (со свойствами линейности и сдвиговой инвариантности).
 
 # Ссылки
+
+<div class="bib">
+
 - [1] <http://en.wikipedia.org/wiki/convolution>
 - [2] <http://en.wikipedia.org/wiki/cross-correlation>
 - [3] Jorg Arndt, Matters Computational
@@ -241,3 +244,5 @@ $x(u)\mapsto X(t)$, приходим к уравнению $(x\ast h)(t)=F_t x(u
 - [5] <http://en.wikipedia.org/wiki/linear_time-invariant_system>
 - [6] <http://en.wikipedia.org/wiki/Dirac_delta_function>
 - [7] <http://ru.wikipedia.org/wiki/дельта-функция>
+
+</div>
