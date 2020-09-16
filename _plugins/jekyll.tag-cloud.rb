@@ -13,19 +13,20 @@ module Jekyll
     def initialize()
       @ntags=Set.new
       read_line=true
-      #printf "[debug] in jekyll.tag-cloud.rb: reading tags and synonyms..."
       IO.foreach("tags_synonyms.txt") do |line|
-        #printf "[debug] in ...tag-cloud.rb: current line: "+line
-        #print "[debug] in ...tag-cloud.rb: line readed: "+line if read_line
-        @ntags<<line.downcase.split(" ") if read_line
-        #print "[debug]"
+        #@ntags<<line.downcase.split(" ") if read_line
+        @ntags<<line.split(" ") if read_line
         read_line=!read_line
       end
     end
 
+    def dcase(strings)
+      return (strings.map {|string| string.downcase}).to_set
+    end
+
     def normalize(tag)
       tag=tag.downcase # Case normalization.
-      @ntags.each {|synonyms| return synonyms[0] if synonyms.include?(tag)}
+      @ntags.each {|synonyms| return synonyms[0] if dcase(synonyms).include?(tag)}
       return tag # Cannot normalize; return as is.
     end
   end

@@ -25,12 +25,9 @@ title: "Сообщения с меткой \"@\" (или с синонимичн
 </ul>
 
 <br><small>
-{% if page.description == null %}
+{% if page.description == "" %}
     [нет описания]
 {% else %}
     Краткое описание категории: {{ page.description }}
-{% endif %}
-{% if page.description %}
-    <br>---
 {% endif %}
 </small>

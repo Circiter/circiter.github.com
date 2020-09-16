@@ -29,7 +29,7 @@ module Jekyll
             self.read_yaml(File.join(base, "_layouts"), "tag.html")
             self.data['tag']=tag
             description=@tagdescriptor.get_description(tag)
-            self.data['description']=description if description!=""
+            self.data['description']=description #if description!=""
             self.data['title']=self.data['title'].gsub(/@/, "#{tag}");
             self.data['permalink']=@dir
         end
@@ -41,21 +41,15 @@ module Jekyll
             @descriptions=Array.new()
             @ntags=Set.new()
             read_description=false
-            #print "[debug] in tags.rb: reading tags and its synonyms..."
             IO.foreach("tags_synonyms.txt") do |line|
-                #print "[debug] in tags.rb: current line: "+line
                 if read_description
-                    #print "[debug] in tags.rb: description readed: "+line
                     @descriptions[i]=line.downcase
                     i=i+1
                 else
-                    #printf "[debug] in tags.rb: tag line readed: "+line
                     @ntags<<line.downcase.split(" ");
                 end
                 read_description=!read_description
             end
-            #print "raw view of @ntags:"
-            #print @ntags
         end
 
         def get_description(tag)
