@@ -120,7 +120,7 @@ OCR-программа ничего распознать толком не мо�
 Коллатца](http://ru.wikipedia.org/wiki/гипотеза_Коллатца)), соответственно.
 
 Объяснение работы данных скриптов содержится в отдельном 
-[сообщении](http://circiter.github.io/sieve-of-eratorsthenes-in-sed) этого дневника.
+[сообщении](http://circiter.github.io/sieve-of-eratosthenes-in-sed) этого дневника.
 
 ## [superpermutations-in-sed](https://github.com/Circiter/superpermutations-in-sed)
 
