@@ -43,10 +43,9 @@ module Jekyll
             read_description=false
             IO.foreach("tags_synonyms.txt") do |line|
                 if read_description
-                    @descriptions[i]=line
+                    @descriptions[i]=line.downcase
                     i=i+1
                 else
-                    #@ntags<<line.downcase.split(" ");
                     @ntags<<line.split(" ");
                 end
                 read_description=!read_description
@@ -64,7 +63,6 @@ module Jekyll
                 return @descriptions[i] if dcase(synonyms).include?(tag)
                 i=i+1
             end
-            print "[debug] description for the tag "+tag+" not found\n"
             return ""
         end
     end

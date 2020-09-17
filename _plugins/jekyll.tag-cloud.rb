@@ -14,7 +14,6 @@ module Jekyll
       @ntags=Set.new
       read_line=true
       IO.foreach("tags_synonyms.txt") do |line|
-        #@ntags<<line.downcase.split(" ") if read_line
         @ntags<<line.split(" ") if read_line
         read_line=!read_line
       end
@@ -25,8 +24,8 @@ module Jekyll
     end
 
     def normalize(tag)
-      tag=tag.downcase # Case normalization.
-      @ntags.each {|synonyms| return synonyms[0] if dcase(synonyms).include?(tag)}
+      dtag=tag.downcase # Case normalization.
+      @ntags.each {|synonyms| return synonyms[0] if dcase(synonyms).include?(dtag)}
       return tag # Cannot normalize; return as is.
     end
   end
