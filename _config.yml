@@ -103,7 +103,7 @@ titles_from_headings:
 
 encoding: "UTF-8"
 
-include: [eq, public]
+include: [eq, public, comments, sig, staticman.yml]
 exclude: [Gemfile, Gemfile.lock, .github, .gitignore, .gemrc]
 
 collections:
