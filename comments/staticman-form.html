@@ -1,10 +1,15 @@
 <html>
 <body>
-<form method="POST" action="https://api.staticman.net/v2/entry/Circiter/circiter.github.io/master">
+<!--<form method="POST" 
+action="https://api.staticman.net/v2/entry/Circiter/circiter.github.io/master">-->
+<form method="POST" 
+action="https://api.staticman.net/v3/entry/github/Circiter/circiter.github.io/master/properties">
 <input name="options[redirect]" type="hidden" value="https://circiter.tk">
-<label><input name="fields[name]" type="text">Имя пользователя (ник, псевдоним)</label>
-<label><input name="fields[email]" type="email">Адрес электронной почты</label>
-<label><textarea name="fields[message]"></textarea>Текст сообщения</label>
+<label>Имя пользователя (ник, псевдоним):<input name="fields[name]" type="text"></label>
+<br>
+<label>Адрес электронной почты:<input name="fields[email]" type="email"></label>
+<br>
+<label>Текст сообщения:<textarea name="fields[message]"></textarea></label>
 <button type="submit">Отправить</button>
 </form>
 </body>
