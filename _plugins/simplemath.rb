@@ -381,6 +381,7 @@ class MathFix
         return word
     end
 
+    # FIXME: What about e.g., {% tex %}{% raw %}...{% endraw %}{% endtex %}?
     def detect_liquid_tag(tags_to_ignore)
         @in_regular_text=true # FIXME.
         return unless match("{%", true)
@@ -406,7 +407,7 @@ class MathFix
             next if process_escaped() # FIXME: Is it correct inside formulas?
             #next if process_quotes()
 
-            if @xtag==""&&process_quotes()
+            if !@in_formula&&@xtag==""&&process_quotes()
                 next
             elsif @xtag==""&&detect_bracket()
                 process_bracket()
