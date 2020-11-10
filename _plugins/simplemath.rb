@@ -280,6 +280,7 @@ class MathFix
     end
 
     #"<<" -> "«", ">>" -> "»"
+    # FIXME: Deal with the case "$...<$".
     def process_quotes()
         return false unless (@current_character=="<"||@current_character==">")
         quote_character=@current_character
@@ -381,7 +382,7 @@ class MathFix
         return word
     end
 
-    # FIXME: What about e.g., {% tex %}{% raw %}...{% endraw %}{% endtex %}?
+    # FIXME: What about e.g., "{% tex %}{% raw %}...{% endraw %}{% endtex %}"?
     def detect_liquid_tag(tags_to_ignore)
         @in_regular_text=true # FIXME.
         return unless match("{%", true)
