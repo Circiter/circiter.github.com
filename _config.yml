@@ -7,8 +7,6 @@ locale: "ru-RU"
 future: true
 year: 2020
 
-#remote-theme: pages-themes/hyde
-
 permalink: /:title
 
 title: "Дневник Circiter'а"
