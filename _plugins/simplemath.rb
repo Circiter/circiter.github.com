@@ -44,10 +44,11 @@ def render_latex(formula, inline, site)
     latex_source="\\documentclass[preview,border=1pt]{standalone}\n"
     #latex_source="\\documentclass[preview,border=0pt]{standalone}\n"
     #latex_source="\\documentclass[preview]{standalone}\n"
-    latex_source<<"\\usepackage[utf8]{inputenc}\n"
+    latex_source<<"\\usepackage{mathtext}\n"
     latex_source<<"\\usepackage[T2A,T1]{fontenc}\n"
-    latex_source<<"\\usepackage{amsmath,amsfonts,amssymb,color,xcolor,stmaryrd}\n"
+    latex_source<<"\\usepackage[utf8]{inputenc}\n"
     latex_source<<"\\usepackage[english, russian]{babel}\n"
+    latex_source<<"\\usepackage{amsmath,amsfonts,amssymb,color,xcolor,stmaryrd}\n"
     latex_source<<"\\usepackage{type1cm}\n"
 
     if !inline
