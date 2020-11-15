@@ -5,6 +5,12 @@ test: true
 tags: тестирование meta
 ---
 
+$\text{Russian text in formula:}\ \text{НОД}$
+
+$\textrm{some text}$
+
+$\text{some text}$
+
 $t<$
 
 1. list item 1
