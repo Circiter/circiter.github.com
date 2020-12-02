@@ -15,6 +15,9 @@ apk add zlib-dev build-base libxml2-dev libxslt-dev \
     ruby-dev ruby-bundler ruby-bigdecimal imagemagick
 gem install bundler json jekyll
 
+#tlmgr install <package>
+tlmgr install Type1fonts fontsextra concmath-fonts unfont-extra cmextra collection-fontsextra collection-latexextra  collection-langcyrillic
+
 #bundle clean
 #bundle config <name> <value>
 #BUNDLE_PATH=`pwd`/.bundle

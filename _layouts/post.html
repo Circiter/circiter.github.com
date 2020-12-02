@@ -27,6 +27,12 @@ layout: default
         {% endfor %}
     </em></small>
 {% endif %}
+{% if page.xyear %}
+    <p>
+    М.И.Никитин<br>
+    г.Алматы, {{ xyear }}
+    </p>
+{% endif %}
 {% if page.sig %}
     <p><small>[<a href="/sig/{{ page.path | split: '/' | last }}.sha256.sig">ЭЦП (SHA-256, RSA)</a>] (<a href="https://gist.github.com/Circiter/92e7b9368c1e29c055a688d12d61466c">ключ</a>)<small></p>
 {% endif %}

@@ -5,6 +5,11 @@ test: true
 tags: тестирование meta
 ---
 
+$$\xymatrix{
+&\text{$\pi$ прог.}\ar@{=>}@(l,u)[dl]&\\
+\text{выч.}\ar@{=>}[rr]&&\text{$S^m_n$-т.}\ar@{=>}@(u,r)[ul]
+}$$
+
 $\text{Russian text in formula:}\ \text{НОД}$
 
 $\textrm{some text}$
