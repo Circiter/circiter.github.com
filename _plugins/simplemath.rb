@@ -57,20 +57,20 @@ def render_latex(formula, inline, site)
         #latex_source<<"\\usepackage[european,emptydiode,americaninductor]{circuitikz-0.4}\n"
         latex_source<<"\\usepackage[european,emptydiode,americaninductor]{circuitikz}\n"
     else
-        latex_source<<"\\newsavebox\\frm\n"
-        latex_source<<"\\sbox\\frm{"
+        latex_source<<"\\newsavebox\\xfrm\n"
+        latex_source<<"\\sbox\\xfrm{"
         latex_source<<formula
         latex_source<<"}\n\\newwrite\\frmdims\n"
         latex_source<<"\\immediate\\openout\\frmdims=dimensions.tmp\n"
-        latex_source<<"\\immediate\\write\\frmdims{depth: \\the\\dp\\frm}\n"
-        latex_source<<"\\immediate\\write\\frmdims{height: \\the\\ht\\frm}\n"
-        latex_source<<"\\immediate\\write\\frmdims{width: \\the\\wd\\frm}\n"
+        latex_source<<"\\immediate\\write\\frmdims{depth: \\the\\dp\\xfrm}\n"
+        latex_source<<"\\immediate\\write\\frmdims{height: \\the\\ht\\xfrm}\n"
+        latex_source<<"\\immediate\\write\\frmdims{width: \\the\\wd\\xfrm}\n"
         latex_source<<"\\immediate\\closeout\\frmdims\n"
     end
 
     latex_source<<"\n\\begin{document}\n"
     if inline
-        latex_source<<"\\usebox\\frm\n"
+        latex_source<<"\\usebox\\xfrm\n"
     else
         latex_source<<formula
     end
