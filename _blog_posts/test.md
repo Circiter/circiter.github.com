@@ -9,7 +9,7 @@ tags: тестирование meta
 {% raw %}
 \xymatrix{
 &\text{$\pi$ прог.}\ar@{=>}@(l,u)[dl]&\\
-\text{выч.}\ar@{=>}[rr]&&\text{$S^m_n$-т.}\ar@{=>}@(u,r)[ul]
+\parbox{2cm}{выч.}\ar@{=>}[rr]&&\text{$S^m_n$-т.}\ar@{=>}@(u,r)[ul]
 }
 {% endraw %}
 {% endtex %}
