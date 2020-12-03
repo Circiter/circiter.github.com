@@ -5,16 +5,18 @@
 #set -eu; set -o pipefail
 
 apk update
-apk upgrade
+apk upgrade --update
 # FIXME: Is the nodejs really needed?
-apk add zlib-dev build-base libxml2-dev libxslt-dev \
+apk add --update zlib-dev build-base libxml2-dev libxslt-dev \
     readline-dev libffi-dev ruby-dev yaml-dev zlib \
-    libxml2 build-base ruby-io-console readline libxslt \
+    libxml2 ruby-io-console readline libxslt \
     ruby yaml libffi nodejs ruby-irb ruby-json ruby-rake \
     git bash curl ttf-freefont fontconfig \
-    ruby-dev ruby-bundler ruby-bigdecimal imagemagick \
-    perl=5.24.0-r0 wget=1.18-r2
-gem install bundler json jekyll
+    ruby-bundler ruby-bigdecimal imagemagick \
+    perl wget ruby-json
+
+#gem install bundler json jekyll
+gem install --no-document jekyll
 
 #tlmgr install <package>
 tlmgr update --self
