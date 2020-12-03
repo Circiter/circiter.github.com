@@ -1,6 +1,7 @@
 # Working solution:
 #FROM xucheng/texlive-full:latest
-# FIXME: Try to use xucheng/texlive-small:latest instead.
+FROM xucheng/texlive-small:latest
+
 
 #FROM ruby:2.6.5
 #FROM jekyll/jekyll
@@ -11,7 +12,7 @@
 
 #FROM ivanpondal/alpine-latex:1.1.0
 
-FROM phpirates/texlive-latexbuild:small-2018
+#FROM phpirates/texlive-latexbuild:small-2018
 #packages=xkeyval, amsmath, amscls, mathtools, xcolor, pgf, marvosym, amsfonts, opensans, framed, collection-fontsrecommended, collection-langeuropean, graphics, collection-fontsextra, xypic, collection-latexextra, collection-langcyrillic
 
 LABEL "com.github.actions.name"="Build a Jekyll site/blog"
