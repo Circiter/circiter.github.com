@@ -5,12 +5,20 @@ test: true
 tags: тестирование meta
 ---
 
-$$\xymatrix{
+{% tex block %}
+{% raw %}
+\xymatrix{
 &\text{$\pi$ прог.}\ar@{=>}@(l,u)[dl]&\\
 \text{выч.}\ar@{=>}[rr]&&\text{$S^m_n$-т.}\ar@{=>}@(u,r)[ul]
-}$$
+}
+{% endraw %}
+{% endtex %}
 
-$\text{Russian text in formula:}\ \text{НОД}$
+{% tex inline %}
+{% raw %}
+\text{Russian text in formula:}\ \text{НОД}$
+{% endraw %}
+{% endtex %}
 
 $\textrm{some text}$
 

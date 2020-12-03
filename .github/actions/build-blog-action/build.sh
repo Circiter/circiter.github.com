@@ -17,7 +17,7 @@ gem install bundler json jekyll
 
 #tlmgr install <package>
 tlmgr update --self
-tlmgr install Type1fonts fontsextra concmath-fonts unfont-extra cmextra collection-fontsextra collection-latexextra  collection-langcyrillic
+tlmgr install Type1fonts concmath-fonts cmextra collection-fontsextra collection-latexextra collection-langcyrillic xypic fonts-extra
 
 #bundle clean
 #bundle config <name> <value>

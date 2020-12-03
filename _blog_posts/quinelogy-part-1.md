@@ -764,9 +764,8 @@ i\ a_i^w=\alpha(a^i_i)$.
 действием преобразования $\alpha$. Другими словами, $\alpha(a_w^w)=a_w^w$, i.e., $a_w^w$ -- 
 неподвижная точка $\alpha$.
 
-Возможно в визуализации этой идеи поможет следующий рисунок (матрица $a$ схематично изображена в 
-виде таблицы; вместо каких-либо конкретных значений её ячеек используется символ $\circ$):
-
+Возможно, в визуализации этой идеи поможет следующий рисунок (матрица $a$ схематично изображена 
+в виде таблицы; вместо каких-либо конкретных значений её ячеек используется символ $\circ$):
 {% tex block %}
 {% raw %}
 \begin{tikzpicture}
@@ -1430,7 +1429,7 @@ I'_L)$ и $\llbracket I'_L\rrbracket (q, x)=q$? Выше мы видели, чт
 - [11] Jiazhen Cai, Robert Paige, Program derivation by fixed point computation, 1989
 - [12] William E.Byrd, Eric Holk, Daniel P.Friedman, miniKanren, live and untagged: Quine generation via relational interpreters, 2012
 - [14] S.C.Kleene, Introduction to Meta-Mathematics, 1952
-- [15] <en.wikipedia.org/wiki/Quine's_paradox>
+- [15] <http://en.wikipedia.org/wiki/Quine's_paradox>
 - [16] <http://www.domob.eu/projects/neuralbf.php>
 - [17] <https://github.com/MakeNowJust/quine/blob/master/quine.sed>
 - [18] <https://github.com/MakeNowJust/quine>
