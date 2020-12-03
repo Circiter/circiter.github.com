@@ -768,7 +768,7 @@ i\ a_i^w=\alpha(a^i_i)$.
 виде таблицы; вместо каких-либо конкретных значений её ячеек используется символ $\circ$):
 
 {% tex block %}
-{% row %}
+{% raw %}
 \begin{tikzpicture}
     \def\xwidth{.5cm} \def\xheight{.5cm}
     \def\lastcolumn{9} \def\lastrow{9}
@@ -809,7 +809,7 @@ i\ a_i^w=\alpha(a^i_i)$.
     \draw[xarrow] (e) to[bend right] node[auto,swap] {$\alpha$} (f);
     \draw[xarrow] (g) to[bend left] (h);
 \end{tikzpicture}
-{% endrow %}
+{% endraw %}
 {% endtex %}
 
 Ну вот, связь диагонализации и неподвижных точек в общих чертах продемонстрирована. Осталось 

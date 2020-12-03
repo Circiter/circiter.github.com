@@ -47,7 +47,7 @@ def render_latex(formula, inline, site)
     latex_source<<"\\usepackage[T2A,T1]{fontenc}\n"
     latex_source<<"\\usepackage[utf8]{inputenc}\n"
     latex_source<<"\\usepackage{mathtext}\n"
-    latex_source<<"\\usepackage[all]{xy}\n"
+    #latex_source<<"\\usepackage[all]{xy}\n"
     latex_source<<"\\usepackage[russian,english]{babel}\n"
     latex_source<<"\\usepackage{amsmath,amsfonts,amssymb,color,xcolor,stmaryrd}\n"
     #latex_source<<"\\usepackage{type1cm}\n"
@@ -82,7 +82,8 @@ def render_latex(formula, inline, site)
     latex_document.puts(latex_source)
     latex_document.close
     #system("latex -interaction=nonstopmode temp-file.tex >/dev/null 2>&1")
-    system("pdflatex -interaction=nonstopmode temp-file.tex >/dev/null 2>&1")
+    #system("pdflatex -interaction=nonstopmode temp-file.tex >/dev/null 2>&1")
+    system("pdflatex -interaction=nonstopmode temp-file.tex")
 
     result="<pre>"+formula+"</pre>" # FIXME: Add escaping, maybe.
     #if File.exists?("temp-file.dvi")
@@ -154,7 +155,7 @@ def render_latex(formula, inline, site)
             puts "debug: png file does not exist (for formula "+formula+")"
         end
     else
-        puts "debug: dvi file was not generated (for formula "+formula+")"
+        puts "debug: pdf file was not generated (for formula "+formula+")"
     end
 
     Dir.glob("temp-file.*").each do |f|
