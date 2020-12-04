@@ -13,7 +13,7 @@ apk add zlib-dev build-base libxml2-dev libxslt-dev \
     ruby yaml libffi nodejs ruby-irb ruby-json ruby-rake \
     git bash curl ttf-freefont fontconfig \
     ruby-bundler ruby-bigdecimal imagemagick \
-    perl wget ruby-json
+    ruby-json # perl wget
 
 #gem install bundler json jekyll
 gem install --no-document jekyll
@@ -21,8 +21,6 @@ gem install --no-document jekyll
 #tlmgr install <package>
 tlmgr update --self
 tlmgr install Type1fonts concmath-fonts collection-fontsextra collection-latexextra collection-langcyrillic xypic collection-mathextra
-
-apk del perl wget
 
 #bundle clean
 #bundle config <name> <value>
