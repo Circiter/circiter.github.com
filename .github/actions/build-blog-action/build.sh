@@ -5,9 +5,9 @@
 #set -eu; set -o pipefail
 
 apk update
-apk upgrade --update
+apk upgrade
 # FIXME: Is the nodejs really needed?
-apk add --update zlib-dev build-base libxml2-dev libxslt-dev \
+apk add zlib-dev build-base libxml2-dev libxslt-dev \
     readline-dev libffi-dev ruby-dev yaml-dev zlib \
     libxml2 ruby-io-console readline libxslt \
     ruby yaml libffi nodejs ruby-irb ruby-json ruby-rake \
@@ -20,7 +20,7 @@ gem install --no-document jekyll
 
 #tlmgr install <package>
 tlmgr update --self
-tlmgr install Type1fonts concmath-fonts cmextra collection-fontsextra collection-latexextra collection-langcyrillic xypic
+tlmgr install Type1fonts concmath-fonts collection-fontsextra collection-latexextra collection-langcyrillic xypic collection-mathextra
 
 apk del perl wget
 
