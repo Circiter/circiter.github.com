@@ -1,7 +1,5 @@
-# Working solution:
-#FROM xucheng/texlive-full:latest
-FROM xucheng/texlive-small:latest
-
+FROM xucheng/texlive-full:latest
+#FROM xucheng/texlive-small:latest
 
 #FROM ruby:2.6.5
 #FROM jekyll/jekyll
