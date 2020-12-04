@@ -18,9 +18,10 @@ apk add zlib-dev build-base libxml2-dev libxslt-dev \
 #gem install bundler json jekyll
 gem install --no-document jekyll
 
-#tlmgr install <package>
 tlmgr update --self
-tlmgr install Type1fonts concmath-fonts collection-fontsextra collection-latexextra collection-langcyrillic xypic collection-mathextra
+tlmgr install Type1fonts
+tlmgr install concmath-fonts collection-fontsextra collection-latexextra collection-langcyrillic xypic
+tlmgr install collection-mathextra
 
 #bundle clean
 #bundle config <name> <value>
