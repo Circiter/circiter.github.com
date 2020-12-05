@@ -768,25 +768,30 @@ i\ a_i^w=\alpha(a^i_i)$.
 в виде таблицы; вместо каких-либо конкретных значений её ячеек используется символ $\circ$):
 {% tex block %}
 {% raw %}
-\begin{tikzpicture}
+\begin{tikzpicture}[minimum width=\xwidth, minimum height=\xheight]
     \def\xwidth{.5cm} \def\xheight{.5cm}
     \def\lastcolumn{9} \def\lastrow{9}
     \tikzstyle{xarrow}=[->,line width=0.5mm]
     \foreach\x in {0,...,\lastcolumn}
         \foreach\y in {0,...,\lastrow}
         {
-            \tikzstyle{xdraw}=[] \tikzstyle{xfill}=[]
-            \tikzstyle{xnode}=[minimum width=\xwidth, minimum height=\xheight]
-            \ifnum\x=\y \ifnum\x<\lastcolumn \tikzstyle{xdraw}=[draw,thick] \fi\fi
-            \ifnum\y=3 \tikzstyle{xfill}=[fill=red!50!white] \fi
-            \ifnum\y=7
-                \ifnum\x=7
-                    \tikzstyle{xfill}=[fill=green]
+            \tikzstyle{xstyle}=[]
+            \ifnum\x=\y \ifnum\x<\lastcolumn \tikzstyle{xstyle}=[fill=blue!30!white] \fi\fi
+            \ifnum\y=3
+                \ifnum\x=3
+                    \tikzstyle{xstyle}=[fill=red!50!blue!50!white]
                 \else
-                    \tikzstyle{xfill}=[fill=red!50!white]
+                    \tikzstyle{xstyle}=[fill=red!30!white]
                 \fi
             \fi
-            \node[xfill,xdraw,xnode] at (\x*\xwidth,-\y*\xheight) {%
+            \ifnum\y=7
+                \ifnum\x=7
+                    \tikzstyle{xstyle}=[fill=green]
+                \else
+                    \tikzstyle{xstyle}=[fill=red!30!white]
+                \fi
+            \fi
+            \node[xstyle] at (\x*\xwidth,-\y*\xheight) {%
                 \ifnum \y=\lastrow
                     \ifnum \x=\lastcolumn $\ddots$ \else $\vdots$ \fi
                 \else
@@ -802,9 +807,10 @@ i\ a_i^w=\alpha(a^i_i)$.
     \draw[xarrow] (c) -- (d);
     \node (e) at (-\xwidth,-3*\xheight) {$z$};
     \node (f) at (-\xwidth,-7*\xheight) {$w$};
-    \node (g) at (6*\xwidth,1.5*\xheight) {$a^4_5$};
-    \node (h) at (5*\xwidth,-4*\xheight) {};
-    \draw[xarrow] (-\xwidth,0) to[bend right] node[auto,swap] {$\operatorname{id}$} (e);
+    \node (g) at (6*\xwidth,1.5*\xheight) {$a^5_6$};
+    \node[minimum size=0mm] (h) at (5*\xwidth,-4*\xheight) {};
+    \draw[xarrow] (-\xwidth,0) to[bend right]
+        node[auto,swap] {$\operatorname{id}$} (e);
     \draw[xarrow] (e) to[bend right] node[auto,swap] {$\alpha$} (f);
     \draw[xarrow] (g) to[bend left] (h);
 \end{tikzpicture}
