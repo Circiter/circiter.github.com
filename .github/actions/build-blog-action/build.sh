@@ -21,7 +21,7 @@ gem install --no-document jekyll
 tlmgr update --self; true
 tlmgr install Type1fonts concmath-fonts collection-fontsextra \
     collection-latexextra collection-langcyrillic \
-    xypic collection-mathextra; true
+    xypic collection-mathextra cm-super; true
 texhash
 updmap-sys
 
