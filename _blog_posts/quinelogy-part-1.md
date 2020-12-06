@@ -807,7 +807,7 @@ i\ a_i^w=\alpha(a^i_i)$.
     \draw[xarrow] (c) -- (d);
     \node (e) at (-\xwidth,-3*\xheight) {$z$};
     \node (f) at (-\xwidth,-7*\xheight) {$w$};
-    \node (g) at (6*\xwidth,1.5*\xheight) {$a^5_6$};
+    \node (g) at (6*\xwidth,1.5*\xheight) {$a^4_5$};
     \node[minimum size=0mm] (h) at (5*\xwidth,-4*\xheight) {};
     \draw[xarrow] (-\xwidth,0) to[bend right]
         node[auto,swap] {$\operatorname{id}$} (e);
