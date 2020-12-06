@@ -7,7 +7,15 @@ tags: тестирование meta
 
 {% tex inline %}
 {% raw %}
-\text{Russian text in formula:}\ \text{\foreignlanguage{russian}{НОД}}$
+\text{Russian text in formula:}\ \text{\foreignlanguage{russian}{НОД}}
+\textit{русский текст}
+\textit{\foreignlanguage{russian}{русский текст}}
+{% endraw %}
+{% endtex %}
+
+{% tex inline %}
+{% raw %}
+\text{Russian text in formula:}\ \text{\foreignlanguage{russian}{НОД}}
 {% endraw %}
 {% endtex %}
 

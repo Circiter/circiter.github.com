@@ -799,9 +799,9 @@ i\ a_i^w=\alpha(a^i_i)$.
                 \fi
             };
         }
-    \node (a) at (6*\xwidth,-11*\xheight) {$a^w_w=\alpha(a^w_w)$};
+    \node (a) at (6*\xwidth,-11*\xheight) {Неподвижная точка, $a^w_w=\alpha(a^w_w)$};
     \node[minimum size=2mm] (b) at (7*\xwidth,-7*\xheight) {};
-    \node[inner sep=0] (c) at (-1.5*\xwidth,1.5*\xheight) {$\triangle$};
+    \node[inner sep=0] (c) at (-1.5*\xwidth,1.5*\xheight) {Диагональ, $\triangle$};
     \node[minimum size=3mm] (d) at (0,0) {};
     \draw[xarrow] (a) to[bend left] (b);
     \draw[xarrow] (c) -- (d);
