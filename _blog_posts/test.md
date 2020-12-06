@@ -5,6 +5,12 @@ test: true
 tags: тестирование meta
 ---
 
+{% tex inline %}
+{% raw %}
+\text{Russian text in formula:}\ \text{\foreignlanguage{russian}{НОД}}$
+{% endraw %}
+{% endtex %}
+
 {% tex block %}
 {% raw %}
 \xymatrix{
