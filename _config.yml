@@ -87,10 +87,11 @@ plugins:
   #- jekyll-default-layout
 
 scholar:
-  style: mla
+  #style: mla
+  style: apa
   locale: ru
   source: ./_bibliography
-  #bibliography: bibliography.bib
+  bibliography: bibliography.bib
 
 optional_front_matter:
   remove_originals: true
