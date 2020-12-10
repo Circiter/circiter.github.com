@@ -1,5 +1,6 @@
 ---
 layout: post
+title: "библиография"
 test: true
 ---
 
@@ -7,4 +8,4 @@ test: true
 
 Книжка о Ruby {% cite ruby %}.
 
-{% bibliography --cited_in_order --file test %}
+{% bibliography --cited_in_order %}
