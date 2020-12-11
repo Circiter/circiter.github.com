@@ -87,11 +87,11 @@ plugins:
   #- jekyll-default-layout
 
 scholar:
-  #style: mla
   #style: apa
   #style: ./_bibliography/ieee-with-url.csl
-  style: modern-language-association
-  #style: ieeetr
+  #style: modern-language-association
+  style: elsevier-vancouver
+  #style: elsevier-harvard
   locale: ru
   source: ./_bibliography
   #bibliography: bibliography.bib
