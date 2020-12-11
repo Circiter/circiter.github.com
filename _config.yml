@@ -88,10 +88,11 @@ plugins:
 
 scholar:
   #style: mla
-  style: apa
+  #style: apa
+  style: ieeetr
   locale: ru
   source: ./_bibliography
-  bibliography: bibliography.bib
+  bibliography: *.bib
 
 optional_front_matter:
   remove_originals: true
