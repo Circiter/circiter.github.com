@@ -87,8 +87,8 @@ plugins:
   #- jekyll-default-layout
 
 scholar:
-  style: mla
-  #style: apa
+  #style: mla
+  style: apa
   #style: ieeetr
   locale: ru
   source: ./_bibliography
