@@ -88,7 +88,9 @@ plugins:
 
 scholar:
   #style: mla
-  style: apa
+  #style: apa
+  #style: ./_bibliography/ieee-with-url.csl
+  style: modern-language-association
   #style: ieeetr
   locale: ru
   source: ./_bibliography
