@@ -92,8 +92,9 @@ scholar:
   #style: modern-language-association
   #style: elsevier-vancouver
   #style: elsevier-harvard
-  style: gost-r-7-0-5-2008-numeric
-  #bibliography_list_tag: ul
+  #style: gost-r-7-0-5-2008-numeric
+  style: ieee-with-url
+  bibliography_list_tag: ul
   locale: ru
   source: ./_bibliography
   #bibliography: bibliography.bib
