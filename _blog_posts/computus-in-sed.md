@@ -263,5 +263,5 @@ else if(month==4)
 ## Ссылки
 
 <div class="bib">
-{% bibliography --cited-in-order --file computus-in-sed %}
+{% bibliography --cited_in_order --file computus-in-sed %}
 </div>
