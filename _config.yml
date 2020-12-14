@@ -93,7 +93,9 @@ scholar:
   #style: elsevier-vancouver
   #style: elsevier-harvard
   #style: gost-r-7-0-5-2008-numeric
-  style: ieee-with-url
+
+  style: ./_bibliography/gost-r-7-0-5-2008.csl
+  #style: ieee-with-url
   bibliography_list_tag: ul
   locale: ru
   source: ./_bibliography
