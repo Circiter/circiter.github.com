@@ -21,13 +21,14 @@ module Jekyll
       puts "page id is "+id
       filename=Digest::MD5.hexdigest(id+@namespace)+".labels.txt"
       labels=Set.new
-      labels_file=File.open(filename, "ra")
+      labels_file=File.open(filename, "r")
       labels_file.each_line do |line|
         labels<<line
       end
 
       number=0
       if @current_tag=="newlabel"
+        labels_file=File.open(filename, "a")
         labels_file.puts(@identifier)
         number=labels.length+1
       else
