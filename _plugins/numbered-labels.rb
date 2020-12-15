@@ -1,6 +1,5 @@
 require "fileutils"
 require "digest"
-#require "erb"
 
 module Jekyll
   class Label < Liquid::Tag
@@ -23,34 +22,34 @@ module Jekyll
         end
       else
           labels_file=File.new(filename, "w")
-          #labels_file.puts("")
       end
       labels_file.close
 
+
       number=1
-      if @current_tag=="newlabel"
+      found=false
+      labels.each do |label|
+        if label==@identifier
+          found=true
+          break
+        end
+        number=number+1
+      end
+
+      if !found
         labels_file=File.open(filename, "a")
         labels_file.puts(@identifier)
         labels_file.close
         number=labels.length+1
-      else
-        found=false
-        labels.each do |label|
-          if label==@identifier
-            found=true
-            break
-          end
-          number=number+1
-        end
-        return "(undefined)" if !found
       end
-      return "#{number}"
+
+      return "#{number} (#{@namespace} :: #{@identifier}"+(found?"":", new label")+")"
     end
   end
 
 
 end
 
-Liquid::Template.register_tag("newlabel", Jekyll::Label)
+Liquid::Template.register_tag("label", Jekyll::Label)
 Liquid::Template.register_tag("ref", Jekyll::Label)
 

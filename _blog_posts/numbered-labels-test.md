@@ -4,7 +4,9 @@ title: "Проверка нумерации объектов"
 test: true
 ---
 
-*Теорема {% newlabel theorem non-connected-pairs-in-five-graph %}.*
+# Тестирование плагина `numbered-labels.rb`
+
+*Теорема {% label theorem non-connected-pairs-in-five-graph %}.*
 
 В планарном пятивершинном графе найдётся пара несмежных вершин.
 
@@ -21,15 +23,22 @@ test: true
 
 -------
 
-*Теорема {% newlabel theorem pythagor %} (теорема Пифагора).*
+*Теорема {% label theorem pythagor %} (теорема Пифагора).*
 
 В прямоугольном треугольнике, квадрат гипотенузы равен сумме квадратов катетов.
 
 Теорема Пифагора озвучена в теореме {% ref theorem pythagor %}.
 
----------
+# Тестирование пространства имён `figure`
 
 ![](/public/images/rxtx1.jpg)
-Рисунок {% newlabel figure cb-rxtx %} -- приёмопередатчик.
+Рисунок {% label figure cb-rxtx %} -- приёмопередатчик.
 
-Просто СиБи-приёмопередатчик изображён на рисунке {% ref figure cb-rxtx %}.
+Простой СиБи-приёмопередатчик изображён на рисунке {% ref figure cb-rxtx %}.
+
+# Тестирование ссылок, ведущих на объекты/метки, определённые позже
+
+Самодельный вариометр показан на рисунке {% ref figure variometer %}.
+
+![](/public/images/variometer.jpg)
+Рисунок {% label figure variometer %} -- переменная катушка индуктивности.
