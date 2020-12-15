@@ -14,12 +14,6 @@ module Jekyll
 
     def render(context)
       id=context["page"]["id"]
-      # FIXME: Try also:
-      #context.environments.first["page"]["url"]
-      #context["page"]["path"]
-      #context.registers[:page].id
-      puts "page id is "+id
-      puts "namespace: "+@namespace
       puts "label id: "+@identifier
       filename="./"+Digest::MD5.hexdigest(id+@namespace)+".labels.txt"
       labels=Set.new
@@ -27,10 +21,10 @@ module Jekyll
         puts "reading file: "+filename
         labels_file=File.open(filename, "r")
         labels_file.each_line do |line|
+          puts "line readed: "+line
           labels<<line
         end
       else
-          puts "creating file: "+filename
           labels_file=File.new(filename, "w")
           labels_file.puts("")
       end
@@ -45,16 +39,17 @@ module Jekyll
         number=labels.length+1
       else
         found=false
-        puts "searching for the id."
-        labels.each do |line|
-          if line==@identifier
+        puts "searching for the id. "+@identifier
+        labels.each do |label|
+          puts "current label (while searching): "+label
+          if label==@identifier
             puts "id. found"
             found=true
             break
           end
           number=number+1
         end
-        return "<undefined>" if !found
+        return "(undefined)" if !found
       end
       return "#{number}"
     end
