@@ -79,12 +79,9 @@ plugins_dir: _plugins
 plugins:
   - jekyll-sitemap
   - jekyll-feed
-  #- jekyll/scholar
-  #- jekyll-optional-front-matter
   - jekyll-titles-from-headings
   - jekyll_inline_highlight
   - jekyll-toc
-  #- jekyll-default-layout
 
 scholar:
   #style: apa
