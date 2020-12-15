@@ -6,7 +6,7 @@ test: true
 
 # Тестирование плагина `numbered-labels.rb`
 
-*Теорема {% label theorem non-connected-pairs-in-five-graph %}.*
+*Теорема {% ref theorem non-connected-pairs-in-five-graph %}.*
 
 В планарном пятивершинном графе найдётся пара несмежных вершин.
 
@@ -23,7 +23,7 @@ test: true
 
 -------
 
-*Теорема {% label theorem pythagor %} (теорема Пифагора).*
+*Теорема {% ref theorem pythagor %} (теорема Пифагора).*
 
 В прямоугольном треугольнике, квадрат гипотенузы равен сумме квадратов катетов.
 
@@ -32,7 +32,7 @@ test: true
 # Тестирование пространства имён `figure`
 
 ![](/public/images/rxtx1.jpg)
-Рисунок {% label figure cb-rxtx %} -- приёмопередатчик.
+Рисунок {% ref figure cb-rxtx %} -- приёмопередатчик.
 
 Простой СиБи-приёмопередатчик изображён на рисунке {% ref figure cb-rxtx %}.
 
@@ -41,4 +41,4 @@ test: true
 Самодельный вариометр показан на рисунке {% ref figure variometer %}.
 
 ![](/public/images/variometer.jpg)
-Рисунок {% label figure variometer %} -- переменная катушка индуктивности.
+Рисунок {% ref figure variometer %} -- переменная катушка индуктивности.

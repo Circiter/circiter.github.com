@@ -4,7 +4,6 @@ require "digest"
 module Jekyll
   class Label < Liquid::Tag
     def initialize(name, params, tokens)
-      @current_tag=name
       parameters=params.gsub("  ", " ").split(" ")
       @namespace=parameters[0]
       @identifier=parameters[1]
@@ -43,16 +42,11 @@ module Jekyll
         number=labels.length+1
       end
 
-      found_msg=""
-      found_msg=", new label" unless found
-
-      return "#{number} (#{@namespace}, #{@identifier}"+found_msg+")"
+      return "#{number}"
     end
   end
 
 
 end
 
-Liquid::Template.register_tag("label", Jekyll::Label)
 Liquid::Template.register_tag("ref", Jekyll::Label)
-
