@@ -36,14 +36,17 @@ module Jekyll
         number=number+1
       end
 
-      if !found
+      unless found
         labels_file=File.open(filename, "a")
         labels_file.puts(@identifier)
         labels_file.close
         number=labels.length+1
       end
 
-      return "#{number} (#{@namespace} :: #{@identifier}"+(found?"":", new label")+")"
+      found_msg=""
+      found_msg=", new label" unless found
+
+      return "#{number} (#{@namespace}, #{@identifier}"+found_msg+")"
     end
   end
 
