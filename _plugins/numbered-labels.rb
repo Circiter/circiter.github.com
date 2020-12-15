@@ -14,14 +14,14 @@ module Jekyll
 
     def render(context)
       id=context["page"]["id"]
-      puts "label id: "+@identifier
+      #puts "label id: "+@identifier
       filename="./"+Digest::MD5.hexdigest(id+@namespace)+".labels.txt"
       labels=Set.new
       if File.exists?(filename)
-        puts "reading file: "+filename
+        #puts "reading file: "+filename
         labels_file=File.open(filename, "r")
         labels_file.each_line do |line|
-          puts "line readed: "+line
+          #puts "line readed: "+line
           labels<<line
         end
       else
@@ -33,7 +33,7 @@ module Jekyll
       number=0
       if @current_tag=="newlabel"
         labels_file=File.open(filename, "a")
-        puts "new label stored"
+        #puts "new label stored"
         labels_file.puts(@identifier)
         labels_file.close
         number=labels.length+1
@@ -41,7 +41,13 @@ module Jekyll
         found=false
         puts "searching for the id. "+@identifier
         labels.each do |label|
-          puts "current label (while searching): "+label
+          #puts "current label (while searching): "+label
+          puts "comparing <"+label+"> against <"+@identifier+">"
+          if label==@identifier
+              puts "<"+label+"> == <"+@identifier+">"
+          else
+              puts "<"+label+"> != <"+@identifier+">"
+          end
           if label==@identifier
             puts "id. found"
             found=true
