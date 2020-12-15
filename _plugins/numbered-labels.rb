@@ -27,7 +27,7 @@ module Jekyll
       end
       labels_file.close
 
-      number=0
+      number=1
       if @current_tag=="newlabel"
         labels_file=File.open(filename, "a")
         labels_file.puts(@identifier)
