@@ -1,6 +1,9 @@
 require "fileutils"
 require "digest"
 
+# TODO: Add support for other numeration styles (e.g., latin
+# or alphabet instead of arabic).
+
 module Jekyll
   class Label < Liquid::Tag
     def initialize(name, params, tokens)
@@ -13,7 +16,7 @@ module Jekyll
     def render(context)
       id=context["page"]["id"]
       filename="./"+Digest::MD5.hexdigest(id+@namespace)+".labels.txt"
-      labels=Set.new
+      labels=Array.new
       if File.exists?(filename)
         labels_file=File.open(filename, "r")
         labels_file.each_line do |line|
@@ -24,24 +27,26 @@ module Jekyll
       end
       labels_file.close
 
+      number=labels.find_index(@identifier)
 
-      number=1
-      found=false
-      labels.each do |label|
-        if label==@identifier
-          found=true
-          break
-        end
-        number=number+1
-      end
+      #number=1
+      #found=false
+      #labels.each do |label|
+      #  if label==@identifier
+      #    found=true
+      #    break
+      #  end
+      #  number=number+1
+      #end
 
-      unless found
+      if number==nil
         labels_file=File.open(filename, "a")
         labels_file.puts(@identifier)
         labels_file.close
-        number=labels.length+1
+        number=labels.length
       end
 
+      number=number+1
       return "#{number}"
     end
   end
