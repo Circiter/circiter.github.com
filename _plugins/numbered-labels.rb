@@ -22,7 +22,7 @@ module Jekyll
         labels_file=File.open(filename, "r")
         labels_file.each_line do |line|
           #puts "line readed: "+line
-          labels<<line
+          labels<<line.gsub("\n", "")
         end
       else
           labels_file=File.new(filename, "w")
