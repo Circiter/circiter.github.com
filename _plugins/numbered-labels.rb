@@ -19,28 +19,36 @@ module Jekyll
       #context["page"]["path"]
       #context.registers[:page].id
       puts "page id is "+id
-      filename=Digest::MD5.hexdigest(id+@namespace)+".labels.txt"
+      puts "namespace: "+@namespace
+      puts "label id: "+@identifier
+      filename="./"+Digest::MD5.hexdigest(id+@namespace)+".labels.txt"
       labels=Set.new
       if File.exists?(filename)
-          labels_file=File.open(filename, "r")
+        puts "reading file: "+filename
+        labels_file=File.open(filename, "r")
+        labels_file.each_line do |line|
+          labels<<line
+        end
       else
-          labels_file=File.new(filename, "r")
-      end
-      labels_file.each_line do |line|
-        labels<<line
+          puts "creating file: "+filename
+          labels_file=File.new(filename, "w")
+          labels_file.puts("")
       end
       labels_file.close
 
       number=0
       if @current_tag=="newlabel"
         labels_file=File.open(filename, "a")
+        puts "new label stored"
         labels_file.puts(@identifier)
         labels_file.close
         number=labels.length+1
       else
         found=false
+        puts "searching for the id."
         labels.each do |line|
           if line==@identifier
+            puts "id. found"
             found=true
             break
           end
