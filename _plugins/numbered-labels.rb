@@ -4,6 +4,8 @@ require "digest"
 # TODO: Add support for other numeration styles (e.g., latin
 # or alphabet instead of arabic).
 
+# TODO: Implement the html anchors generation.
+
 module Jekyll
   class Label < Liquid::Tag
     def initialize(name, params, tokens)

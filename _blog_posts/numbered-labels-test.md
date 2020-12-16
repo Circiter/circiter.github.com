@@ -42,3 +42,11 @@ test: true
 
 ![](/public/images/variometer.jpg)
 Рисунок {% ref figure variometer %} -- переменная катушка индуктивности.
+
+# Нумерация формул
+
+$$
+\int x^2=\frac13x^3+C.\eqno({% ref eq integral %})
+$$
+
+Интеграл квадрата показан в ({% ref eq integral %}).
