@@ -153,7 +153,7 @@
   <macro name="url"> <!-- added by circiter. -->
     <choose>
       <if variable="URL">
-        <text variable="URL" prefix="Адрес ресурса: &lt;s&gt;" suffix="&lt;/s&gt;">
+        <text variable="URL" prefix="Адрес ресурса: &lt;s&gt;" suffix="&lt;/s&gt;"/>
       </if>
     </choose>
   </macro>
@@ -194,8 +194,8 @@
   </citation>
   <!-- Bibliography -->
   <!-- Опции "et-al..." в следующей строчке описывают требования ГОСТ-а, но не полностью. В ГОСТ-е прописано, что от 1 до 3 авторов указываются полностью и в "заголовке", т.е. в начале записи перед названием, а 4 и более сокращаются с помощью "и др." и указываются только в "сведениях об ответственности", т.е. после названия. В этом стиле я сознательно сделал выбор в пользу упрощения (авторы всегда указываются вначале), чтобы не уродовать библиографию. Если есть строгая необходимость следовать букве ГОСТ-а, то это можно реализовать как в ... -->
-<!-- circiter: заменил et-al-min="4" на et-al-min="2" -->
-  <bibliography et-al-min="2" et-al-use-first="1" entry-spacing="0" second-field-align="flush">
+<!-- circiter: заменил et-al-min="4" на et-al-min="2"; добавил сокращение для совпадающих авторов (subsequent-author-*). -->
+  <bibliography et-al-min="2" et-al-use-first="1" entry-spacing="0" second-field-align="flush" subsequent-author-substitute="_____" subsequent-author-substitute-rule="partial-each">
     <layout suffix=".">
       <text variable="citation-number" suffix=". "/>
       <!-- Комментарии ниже даны в соответствии с терминами, определёнными в ГОСТе -->
