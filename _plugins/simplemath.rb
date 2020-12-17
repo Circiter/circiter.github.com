@@ -15,9 +15,7 @@ require "erb"
 # and [vertical] positions. But note, that such an approach is incompatible with the
 # caching mechanism.
 
-multi_mode=false
-
-def generate_html(filename, full_filename, formula, inline, style)
+def generate_html(filename, full_filename, formula, inline, style, multi_mode)
     #title=CGI.escape(formula)
     #title=ERB::Util.url_encode(formula)
     #title=ERB::Util.html_escape(formula) # FIXME.
@@ -33,7 +31,7 @@ def generate_html(filename, full_filename, formula, inline, style)
     return result
 end
 
-def render_latex(formula, inline, site)
+def render_latex(formula, inline, site, multi_mode)
     directory="eq"
     FileUtils.mkdir_p(directory) unless File.exists?(directory)
 
@@ -163,7 +161,7 @@ def render_latex(formula, inline, site)
                 #style=style+" vertical-align: -"+depth_pt+"pt;";
             end
 
-            result=generate_html(filename, full_filename, formula, inline, style)
+            result=generate_html(filename, full_filename, formula, inline, style, multi_mode)
         else
             puts "debug: png file does not exist (for formula "+formula+")"
         end
@@ -493,7 +491,7 @@ module Jekyll
             def render(context)
                 latex_source=super
                 site=context.registers[:site]
-                return render_latex(latex_source, @inline, site)
+                return render_latex(latex_source, @inline, site, false)
             end
 
         end
