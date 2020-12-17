@@ -15,6 +15,8 @@ require "erb"
 # and [vertical] positions. But note, that such an approach is incompatible with the
 # caching mechanism.
 
+multi_mode=false
+
 def generate_html(filename, full_filename, formula, inline, style)
     #title=CGI.escape(formula)
     #title=ERB::Util.url_encode(formula)
@@ -35,13 +37,19 @@ def render_latex(formula, inline, site)
     directory="eq"
     FileUtils.mkdir_p(directory) unless File.exists?(directory)
 
-    filename=Digest::MD5.hexdigest(formula)+".png"
+    basename=Digest::MD5.hexdigest(formula)
+    filename=basename+".png"
     full_filename=File.join(directory, filename)
+    multi_image=File.join(directory, basename+"*.png")
     cache=filename+".html_cache"
     # Do not generate the same formula again.
     return File.read(cache) if File.exists?(cache)
 
-    latex_source="\\documentclass[preview,border=1pt]{standalone}\n"
+    if multi_mode
+        latex_source="\\documentclass[preview,math,tikz,border=1pt]{standalone}\n"
+    else
+        latex_source="\\documentclass[preview,border=1pt]{standalone}\n"
+    end
     latex_source<<"\\usepackage[T1,T2A]{fontenc}\n"
     latex_source<<"\\usepackage[utf8]{inputenc}\n"
     latex_source<<"\\usepackage{mathtext}\n"
@@ -49,12 +57,15 @@ def render_latex(formula, inline, site)
     latex_source<<"\\usepackage[matrix,arrow,curve,frame,arc]{xy}\n"
     latex_source<<"\\usepackage[english,russian]{babel}\n"
     #latex_source<<"\\usepackage{type1cm}\n"
+    latex_source<<"\\usepackage{tikz}\n"
+    latex_source<<"\\usepackage[european,emptydiode,americaninductor]{circuitikz}\n"
 
-    if !inline
-        latex_source<<"\\usepackage{tikz}\n"
-        #latex_source<<"\\usepackage[european,emptydiode,americaninductor]{circuitikz-0.4}\n"
-        latex_source<<"\\usepackage[european,emptydiode,americaninductor]{circuitikz}\n"
-    else
+    #if !inline
+    #    latex_source<<"\\usepackage{tikz}\n"
+    #    #latex_source<<"\\usepackage[european,emptydiode,americaninductor]{circuitikz-0.4}\n"
+    #    latex_source<<"\\usepackage[european,emptydiode,americaninductor]{circuitikz}\n"
+    #else
+    if inline
         latex_source<<"\\newsavebox\\xfrm\n"
         latex_source<<"\\sbox\\xfrm{"
         latex_source<<formula
@@ -89,6 +100,10 @@ def render_latex(formula, inline, site)
         #system("dvips -E -q temp-file.dvi -o temp-file.eps >/dev/null 2>&1");
         #system("convert -density 120 -quality 90 -trim temp-file.eps "+full_filename+" >/dev/null 2>&1")
         system("convert -density 120 -trim temp-file.pdf "+full_filename+" >/dev/null 2>&1")
+        if multi_mode
+            Dir.glob(multi_image).each do |individual_image|
+            end
+        end
         if File.exists?(full_filename)
             static_file=Jekyll::StaticFile.new(site, site.source, directory, filename)
             site.static_files<<static_file
@@ -156,11 +171,12 @@ def render_latex(formula, inline, site)
         puts "debug: pdf file was not generated (for formula "+formula+")"
     end
 
-    Dir.glob("temp-file.*").each do |f|
-        File.delete(f)
+    if !multi_mode
+        Dir.glob("temp-file.*").each do |f|
+            File.delete(f)
+        end
     end
 
-    #puts "debug: <generated_html>"+result+"</generated_html>"
     return result
 end
 
@@ -205,6 +221,10 @@ class Jekyll::Site
         source_files.each do |f|
             puts(f)
         end
+        puts "Dir.glob(eq/*.png):"
+        Dir.glob("eq/*.png").each do |f|
+            puts(f)
+        end
         to_remove=Dir.glob("eq/*.png")-source_files # FIXME.
         puts "to remove:"
         to_remove.each do |f|
@@ -217,12 +237,21 @@ class Jekyll::Site
         Dir.glob("*.html_cache").each do |f|
             File.delete(f)
         end
+        puts "removing temporary files"
+        Dir.glob("**/*.tmp").each do |f|
+            puts("removing "+f)
+            File.delete(f)
+        end
     end
 end
 
 #Jekyll::Hooks.register(:site, :after_init) do |site|
 #    Kramdown::Converter::MathEngine::SimpleMath::my_init(site)
 #end
+
+def fix_sizes(content)
+   return content
+end
 
 def fix_math(content)
     # FIXME: Try to insert &#8288; (word-joiner) after formulas
@@ -233,7 +262,7 @@ def fix_math(content)
 end
 
 
-# FIXME: There is a problem with a extra newline or paragraph
+# FIXME: There is a problem with an extra newline or paragraph
 # after a $...$ formula at the end of a line.
 # Is the \n after a {% tex %}...{% endtex %} block causes the
 # insertion a new unwanted paragraph brake?
@@ -430,10 +459,21 @@ Jekyll::Hooks.register(:pages, :pre_render) do |target, payload|
     end
 end
 
-# FIXME: Try a modes other than :pre_render.
 Jekyll::Hooks.register(:blog_posts, :pre_render) do |target, payload|
     if target.data["ext"]==".md"
         target.content=fix_math(target.content)
+    end
+end
+
+Jekyll::Hooks.register(:pages, :post_render) do |target, payload|
+    if target.ext==".md"&&(target.basename=="about"||target.basename=="index")
+        target.content=fix_sizes(target.content)
+    end
+end
+
+Jekyll::Hooks.register(:blog_posts, :post_render) do |target, payload|
+    if target.data["ext"]==".md"
+        target.content=fix_sizes(target.content)
     end
 end
 

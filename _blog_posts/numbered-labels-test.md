@@ -6,7 +6,7 @@ test: true
 
 # Тестирование плагина `numbered-labels.rb`
 
-**Теорема {% ref theorem non-connected-pairs-in-five-graph %}.**
+**Теорема {% def theorem non-connected-pairs-in-five-graph %}.**
 
 В планарном пятивершинном графе найдётся пара несмежных вершин.
 
@@ -23,7 +23,7 @@ test: true
 
 -------
 
-**Теорема {% ref theorem pythagor %} (теорема Пифагора).**
+**Теорема {% def theorem pythagor %} (теорема Пифагора).**
 
 В прямоугольном треугольнике, квадрат гипотенузы равен сумме квадратов катетов.
 
@@ -32,7 +32,7 @@ test: true
 # Тестирование пространства имён `figure`
 
 ![](/public/images/rxtx1.jpg)
-Рисунок {% ref figure cb-rxtx %} -- приёмопередатчик.
+Рисунок {% def figure cb-rxtx %} -- приёмопередатчик.
 
 Простой СиБи-приёмопередатчик изображён на рисунке {% ref figure cb-rxtx %}.
 
@@ -41,12 +41,12 @@ test: true
 Самодельный вариометр показан на рисунке {% ref figure variometer %}.
 
 ![](/public/images/variometer.jpg)
-Рисунок {% ref figure variometer %} -- переменная катушка индуктивности.
+Рисунок {% def figure variometer %} -- переменная катушка индуктивности.
 
 # Нумерация формул
 
 $$
-\int x^2\mathrm{d}x=\frac13x^3+C.\eqno({% ref eq integral %})
+\int x^2\mathrm{d}x=\frac13x^3+C.\eqno({% def eq integral %})
 $$
 
-Интеграл квадрата показан в ({% ref eq integral %}).
+Интеграл квадрата показан в $({% ref eq integral %})$.
