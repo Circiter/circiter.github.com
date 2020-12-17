@@ -69,7 +69,7 @@ def render_latex(formula, inline, site, multi_mode)
         latex_source<<"\\sbox\\xfrm#{findex}{"
         latex_source<<formula
         latex_source<<"}\n\\newwrite\\frmdims#{findex}\n"
-        latex_source<<"\\immediate\\openout\\frmdims=dimensions#{findex}.tmp\n"
+        latex_source<<"\\immediate\\openout\\frmdims#{findex}=dimensions#{findex}.tmp\n"
         latex_source<<"\\immediate\\write\\frmdims#{findex}{depth: \\the\\dp\\xfrm#{findex}}\n"
         latex_source<<"\\immediate\\write\\frmdims#{findex}{height: \\the\\ht\\xfrm#{findex}}\n"
         latex_source<<"\\immediate\\write\\frmdims#{findex}{width: \\the\\wd\\xfrm#{findex}}\n"

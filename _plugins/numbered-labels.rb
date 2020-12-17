@@ -91,15 +91,17 @@ module Jekyll
             if File.exists?(referenced_labels_filename)
                 referenced_labels_file=File.open(referenced_labels_filename, "r")
                 referenced_labels_file.each_line do |line|
+                    puts "line readed and added to referenced labels: "+line
                     referenced_labels<<line.gsub("\n", "")
                 end
             else
-                referenced_labels_file=File.new(defined_labels_filename, "w")
+                referenced_labels_file=File.new(referenced_labels_filename, "w")
             end
 
             if File.exists?(defined_labels_filename)
                 defined_labels_file=File.open(defined_labels_filename, "r")
                 defined_labels_file.each_line do |line|
+                    puts "line readed and added to defined labels"+line
                     defined_labels<<line.gsub("\n", "")
                 end
             else
@@ -147,7 +149,7 @@ module Jekyll
                     #number=LabelsSingleton::defined_count
                 end
             else
-                puts "referencing new object "+@identifier+" in namespace "+@namespace
+                puts "referencing an object "+@identifier+" in namespace "+@namespace
                 if number_in_referenced==nil
                     puts "adding to a file with referenced labels"
                     referenced_labels_file=File.open(referenced_labels_filename, "a")
