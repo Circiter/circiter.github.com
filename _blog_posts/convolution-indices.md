@@ -240,5 +240,5 @@ $x(u)\mapsto X(t)$, приходим к уравнению $(x\ast h)(t)=F_t x(u
 # Ссылки
 
 <div class="bib">
-{% bibliography --cited-in-order --file convolution-indices %}
+{% bibliography --cited_in_order --file convolution-indices %}
 </div>
