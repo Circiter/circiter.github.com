@@ -200,11 +200,11 @@ end
 
 module FilesSingleton
     @list=[]
-    @formula_index=0
+    @formula_index=""
 
     def self.next_index()
         index=@formula_index
-        @formula_index=@formula_index+1
+        @formula_index=@formula_index+"x"
         return index
     end
 
