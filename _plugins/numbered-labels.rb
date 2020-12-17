@@ -79,10 +79,12 @@ module Jekyll
 
         def render(context)
             id=context["page"]["id"]
-            filename="./"+Digest::MD5.hexdigest(id+@namespace)#+".labels.txt"
+            filename="./"+Digest::MD5.hexdigest(id+@namespace)
 
             referenced_labels_filename=filename+".referenced-labels.txt"
             defined_labels_filename=filename+".defined-labels.txt"
+            puts "file for referenced labels: "+referenced_labels_filename
+            puts "file for defined labels: "+defined_labels_filename
             referenced_labels=Array.new
             defined_labels=Array.new
 
@@ -115,8 +117,21 @@ module Jekyll
             #to_register_in_referenced=""
             #to_register_in_defined=""
 
+            if number==nil
+                puts "can not find id "+@identifier+" in defined labels"
+            else
+                puts @identifier+" found in defined labels and has index #{number}"
+            end
+            if number_in_referenced==nil
+                puts "can not find id "+@identifier+" in referenced labels"
+            else
+                puts @identifier+" found in referenced labels and has index #{number_in_referenced}"
+            end
+
             if @tag_name=="def"
+                puts "defining new object "+@identifier+" in namespace "+@namespace
                 if number==nil
+                    puts "adding to a file with defined labels"
                     defined_labels_file=File.open(defined_labels_filename, "a")
                     defined_labels_file.puts(@identifier)
                     defined_labels_file.close
@@ -132,7 +147,9 @@ module Jekyll
                     #number=LabelsSingleton::defined_count
                 end
             else
+                puts "referencing new object "+@identifier+" in namespace "+@namespace
                 if number_in_referenced==nil
+                    puts "adding to a file with referenced labels"
                     referenced_labels_file=File.open(referenced_labels_filename, "a")
                     referenced_labels_file.puts(@identifier)
                     referenced_labels_file.close

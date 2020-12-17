@@ -101,8 +101,8 @@ scholar:
   #bibliography: bibliography.bib
   bibliography: "**/*.bib"
   bibtex_filter:
-    latex
-    markdown
+    - latex
+    - markdown
 
 optional_front_matter:
   remove_originals: true

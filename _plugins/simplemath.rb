@@ -63,21 +63,22 @@ def render_latex(formula, inline, site, multi_mode)
     #    #latex_source<<"\\usepackage[european,emptydiode,americaninductor]{circuitikz-0.4}\n"
     #    latex_source<<"\\usepackage[european,emptydiode,americaninductor]{circuitikz}\n"
     #else
+    findex=FilesSingleton::next_index()
     if inline
-        latex_source<<"\\newsavebox\\xfrm\n"
-        latex_source<<"\\sbox\\xfrm{"
+        latex_source<<"\\newsavebox\\xfrm#{findex}\n"
+        latex_source<<"\\sbox\\xfrm#{findex}{"
         latex_source<<formula
-        latex_source<<"}\n\\newwrite\\frmdims\n"
-        latex_source<<"\\immediate\\openout\\frmdims=dimensions.tmp\n"
-        latex_source<<"\\immediate\\write\\frmdims{depth: \\the\\dp\\xfrm}\n"
-        latex_source<<"\\immediate\\write\\frmdims{height: \\the\\ht\\xfrm}\n"
-        latex_source<<"\\immediate\\write\\frmdims{width: \\the\\wd\\xfrm}\n"
-        latex_source<<"\\immediate\\closeout\\frmdims\n"
+        latex_source<<"}\n\\newwrite\\frmdims#{findex}\n"
+        latex_source<<"\\immediate\\openout\\frmdims=dimensions#{findex}.tmp\n"
+        latex_source<<"\\immediate\\write\\frmdims#{findex}{depth: \\the\\dp\\xfrm#{findex}}\n"
+        latex_source<<"\\immediate\\write\\frmdims#{findex}{height: \\the\\ht\\xfrm#{findex}}\n"
+        latex_source<<"\\immediate\\write\\frmdims#{findex}{width: \\the\\wd\\xfrm#{findex}}\n"
+        latex_source<<"\\immediate\\closeout\\frmdims#{findex}\n"
     end
 
     latex_source<<"\n\\begin{document}\n"
     if inline
-        latex_source<<"\\usebox\\xfrm\n"
+        latex_source<<"\\usebox\\xfrm#{findex}\n"
     else
         latex_source<<formula
     end
@@ -111,7 +112,7 @@ def render_latex(formula, inline, site, multi_mode)
                 depth_pt="0pt"
                 height_pt="0pt"
                 width_pt="0pt"
-                IO.foreach("dimensions.tmp") do |line|
+                IO.foreach("dimensions#{findex}.tmp") do |line|
                     if line =~ /^([a-z]*):\s+(\d*\.?\d+)[a-z]*$/
                         if $1 == "depth"
                             depth_pt=$2
@@ -199,6 +200,13 @@ end
 
 module FilesSingleton
     @list=[]
+    @formula_index=0
+
+    def self.next_index()
+        index=@formula_index
+        @formula_index=@formula_index+1
+        return index
+    end
 
     def self.register(filename)
         @list<<filename
