@@ -51,6 +51,7 @@ module LabelsSingleton
         #return @referenced_labels.count do |label|
         #    label.start_with?(namespace+"::")
         #end
+        return 0 unless @referenced_labels.has_key?(namespace)
         return @referenced_labels[namespace].length
     end
 
@@ -58,6 +59,7 @@ module LabelsSingleton
         #return @defined_labels.count do |label|
         #    label.start_with?(namespace+"::")
         #end
+        return 0 unless @defined_labels.has_key?(namespace)
         return @defined_labels[namespace].length
     end
 
