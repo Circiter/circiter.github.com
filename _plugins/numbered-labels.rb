@@ -25,31 +25,32 @@ module LabelsSingleton
     end
 
     def self.find_referenced(namespace, identifier)
-        return @referenced_labels.find_index(namespace+"::"+identifier)
+        index=0
+        @referenced_labels.each do |label|
+            break if label==namespace+"::"+identifier
+            index=index+1 if label.start_with?(namespace+"::")
+        end
+        return index
+        #return @referenced_labels.find_index(namespace+"::"+identifier)
     end
 
     def self.find_defined(namespace, identifier)
-        return @defined_labels.find_index(namespace+"::"+identifier)
+        index=0
+        @defined_labels.each do |label|
+            break if label==namespace+"::"+identifier
+            index=index+1 if label.start_with?(namespace+"::")
+        end
+        return index
+        #return @defined_labels.find_index(namespace+"::"+identifier)
     end
 
     def self.referenced_count(namespace)
-        #return @referenced_labels.length
         return @referenced_labels.count do |label|
             label.start_with?(namespace+"::")
         end
-        #count=0
-        #@referenced_labels.each do |label|
-        #    count=count+1 if label.start_with?(namespace+"::")
-        #end
-        #return count
     end
 
     def self.defined_count(namespace)
-        #count=0
-        #@defined_labels.each do |label|
-        #    count=count+1 if label.start_with?(namespace+"::")
-        #end
-        #return count
         return @defined_labels.count do |label|
             label.start_with?(namespace+"::")
         end
