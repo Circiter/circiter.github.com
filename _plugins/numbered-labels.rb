@@ -79,45 +79,45 @@ module Jekyll
 
         def render(context)
             id=context["page"]["id"]
-            filename="./"+Digest::MD5.hexdigest(id+@namespace)
+            #filename="./"+Digest::MD5.hexdigest(id+@namespace)
 
-            referenced_labels_filename=filename+".referenced-labels.txt"
-            defined_labels_filename=filename+".defined-labels.txt"
-            puts "file for referenced labels: "+referenced_labels_filename
-            puts "file for defined labels: "+defined_labels_filename
+            #referenced_labels_filename=filename+".referenced-labels.txt"
+            #defined_labels_filename=filename+".defined-labels.txt"
+            #puts "file for referenced labels: "+referenced_labels_filename
+            #puts "file for defined labels: "+defined_labels_filename
             referenced_labels=Array.new
             defined_labels=Array.new
 
-            if File.exists?(referenced_labels_filename)
-                referenced_labels_file=File.open(referenced_labels_filename, "r")
-                referenced_labels_file.each_line do |line|
-                    puts "line readed and added to referenced labels: "+line
-                    referenced_labels<<line.gsub("\n", "")
-                end
-            else
-                referenced_labels_file=File.new(referenced_labels_filename, "w")
-            end
+            #if File.exists?(referenced_labels_filename)
+            #    referenced_labels_file=File.open(referenced_labels_filename, "r")
+            #    referenced_labels_file.each_line do |line|
+            #        puts "line readed and added to referenced labels: "+line
+            #        referenced_labels<<line.gsub("\n", "")
+            #    end
+            #else
+            #    referenced_labels_file=File.new(referenced_labels_filename, "w")
+            #end
 
-            if File.exists?(defined_labels_filename)
-                defined_labels_file=File.open(defined_labels_filename, "r")
-                defined_labels_file.each_line do |line|
-                    puts "line readed and added to defined labels"+line
-                    defined_labels<<line.gsub("\n", "")
-                end
-            else
-                defined_labels_file=File.new(defined_labels_filename, "w")
-            end
+            #if File.exists?(defined_labels_filename)
+            #    defined_labels_file=File.open(defined_labels_filename, "r")
+            #    defined_labels_file.each_line do |line|
+            #        puts "line readed and added to defined labels"+line
+            #        defined_labels<<line.gsub("\n", "")
+            #    end
+            #else
+            #    defined_labels_file=File.new(defined_labels_filename, "w")
+            #end
 
-            referenced_labels_file.close
-            defined_labels_file.close
+            #referenced_labels_file.close
+            #defined_labels_file.close
 
-            number=defined_labels.find_index(@identifier)
-            #number=LabelsSingleton::find_defined(@identifier)
-            number_in_referenced=referenced_labels.find_index(@identifier)
-            #number_in_referenced=LabelsSingleton::find_referenced(@identifier)
+            #number=defined_labels.find_index(@identifier)
+            number=LabelsSingleton::find_defined(@identifier)
+            #number_in_referenced=referenced_labels.find_index(@identifier)
+            number_in_referenced=LabelsSingleton::find_referenced(@identifier)
 
-            #to_register_in_referenced=""
-            #to_register_in_defined=""
+            to_register_in_referenced=""
+            to_register_in_defined=""
 
             if number==nil
                 puts "can not find id "+@identifier+" in defined labels"
@@ -133,11 +133,11 @@ module Jekyll
             if @tag_name=="def"
                 puts "defining new object "+@identifier+" in namespace "+@namespace
                 if number==nil
-                    puts "adding to a file with defined labels"
-                    defined_labels_file=File.open(defined_labels_filename, "a")
-                    defined_labels_file.puts(@identifier)
-                    defined_labels_file.close
-                    #to_register_in_defined=@identifier
+                    puts "adding to an array with defined labels"
+                    #defined_labels_file=File.open(defined_labels_filename, "a")
+                    #defined_labels_file.puts(@identifier)
+                    #defined_labels_file.close
+                    to_register_in_defined=@identifier
                 else
                     puts "numbered-labels.rb: multiple definitions of "+@identifier
                 end
@@ -145,31 +145,31 @@ module Jekyll
                 number=number_in_referenced
 
                 if number==nil
-                    number=defined_labels.length
-                    #number=LabelsSingleton::defined_count
+                    #number=defined_labels.length
+                    number=LabelsSingleton::defined_count
                 end
             else
                 puts "referencing an object "+@identifier+" in namespace "+@namespace
                 if number_in_referenced==nil
-                    puts "adding to a file with referenced labels"
-                    referenced_labels_file=File.open(referenced_labels_filename, "a")
-                    referenced_labels_file.puts(@identifier)
-                    referenced_labels_file.close
-                    #to_register_in_referenced=@identifier
+                    puts "adding to an array with referenced labels"
+                    #referenced_labels_file=File.open(referenced_labels_filename, "a")
+                    #referenced_labels_file.puts(@identifier)
+                    #referenced_labels_file.close
+                    to_register_in_referenced=@identifier
                 end
 
                 if number==nil
                     if number_in_referenced==nil
-                        number=referenced_labels.length
-                        #number=LabelsSingleton::referenced_count
+                        #number=referenced_labels.length
+                        number=LabelsSingleton::referenced_count
                     else
                         number=number_in_referenced
                     end
                 end
             end
 
-            #LabelsSingleton::register_referenced(to_register_in_referenced)
-            #LabelsSingleton::register_defined(to_register_in_defined)
+            LabelsSingleton::register_referenced(to_register_in_referenced)
+            LabelsSingleton::register_defined(to_register_in_defined)
 
             number=number+1
             return "#{number}"

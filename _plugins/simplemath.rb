@@ -15,7 +15,7 @@ require "erb"
 # and [vertical] positions. But note, that such an approach is incompatible with the
 # caching mechanism.
 
-def generate_html(filename, full_filename, formula, inline, style, multi_mode)
+def generate_html(filename, full_filename, formula, inline, style)
     #title=CGI.escape(formula)
     #title=ERB::Util.url_encode(formula)
     #title=ERB::Util.html_escape(formula) # FIXME.
@@ -31,7 +31,16 @@ def generate_html(filename, full_filename, formula, inline, style, multi_mode)
     return result
 end
 
-def render_latex(formula, inline, site, multi_mode)
+def latex_preamble
+end
+
+def latex_epilogue
+end
+
+def compile_latex(filename)
+end
+
+def render_latex(formula, inline, site)
     directory="eq"
     FileUtils.mkdir_p(directory) unless File.exists?(directory)
 
@@ -43,7 +52,7 @@ def render_latex(formula, inline, site, multi_mode)
     # Do not generate the same formula again.
     return File.read(cache) if File.exists?(cache)
 
-    if multi_mode
+    if FilesSingleton::multi_mode()
         latex_source="\\documentclass[preview,math,tikz,border=1pt]{standalone}\n"
     else
         latex_source="\\documentclass[preview,border=1pt]{standalone}\n"
@@ -99,10 +108,6 @@ def render_latex(formula, inline, site, multi_mode)
         #system("dvips -E -q temp-file.dvi -o temp-file.eps >/dev/null 2>&1");
         #system("convert -density 120 -quality 90 -trim temp-file.eps "+full_filename+" >/dev/null 2>&1")
         system("convert -density 120 -trim temp-file.pdf "+full_filename+" >/dev/null 2>&1")
-        if multi_mode
-            Dir.glob(multi_image).each do |individual_image|
-            end
-        end
         if File.exists?(full_filename)
             static_file=Jekyll::StaticFile.new(site, site.source, directory, filename)
             site.static_files<<static_file
@@ -162,7 +167,7 @@ def render_latex(formula, inline, site, multi_mode)
                 #style=style+" vertical-align: -"+depth_pt+"pt;";
             end
 
-            result=generate_html(filename, full_filename, formula, inline, style, multi_mode)
+            result=generate_html(filename, full_filename, formula, inline, style)
         else
             puts "debug: png file does not exist (for formula "+formula+")"
         end
@@ -203,7 +208,12 @@ module FilesSingleton
     @formula_index=""
 
     def self.next_index()
+        return ""
         index=@formula_index
+        # FIXME: Produces too long strings;
+        #        consider to use "random"
+        #        strings over a big
+        #        alphabet instead.
         @formula_index=@formula_index+"x"
         return index
     end
@@ -214,6 +224,10 @@ module FilesSingleton
 
     def self.get_files()
         return @list
+    end
+
+    def self.multi_mode()
+        return false
     end
 end
 
@@ -256,7 +270,37 @@ end
 #end
 
 def fix_sizes(content)
-   return content
+    return content unless FilesSingleton::multi_mode()
+
+    tex_ext=".tex"
+    compiled_ext=".pdf"
+    img_ext=".png"
+    multi_formuli_filename="temp-file"
+    document_filename="document"
+
+    preamble=latex_preamble()
+    epilogue=latex_epilogue()
+    multi_formuli=File.read(multi_formuli_filename+ext);
+
+    document=File.new(document_filename+ext, "w")
+    document.puts(preamble)
+    document.puts(multi_formuli)
+    document.puts(epilogue)
+    document.close
+
+    compile_latex(document_filename+ext)
+
+    if !File.exists?(document_filename+compiled_ext)
+        puts "can not generate a composite pdf file"
+        return content
+    end
+
+    multi_image=document_filename+"*"+img_ext
+    Dir.glob(multi_image).each do |individual_image|
+        #...
+    end
+
+    return content
 end
 
 def fix_math(content)
@@ -499,7 +543,7 @@ module Jekyll
             def render(context)
                 latex_source=super
                 site=context.registers[:site]
-                return render_latex(latex_source, @inline, site, false)
+                return render_latex(latex_source, @inline, site)
             end
 
         end
