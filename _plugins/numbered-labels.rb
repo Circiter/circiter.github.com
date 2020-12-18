@@ -65,7 +65,8 @@ module LabelsSingleton
     def self.cleanup()
         set1=@defined_labels.to_set
         set2=@referenced_labels.to_set
-        diff=set1-set2 # FIXME.
+        #diff=set1-set2 # FIXME.
+        diff=set1.intersection(set2)
         diff.each do |label|
             puts "numbered-labels.rb: undefined label "+label
         end

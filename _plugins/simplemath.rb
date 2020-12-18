@@ -64,7 +64,8 @@ def latex_define_formula(findex, formula, inline)
 end
 
 def latex_begin_use_boxes()
-    return "\n\def\xboxes{%\n"
+    #return "\n\def\xboxes{%\n"
+    return ""
 end
 
 def latex_use_formula(findex, formula, inline)
@@ -76,9 +77,9 @@ def latex_use_formula(findex, formula, inline)
 end
 
 def latex_epilogue
-    text="}\n"
-    text<<"\\begin{document}\n"
-    text<<"\\xboxes\n"
+    ##text="}\n"
+    #text<<"\\begin{document}\n"
+    #text<<"\\xboxes\n"
     text<<"\\end{document}"
     return text
 end
@@ -191,6 +192,7 @@ def render_latex(formula, inline, site)
         latex_document.puts latex_preamble()
         latex_document.puts define_formula
         latex_document.puts latex_begin_use_boxes()
+        latex_document.puts "\\begin{document}"
         latex_document.puts use_formula
         latex_document.puts latex_epilogue()
         latex_document.close
@@ -268,7 +270,8 @@ class Jekyll::Site
         Dir.glob("eq/*.png").each do |f|
             puts(f)
         end
-        to_remove=Dir.glob("eq/*.png")-source_files # FIXME.
+        #to_remove=Dir.glob("eq/*.png")-source_files # FIXME.
+        to_remove=Dir.glob("eq/*.png").intersection(source_files)
         puts "to remove:"
         to_remove.each do |f|
             puts(f)
