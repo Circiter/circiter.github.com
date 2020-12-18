@@ -80,8 +80,8 @@ def latex_epilogue
     ##text="}\n"
     #text<<"\\begin{document}\n"
     #text<<"\\xboxes\n"
-    text<<"\\end{document}"
-    return text
+    #text<<"\\end{document}"
+    return "\\end{document}"
 end
 
 def compile_latex(filename)
