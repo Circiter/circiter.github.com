@@ -49,18 +49,105 @@ def latex_preamble
     return latex_source
 end
 
-def latex_begin_document
-    return "\n\\begin{document}\n"
+def latex_define_formula(findex, formula, inline)
+    return "" unless inline
+    latex_source="\\newsavebox\\xfrm#{findex}\n"
+    latex_source<<"\\sbox\\xfrm#{findex}{"
+    latex_source<<formula
+    latex_source<<"}\n\\newwrite\\frmdims#{findex}\n"
+    latex_source<<"\\immediate\\openout\\frmdims#{findex}=dimensions#{findex}.tmp\n"
+    latex_source<<"\\immediate\\write\\frmdims#{findex}{depth: \\the\\dp\\xfrm#{findex}}\n"
+    latex_source<<"\\immediate\\write\\frmdims#{findex}{height: \\the\\ht\\xfrm#{findex}}\n"
+    latex_source<<"\\immediate\\write\\frmdims#{findex}{width: \\the\\wd\\xfrm#{findex}}\n"
+    latex_source<<"\\immediate\\closeout\\frmdims#{findex}\n"
+    return latex_source
+end
+
+def latex_begin_use_boxes()
+    return "\n\def\xboxes{%\n"
+end
+
+def latex_use_formula(findex, formula, inline)
+    if inline
+        return "\\usebox\\xfrm#{findex}\n"
+    else
+        return formula
+    end
 end
 
 def latex_epilogue
-    return "\\end{document}"
+    text="}\n"
+    text<<"\\begin{document}\n"
+    text<<"\\xboxes\n"
+    text<<"\\end{document}"
+    return text
 end
 
 def compile_latex(filename)
     #system("latex -interaction=nonstopmode #{filename} >/dev/null 2>&1")
     system("pdflatex -interaction=nonstopmode #{filename} >/dev/null 2>&1")
     #system("pdflatex -interaction=nonstopmode #{filename}")
+end
+
+def generate_style(findex, full_filename, inline)
+    if inline
+        depth_pt="0pt"
+        height_pt="0pt"
+        width_pt="0pt"
+        IO.foreach("dimensions#{findex}.tmp") do |line|
+            if line =~ /^([a-z]*):\s+(\d*\.?\d+)[a-z]*$/
+                if $1 == "depth"
+                    depth_pt=$2
+                elsif $1 == "height"
+                    height_pt=$2
+                elsif $1 == "width"
+                    width_pt=$2
+                end
+            end
+        end
+        height_pt_float=height_pt.to_f
+        #width_pt_float=width_pt.to_f
+        depth_pt_float=depth_pt.to_f
+    end
+
+    # Try to use ImageMagick's identify to get the height in pixels.
+    system("identify -ping -format %h "+full_filename+" > height.tmp")
+    height_pixels=File.read("height.tmp");
+
+    if inline
+        total_height_pt_float=height_pt_float+depth_pt_float
+    end
+
+    style="height: "+height_pixels+"px;"
+
+    system("identify -ping -format %w "+full_filename+" > width.tmp")
+    width_pixels=File.read("width.tmp");
+
+    style=style+" width: "+width_pixels+"px;"
+
+    if inline
+        # For some reason the depth obtained from the latex
+        # does not give a correct vertical position for a
+        # image on an html-page. But nevertheless we can use
+        # the proportionality between actual size of the image
+        # and the reported dimensions (including the depth) to
+        # convert from pt to px.
+
+        depth_pixels=0
+        if total_height_pt_float!=0
+            conversion_factor=(height_pixels.to_f)/total_height_pt_float
+            depth_pixels=(depth_pt_float*conversion_factor).round.to_i
+        end
+
+        depth=depth_pixels.to_s
+        style=style+" vertical-align: -"+depth+"px;";
+        #style=style+" vertical-align: -"+depth_pt+"pt;";
+    end
+    return style
+end
+
+def style_stub(findex, full_filename, inline)
+    return "{% style_stub ... %}"
 end
 
 def render_latex(formula, inline, site)
@@ -70,113 +157,65 @@ def render_latex(formula, inline, site)
     basename=Digest::MD5.hexdigest(formula)
     filename=basename+".png"
     full_filename=File.join(directory, filename)
-    multi_image=File.join(directory, basename+"*.png")
-    cache=filename+".html_cache"
-    # Do not generate the same formula again.
-    return File.read(cache) if File.exists?(cache)
 
-    latex_source=latex_preamble()
+    multi_image=File.join(directory, basename+"*.png")
+    unless FilesSingleton::multi_mode()
+        cache=filename+".html_cache"
+        # Do not generate the same formula again.
+        return File.read(cache) if File.exists?(cache)
+    end
 
     findex=FilesSingleton::next_index()
-    if inline
-        latex_source<<"\\newsavebox\\xfrm#{findex}\n"
-        latex_source<<"\\sbox\\xfrm#{findex}{"
-        latex_source<<formula
-        latex_source<<"}\n\\newwrite\\frmdims#{findex}\n"
-        latex_source<<"\\immediate\\openout\\frmdims#{findex}=dimensions#{findex}.tmp\n"
-        latex_source<<"\\immediate\\write\\frmdims#{findex}{depth: \\the\\dp\\xfrm#{findex}}\n"
-        latex_source<<"\\immediate\\write\\frmdims#{findex}{height: \\the\\ht\\xfrm#{findex}}\n"
-        latex_source<<"\\immediate\\write\\frmdims#{findex}{width: \\the\\wd\\xfrm#{findex}}\n"
-        latex_source<<"\\immediate\\closeout\\frmdims#{findex}\n"
-    end
+    define_formula=latex_define_formula(findex, formula, inline)
+    use_formula=latex_use_formula(findex, formula, inline)
 
-    latex_source<<latex_begin_document()
-    if inline
-        latex_source<<"\\usebox\\xfrm#{findex}\n"
+    if FilesSingleton::multi_mode()
+        #if File.exists?("composite.tex")
+        #    file=File.open("composite.tex", "a")
+        #else
+        #    file=File.new("composite.tex", "w")
+        #end
+        file=Files.new("composite.tex", "a")
+        file.puts define_formula
+        file.close
+        #if File.exists?("use-boxes.tex")
+        #    file=File.open("use-boxes.tex", "a")
+        #else
+        #    file=File.new("use-boxes.tex", "w")
+        #end
+        file=File.new("use-boxes.tex", "a")
+        file.puts use_formula
+        file.close
     else
-        latex_source<<formula
+        latex_document=File.new("temp-file.tex", "w")
+        latex_document.puts latex_preamble()
+        latex_document.puts define_formula
+        latex_document.puts latex_begin_use_boxes()
+        latex_document.puts use_formula
+        latex_document.puts latex_epilogue()
+        latex_document.close
+        compile_latex("temp-file.tex")
     end
-    latex_source<<latex_epilogue()
-    #puts "[debug] <latex>"+latex_source+"</latex>"
-
-    latex_document=File.new("temp-file.tex", "w")
-    latex_document.puts(latex_source)
-    latex_document.close
-
-    compile_latex("temp-file.tex")
 
     result="<pre>"+formula+"</pre>" # FIXME: Add escaping, maybe.
     #if File.exists?("temp-file.dvi")
-    if File.exists?("temp-file.pdf")
-        #system("dvips -E -q temp-file.dvi -o temp-file.eps >/dev/null 2>&1");
-        #system("convert -density 120 -quality 90 -trim temp-file.eps "+full_filename+" >/dev/null 2>&1")
-        system("convert -density 120 -trim temp-file.pdf "+full_filename+" >/dev/null 2>&1")
-        if File.exists?(full_filename)
-            static_file=Jekyll::StaticFile.new(site, site.source, directory, filename)
-            site.static_files<<static_file
-            FilesSingleton::register(static_file.path)
-
-            if inline
-                depth_pt="0pt"
-                height_pt="0pt"
-                width_pt="0pt"
-                IO.foreach("dimensions#{findex}.tmp") do |line|
-                    if line =~ /^([a-z]*):\s+(\d*\.?\d+)[a-z]*$/
-                        if $1 == "depth"
-                            depth_pt=$2
-                        elsif $1 == "height"
-                            height_pt=$2
-                        elsif $1 == "width"
-                            width_pt=$2
-                        end
-                    end
-                end
-                height_pt_float=height_pt.to_f
-                #width_pt_float=width_pt.to_f
-                depth_pt_float=depth_pt.to_f
-            end
-
-            # Try to use ImageMagick's identify to get the height in pixels.
-            system("identify -ping -format %h "+full_filename+" > height.tmp")
-            height_pixels=File.read("height.tmp");
-
-            if inline
-                total_height_pt_float=height_pt_float+depth_pt_float
-            end
-
-            style="height: "+height_pixels+"px;"
-
-            system("identify -ping -format %w "+full_filename+" > width.tmp")
-            width_pixels=File.read("width.tmp");
-
-            style=style+" width: "+width_pixels+"px;"
-
-            if inline
-                # For some reason the depth obtained from the latex
-                # does not give a correct vertical position for a
-                # image on an html-page. But nevertheless we can use
-                # the proportionality between actual size of the image
-                # and the reported dimensions (including the depth) to
-                # convert from pt to px.
-
-                depth_pixels=0
-                if total_height_pt_float!=0
-                    conversion_factor=(height_pixels.to_f)/total_height_pt_float
-                    depth_pixels=(depth_pt_float*conversion_factor).round.to_i
-                end
-
-                depth=depth_pixels.to_s
-                style=style+" vertical-align: -"+depth+"px;";
-                #style=style+" vertical-align: -"+depth_pt+"pt;";
-            end
-
-            result=generate_html(filename, full_filename, formula, inline, style)
-        else
-            puts "debug: png file does not exist (for formula "+formula+")"
-        end
-    else
+    unless File.exists?("temp-file.pdf")
         puts "debug: pdf file was not generated (for formula "+formula+")"
+        return result
     end
+    #system("dvips -E -q temp-file.dvi -o temp-file.eps >/dev/null 2>&1");
+    #system("convert -density 120 -quality 90 -trim temp-file.eps "+full_filename+" >/dev/null 2>&1")
+    system("convert -density 120 -trim temp-file.pdf "+full_filename+" >/dev/null 2>&1")
+    unless File.exists?(full_filename)
+        puts "debug: png file does not exist (for formula "+formula+")"
+        return result
+    end
+    static_file=Jekyll::StaticFile.new(site, site.source, directory, filename)
+    site.static_files<<static_file
+    FilesSingleton::register(static_file.path)
+
+    style=FilesSingleton::multi_mode()?style_stub(findex, full_filename, inline):generate_style(findex, full_filename, inline)
+    result=generate_html(filename, full_filename, formula, inline, style)
 
     if !FilesSingleton::multi_mode()
         Dir.glob("temp-file.*").each do |f|
@@ -259,16 +298,20 @@ def fix_sizes(content)
     tex_ext=".tex"
     compiled_ext=".pdf"
     img_ext=".png"
-    multi_formuli_filename="temp-file"
+    multi_formuli_filename="composite"
+    use_boxes_filename="use-boxes"
     document_filename="document"
 
     preamble=latex_preamble()
     epilogue=latex_epilogue()
     multi_formuli=File.read(multi_formuli_filename+ext);
+    use_boxes=File.read(use_boxes_filename+ext)
 
     document=File.new(document_filename+ext, "w")
     document.puts(preamble)
     document.puts(multi_formuli)
+    document.puts(latex_begin_use_boxes())
+    document.puts(use_boxes)
     document.puts(epilogue)
     document.close
 
@@ -283,6 +326,9 @@ def fix_sizes(content)
     Dir.glob(multi_image).each do |individual_image|
         #...
     end
+
+    Dir.glob("*.tex").each {|f| File.delete(f)} # FIXME.
+    Dir.glob("*.tmp").each {|f| File.delete(f)} # FIXME.
 
     return content
 end
