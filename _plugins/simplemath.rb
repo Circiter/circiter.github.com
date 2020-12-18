@@ -63,9 +63,9 @@ def latex_define_formula(findex, formula, inline)
     return latex_source
 end
 
-def latex_begin_use_boxes()
+def latex_begin_document()
     #return "\n\def\xboxes{%\n"
-    return ""
+    return "\\begin{document}"
 end
 
 def latex_use_formula(findex, formula, inline)
@@ -87,6 +87,10 @@ end
 def compile_latex(filename)
     #system("latex -interaction=nonstopmode #{filename} >/dev/null 2>&1")
     system("pdflatex -interaction=nonstopmode #{filename} >/dev/null 2>&1")
+    if FilesSingleton::multi_mode()
+        # N.B., run twice to resolve all the references.
+        system("pdflatex -interaction=nonstopmode #{filename} >/dev/null 2>&1")
+    end
     #system("pdflatex -interaction=nonstopmode #{filename}")
 end
 
@@ -151,6 +155,12 @@ def style_stub(findex, full_filename, inline)
     return "{% style_stub ... %}"
 end
 
+def generate_images(document_filename, output_filename)
+    #system("dvips -E -q temp-file.dvi -o temp-file.eps >/dev/null 2>&1");
+    #system("convert -density 120 -quality 90 -trim temp-file.eps "+full_filename+" >/dev/null 2>&1")
+    system("convert -density 120 -trim "+document_filename+" "+output_filename+" >/dev/null 2>&1")
+end
+
 def render_latex(formula, inline, site)
     directory="eq"
     FileUtils.mkdir_p(directory) unless File.exists?(directory)
@@ -191,8 +201,7 @@ def render_latex(formula, inline, site)
         latex_document=File.new("temp-file.tex", "w")
         latex_document.puts latex_preamble()
         latex_document.puts define_formula
-        latex_document.puts latex_begin_use_boxes()
-        latex_document.puts "\\begin{document}"
+        latex_document.puts latex_begin_document()
         latex_document.puts use_formula
         latex_document.puts latex_epilogue()
         latex_document.close
@@ -205,9 +214,9 @@ def render_latex(formula, inline, site)
         puts "debug: pdf file was not generated (for formula "+formula+")"
         return result
     end
-    #system("dvips -E -q temp-file.dvi -o temp-file.eps >/dev/null 2>&1");
-    #system("convert -density 120 -quality 90 -trim temp-file.eps "+full_filename+" >/dev/null 2>&1")
-    system("convert -density 120 -trim temp-file.pdf "+full_filename+" >/dev/null 2>&1")
+
+    generate_images("temp-file.pdf", full_filename)
+
     unless File.exists?(full_filename)
         puts "debug: png file does not exist (for formula "+formula+")"
         return result
@@ -313,7 +322,7 @@ def fix_sizes(content)
     document=File.new(document_filename+ext, "w")
     document.puts(preamble)
     document.puts(multi_formuli)
-    document.puts(latex_begin_use_boxes())
+    document.puts(latex_begin_document)
     document.puts(use_boxes)
     document.puts(epilogue)
     document.close
@@ -324,6 +333,11 @@ def fix_sizes(content)
         puts "can not generate a composite pdf file"
         return content
     end
+
+    # FIXME: What if a "single" formula in a document
+    #        actually maps to several image files?
+
+    generate_images(document_filename+ext, document_filename+img_ext)
 
     multi_image=document_filename+"*"+img_ext
     Dir.glob(multi_image).each do |individual_image|
