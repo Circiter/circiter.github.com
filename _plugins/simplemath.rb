@@ -32,26 +32,6 @@ def generate_html(filename, full_filename, formula, inline, style)
 end
 
 def latex_preamble
-end
-
-def latex_epilogue
-end
-
-def compile_latex(filename)
-end
-
-def render_latex(formula, inline, site)
-    directory="eq"
-    FileUtils.mkdir_p(directory) unless File.exists?(directory)
-
-    basename=Digest::MD5.hexdigest(formula)
-    filename=basename+".png"
-    full_filename=File.join(directory, filename)
-    multi_image=File.join(directory, basename+"*.png")
-    cache=filename+".html_cache"
-    # Do not generate the same formula again.
-    return File.read(cache) if File.exists?(cache)
-
     if FilesSingleton::multi_mode()
         latex_source="\\documentclass[preview,math,tikz,border=1pt]{standalone}\n"
     else
@@ -66,12 +46,37 @@ def render_latex(formula, inline, site)
     #latex_source<<"\\usepackage{type1cm}\n"
     latex_source<<"\\usepackage{tikz}\n"
     latex_source<<"\\usepackage[european,emptydiode,americaninductor]{circuitikz}\n"
+    return latex_source
+end
 
-    #if !inline
-    #    latex_source<<"\\usepackage{tikz}\n"
-    #    #latex_source<<"\\usepackage[european,emptydiode,americaninductor]{circuitikz-0.4}\n"
-    #    latex_source<<"\\usepackage[european,emptydiode,americaninductor]{circuitikz}\n"
-    #else
+def latex_begin_document
+    return "\n\\begin{document}\n"
+end
+
+def latex_epilogue
+    return "\\end{document}"
+end
+
+def compile_latex(filename)
+    #system("latex -interaction=nonstopmode #{filename} >/dev/null 2>&1")
+    system("pdflatex -interaction=nonstopmode #{filename} >/dev/null 2>&1")
+    #system("pdflatex -interaction=nonstopmode #{filename}")
+end
+
+def render_latex(formula, inline, site)
+    directory="eq"
+    FileUtils.mkdir_p(directory) unless File.exists?(directory)
+
+    basename=Digest::MD5.hexdigest(formula)
+    filename=basename+".png"
+    full_filename=File.join(directory, filename)
+    multi_image=File.join(directory, basename+"*.png")
+    cache=filename+".html_cache"
+    # Do not generate the same formula again.
+    return File.read(cache) if File.exists?(cache)
+
+    latex_source=latex_preamble()
+
     findex=FilesSingleton::next_index()
     if inline
         latex_source<<"\\newsavebox\\xfrm#{findex}\n"
@@ -85,22 +90,20 @@ def render_latex(formula, inline, site)
         latex_source<<"\\immediate\\closeout\\frmdims#{findex}\n"
     end
 
-    latex_source<<"\n\\begin{document}\n"
+    latex_source<<latex_begin_document()
     if inline
         latex_source<<"\\usebox\\xfrm#{findex}\n"
     else
         latex_source<<formula
     end
-    latex_source<<"\\end{document}"
-
+    latex_source<<latex_epilogue()
     #puts "[debug] <latex>"+latex_source+"</latex>"
 
     latex_document=File.new("temp-file.tex", "w")
     latex_document.puts(latex_source)
     latex_document.close
-    #system("latex -interaction=nonstopmode temp-file.tex >/dev/null 2>&1")
-    system("pdflatex -interaction=nonstopmode temp-file.tex >/dev/null 2>&1")
-    #system("pdflatex -interaction=nonstopmode temp-file.tex")
+
+    compile_latex("temp-file.tex")
 
     result="<pre>"+formula+"</pre>" # FIXME: Add escaping, maybe.
     #if File.exists?("temp-file.dvi")
@@ -183,25 +186,6 @@ def render_latex(formula, inline, site)
 
     return result
 end
-
-#module Kramdown
-#    module Converter
-#        module MathEngine
-#            module SimpleMath
-#                #@@my_site=nil
-#                #def self.my_init(site)
-#                #    @@my_site=site
-#                #end
-#
-#                def self.call(converter, element, options)
-#                    return element.value
-#                end
-#            end
-#        end
-#    end
-#end
-
-#Kramdown::Converter.add_math_engine(:simplemath, ::Kramdown::Converter::MathEngine::SimpleMath)
 
 module FilesSingleton
     @list=[]

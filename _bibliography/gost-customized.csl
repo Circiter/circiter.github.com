@@ -153,8 +153,7 @@
   <macro name="url"> <!-- added by circiter. -->
     <choose>
       <if variable="URL">
-        <text variable="URL" prefix="url: &lt;a href=&#34" suffix="&#34;&gt;"/>
-        <text variable="URL" suffix="&lt;/a&gt;"/>
+        <text variable="URL">
       </if>
     </choose>
   </macro>

@@ -16,28 +16,44 @@ module LabelsSingleton
     @referenced_labels=Array.new
     @defined_labels=Array.new
 
-    def self.register_referenced(label)
-        @referenced_labels<<label if label!=""
+    def self.register_referenced(namespace, label)
+        @referenced_labels<<namespace+"::"+label if label!=""
     end
 
-    def self.register_defined(label)
-        @defined_labels<<label if label!=""
+    def self.register_defined(namespace, label)
+        @defined_labels<<namespace+"::"+label if label!=""
     end
 
-    def self.find_referenced(identifier)
-        return @referenced_labels.find_index(identifier)
+    def self.find_referenced(namespace, identifier)
+        return @referenced_labels.find_index(namespace+"::"+identifier)
     end
 
-    def self.find_defined(identifier)
-        return @defined_labels.find_index(identifier)
+    def self.find_defined(namespace, identifier)
+        return @defined_labels.find_index(namespace+"::"+identifier)
     end
 
-    def self.referenced_count()
-        return @referenced_labels.length
+    def self.referenced_count(namespace)
+        #return @referenced_labels.length
+        return @referenced_labels.count do |label|
+            label.start_with?(namespace+"::")
+        end
+        #count=0
+        #@referenced_labels.each do |label|
+        #    count=count+1 if label.start_with?(namespace+"::")
+        #end
+        #return count
     end
 
-    def self.defined_count()
-        return @defined_labels.length
+    def self.defined_count(namespace)
+        #count=0
+        #@defined_labels.each do |label|
+        #    count=count+1 if label.start_with?(namespace+"::")
+        #end
+        #return count
+        return @defined_labels.count do |label|
+            label.start_with?(namespace+"::")
+        end
+        #return @defined_labels.length
     end
 
     def self.cleanup()
@@ -85,8 +101,8 @@ module Jekyll
             #defined_labels_filename=filename+".defined-labels.txt"
             #puts "file for referenced labels: "+referenced_labels_filename
             #puts "file for defined labels: "+defined_labels_filename
-            referenced_labels=Array.new
-            defined_labels=Array.new
+            #referenced_labels=Array.new
+            #defined_labels=Array.new
 
             #if File.exists?(referenced_labels_filename)
             #    referenced_labels_file=File.open(referenced_labels_filename, "r")
@@ -112,9 +128,9 @@ module Jekyll
             #defined_labels_file.close
 
             #number=defined_labels.find_index(@identifier)
-            number=LabelsSingleton::find_defined(@identifier)
+            number=LabelsSingleton::find_defined(@namespace, @identifier)
             #number_in_referenced=referenced_labels.find_index(@identifier)
-            number_in_referenced=LabelsSingleton::find_referenced(@identifier)
+            number_in_referenced=LabelsSingleton::find_referenced(@namespace, @identifier)
 
             to_register_in_referenced=""
             to_register_in_defined=""
@@ -146,7 +162,7 @@ module Jekyll
 
                 if number==nil
                     #number=defined_labels.length
-                    number=LabelsSingleton::defined_count
+                    number=LabelsSingleton::defined_count(@namespace)
                 end
             else
                 puts "referencing an object "+@identifier+" in namespace "+@namespace
@@ -161,15 +177,15 @@ module Jekyll
                 if number==nil
                     if number_in_referenced==nil
                         #number=referenced_labels.length
-                        number=LabelsSingleton::referenced_count
+                        number=LabelsSingleton::referenced_count(@namespace)
                     else
                         number=number_in_referenced
                     end
                 end
             end
 
-            LabelsSingleton::register_referenced(to_register_in_referenced)
-            LabelsSingleton::register_defined(to_register_in_defined)
+            LabelsSingleton::register_referenced(@namespace, to_register_in_referenced)
+            LabelsSingleton::register_defined(@namespace, to_register_in_defined)
 
             number=number+1
             return "#{number}"
