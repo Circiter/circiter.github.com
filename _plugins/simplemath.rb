@@ -175,7 +175,7 @@ def render_latex(formula, inline, site)
         puts "debug: pdf file was not generated (for formula "+formula+")"
     end
 
-    if !multi_mode
+    if !FilesSingleton::multi_mode()
         Dir.glob("temp-file.*").each do |f|
             File.delete(f)
         end
