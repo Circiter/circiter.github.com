@@ -32,6 +32,7 @@ module LabelsSingleton
         #    index=index+1 if label.start_with?(namespace+"::")
         #end
         #return nil
+        return nil unless @referenced_labels.has_key?(namespace)
         return @referenced_labels[namespace].find_index(identifier)
     end
 
@@ -42,6 +43,7 @@ module LabelsSingleton
         #    index=index+1 if label.start_with?(namespace+"::")
         #end
         #return nil
+        return nil unless @defined_labels.has_key?(namespace)
         return @defined_labels[namespace].find_index(identifier)
     end
 
@@ -49,7 +51,7 @@ module LabelsSingleton
         #return @referenced_labels.count do |label|
         #    label.start_with?(namespace+"::")
         #end
-        return #referenced_labels[namespace].length
+        return @referenced_labels[namespace].length
     end
 
     def self.defined_count(namespace)
