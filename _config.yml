@@ -100,17 +100,18 @@ scholar:
   source: ./_bibliography
   #bibliography: bibliography.bib
   bibliography: "**/*.bib"
-  bibtex_filters:
-    - biburlfilter
+  #bibtex_filters:
+    #- biburlfilter
     #- latex
-    - markdown
+    #- markdown
     #- smallcaps
     #- superscript
     #- italics
     #- textit
     #- lowercase
     #- tiny
-  #raw_bibtex_filters:
+  raw_bibtex_filters:
+    - biburlfilter
     #- BibURLFilter
     #- markdown
 

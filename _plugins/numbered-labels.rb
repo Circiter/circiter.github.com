@@ -9,56 +9,33 @@
 module LabelsSingleton
     @referenced_labels=Hash.new
     @defined_labels=Hash.new
-    #@referenced_labels=Array.new
-    #@defined_labels=Array.new
 
     def self.register_referenced(namespace, label)
-        #@referenced_labels<<namespace+"::"+label if label!=""
         @referenced_labels[namespace]=Array.new unless @referenced_labels.has_key?(namespace)
         @referenced_labels[namespace]<<label if label!=""
     end
 
     def self.register_defined(namespace, label)
-        #@defined_labels<<namespace+"::"+label if label!=""
-        # FIXME.
         @defined_labels[namespace]=Array.new unless @defined_labels.has_key?(namespace)
         @defined_labels[namespace]<<label if label!=""
     end
 
     def self.find_referenced(namespace, identifier)
-        #index=0
-        #@referenced_labels.each do |label|
-        #    return index if label==namespace+"::"+identifier
-        #    index=index+1 if label.start_with?(namespace+"::")
-        #end
-        #return nil
         return nil unless @referenced_labels.has_key?(namespace)
         return @referenced_labels[namespace].find_index(identifier)
     end
 
     def self.find_defined(namespace, identifier)
-        #index=0
-        #@defined_labels.each do |label|
-        #    return index if label==namespace+"::"+identifier
-        #    index=index+1 if label.start_with?(namespace+"::")
-        #end
-        #return nil
         return nil unless @defined_labels.has_key?(namespace)
         return @defined_labels[namespace].find_index(identifier)
     end
 
     def self.referenced_count(namespace)
-        #return @referenced_labels.count do |label|
-        #    label.start_with?(namespace+"::")
-        #end
         return 0 unless @referenced_labels.has_key?(namespace)
         return @referenced_labels[namespace].length
     end
 
     def self.defined_count(namespace)
-        #return @defined_labels.count do |label|
-        #    label.start_with?(namespace+"::")
-        #end
         return 0 unless @defined_labels.has_key?(namespace)
         return @defined_labels[namespace].length
     end
@@ -76,13 +53,6 @@ module LabelsSingleton
                 puts "no one label in namespace "+key+" is defined"
             end
         end
-        #set1=@defined_labels.to_set
-        #set2=@referenced_labels.to_set
-        ##diff=set1-set2 # FIXME.
-        #diff=set1.intersection(set2)
-        #diff.each do |label|
-        #    puts "numbered-labels.rb: undefined label "+label
-        #end
         @defined_labels.clear
         @referenced_labels.clear
     end
