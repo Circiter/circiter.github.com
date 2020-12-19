@@ -105,6 +105,9 @@ end
 #use_other_numeration_style=!config["numeration_style"].nil? && !config["numeration_style"].empty?
 #numeration_style=config["numeration_style"]
 
+#config.merge!(site.config["numbered_labels"])
+#...=config["numeration_style"]
+
 module Jekyll
     class Label < Liquid::Tag
         def initialize(name, params, tokens)

@@ -151,8 +151,9 @@ def generate_style(findex, full_filename, inline)
     return style
 end
 
-def style_stub(findex, full_filename, inline)
-    return "{% style_stub ... %}"
+def style_stub(findex, basename, is_inline)
+    inline=is_inline?"inline":"block"
+    return "{% style_stub #{findex} #{basename} #{inline} %}"
 end
 
 def generate_images(document_filename, output_filename)
@@ -180,6 +181,8 @@ def render_latex(formula, inline, site)
     define_formula=latex_define_formula(findex, formula, inline)
     use_formula=latex_use_formula(findex, formula, inline)
 
+    result="<pre>"+formula+"</pre>" # FIXME: Add escaping, maybe.
+
     if FilesSingleton::multi_mode()
         #if File.exists?("composite.tex")
         #    file=File.open("composite.tex", "a")
@@ -187,7 +190,7 @@ def render_latex(formula, inline, site)
         #    file=File.new("composite.tex", "w")
         #end
         file=Files.new("composite.tex", "a")
-        file.puts define_formula
+        file.puts define_formula!
         file.close
         #if File.exists?("use-boxes.tex")
         #    file=File.open("use-boxes.tex", "a")
@@ -197,18 +200,20 @@ def render_latex(formula, inline, site)
         file=File.new("use-boxes.tex", "a")
         file.puts use_formula
         file.close
-    else
-        latex_document=File.new("temp-file.tex", "w")
-        latex_document.puts latex_preamble()
-        latex_document.puts define_formula
-        latex_document.puts latex_begin_document()
-        latex_document.puts use_formula
-        latex_document.puts latex_epilogue()
-        latex_document.close
-        compile_latex("temp-file.tex")
+
+        style=style_stub(findex, basename, inline)
+        return generate_html(filename, full_filename, formula, inline, style)
     end
 
-    result="<pre>"+formula+"</pre>" # FIXME: Add escaping, maybe.
+    latex_document=File.new("temp-file.tex", "w")
+    latex_document.puts latex_preamble()
+    latex_document.puts define_formula
+    latex_document.puts latex_begin_document()
+    latex_document.puts use_formula
+    latex_document.puts latex_epilogue()
+    latex_document.close
+    compile_latex("temp-file.tex")
+
     #if File.exists?("temp-file.dvi")
     unless File.exists?("temp-file.pdf")
         puts "debug: pdf file was not generated (for formula "+formula+")"
@@ -225,7 +230,8 @@ def render_latex(formula, inline, site)
     site.static_files<<static_file
     FilesSingleton::register(static_file.path)
 
-    style=FilesSingleton::multi_mode()?style_stub(findex, full_filename, inline):generate_style(findex, full_filename, inline)
+    #style=FilesSingleton::multi_mode()?style_stub(findex, full_filename, inline):generate_style(findex, full_filename, inline)
+    style=generate_style(findex, full_filename, inline)
     result=generate_html(filename, full_filename, formula, inline, style)
 
     if !FilesSingleton::multi_mode()
@@ -239,16 +245,25 @@ end
 
 module FilesSingleton
     @list=[]
-    @formula_index=""
+    @formula_index="aaaaaa"
 
     def self.next_index()
         return ""
         index=@formula_index
-        # FIXME: Produces too long strings;
-        #        consider to use "random"
-        #        strings over a big
-        #        alphabet instead.
-        @formula_index=@formula_index+"x"
+        i=0
+        while i<index.length
+            if index[i]!="z"
+                index[i]=index[i]#+1 # FIXME
+                break
+            else
+                index[i]="a"
+                if i==index.length-1
+                    puts "formula index overflow"
+                    index="overflow"
+                end
+            end
+            i=i+1
+        end
         return index
     end
 
@@ -339,9 +354,27 @@ def fix_sizes(content)
 
     generate_images(document_filename+ext, document_filename+img_ext)
 
+    #stub_options=...
+    #while locate_next_style_stub(stub_options)
+    #    findex=stub_options.findex
+    #    basename=stub_options.basename
+    #    full_filename=basename+".png"
+    #    inline=false
+    #    if stub_options.inline=="inline"
+    #        inline=true
+    #    end
+    #    style=generate_style(findex, full_filename, inline)
+    #    replace_style_stub(style)
+    #end
+
     multi_image=document_filename+"*"+img_ext
     Dir.glob(multi_image).each do |individual_image|
         #...
+        #findex=
+        #full_filename=
+        #inline=
+        style=generate_style(findex, full_filename, inline)
+        html_code=generate_html(filename, full_filename, formula, inline, style)
     end
 
     Dir.glob("*.tex").each {|f| File.delete(f)} # FIXME.
