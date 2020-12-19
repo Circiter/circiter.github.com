@@ -245,26 +245,25 @@ end
 
 module FilesSingleton
     @list=[]
-    @formula_index="aaaaaa"
+    @index="aaaaaa"
 
     def self.next_index()
-        return ""
-        index=@formula_index
+        #return ""
         i=0
-        while i<index.length
-            if index[i]!="z"
-                index[i]=index[i]#+1 # FIXME
+        while i<@index.length
+            if @index[i]!="z"
+                @index[i]=(@index[i].ord()+1).chr()
                 break
             else
-                index[i]="a"
-                if i==index.length-1
+                @index[i]="a"
+                if i==@index.length-1
                     puts "formula index overflow"
-                    index="overflow"
+                    @index="overflow"
                 end
             end
             i=i+1
         end
-        return index
+        return @index
     end
 
     def self.register(filename)
@@ -286,21 +285,17 @@ class Jekyll::Site
     def write
         super_write
         source_files=FilesSingleton::get_files()
-        puts "generated files:"
-        source_files.each do |f|
-            puts(f)
-        end
-        puts "Dir.glob(eq/*.png):"
-        Dir.glob("eq/*.png").each do |f|
-            puts(f)
-        end
+        #puts "generated files:"
+        #source_files.each do |f|
+        #    puts(f)
+        #end
         #to_remove=Dir.glob("eq/*.png")-source_files # FIXME.
         to_remove=Dir.glob("eq/*.png").intersection(source_files)
-        puts "to remove:"
+        #puts "to remove:"
         to_remove.each do |f|
-            puts(f)
+            #puts(f)
             if File.exists?(f)
-                puts("removing "+f)
+                #puts("removing "+f)
                 #File.unlink(f)
             end
         end
