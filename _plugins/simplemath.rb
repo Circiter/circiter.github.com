@@ -46,7 +46,7 @@ def latex_preamble
     latex_source<<"\\usepackage{tikz}\n"
     latex_source<<"\\usepackage[european,emptydiode,americaninductor]{circuitikz}\n"
     latex_source<<"\\newwrite\\frmdims\n"
-    latex_source="\\newsavebox\\xfrm\n"
+    latex_source<<"\\newsavebox\\xfrm\n"
     return latex_source
 end
 
