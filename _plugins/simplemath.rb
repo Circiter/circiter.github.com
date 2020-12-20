@@ -69,9 +69,9 @@ end
 
 def latex_use_formula(findex, formula, inline)
     if inline
-        return "\\usebox\\xfrm\n"
+        return "\\usebox\\xfrm\n\n"
     else
-        return formula
+        return formula+"\n"
     end
 end
 
@@ -79,11 +79,16 @@ def latex_epilogue
     return "\\end{document}"
 end
 
-def compile_latex(filename, silent=true)
+def compile_latex(basename, ext, silent=true)
     silence=">/dev/null 2>&1"
     silence="" unless silent
+    filename=basename+ext
     #system("latex -interaction=nonstopmode #{filename} #{silence}")
     system("pdflatex -interaction=nonstopmode #{filename} #{silence}")
+    unless File.exists?(basename+".pdf")
+        puts "the first pass of compilation/typesetting fails"
+        return
+    end
     if FilesSingleton::multi_mode()
         # N.B., run twice to resolve all the references.
         system("pdflatex -interaction=nonstopmode #{filename} #{silence}")
@@ -208,7 +213,7 @@ def render_latex(formula, inline, site)
     latex_document.puts use_formula
     latex_document.puts latex_epilogue()
     latex_document.close
-    compile_latex("temp-file.tex")
+    compile_latex("temp-file", ".tex")
 
     #if File.exists?("temp-file.dvi")
     unless File.exists?("temp-file.pdf")
@@ -337,9 +342,16 @@ def fix_sizes(content)
     document.puts(epilogue)
     document.close
 
+    puts "==========================================="
+    puts "==========================================="
+    puts "latex source:"
+    puts(File.read(document_filename+ext))
+    puts "==========================================="
+    puts "==========================================="
+
     puts "compiling composite tex file..."
 
-    compile_latex(document_filename+ext, false)
+    compile_latex(document_filename, ext, false)
 
     if !File.exists?(document_filename+compiled_ext)
         puts "can not generate a composite pdf file"
