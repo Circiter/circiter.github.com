@@ -84,36 +84,13 @@ plugins:
   - jekyll-toc
 
 scholar:
-  #style: apa
-  #style: ./_bibliography/ieee-with-url.csl
-  #style: modern-language-association
-  #style: elsevier-vancouver
-  #style: elsevier-harvard
-  #style: gost-r-7-0-5-2008-numeric
-
-  #style: ./_bibliography/ieee-with-url.csl
-  #style: _bibliography/gost-r-7-0-5-2008-numeric.csl
   style: _bibliography/gost-customized.csl
-  #style: ieee-with-url
   bibliography_list_tag: ul
   locale: ru
   source: ./_bibliography
-  #bibliography: bibliography.bib
   bibliography: "**/*.bib"
-  #bibtex_filters:
-    #- biburlfilter
-    #- latex
-    #- markdown
-    #- smallcaps
-    #- superscript
-    #- italics
-    #- textit
-    #- lowercase
-    #- tiny
-  raw_bibtex_filters:
-    - biburlfilter
-    #- BibURLFilter
-    #- markdown
+  #bibtex_filters: [biburlfilter, markdown]
+  #bibtex_filters: [biburlfilter, latex, markdown, smallcaps, superscript, italics, textit, lowercase, tiny]
 
 optional_front_matter:
   remove_originals: true

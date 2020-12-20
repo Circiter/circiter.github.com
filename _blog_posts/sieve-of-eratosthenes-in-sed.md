@@ -551,6 +551,4 @@ $\mathcal{O}(n)$, т.е. время, требуемое на инициализ�
 
 # Ссылки
 
-<div class="bib">
 {% bibliography --cited_in_order --file sieve-of-eratosthenes-in-sed %}
-</div>

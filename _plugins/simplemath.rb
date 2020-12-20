@@ -64,7 +64,6 @@ def latex_define_formula(findex, formula, inline)
 end
 
 def latex_begin_document()
-    #return "\n\def\xboxes{%\n"
     return "\\begin{document}"
 end
 
@@ -77,21 +76,18 @@ def latex_use_formula(findex, formula, inline)
 end
 
 def latex_epilogue
-    ##text="}\n"
-    #text<<"\\begin{document}\n"
-    #text<<"\\xboxes\n"
-    #text<<"\\end{document}"
     return "\\end{document}"
 end
 
-def compile_latex(filename)
-    #system("latex -interaction=nonstopmode #{filename} >/dev/null 2>&1")
-    system("pdflatex -interaction=nonstopmode #{filename} >/dev/null 2>&1")
+def compile_latex(filename, silent=true)
+    silence=">/dev/null 2>&1"
+    silence="" unless silent
+    #system("latex -interaction=nonstopmode #{filename} #{silence}")
+    system("pdflatex -interaction=nonstopmode #{filename} #{silence}")
     if FilesSingleton::multi_mode()
         # N.B., run twice to resolve all the references.
-        system("pdflatex -interaction=nonstopmode #{filename} >/dev/null 2>&1")
+        system("pdflatex -interaction=nonstopmode #{filename} #{silence}")
     end
-    #system("pdflatex -interaction=nonstopmode #{filename}")
 end
 
 def generate_style(findex, full_filename, inline)
@@ -183,7 +179,7 @@ def render_latex(formula, inline, site)
 
     result="<pre>"+formula+"</pre>" # FIXME: Add escaping, maybe.
 
-    if FilesSingleton::multi_mode()
+    #if FilesSingleton::multi_mode()
         #if File.exists?("composite.tex")
         #    file=File.open("composite.tex", "a")
         #else
@@ -201,9 +197,9 @@ def render_latex(formula, inline, site)
         file.puts use_formula
         file.close
 
-        style=style_stub(findex, basename, inline)
-        return generate_html(filename, full_filename, formula, inline, style)
-    end
+        #style=style_stub(findex, basename, inline)
+        #return generate_html(filename, full_filename, formula, inline, style)
+    #end
 
     latex_document=File.new("temp-file.tex", "w")
     latex_document.puts latex_preamble()
@@ -315,7 +311,9 @@ end
 #end
 
 def fix_sizes(content)
-    return content unless FilesSingleton::multi_mode()
+    #return content unless FilesSingleton::multi_mode()
+
+    puts "creating composite tex file..."
 
     tex_ext=".tex"
     compiled_ext=".pdf"
@@ -337,7 +335,9 @@ def fix_sizes(content)
     document.puts(epilogue)
     document.close
 
-    compile_latex(document_filename+ext)
+    puts "compiling composite tex file..."
+
+    compile_latex(document_filename+ext, false)
 
     if !File.exists?(document_filename+compiled_ext)
         puts "can not generate a composite pdf file"
@@ -346,6 +346,8 @@ def fix_sizes(content)
 
     # FIXME: What if a "single" formula in a document
     #        actually maps to several image files?
+
+    puts "generating images..."
 
     generate_images(document_filename+ext, document_filename+img_ext)
 
@@ -363,13 +365,15 @@ def fix_sizes(content)
     #end
 
     multi_image=document_filename+"*"+img_ext
+    puts "generated images:"
     Dir.glob(multi_image).each do |individual_image|
         #...
         #findex=
         #full_filename=
         #inline=
-        style=generate_style(findex, full_filename, inline)
-        html_code=generate_html(filename, full_filename, formula, inline, style)
+        puts "individual image: "+individual_image
+        #style=generate_style(findex, full_filename, inline)
+        #html_code=generate_html(filename, full_filename, formula, inline, style)
     end
 
     Dir.glob("*.tex").each {|f| File.delete(f)} # FIXME.

@@ -261,7 +261,7 @@ img.latex { /* Added. */
   border-radius: 0px;
 }
 
-.bib ul { /* Added */
+.bib ul, bibliography { /* Added */
     list-style: none;
     margin-left: 0;
 }
