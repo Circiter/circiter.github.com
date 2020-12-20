@@ -32,10 +32,9 @@ def generate_html(filename, full_filename, formula, inline, style)
 end
 
 def latex_preamble
+    latex_source="\\documentclass[preview,border=1pt]{standalone}\n"
     if FilesSingleton::multi_mode()
         latex_source="\\documentclass[preview,math,tikz,border=1pt]{standalone}\n"
-    else
-        latex_source="\\documentclass[preview,border=1pt]{standalone}\n"
     end
     latex_source<<"\\usepackage[T1,T2A]{fontenc}\n"
     latex_source<<"\\usepackage[utf8]{inputenc}\n"
@@ -53,7 +52,7 @@ end
 
 def latex_define_formula(findex, formula, inline)
     return "" unless inline
-    latex_source<<"\\sbox\\xfrm{"
+    latex_source="\\sbox\\xfrm{"
     latex_source<<formula
     latex_source<<"}\n"
     latex_source<<"\\immediate\\openout\\frmdims=dimensions#{findex}.tmp\n"
