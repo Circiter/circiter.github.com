@@ -186,7 +186,7 @@ def render_latex(formula, inline, site)
         #    file=File.new("composite.tex", "w")
         #end
         file=File.new("composite.tex", "a")
-        file.puts define_formula!
+        file.puts define_formula
         file.close
         #if File.exists?("use-boxes.tex")
         #    file=File.open("use-boxes.tex", "a")
