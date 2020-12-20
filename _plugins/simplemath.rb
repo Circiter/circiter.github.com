@@ -46,30 +46,31 @@ def latex_preamble
     #latex_source<<"\\usepackage{type1cm}\n"
     latex_source<<"\\usepackage{tikz}\n"
     latex_source<<"\\usepackage[european,emptydiode,americaninductor]{circuitikz}\n"
+    latex_source<<"\\newwrite\\frmdims\n"
+    latex_source="\\newsavebox\\xfrm\n"
     return latex_source
 end
 
 def latex_define_formula(findex, formula, inline)
     return "" unless inline
-    latex_source="\\newsavebox\\xfrm#{findex}\n"
-    latex_source<<"\\sbox\\xfrm#{findex}{"
+    latex_source<<"\\sbox\\xfrm{"
     latex_source<<formula
-    latex_source<<"}\n\\newwrite\\frmdims#{findex}\n"
-    latex_source<<"\\immediate\\openout\\frmdims#{findex}=dimensions#{findex}.tmp\n"
-    latex_source<<"\\immediate\\write\\frmdims#{findex}{depth: \\the\\dp\\xfrm#{findex}}\n"
-    latex_source<<"\\immediate\\write\\frmdims#{findex}{height: \\the\\ht\\xfrm#{findex}}\n"
-    latex_source<<"\\immediate\\write\\frmdims#{findex}{width: \\the\\wd\\xfrm#{findex}}\n"
-    latex_source<<"\\immediate\\closeout\\frmdims#{findex}\n"
+    latex_source<<"}\n"
+    latex_source<<"\\immediate\\openout\\frmdims=dimensions#{findex}.tmp\n"
+    latex_source<<"\\immediate\\write\\frmdims{depth: \\the\\dp\\xfrm}\n"
+    latex_source<<"\\immediate\\write\\frmdims{height: \\the\\ht\\xfrm}\n"
+    latex_source<<"\\immediate\\write\\frmdims{width: \\the\\wd\\xfrm}\n"
+    latex_source<<"\\immediate\\closeout\\frmdims\n"
     return latex_source
 end
 
 def latex_begin_document()
-    return "\\begin{document}"
+    return "\\begin{document}\n"
 end
 
 def latex_use_formula(findex, formula, inline)
     if inline
-        return "\\usebox\\xfrm#{findex}\n"
+        return "\\usebox\\xfrm\n"
     else
         return formula
     end
@@ -313,14 +314,16 @@ end
 def fix_sizes(content)
     #return content unless FilesSingleton::multi_mode()
 
-    puts "creating composite tex file..."
-
     ext=".tex"
     compiled_ext=".pdf"
     img_ext=".png"
     multi_formuli_filename="composite"
     use_boxes_filename="use-boxes"
     document_filename="document"
+
+    return content unless File.exists?(multi_formuli_filename+ext)
+
+    puts "creating composite tex file..."
 
     preamble=latex_preamble()
     epilogue=latex_epilogue()
