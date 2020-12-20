@@ -92,6 +92,9 @@ scholar:
   #bibtex_filters: [biburlfilter, markdown]
   #bibtex_filters: [biburlfilter, latex, markdown, smallcaps, superscript, italics, textit, lowercase, tiny]
 
+numbered_labels:
+    numbering_style: arabic
+
 optional_front_matter:
   remove_originals: true
 

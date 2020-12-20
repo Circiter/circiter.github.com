@@ -122,6 +122,9 @@ module Jekyll
             LabelsSingleton::register_defined(@namespace, to_register_in_defined)
 
             number=number+1
+            numbering_style=Jekyll.configuration({})["numbered_labels"]["numbering_style"]
+            #@context.registers[:site].config["numbered_labels"]
+            puts "numbered-labels.rb: numbering_style=#{numbering_style}"
             return "#{number}"
         end
     end

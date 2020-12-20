@@ -54,8 +54,8 @@ $\mathcal{F}$ -- преобразование Фурье; причем пере�
 &=\sum_x a_x z^{kz} \sum_{\tau-x} b_{\tau-x}z^{k(\tau-x)}=\left[y=\tau-x\right]=\\
 &=\sum_x\sum_{\tau-x} a_x z^{kx} b_{\tau-x} z^{k(\tau-x)}=\sum_\tau\left(
 \sum_x a_x b_{\tau-x}\right)z^{k\tau}=\\
-&=\Left(\mathcal{F}\left[\sum_x a_x b_{\tau-x}\right]\Right)_k=
-\Left(\mathcal{F}[a\ast b]\Right)_k,
+&=\big(\mathcal{F}\left[\sum_x a_x b_{\tau-x}\right]\big)_k=
+\big(\mathcal{F}[a\ast b]\big)_k,
 \end{align*}
 {% endtex %}
 где $z\equiv\exp(\sigma 2\pi i/n)$ и используется определение преобразования Фурье для

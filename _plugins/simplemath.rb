@@ -43,16 +43,18 @@ def latex_preamble
     latex_source<<"\\usepackage[matrix,arrow,curve,frame,arc]{xy}\n"
     latex_source<<"\\usepackage[english,russian]{babel}\n"
     #latex_source<<"\\usepackage{type1cm}\n"
+    #latex_source<<"\\usepackage{fouriernc}\n"
     latex_source<<"\\usepackage{tikz}\n"
     latex_source<<"\\usepackage[european,emptydiode,americaninductor]{circuitikz}\n"
     latex_source<<"\\newwrite\\frmdims\n"
     latex_source<<"\\newsavebox\\xfrm\n"
+    latex_source<<"\\begin{document}\n"
     return latex_source
 end
 
 def latex_define_formula(findex, formula, inline)
     return "" unless inline
-    latex_source="\\sbox\\xfrm{"
+    latex_source="\n\\sbox\\xfrm{"
     latex_source<<formula
     latex_source<<"}\n"
     latex_source<<"\\immediate\\openout\\frmdims=dimensions#{findex}.tmp\n"
@@ -63,15 +65,15 @@ def latex_define_formula(findex, formula, inline)
     return latex_source
 end
 
-def latex_begin_document()
-    return "\\begin{document}\n"
-end
+#def latex_begin_document()
+#    return "\\begin{document}\n"
+#end
 
 def latex_use_formula(findex, formula, inline)
     if inline
         return "\\usebox\\xfrm\n\n"
     else
-        return formula+"\n"
+        return "\n"+formula+"\n\n"
     end
 end
 
@@ -185,22 +187,13 @@ def render_latex(formula, inline, site)
     result="<pre>"+formula+"</pre>" # FIXME: Add escaping, maybe.
 
     #if FilesSingleton::multi_mode()
-        #if File.exists?("composite.tex")
-        #    file=File.open("composite.tex", "a")
-        #else
-        #    file=File.new("composite.tex", "w")
-        #end
         file=File.new("composite.tex", "a")
         file.puts define_formula
-        file.close
-        #if File.exists?("use-boxes.tex")
-        #    file=File.open("use-boxes.tex", "a")
-        #else
-        #    file=File.new("use-boxes.tex", "w")
-        #end
-        file=File.new("use-boxes.tex", "a")
         file.puts use_formula
         file.close
+        #file=File.new("use-boxes.tex", "a")
+        #file.puts use_formula
+        #file.close
 
         #style=style_stub(findex, basename, inline)
         #return generate_html(filename, full_filename, formula, inline, style)
@@ -209,7 +202,7 @@ def render_latex(formula, inline, site)
     latex_document=File.new("temp-file.tex", "w")
     latex_document.puts latex_preamble()
     latex_document.puts define_formula
-    latex_document.puts latex_begin_document()
+    #latex_document.puts latex_begin_document()
     latex_document.puts use_formula
     latex_document.puts latex_epilogue()
     latex_document.close
@@ -322,7 +315,7 @@ def fix_sizes(content)
     compiled_ext=".pdf"
     img_ext=".png"
     multi_formuli_filename="composite"
-    use_boxes_filename="use-boxes"
+    #use_boxes_filename="use-boxes"
     document_filename="document"
 
     return content unless File.exists?(multi_formuli_filename+ext)
@@ -332,13 +325,13 @@ def fix_sizes(content)
     preamble=latex_preamble()
     epilogue=latex_epilogue()
     multi_formuli=File.read(multi_formuli_filename+ext);
-    use_boxes=File.read(use_boxes_filename+ext)
+    #use_boxes=File.read(use_boxes_filename+ext)
 
     document=File.new(document_filename+ext, "w")
     document.puts(preamble)
     document.puts(multi_formuli)
-    document.puts(latex_begin_document)
-    document.puts(use_boxes)
+    #document.puts(latex_begin_document)
+    #document.puts(use_boxes)
     document.puts(epilogue)
     document.close
 
