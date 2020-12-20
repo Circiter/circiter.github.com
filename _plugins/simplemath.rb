@@ -315,7 +315,7 @@ def fix_sizes(content)
 
     puts "creating composite tex file..."
 
-    tex_ext=".tex"
+    ext=".tex"
     compiled_ext=".pdf"
     img_ext=".png"
     multi_formuli_filename="composite"
