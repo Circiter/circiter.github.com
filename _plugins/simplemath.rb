@@ -310,10 +310,10 @@ def locate_next_style_stub
     result["basename"]="..."
     result["findex"]="..."
     return result
-    return nil
 end
 
 def replace_style_stub(style)
+    # ...
 end
 
 def fix_sizes(content)
@@ -376,7 +376,8 @@ def fix_sizes(content)
         #style=generate_style(findex, full_filename, inline)
         style="..."
         replace_style_stub(style)
-        stub_options=locate_next_style_stub()
+        #stub_options=locate_next_style_stub()
+        stub_options=nil
     end
 
     multi_image=document_filename+"*"+img_ext
