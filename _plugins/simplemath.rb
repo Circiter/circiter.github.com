@@ -151,7 +151,10 @@ def generate_style(findex, full_filename, inline)
 end
 
 def style_stub(findex, basename, is_inline)
-    inline=is_inline?"inline":"block"
+    inline="block"
+    if is_inline
+        inline="inline"
+    end
     return "{% style_stub #{findex} #{basename} #{inline} %}"
 end
 
