@@ -341,7 +341,7 @@ def fix_sizes(content)
 
     puts "compiling composite tex file..."
 
-    compile_latex(document_filename, ext, false)
+    compile_latex(document_filename, ext, true)
 
     if !File.exists?(document_filename+compiled_ext)
         puts "can not generate a composite pdf file"

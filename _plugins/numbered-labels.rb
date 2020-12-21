@@ -139,14 +139,14 @@ module Jekyll
             LabelsSingleton::register_defined(@namespace, to_register_in_defined)
 
             number=number+1
-            #numbering_style=Jekyll.configuration({})["numbered_labels"]["numbering_style"]
+            numbering_style=Jekyll.configuration({})["numbered_labels"]["numbering_style"]
             # FIXME: How to check the precence of a specific parameters in the configuration?
             #use_other_numeration_style=!config["numeration_style"].nil? && !config["numeration_style"].empty?
             #numeration_style=config["numeration_style"]
             #config.merge!(site.config["numbered_labels"])
             #...=config["numeration_style"]
-            numbering_style="arabic"
-            numbering_style=@context.registers[:site].config["numbered_labels"]["numbering_style"]
+            numbering_style="arabic" if numbering_style==nil
+            #numbering_style=@context.registers[:site].config["numbered_labels"]["numbering_style"]
             puts "numbered-labels.rb: numbering_style=#{numbering_style}"
             return custom_numeration(number, numbering_style) if numbering_style!="arabic"
             return "#{number}"
