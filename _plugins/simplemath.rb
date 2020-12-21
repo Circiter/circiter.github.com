@@ -98,16 +98,20 @@ def generate_style(findex, full_filename, inline)
         depth_pt="0pt"
         height_pt="0pt"
         width_pt="0pt"
-        IO.foreach("dimensions#{findex}.tmp") do |line|
-            if line =~ /^([a-z]*):\s+(\d*\.?\d+)[a-z]*$/
-                if $1 == "depth"
-                    depth_pt=$2
-                elsif $1 == "height"
-                    height_pt=$2
-                elsif $1 == "width"
-                    width_pt=$2
+        if File.exists?("dimenstions#{findex}.tmp")
+            IO.foreach("dimensions#{findex}.tmp") do |line|
+                if line =~ /^([a-z]*):\s+(\d*\.?\d+)[a-z]*$/
+                    if $1 == "depth"
+                        depth_pt=$2
+                    elsif $1 == "height"
+                        height_pt=$2
+                    elsif $1 == "width"
+                        width_pt=$2
+                    end
                 end
             end
+        else
+            puts "can not read dimensions of a image"
         end
         height_pt_float=height_pt.to_f
         #width_pt_float=width_pt.to_f
@@ -369,7 +373,8 @@ def fix_sizes(content)
         if stub_options["inline"]=="inline"
             inline=true
         end
-        style=generate_style(findex, full_filename, inline)
+        #style=generate_style(findex, full_filename, inline)
+        style="..."
         replace_style_stub(style)
         stub_options=locate_next_style_stub()
     end
