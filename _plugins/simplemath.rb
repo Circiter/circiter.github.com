@@ -94,11 +94,11 @@ def compile_latex(basename, ext, silent=true)
 end
 
 def generate_style(findex, full_filename, inline)
+    depth_pt="0pt"
+    height_pt="0pt"
+    width_pt="0pt"
     if inline
-        depth_pt="0pt"
-        height_pt="0pt"
-        width_pt="0pt"
-        if File.exists?("dimenstions#{findex}.tmp")
+        if File.exists?("dimensions#{findex}.tmp")
             IO.foreach("dimensions#{findex}.tmp") do |line|
                 if line =~ /^([a-z]*):\s+(\d*\.?\d+)[a-z]*$/
                     if $1 == "depth"
