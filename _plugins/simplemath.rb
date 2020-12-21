@@ -65,10 +65,6 @@ def latex_define_formula(findex, formula, inline)
     return latex_source
 end
 
-#def latex_begin_document()
-#    return "\\begin{document}\n"
-#end
-
 def latex_use_formula(findex, formula, inline)
     if inline
         return "\\usebox\\xfrm\n\n"
@@ -85,15 +81,15 @@ def compile_latex(basename, ext, silent=true)
     silence=">/dev/null 2>&1"
     silence="" unless silent
     filename=basename+ext
-    #system("latex -interaction=nonstopmode #{filename} #{silence}")
-    system("pdflatex -interaction=nonstopmode #{filename} #{silence}")
+    processor="pdflatex" #="latex"
+    system("#{processor} -interaction=nonstopmode #{filename} #{silence}")
     unless File.exists?(basename+".pdf")
         puts "the first pass of compilation/typesetting fails"
         return
     end
     if FilesSingleton::multi_mode()
         # N.B., run twice to resolve all the references.
-        system("pdflatex -interaction=nonstopmode #{filename} #{silence}")
+        system("#{processor} -interaction=nonstopmode #{filename} #{silence}")
     end
 end
 
@@ -191,24 +187,21 @@ def render_latex(formula, inline, site)
         file.puts define_formula
         file.puts use_formula
         file.close
-        #file=File.new("use-boxes.tex", "a")
-        #file.puts use_formula
-        #file.close
 
-        #style=style_stub(findex, basename, inline)
-        #return generate_html(filename, full_filename, formula, inline, style)
+        style=style_stub(findex, basename, inline)
+        html=generate_html(filename, full_filename, formula, inline, style)
+        #return html
     #end
 
     latex_document=File.new("temp-file.tex", "w")
     latex_document.puts latex_preamble()
     latex_document.puts define_formula
-    #latex_document.puts latex_begin_document()
     latex_document.puts use_formula
     latex_document.puts latex_epilogue()
     latex_document.close
     compile_latex("temp-file", ".tex")
 
-    #if File.exists?("temp-file.dvi")
+    #unless File.exists?("temp-file.dvi")
     unless File.exists?("temp-file.pdf")
         puts "debug: pdf file was not generated (for formula "+formula+")"
         return result
@@ -304,9 +297,17 @@ class Jekyll::Site
     end
 end
 
-#Jekyll::Hooks.register(:site, :after_init) do |site|
-#    Kramdown::Converter::MathEngine::SimpleMath::my_init(site)
-#end
+def locate_next_style_stub
+    result=Hash.new
+    result["inline"]="inline"
+    result["basename"]="..."
+    result["findex"]="..."
+    return result
+    return nil
+end
+
+def replace_style_stub(style)
+end
 
 def fix_sizes(content)
     #return content unless FilesSingleton::multi_mode()
@@ -314,33 +315,22 @@ def fix_sizes(content)
     ext=".tex"
     compiled_ext=".pdf"
     img_ext=".png"
-    multi_formuli_filename="composite"
-    #use_boxes_filename="use-boxes"
+    composite_filename="composite"
     document_filename="document"
 
-    return content unless File.exists?(multi_formuli_filename+ext)
+    return content unless File.exists?(composite_filename+ext)
 
     puts "creating composite tex file..."
 
     preamble=latex_preamble()
     epilogue=latex_epilogue()
-    multi_formuli=File.read(multi_formuli_filename+ext);
-    #use_boxes=File.read(use_boxes_filename+ext)
+    composite_content=File.read(composite_filename+ext);
 
     document=File.new(document_filename+ext, "w")
     document.puts(preamble)
-    document.puts(multi_formuli)
-    #document.puts(latex_begin_document)
-    #document.puts(use_boxes)
+    document.puts(composite_content)
     document.puts(epilogue)
     document.close
-
-    puts "==========================================="
-    puts "==========================================="
-    puts "latex source:"
-    puts(File.read(document_filename+ext))
-    puts "==========================================="
-    puts "==========================================="
 
     puts "compiling composite tex file..."
 
@@ -353,26 +343,36 @@ def fix_sizes(content)
 
     # FIXME: What if a "single" formula in a document
     #        actually maps to several image files?
+    #        May be store a image hashes to the dimension files?
+    #        Does it will be helpful?
+
+    # If we are processing a block equation and there are
+    # several images for it, then place all the images
+    # sequentially, one after another (may be duplicating
+    # the html markup for defining the proper sizes of images).
+
+    # For inline there is (or should be) only one image generated.
 
     puts "generating images..."
 
     generate_images(document_filename+ext, document_filename+img_ext)
 
-    #stub_options=...
-    #while locate_next_style_stub(stub_options)
-    #    findex=stub_options.findex
-    #    basename=stub_options.basename
-    #    full_filename=basename+".png"
-    #    inline=false
-    #    if stub_options.inline=="inline"
-    #        inline=true
-    #    end
-    #    style=generate_style(findex, full_filename, inline)
-    #    replace_style_stub(style)
-    #end
+    stub_options=locate_next_style_stub()
+    while stub_options!=nil
+        findex=stub_options["findex"]
+        basename=stub_options["basename"]
+        full_filename=basename+".png"
+        inline=false
+        if stub_options["inline"]=="inline"
+            inline=true
+        end
+        style=generate_style(findex, full_filename, inline)
+        replace_style_stub(style)
+        stub_options=locate_next_style_stub()
+    end
 
     multi_image=document_filename+"*"+img_ext
-    puts "generated images:"
+    puts "generated images (#{multi_image}):"
     Dir.glob(multi_image).each do |individual_image|
         #...
         #findex=
@@ -383,8 +383,8 @@ def fix_sizes(content)
         #html_code=generate_html(filename, full_filename, formula, inline, style)
     end
 
-    Dir.glob("*.tex").each {|f| File.delete(f)} # FIXME.
-    Dir.glob("*.tmp").each {|f| File.delete(f)} # FIXME.
+    Dir.glob("*.tex").each {|f| File.delete(f)}
+    Dir.glob("*.tmp").each {|f| File.delete(f)}
 
     return content
 end

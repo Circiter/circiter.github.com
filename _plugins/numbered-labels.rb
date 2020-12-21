@@ -1,5 +1,24 @@
 # Written by Circiter (mailto:xcirciter@gmail.com).
 
+# Usage:
+# In a file, to be processed with the liquid, you can use the following tags:
+# {% def <namespace> <label> %} -- define a label.
+# {% ref <namespace> <label> %} -- reference a label.
+# N.B., a definition (def) can be placed after a reference (ref); ordering does not matter.
+# All the tags will be replaced with a numbers, linking an objects with its corresponding 
+# references.
+
+# E.g.:
+#
+# Theorem {% def theorem pythagor %}: $a^2+b^2=c^2$.
+#
+# The theorem of Pythagor is written in theorem {% ref theorem pythagor %}.
+#
+# See also the fig. {% ref fig illustration %}.
+#
+# ![](illustration.png)
+# Fig. {% def fig illustration %}
+
 # TODO: Add support for other numeration styles (e.g., latin
 # or alphabet instead of arabic).
 # Possible styles: arabic-zero, arabic-one, latin, alpha, custom (?).
@@ -72,12 +91,6 @@ Jekyll::Hooks.register(:blog_posts, :post_render) do |target, payload|
     end
 end
 
-#use_other_numeration_style=!config["numeration_style"].nil? && !config["numeration_style"].empty?
-#numeration_style=config["numeration_style"]
-
-#config.merge!(site.config["numbered_labels"])
-#...=config["numeration_style"]
-
 module Jekyll
     class Label < Liquid::Tag
         def initialize(name, params, tokens)
@@ -86,6 +99,10 @@ module Jekyll
             @namespace=parameters[0]
             @identifier=parameters[1]
            super
+        end
+
+        def custom_numeration(number, style)
+            return "#{number}"
         end
 
         def render(context)
@@ -122,9 +139,16 @@ module Jekyll
             LabelsSingleton::register_defined(@namespace, to_register_in_defined)
 
             number=number+1
-            numbering_style=Jekyll.configuration({})["numbered_labels"]["numbering_style"]
-            #@context.registers[:site].config["numbered_labels"]
+            #numbering_style=Jekyll.configuration({})["numbered_labels"]["numbering_style"]
+            # FIXME: How to check the precence of a specific parameters in the configuration?
+            #use_other_numeration_style=!config["numeration_style"].nil? && !config["numeration_style"].empty?
+            #numeration_style=config["numeration_style"]
+            #config.merge!(site.config["numbered_labels"])
+            #...=config["numeration_style"]
+            numbering_style="arabic"
+            numbering_style=@context.registers[:site].config["numbered_labels"]["numbering_style"]
             puts "numbered-labels.rb: numbering_style=#{numbering_style}"
+            return custom_numeration(number, numbering_style) if numbering_style!="arabic"
             return "#{number}"
         end
     end

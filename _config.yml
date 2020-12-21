@@ -89,6 +89,7 @@ scholar:
   locale: ru
   source: ./_bibliography
   bibliography: "**/*.bib"
+  bibliography_template: bibliography
   #bibtex_filters: [biburlfilter, markdown]
   #bibtex_filters: [biburlfilter, latex, markdown, smallcaps, superscript, italics, textit, lowercase, tiny]
 
