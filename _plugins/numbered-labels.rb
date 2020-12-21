@@ -147,7 +147,7 @@ module Jekyll
             #...=config["numeration_style"]
             numbering_style="arabic" if numbering_style==nil
             #numbering_style=@context.registers[:site].config["numbered_labels"]["numbering_style"]
-            puts "numbered-labels.rb: numbering_style=#{numbering_style}"
+            #puts "numbered-labels.rb: numbering_style=#{numbering_style}"
             return custom_numeration(number, numbering_style) if numbering_style!="arabic"
             return "#{number}"
         end
