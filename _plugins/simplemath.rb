@@ -323,13 +323,13 @@ class StyleFix
                 if @content[@position]=="{"
                     state=1
                     @position++
-                    continue
+                    next
                 end
             elsif state==1
                 if @content[@position]=="%"
                     state=2
                     @position++
-                    continue
+                    next
                 end
             end
             @position++
