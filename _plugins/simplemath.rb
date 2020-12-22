@@ -317,23 +317,23 @@ class StyleFix
         result["findex"]="..."
         return result
 
-        state=0
-        while @position<@content.length
-            if state==0
-                if @content[@position]=="{"
-                    state=1
-                    @position++
-                    next
-                end
-            elsif state==1
-                if @content[@position]=="%"
-                    state=2
-                    @position++
-                    next
-                end
-            end
-            @position++
-        end
+        #state=0
+        #while @position<@content.length
+        #    if state==0
+        #        if @content[@position]=="{"
+        #            state=1
+        #            @position++
+        #            next
+        #        end
+        #    elsif state==1
+        #        if @content[@position]=="%"
+        #            state=2
+        #            @position++
+        #            next
+        #        end
+        #    end
+        #    @position++
+        #end
     end
 
     def replace_style_stub(style)
@@ -438,7 +438,6 @@ def fix_math(content)
     mathfix=MathFix.new(content)
     return mathfix.fixup()
 end
-
 
 # FIXME: There is a problem with an extra newline or paragraph
 # after a $...$ formula at the end of a line.
