@@ -389,7 +389,7 @@ def fix_sizes(content)
         #style=generate_style(findex, full_filename, inline)
         style="..."
         stylefix.replace_style_stub(style)
-        #stub_options=locate_next_style_stub()
+        #stub_options=stylefix.locate_next_style_stub()
         stub_options=nil
     end
 
