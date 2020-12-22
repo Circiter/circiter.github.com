@@ -25,6 +25,8 @@
 
 # TODO: Implement the html anchors generation.
 
+# FIXME: What about cross-references?
+
 module LabelsSingleton
     @referenced_labels=Hash.new
     @defined_labels=Hash.new

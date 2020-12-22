@@ -89,7 +89,7 @@ scholar:
   locale: ru
   source: ./_bibliography
   bibliography: "**/*.bib"
-  bibliography_template: '{{ reference }} {% if entry.weburl %}<a href="{{ entry.weburl }}">{{ entry.weburl }}</a>{% endif %}'
+  bibliography_template: '{{ reference }} {% if entry.url %}<a href="{{ entry.url }}">{{ entry.url }}</a>{% endif %}'
   #bibliography_template: bib
   replace_strings: true
   bibtex_filters: [latex]
