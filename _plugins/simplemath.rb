@@ -316,6 +316,24 @@ class StyleFix
         result["basename"]="..."
         result["findex"]="..."
         return result
+
+        state=0
+        while @position<@content.length
+            if state==0
+                if @content[@position]=="{"
+                    state=1
+                    @position++
+                    continue
+                end
+            elsif state==1
+                if @content[@position]=="%"
+                    state=2
+                    @position++
+                    continue
+                end
+            end
+            @position++
+        end
     end
 
     def replace_style_stub(style)
