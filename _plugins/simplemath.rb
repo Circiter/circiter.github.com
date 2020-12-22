@@ -304,16 +304,27 @@ class Jekyll::Site
     end
 end
 
-def locate_next_style_stub
-    result=Hash.new
-    result["inline"]="inline"
-    result["basename"]="..."
-    result["findex"]="..."
-    return result
-end
+class StyleFix
+    def initialize(content)
+        @content=content
+        @position=0
+    end
 
-def replace_style_stub(style)
-    # ...
+    def locate_next_style_stub
+        result=Hash.new
+        result["inline"]="inline"
+        result["basename"]="..."
+        result["findex"]="..."
+        return result
+    end
+
+    def replace_style_stub(style)
+        # ...
+    end
+
+    def get_content()
+        return @content
+    end
 end
 
 def fix_sizes(content)
@@ -364,7 +375,9 @@ def fix_sizes(content)
 
     generate_images(document_filename+ext, document_filename+img_ext)
 
-    stub_options=locate_next_style_stub()
+    stylefix=StyleFix.new(content)
+
+    stub_options=stylefix.locate_next_style_stub()
     while stub_options!=nil
         findex=stub_options["findex"]
         basename=stub_options["basename"]
@@ -375,10 +388,12 @@ def fix_sizes(content)
         end
         #style=generate_style(findex, full_filename, inline)
         style="..."
-        replace_style_stub(style)
+        stylefix.replace_style_stub(style)
         #stub_options=locate_next_style_stub()
         stub_options=nil
     end
+
+    content=stylefix.get_content()
 
     multi_image=document_filename+"*"+img_ext
     puts "generated images (#{multi_image}):"
