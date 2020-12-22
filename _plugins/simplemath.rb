@@ -308,6 +308,8 @@ class StyleFix
     def initialize(content)
         @content=content
         @position=0
+        @stub_begin=nil
+        @stub_end=nil
     end
 
     def locate_next_style_stub
@@ -318,20 +320,18 @@ class StyleFix
 
         state=0
         while @position<@content.length
-        #    if state==0
-        #        if @content[@position]=="{"
-        #            state=1
-        #            @position++
-        #            next
-        #        end
-        #    elsif state==1
-        #        if @content[@position]=="%"
-        #            state=2
-        #            @position++
-        #            next
-        #        end
-        #    end
-            @position++
+            case state
+                when 0
+                    state=1 if @content[@position]=="{"
+                when 1
+                    if @content[@position]=="%"
+                        state=2
+                        @stub_begin=@position
+                    end
+                else
+                    puts "unknown state (=#{state})"
+            end
+            @position=@position+1
         end
 
         return result
