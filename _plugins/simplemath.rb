@@ -315,10 +315,9 @@ class StyleFix
         result["inline"]="inline"
         result["basename"]="..."
         result["findex"]="..."
-        return result
 
-        #state=0
-        #while @position<@content.length
+        state=0
+        while @position<@content.length
         #    if state==0
         #        if @content[@position]=="{"
         #            state=1
@@ -332,8 +331,10 @@ class StyleFix
         #            next
         #        end
         #    end
-        #    @position++
-        #end
+            @position++
+        end
+
+        return result
     end
 
     def replace_style_stub(style)
