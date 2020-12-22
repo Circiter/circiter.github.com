@@ -1,4 +1,4 @@
 ---
 ---
 
-{{ reference }} :: <a href="{{ entry.url }}">{{ entry.url }}</a>
+{{ reference }} :: {% if entry.weburl %} <a href="{{ entry.weburl }}">{{ entry.weburl }}</a> {% endif %}
