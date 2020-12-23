@@ -268,7 +268,7 @@ module FilesSingleton
         return @index
     end
 
-    def reset_index()
+    def self.reset_index()
         @index=@initial_index
     end
 
@@ -284,13 +284,13 @@ module FilesSingleton
         return false
     end
 
-    def reset_style_fixups()
+    def self.reset_fixups()
         @style_fixups.clear
         @current_fixup_index=0
         @position_shift=0
     end
 
-    def register_fixup(position, findex, basename, inline)
+    def self.register_fixup(position, findex, basename, inline)
         new_fixup=Hash.new
         new_fixup["position"]=position
         new_fixup["findex"]=findex
@@ -299,17 +299,17 @@ module FilesSingleton
         @style_fixups<<new_fixup
     end
 
-    def current_fixup()
+    def self.current_fixup()
         return nil if @current_fixup_index>=@style_fixups.length
         return @style_fixups[@current_fixup_index]
     end
 
-    def next_fixup()
+    def self.next_fixup()
         @current_fixup_index=@current_fixup_index+1
         return current_fixup()
     end
 
-    def apply_current_fixup(content, style)
+    def self.apply_current_fixup(content, style)
         result=""
         fixup=current_fixup()
         return content if fixup==nil
@@ -731,7 +731,7 @@ Jekyll::Hooks.register(:pages, :post_render) do |target, payload|
     if target.ext==".md"&&(target.basename=="about"||target.basename=="index")
         FilesSingleton::reset_index()
         target.content=fix_sizes(target.content)
-        FilesSingleton::reset_style_fixups()
+        FilesSingleton::reset_fixups()
     end
 end
 
@@ -739,7 +739,7 @@ Jekyll::Hooks.register(:blog_posts, :post_render) do |target, payload|
     if target.data["ext"]==".md"
         FilesSingleton::reset_index()
         target.content=fix_sizes(target.content)
-        FilesSingleton::reset_style_fixups()
+        FilesSingleton::reset_fixups()
     end
 end
 
