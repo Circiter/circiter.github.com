@@ -99,8 +99,11 @@ scholar:
 numbered_labels:
     numbering_style: arabic
 
-optional_front_matter:
-  remove_originals: true
+simplemath:
+    shared_context: true
+
+#optional_front_matter:
+#  remove_originals: true
 
 titles_from_headings:
   strip_title: true

@@ -154,12 +154,12 @@ def generate_style(findex, full_filename, inline)
     return style
 end
 
-def style_stub(findex, basename, is_inline)
+def style_stub(findex, decimal_index, is_inline)
     inline="block"
     if is_inline
         inline="inline"
     end
-    return "{% style_stub #{findex} #{basename} #{inline} %}"
+    return "{% style_stub #{findex} #{decimal_index} #{inline} %}"
     #position=...
     #FilesSingleton::register_fixup(position, findex, basename, inline)
     #return ""
@@ -169,7 +169,7 @@ def generate_images(document_filename, output_filename)
     #system("dvips -E -q temp-file.dvi -o temp-file.eps >/dev/null 2>&1");
     #system("convert -density 120 -quality 90 -trim temp-file.eps "+full_filename+" >/dev/null 2>&1")
     system("convert -density 120 -trim "+document_filename+" "+output_filename+" >/dev/null 2>&1")
-end
+end4
 
 def render_latex(formula, inline, site)
     directory="eq"
@@ -187,21 +187,25 @@ def render_latex(formula, inline, site)
     end
 
     findex=FilesSingleton::next_index()
+    eq_index=FilesSingleton::next_equation_index()
+    doc_index=FilesSingleton::document_index()
+
     define_formula=latex_define_formula(findex, formula, inline)
     use_formula=latex_use_formula(findex, formula, inline)
 
     result="<pre>"+formula+"</pre>" # FIXME: Add escaping, maybe.
 
-    #if FilesSingleton::multi_mode()
+    if FilesSingleton::multi_mode()
         file=File.new("composite.tex", "a")
         file.puts define_formula
         file.puts use_formula
         file.close
 
-        style=style_stub(findex, basename, inline)
-        html=generate_html(filename, full_filename, formula, inline, style)
-        #return html
-    #end
+        style=style_stub(findex, eq_index, inline)
+        fname="#{doc_index}-#{eq_index}.png"
+        fname=File.join(directory, fname)
+        return generate_html(filename, fname, formula, inline, style)
+    end
 
     latex_document=File.new("temp-file.tex", "w")
     latex_document.puts latex_preamble()
@@ -227,7 +231,6 @@ def render_latex(formula, inline, site)
     site.static_files<<static_file
     FilesSingleton::register(static_file.path)
 
-    #style=FilesSingleton::multi_mode()?style_stub(findex, full_filename, inline):generate_style(findex, full_filename, inline)
     style=generate_style(findex, full_filename, inline)
     result=generate_html(filename, full_filename, formula, inline, style)
 
@@ -245,10 +248,28 @@ module FilesSingleton
 
     @initial_index="aaaaaa"
     @index=@initial_index
+    @decimal_index=-1
+
+    @doc_index=0
 
     @style_fixups=Array.new
     @current_fixup_index=0
     @position_shift=0
+
+    @conf=nil
+
+    def self.document_index()
+        return @doc_index
+    end
+
+    def self.new_document()
+        @doc_index=@doc_index+1
+    end
+
+    def self.next_equation_index()
+        @decimal_index=@decimal_index+1
+        return @decimal_index
+    end
 
     def self.next_index()
         i=0
@@ -270,6 +291,7 @@ module FilesSingleton
 
     def self.reset_index()
         @index=@initial_index
+        @decimal_index=-1
     end
 
     def self.register(filename)
@@ -281,7 +303,20 @@ module FilesSingleton
     end
 
     def self.multi_mode()
-        return false
+        #return false
+        if @conf==nil
+            @conf=Hash.new
+            if Jekyll.configuration({}).has_key?("simplemath")
+                @conf=Jekyll.configuration({})["simplemath"]
+            end
+        end
+        result=@conf.has_key?("shared_context")&&@conf["shared_context"]=="true"
+        if result
+            puts "shared context enabled"
+        else
+            puts "shared context disabled"
+        end
+        return result
     end
 
     def self.reset_fixups()
@@ -352,6 +387,10 @@ class Jekyll::Site
         end
     end
 end
+
+# TODO: Try to factor out the common
+#       code from the classes StyleFix
+#       and MathFix into a superclass.
 
 # FIXME: Consider to replace it by
 #        a singleton to keep track
@@ -430,11 +469,13 @@ end
 def fix_sizes(content)
     #return content unless FilesSingleton::multi_mode()
 
+    directory="eq"
     ext=".tex"
     compiled_ext=".pdf"
     img_ext=".png"
     composite_filename="composite"
-    document_filename="document"
+    doc_index=FilesSingleton::document_index()
+    document_filename="#{doc_index}"#"document"
 
     return content unless File.exists?(composite_filename+ext)
 
@@ -475,20 +516,43 @@ def fix_sizes(content)
 
     generate_images(document_filename+ext, document_filename+img_ext)
 
+    multi_image=document_filename+"*"+img_ext
+    multi_image=File.join(directory, multi_image)
+    puts "generated images (#{multi_image}):"
+    images=Dir.glob(multi_image)
+    if images.length==0
+        puts "there are no images for current document"
+    end
+    if images.length==1
+        puts "there is only one image for current document, renaming..."
+        FileUtils.mv(images[0], File.join(directory, "#{doc_index}-0.png"))
+        #File.rename(images[0], File.join(directory, "#{doc_index}-0.png"))
+    end
+    images.each do |individual_image|
+        puts "individual image: "+individual_image
+    end
+    puts "------------------------------------------------"
+
     stylefix=StyleFix.new(content)
 
+    puts "applying the style fixes..."
     stub_options=stylefix.locate_next_style_stub()
     #stub_options=FilesSingleton::current_fixup()
     while stub_options!=nil
         findex=stub_options["findex"]
-        basename=stub_options["basename"]
-        full_filename=basename+".png"
+        eq_index=stub_options["eq_index"]
+
+        full_filename="#{doc_index}-#{eq_index}.png"
+        static_file=Jekyll::StaticFile.new(site, site.source, directory, full_filename)
+        site.static_files<<static_file
+        FilesSingleton::register(static_file.path)
+        full_filename=File.join(directory, full_filename)
+
         inline=false
         if stub_options["inline"]=="inline"
             inline=true
         end
-        #style=generate_style(findex, full_filename, inline)
-        style="..."
+        style=generate_style(findex, full_filename, inline)
         stylefix.replace_style_stub(style)
         #content=FilesSingleton::apply_current_fixup(content, style)
         #stub_options=FilesSingleton::next_fixup()
@@ -497,18 +561,6 @@ def fix_sizes(content)
     end
 
     #content=stylefix.get_content()
-
-    multi_image=document_filename+"*"+img_ext
-    puts "generated images (#{multi_image}):"
-    Dir.glob(multi_image).each do |individual_image|
-        #...
-        #findex=
-        #full_filename=
-        #inline=
-        puts "individual image: "+individual_image
-        #style=generate_style(findex, full_filename, inline)
-        #html_code=generate_html(filename, full_filename, formula, inline, style)
-    end
 
     Dir.glob("*.tex").each {|f| File.delete(f)}
     Dir.glob("*.tmp").each {|f| File.delete(f)}
@@ -717,12 +769,14 @@ end
 
 Jekyll::Hooks.register(:pages, :pre_render) do |target, payload|
     if target.ext==".md"&&(target.basename=="about"||target.basename=="index")
+        FilesSingleton::new_document()
         target.content=fix_math(target.content)
     end
 end
 
 Jekyll::Hooks.register(:blog_posts, :pre_render) do |target, payload|
     if target.data["ext"]==".md"
+        FilesSingleton::new_document()
         target.content=fix_math(target.content)
     end
 end
