@@ -160,6 +160,9 @@ def style_stub(findex, basename, is_inline)
         inline="inline"
     end
     return "{% style_stub #{findex} #{basename} #{inline} %}"
+    #position=...
+    #FilesSingleton::register_fixup(position, findex, basename, inline)
+    #return ""
 end
 
 def generate_images(document_filename, output_filename)
@@ -239,10 +242,15 @@ end
 
 module FilesSingleton
     @list=[]
-    @index="aaaaaa"
+
+    @initial_index="aaaaaa"
+    @index=@initial_index
+
+    @style_fixups=Array.new
+    @current_fixup_index=0
+    @position_shift=0
 
     def self.next_index()
-        #return ""
         i=0
         while i<@index.length
             if @index[i]!="z"
@@ -260,6 +268,10 @@ module FilesSingleton
         return @index
     end
 
+    def reset_index()
+        @index=@initial_index
+    end
+
     def self.register(filename)
         @list<<filename
     end
@@ -270,6 +282,43 @@ module FilesSingleton
 
     def self.multi_mode()
         return false
+    end
+
+    def reset_style_fixups()
+        @style_fixups.clear
+        @current_fixup_index=0
+        @position_shift=0
+    end
+
+    def register_fixup(position, findex, basename, inline)
+        new_fixup=Hash.new
+        new_fixup["position"]=position
+        new_fixup["findex"]=findex
+        new_fixup["basename"]=basename
+        new_fixup["inline"]=inline
+        @style_fixups<<new_fixup
+    end
+
+    def current_fixup()
+        return nil if @current_fixup_index>=@style_fixups.length
+        return @style_fixups[@current_fixup_index]
+    end
+
+    def next_fixup()
+        @current_fixup_index=@current_fixup_index+1
+        return current_fixup()
+    end
+
+    def apply_current_fixup(content, style)
+        result=""
+        fixup=current_fixup()
+        return content if fixup==nil
+
+        pos=fixup["position"]+@position_shift
+        #result=content[0..pos]+style+content[pos..content.length-1] # FIXME.
+
+        @position_shift=@position_shift+style.length
+        return result
     end
 end
 
@@ -304,45 +353,77 @@ class Jekyll::Site
     end
 end
 
+# FIXME: Consider to replace it by
+#        a singleton to keep track
+#        of necessary fixups in memory;
+#        then we can apply these fixups
+#        without reparsing of the page
+#        content.
 class StyleFix
     def initialize(content)
         @content=content
         @position=0
-        @stub_begin=nil
-        @stub_end=nil
+        @result_content=""
+    end
+
+    def match(substring)
+        i=0
+        pos=@position
+        while i<substring.length
+            return false if pos>=@content.length||@content[pos]!=substring[i]
+            pos=pos+1
+        end
+        @position=@position+pos
+        return true
     end
 
     def locate_next_style_stub
         result=Hash.new
-        result["inline"]="inline"
-        result["basename"]="..."
-        result["findex"]="..."
 
-        state=0
+        in_tag=false
+        tag=""
         while @position<@content.length
-            case state
-                when 0
-                    state=1 if @content[@position]=="{"
-                when 1
-                    if @content[@position]=="%"
-                        state=2
-                        @stub_begin=@position
+            if in_tag
+                if match("%}")
+                    in_tag=false
+                    puts "style tag readed: "+tag
+                    parameters=tag.gsub("  "," ").split(" ");
+                    if parameters.length==0||parameters.length!=4||parameters[0]!="style_stub"
+                        puts "invalid style stub"
+                        in_tag=false
+                        @result_content=@result_content+"{%"+tag+"%}"
+                        tag=""
+                        next
                     end
-                else
-                    puts "unknown state (=#{state})"
+                    result["findex"]=parameters[1]
+                    result["basename"]=parameters[2]
+                    result["inline"]=parameters[3]
+                    return result
+                end
+                tag=tag+@content[@position]
+            else
+                if match("{%")
+                    in_tag=true
+                    tag=""
+                    next
+                end
+                @result_content=@result_content+@content[@position]
             end
+
             @position=@position+1
         end
 
-        return result
+        puts "unterminated tag" if in_tag
+
+        return nil
     end
 
     def replace_style_stub(style)
-        # ...
+        @result_content=@result_content+style
     end
 
     def get_content()
-        return @content
+        return @result_content
     end
 end
 
@@ -397,6 +478,7 @@ def fix_sizes(content)
     stylefix=StyleFix.new(content)
 
     stub_options=stylefix.locate_next_style_stub()
+    #stub_options=FilesSingleton::current_fixup()
     while stub_options!=nil
         findex=stub_options["findex"]
         basename=stub_options["basename"]
@@ -408,11 +490,13 @@ def fix_sizes(content)
         #style=generate_style(findex, full_filename, inline)
         style="..."
         stylefix.replace_style_stub(style)
-        #stub_options=stylefix.locate_next_style_stub()
+        #content=FilesSingleton::apply_current_fixup(content, style)
+        #stub_options=FilesSingleton::next_fixup()
+        stub_options=stylefix.locate_next_style_stub()
         stub_options=nil
     end
 
-    content=stylefix.get_content()
+    #content=stylefix.get_content()
 
     multi_image=document_filename+"*"+img_ext
     puts "generated images (#{multi_image}):"
@@ -645,13 +729,17 @@ end
 
 Jekyll::Hooks.register(:pages, :post_render) do |target, payload|
     if target.ext==".md"&&(target.basename=="about"||target.basename=="index")
+        FilesSingleton::reset_index()
         target.content=fix_sizes(target.content)
+        FilesSingleton::reset_style_fixups()
     end
 end
 
 Jekyll::Hooks.register(:blog_posts, :post_render) do |target, payload|
     if target.data["ext"]==".md"
+        FilesSingleton::reset_index()
         target.content=fix_sizes(target.content)
+        FilesSingleton::reset_style_fixups()
     end
 end
 
