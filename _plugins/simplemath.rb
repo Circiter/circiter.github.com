@@ -303,20 +303,30 @@ module FilesSingleton
     end
 
     def self.multi_mode()
-        #return false
         if @conf==nil
             @conf=Hash.new
             if Jekyll.configuration({}).has_key?("simplemath")
+                puts "reading configuration from _config.yml"
                 @conf=Jekyll.configuration({})["simplemath"]
+            else
+                puts "there is no group simplemath in _config.yml"
             end
         end
-        result=@conf.has_key?("shared_context")&&@conf["shared_context"]=="true"
+        if @conf.has_key?("shared_context")
+            puts "parameter shared_context is set in _config.yml"
+            puts "its value is "+@conf["shared_context"]
+        end
+        result=false
+        if @conf.has_key?("shared_context")&&@conf["shared_context"]=="true"
+            result=true
+        end
         if result
             puts "shared context enabled"
         else
             puts "shared context disabled"
         end
-        return result
+        #return result
+        return true
     end
 
     def self.reset_fixups()
