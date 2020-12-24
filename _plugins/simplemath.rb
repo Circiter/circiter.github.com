@@ -169,7 +169,7 @@ def generate_images(document_filename, output_filename)
     #system("dvips -E -q temp-file.dvi -o temp-file.eps >/dev/null 2>&1");
     #system("convert -density 120 -quality 90 -trim temp-file.eps "+full_filename+" >/dev/null 2>&1")
     system("convert -density 120 -trim "+document_filename+" "+output_filename+" >/dev/null 2>&1")
-end4
+end
 
 def render_latex(formula, inline, site)
     directory="eq"
@@ -467,7 +467,7 @@ class StyleFix
 end
 
 def fix_sizes(content)
-    #return content unless FilesSingleton::multi_mode()
+    return content unless FilesSingleton::multi_mode()
 
     directory="eq"
     ext=".tex"
@@ -557,7 +557,7 @@ def fix_sizes(content)
         #content=FilesSingleton::apply_current_fixup(content, style)
         #stub_options=FilesSingleton::next_fixup()
         stub_options=stylefix.locate_next_style_stub()
-        stub_options=nil
+        #stub_options=nil
     end
 
     #content=stylefix.get_content()
