@@ -427,6 +427,7 @@ class StyleFix
     end
 
     def locate_next_style_stub
+        puts "searching for a next style stub..."
         result=Hash.new
 
         in_tag=false
@@ -468,6 +469,7 @@ class StyleFix
     end
 
     def replace_style_stub(style)
+        puts "replacing current style stub..."
         @result_content=@result_content+style
     end
 
@@ -524,7 +526,7 @@ def fix_sizes(content)
 
     puts "generating images..."
 
-    generate_images(document_filename+ext, document_filename+img_ext)
+    generate_images(document_filename+ext, File.join(directory, document_filename+img_ext))
 
     multi_image=document_filename+"*"+img_ext
     multi_image=File.join(directory, multi_image)
@@ -535,7 +537,7 @@ def fix_sizes(content)
     end
     if images.length==1
         puts "there is only one image for current document, renaming..."
-        FileUtils.mv(images[0], File.join(directory, "#{doc_index}-0.png"))
+        FileUtils.mv(images[0], File.join(directory, document_filename+"-0.png"))
         #File.rename(images[0], File.join(directory, "#{doc_index}-0.png"))
     end
     images.each do |individual_image|
@@ -549,6 +551,8 @@ def fix_sizes(content)
     stub_options=stylefix.locate_next_style_stub()
     #stub_options=FilesSingleton::current_fixup()
     while stub_options!=nil
+        puts "style stub located; applying..."
+
         findex=stub_options["findex"]
         eq_index=stub_options["eq_index"]
 
