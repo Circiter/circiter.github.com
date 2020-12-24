@@ -314,10 +314,10 @@ module FilesSingleton
         end
         if @conf.has_key?("shared_context")
             puts "parameter shared_context is set in _config.yml"
-            puts "its value is "+@conf["shared_context"]
+            #puts "its value is "+@conf["shared_context"]
         end
         result=false
-        if @conf.has_key?("shared_context")&&@conf["shared_context"]=="true"
+        if @conf.has_key?("shared_context")&&@conf["shared_context"]
             result=true
         end
         if result
