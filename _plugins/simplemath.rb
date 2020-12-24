@@ -325,8 +325,7 @@ module FilesSingleton
         else
             puts "shared context disabled"
         end
-        #return result
-        return true
+        return result
     end
 
     def self.reset_fixups()
@@ -526,7 +525,16 @@ def fix_sizes(content)
 
     puts "generating images..."
 
-    generate_images(document_filename+ext, File.join(directory, document_filename+img_ext))
+    generate_images(document_filename+compiled_ext, File.join(directory, document_filename+img_ext))
+
+    puts "listing all the *.png files:"
+    Dir.glob("*.png").each do |f|
+        puts f
+    end
+    Dir.glob("eq/*.png").each do |f|
+        puts f
+    end
+    puts "---------------------"
 
     multi_image=document_filename+"*"+img_ext
     multi_image=File.join(directory, multi_image)
@@ -574,7 +582,7 @@ def fix_sizes(content)
         #stub_options=nil
     end
 
-    #content=stylefix.get_content()
+    content=stylefix.get_content()
 
     Dir.glob("*.tex").each {|f| File.delete(f)}
     Dir.glob("*.tmp").each {|f| File.delete(f)}
