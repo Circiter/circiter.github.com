@@ -168,7 +168,9 @@ end
 def generate_images(document_filename, output_filename)
     #system("dvips -E -q temp-file.dvi -o temp-file.eps >/dev/null 2>&1");
     #system("convert -density 120 -quality 90 -trim temp-file.eps "+full_filename+" >/dev/null 2>&1")
-    system("convert -density 120 -trim "+document_filename+" "+output_filename+" >/dev/null 2>&1")
+    #system("convert -density 120 -trim "+document_filename+" "+output_filename+" >/dev/null 2>&1")
+    puts("executing: convert -density 120 -trim "+document_filename+" "+output_filename)
+    system("convert -density 120 -trim "+document_filename+" "+output_filename)
 end
 
 def render_latex(formula, inline, site)
@@ -256,8 +258,6 @@ module FilesSingleton
     @current_fixup_index=0
     @position_shift=0
 
-    @conf=nil
-
     def self.document_index()
         return @doc_index
     end
@@ -303,43 +303,23 @@ module FilesSingleton
     end
 
     @shared_context=nil
+    @transparency=true
+
+    def read_config(cfg, key, default=nil)
+        return default if cfg==nil||!cfg.has_key?(key)
+        return cfg[key]
+    end
 
     def self.multi_mode()
         return @shared_context if @shared_context!=nil
 
         @shared_context=false
-        cfg=Jekyll.configuration({})        
-        if cfg.has_key?("simplemath")
-            if cfg["simplemath"].has_key?("shared_context")
-                @shared_context=cfg["simplemath"]["shared_context"]
-            end
-        end
+        cfg=Jekyll.configuration({})
+        cfg=read_config(cfg, "simplemath"
+        @shared_context=read_config(cfg, "shared_context", false)
+        @transparency=read_config(cfg, "transparency", true)
 
         return @shared_context
-
-        if @conf==nil
-            @conf=Hash.new
-            if Jekyll.configuration({}).has_key?("simplemath")
-                puts "reading configuration from _config.yml"
-                @conf=Jekyll.configuration({})["simplemath"]
-            else
-                puts "there is no group simplemath in _config.yml"
-            end
-        end
-        if @conf.has_key?("shared_context")
-            puts "parameter shared_context is set in _config.yml"
-            #puts "its value is "+@conf["shared_context"]
-        end
-        result=false
-        if @conf.has_key?("shared_context")&&@conf["shared_context"]
-            result=true
-        end
-        if result
-            puts "shared context enabled"
-        else
-            puts "shared context disabled"
-        end
-        return result
     end
 
     def self.reset_fixups()
@@ -445,6 +425,7 @@ class StyleFix
 
         in_tag=false
         tag=""
+        puts "@content.length=#{@content.length}"
         while @position<@content.length
             if in_tag
                 if match("%}")
@@ -524,6 +505,7 @@ def fix_sizes(content)
         puts "can not generate a composite pdf file"
         return content
     end
+    puts "compiled."
 
     # FIXME: What if a "single" formula in a document
     #        actually maps to several image files?
@@ -542,10 +524,8 @@ def fix_sizes(content)
     generate_images(document_filename+compiled_ext, File.join(directory, document_filename+img_ext))
 
     puts "listing all the *.png files:"
-    Dir.glob("*.png").each do |f|
-        puts f
-    end
-    Dir.glob(File.join(directory, "*.png")).each do |f|
+    #Dir.glob(File.join(directory, "*.png")).each do |f|
+    Dir.glob("/eq/*").each do |f|
         puts f
     end
     puts "---------------------"
@@ -572,6 +552,9 @@ def fix_sizes(content)
     puts "applying the style fixes..."
     stub_options=stylefix.locate_next_style_stub()
     #stub_options=FilesSingleton::current_fixup()
+    if stub_options==nil
+        puts "stub_options==nil"
+    end
     while stub_options!=nil
         puts "style stub located; applying..."
 
