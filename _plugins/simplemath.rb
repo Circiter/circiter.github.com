@@ -73,7 +73,7 @@ def latex_use_formula(findex, formula, inline)
     end
 end
 
-def latex_epilogue
+def latex_epilogue()
     return "\\end{document}"
 end
 
@@ -163,7 +163,7 @@ def style_stub(findex, decimal_index, is_inline)
     #position=...
     #FilesSingleton::register_fixup(position, findex, basename, inline)
     #return ""
-eend
+end
 
 def generate_images(document_filename, output_filename)
     #system("dvips -E -q temp-file.dvi -o temp-file.eps >/dev/null 2>&1");
