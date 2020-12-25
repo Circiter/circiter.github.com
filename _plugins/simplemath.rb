@@ -54,14 +54,14 @@ end
 
 def latex_define_formula(findex, formula, inline)
     return "" unless inline
-    latex_source="\n\\sbox\\xfrm{"
+    latex_source="\n\\begin{preview}\\sbox\\xfrm{"
     latex_source<<formula
     latex_source<<"}\n"
     latex_source<<"\\immediate\\openout\\frmdims=dimensions#{findex}.tmp\n"
     latex_source<<"\\immediate\\write\\frmdims{depth: \\the\\dp\\xfrm}\n"
     latex_source<<"\\immediate\\write\\frmdims{height: \\the\\ht\\xfrm}\n"
     latex_source<<"\\immediate\\write\\frmdims{width: \\the\\wd\\xfrm}\n"
-    latex_source<<"\\immediate\\closeout\\frmdims\n"
+    latex_source<<"\\immediate\\closeout\\frmdims\\end{preview}\n"
     return latex_source
 end
 
@@ -302,22 +302,23 @@ module FilesSingleton
         return @list
     end
 
-    @shared_context=nil
+    @configured=false
+    @shared_context=false
     @transparency=true
 
     def self.read_config(cfg, key, default=nil)
-        return default if cfg==nil||!cfg.has_key?(key)
-        return cfg[key]
+        cfg=Jekyll.configuration({}) if cfg==nil
+        return cfg[key] if cfg.has_key?(key)
+        return default
     end
 
     def self.multi_mode()
-        return @shared_context if @shared_context!=nil
+        return @shared_context unless @configured
 
-        @shared_context=false
-        cfg=Jekyll.configuration({})
-        cfg=read_config(cfg, "simplemath")
+        cfg=read_config(nil, "simplemath")
         @shared_context=read_config(cfg, "shared_context", false)
         @transparency=read_config(cfg, "transparency", true)
+        @configured=true
 
         return @shared_context
     end
@@ -497,9 +498,9 @@ def fix_sizes(content)
     document.puts(epilogue)
     document.close
 
-    puts "content of composite tex file:"
-    puts(File.read(document_filename+ext))
-    puts "---------------------------------------"
+    #puts "content of composite tex file:"
+    #puts(File.read(document_filename+ext))
+    #puts "---------------------------------------"
 
     puts "compiling composite tex file..."
 

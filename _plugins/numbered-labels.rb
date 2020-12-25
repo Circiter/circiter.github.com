@@ -93,6 +93,12 @@ Jekyll::Hooks.register(:blog_posts, :post_render) do |target, payload|
     end
 end
 
+def read_config(config, key, default=nil)
+    config=Jekyll.configuration({}) if config==nil
+    return config[key] if config.has_key?(key)
+    return default
+end
+
 module Jekyll
     class Label < Liquid::Tag
         def initialize(name, params, tokens)
@@ -100,7 +106,8 @@ module Jekyll
             parameters=params.gsub("  ", " ").split(" ")
             @namespace=parameters[0]
             @identifier=parameters[1]
-           super
+            @numbering_style=nil
+            super
         end
 
         def custom_numeration(number, style)
@@ -141,16 +148,11 @@ module Jekyll
             LabelsSingleton::register_defined(@namespace, to_register_in_defined)
 
             number=number+1
-            numbering_style=Jekyll.configuration({})["numbered_labels"]["numbering_style"]
-            # FIXME: How to check the precence of a specific parameters in the configuration?
-            #use_other_numeration_style=!config["numeration_style"].nil? && !config["numeration_style"].empty?
-            #numeration_style=config["numeration_style"]
-            #config.merge!(site.config["numbered_labels"])
-            #...=config["numeration_style"]
-            numbering_style="arabic" if numbering_style==nil
-            #numbering_style=@context.registers[:site].config["numbered_labels"]["numbering_style"]
-            #puts "numbered-labels.rb: numbering_style=#{numbering_style}"
-            return custom_numeration(number, numbering_style) if numbering_style!="arabic"
+            if @numbering_style==nil
+                cfg=read_config(nil, "numbered_labels")
+                @numbering_style=read_config(cfg, "numbering_style", "arabic")
+            end
+            return custom_numeration(number, @numbering_style) if @numbering_style!="arabic"
             return "#{number}"
         end
     end
