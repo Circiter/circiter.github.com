@@ -305,7 +305,7 @@ module FilesSingleton
     @shared_context=nil
     @transparency=true
 
-    def read_config(cfg, key, default=nil)
+    def self.read_config(cfg, key, default=nil)
         return default if cfg==nil||!cfg.has_key?(key)
         return cfg[key]
     end
