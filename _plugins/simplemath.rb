@@ -163,7 +163,7 @@ def style_stub(findex, decimal_index, is_inline)
     #position=...
     #FilesSingleton::register_fixup(position, findex, basename, inline)
     #return ""
-end
+eend
 
 def generate_images(document_filename, output_filename)
     #system("dvips -E -q temp-file.dvi -o temp-file.eps >/dev/null 2>&1");
@@ -302,7 +302,21 @@ module FilesSingleton
         return @list
     end
 
+    @shared_context=nil
+
     def self.multi_mode()
+        return @shared_context if @shared_context!=nil
+
+        @shared_context=false
+        cfg=Jekyll.configuration({})        
+        if cfg.has_key?("simplemath")
+            if cfg["simplemath"].has_key?("shared_context")
+                @shared_context=cfg["simplemath"]["shared_context"]
+            end
+        end
+
+        return @shared_context
+
         if @conf==nil
             @conf=Hash.new
             if Jekyll.configuration({}).has_key?("simplemath")
@@ -425,7 +439,7 @@ class StyleFix
         return true
     end
 
-    def locate_next_style_stub
+    def locate_next_style_stub()
         puts "searching for a next style stub..."
         result=Hash.new
 
@@ -531,7 +545,7 @@ def fix_sizes(content)
     Dir.glob("*.png").each do |f|
         puts f
     end
-    Dir.glob("eq/*.png").each do |f|
+    Dir.glob(File.join(directory, "*.png")).each do |f|
         puts f
     end
     puts "---------------------"
