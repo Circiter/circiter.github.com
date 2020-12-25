@@ -94,8 +94,7 @@ Jekyll::Hooks.register(:blog_posts, :post_render) do |target, payload|
 end
 
 def read_config(config, key, default=nil)
-    config=Jekyll.configuration({}) if config==nil
-    return config[key] if config.has_key?(key)
+    return config[key] if config!=nil&&config.has_key?(key)
     return default
 end
 
@@ -149,7 +148,8 @@ module Jekyll
 
             number=number+1
             if @numbering_style==nil
-                cfg=read_config(nil, "numbered_labels")
+                config=Jekyll.configuration({})
+                cfg=read_config(cfg, "numbered_labels")
                 @numbering_style=read_config(cfg, "numbering_style", "arabic")
             end
             return custom_numeration(number, @numbering_style) if @numbering_style!="arabic"

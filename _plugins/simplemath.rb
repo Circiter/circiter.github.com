@@ -307,19 +307,31 @@ module FilesSingleton
     @transparency=true
 
     def self.read_config(cfg, key, default=nil)
-        cfg=Jekyll.configuration({}) if cfg==nil
-        return cfg[key] if cfg.has_key?(key)
+        return cfg[key] if cfg!=nil&&cfg.has_key?(key)
         return default
     end
 
     def self.multi_mode()
-        return @shared_context unless @configured
+        if @configured
+            if @shared_context
+                puts "@shared_context=true"
+            else
+                puts "@shared_context=false"
+            end
+        end
+        return @shared_context if !@configured
 
-        cfg=read_config(nil, "simplemath")
+        cfg=Jekyll.configuration({})
+        cfg=read_config(cfg, "simplemath")
         @shared_context=read_config(cfg, "shared_context", false)
         @transparency=read_config(cfg, "transparency", true)
         @configured=true
 
+        if @shared_context
+            puts "@shared_context=true"
+        else
+            puts "@shared_context=false"
+        end
         return @shared_context
     end
 
