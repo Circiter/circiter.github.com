@@ -497,9 +497,13 @@ def fix_sizes(content)
     document.puts(epilogue)
     document.close
 
+    puts "content of composite tex file:"
+    puts(File.read(document_filename+ext))
+    puts "---------------------------------------"
+
     puts "compiling composite tex file..."
 
-    compile_latex(document_filename, ext, true)
+    compile_latex(document_filename, ext, false)
 
     if !File.exists?(document_filename+compiled_ext)
         puts "can not generate a composite pdf file"

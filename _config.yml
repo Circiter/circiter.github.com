@@ -100,7 +100,8 @@ numbered_labels:
     numbering_style: arabic
 
 simplemath:
-    shared_context: true
+    shared_context: false
+    #transparency: true
 
 #optional_front_matter:
 #  remove_originals: true
