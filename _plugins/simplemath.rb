@@ -315,7 +315,7 @@ module FilesSingleton
 
         @shared_context=false
         cfg=Jekyll.configuration({})
-        cfg=read_config(cfg, "simplemath"
+        cfg=read_config(cfg, "simplemath")
         @shared_context=read_config(cfg, "shared_context", false)
         @transparency=read_config(cfg, "transparency", true)
 
