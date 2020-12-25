@@ -101,7 +101,7 @@ numbered_labels:
 
 simplemath:
     shared_context: true
-    transparency: true
+    #transparency: true
 
 #optional_front_matter:
 #  remove_originals: true

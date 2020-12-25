@@ -32,9 +32,10 @@ def generate_html(filename, full_filename, formula, inline, style)
 end
 
 def latex_preamble
-    latex_source="\\documentclass[preview=true,border=1pt,varwidth=true]{standalone}\n"
+    latex_source="\\documentclass[preview=true,tikz=true,border=1pt]{standalone}\n"
     if FilesSingleton::multi_mode()
-        latex_source="\\documentclass[preview=true,multi=true,tikz=true,border=1pt,varwidth=true]{standalone}\n"
+        puts "multi mode enabled"
+        latex_source="\\documentclass[preview=true,multi=true,tikz=true,border=1pt]{standalone}\n"
     end
     latex_source<<"\\usepackage[T1,T2A]{fontenc}\n"
     latex_source<<"\\usepackage[utf8]{inputenc}\n"
@@ -302,8 +303,7 @@ module FilesSingleton
         return @list
     end
 
-    @configured=false
-    @shared_context=false
+    @shared_context=nil
     @transparency=true
 
     def self.read_config(cfg, key, default=nil)
@@ -312,20 +312,19 @@ module FilesSingleton
     end
 
     def self.multi_mode()
-        if @configured
+        if @shared_context!=nil
             if @shared_context
                 puts "@shared_context=true"
             else
                 puts "@shared_context=false"
             end
         end
-        return @shared_context if !@configured
+        return @shared_context if @shared_context!=nil
 
         cfg=Jekyll.configuration({})
         cfg=read_config(cfg, "simplemath")
         @shared_context=read_config(cfg, "shared_context", false)
         @transparency=read_config(cfg, "transparency", true)
-        @configured=true
 
         if @shared_context
             puts "@shared_context=true"
