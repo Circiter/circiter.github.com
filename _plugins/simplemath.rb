@@ -34,7 +34,6 @@ end
 def latex_preamble
     latex_source="\\documentclass[preview=true,tikz=true,border=1pt]{standalone}\n"
     if FilesSingleton::multi_mode()
-        puts "multi mode enabled"
         latex_source="\\documentclass[preview=true,multi=true,tikz=true,border=1pt]{standalone}\n"
     end
     latex_source<<"\\usepackage[T1,T2A]{fontenc}\n"
@@ -55,14 +54,18 @@ end
 
 def latex_define_formula(findex, formula, inline)
     return "" unless inline
-    latex_source="\n\\begin{preview}\\sbox\\xfrm{"
+    latex_source="\n"
+    latex_source<<"\\begin{preview}" if FilesSingleton::multi_mode()
+    latex_source<<"\n\\sbox\\xfrm{"
     latex_source<<formula
     latex_source<<"}\n"
     latex_source<<"\\immediate\\openout\\frmdims=dimensions#{findex}.tmp\n"
     latex_source<<"\\immediate\\write\\frmdims{depth: \\the\\dp\\xfrm}\n"
     latex_source<<"\\immediate\\write\\frmdims{height: \\the\\ht\\xfrm}\n"
     latex_source<<"\\immediate\\write\\frmdims{width: \\the\\wd\\xfrm}\n"
-    latex_source<<"\\immediate\\closeout\\frmdims\\end{preview}\n"
+    latex_source<<"\\immediate\\closeout\\frmdims"
+    latex_source<<"\\end{preview}" if FilesSingleton::multi_mode()
+    latex_source<<"\n"
     return latex_source
 end
 
@@ -170,11 +173,12 @@ def generate_images(document_filename, output_filename)
     #system("dvips -E -q temp-file.dvi -o temp-file.eps >/dev/null 2>&1");
     #system("convert -density 120 -quality 90 -trim temp-file.eps "+full_filename+" >/dev/null 2>&1")
     #system("convert -density 120 +repage -trim +repage "+document_filename+" "+output_filename+" >/dev/null 2>&1")
-    puts("executing: convert -density 120 -trim +repage "+document_filename+" PNG32:"+output_filename)
+    puts("executing: convert -density 120 -trim "+document_filename+" "+output_filename)
     if File.exists?(document_filename)
         puts "the file "+document_filename+" exists"
     end
-    system("convert -density 120 -trim +repage "+document_filename+" PNG32:"+output_filename)
+    system("convert -density 120 -trim "+document_filename+" "+output_filename)
+    #system("convert -density 120 -trim +repage "+document_filename+" PNG32:"+output_filename)
 end
 
 def render_latex(formula, inline, site)
@@ -315,13 +319,6 @@ module FilesSingleton
     end
 
     def self.multi_mode()
-        if @shared_context!=nil
-            if @shared_context
-                puts "@shared_context=true"
-            else
-                puts "@shared_context=false"
-            end
-        end
         return @shared_context if @shared_context!=nil
 
         cfg=Jekyll.configuration({})
@@ -329,11 +326,6 @@ module FilesSingleton
         @shared_context=read_config(cfg, "shared_context", false)
         @transparency=read_config(cfg, "transparency", true)
 
-        if @shared_context
-            puts "@shared_context=true"
-        else
-            puts "@shared_context=false"
-        end
         return @shared_context
     end
 
