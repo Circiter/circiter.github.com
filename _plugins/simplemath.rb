@@ -778,7 +778,7 @@ Jekyll::Hooks.register(:pages, :post_render) do |target, payload|
     if target.ext==".md"&&(target.basename=="about"||target.basename=="index")
         FilesSingleton::reset_index()
         target.content=fix_sizes(target.content, target.site)
-        FilesSingleton::reset_fixups()
+        #FilesSingleton::reset_fixups()
         target.content
     end
 end
@@ -787,7 +787,7 @@ Jekyll::Hooks.register(:blog_posts, :post_render) do |target, payload|
     if target.data["ext"]==".md"
         FilesSingleton::reset_index()
         target.content=fix_sizes(target.content, target.site)
-        FilesSingleton::reset_fixups()
+        #FilesSingleton::reset_fixups()
         target.content
     end
 end
