@@ -35,7 +35,8 @@ def latex_preamble
     #latex_source="\\documentclass[preview=true,tikz=true,border=1pt]{standalone}\n"
     latex_source="\\documentclass[preview,border=1pt]{standalone}\n"
     if FilesSingleton::multi_mode()
-        latex_source="\\documentclass[preview=true,multi=true,tikz=true,border=1pt]{standalone}\n"
+        #latex_source="\\documentclass[preview=true,multi=true,tikz=true,border=1pt]{standalone}\n"
+        latex_source="\\documentclass[preview,multi,border=1pt]{standalone}\n"
     end
     latex_source<<"\\usepackage[T1,T2A]{fontenc}\n"
     latex_source<<"\\usepackage[utf8]{inputenc}\n"
@@ -69,13 +70,13 @@ end
 
 def latex_use_formula(findex, formula, inline)
     latex_source=""
-    latex_source<<"\\begin{preview}" if FilesSingleton::multi_mode()
+    latex_source<<"\\begin{preview}" #if FilesSingleton::multi_mode()
     if inline
         latex_source<<"\\usebox\\xfrm"
     else
         latex_source<<"\n"+formula
     end
-    latex_source<<"\n\\end{preview}" if FilesSingleton::multi_mode()
+    latex_source<<"\n\\end{preview}" #if FilesSingleton::multi_mode()
     latex_source<<"\n\n"
     return latex_source
 end
@@ -230,9 +231,6 @@ def render_latex(formula, inline, site)
     latex_document.puts use_formula
     latex_document.puts latex_epilogue()
     latex_document.close
-    puts "latex source:"
-    puts(File.read("temp-file.tex"))
-    puts "--------------------------------"
     compile_latex("temp-file", ".tex", false)
 
     #unless File.exists?("temp-file.dvi")
@@ -271,10 +269,6 @@ module FilesSingleton
     @decimal_index=-1
 
     @doc_index=0
-
-    @style_fixups=Array.new
-    @current_fixup_index=0
-    @position_shift=0
 
     def self.document_index()
         return @doc_index
@@ -337,43 +331,6 @@ module FilesSingleton
         @transparency=read_config(cfg, "transparency", true)
 
         return @shared_context
-    end
-
-    def self.reset_fixups()
-        @style_fixups.clear
-        @current_fixup_index=0
-        @position_shift=0
-    end
-
-    def self.register_fixup(position, findex, basename, inline)
-        new_fixup=Hash.new
-        new_fixup["position"]=position
-        new_fixup["findex"]=findex
-        new_fixup["basename"]=basename
-        new_fixup["inline"]=inline
-        @style_fixups<<new_fixup
-    end
-
-    def self.current_fixup()
-        return nil if @current_fixup_index>=@style_fixups.length
-        return @style_fixups[@current_fixup_index]
-    end
-
-    def self.next_fixup()
-        @current_fixup_index=@current_fixup_index+1
-        return current_fixup()
-    end
-
-    def self.apply_current_fixup(content, style)
-        result=""
-        fixup=current_fixup()
-        return content if fixup==nil
-
-        pos=fixup["position"]+@position_shift
-        #result=content[0..pos]+style+content[pos..content.length-1] # FIXME.
-
-        @position_shift=@position_shift+style.length
-        return result
     end
 end
 
@@ -442,34 +399,33 @@ class StyleFix
         puts "searching for a next style stub..."
         result=Hash.new
 
-        in_tag=false
-        tag=""
+        tag_start=-1
+        tag_end=-1
         puts "@content.length=#{@content.length}"
         while @position<@content.length
-            if in_tag
+            if tag_start>=0
+                tag_end=@position
                 if match("%}")
                     puts "%} found"
-                    in_tag=false
+                    tag=@content[tag_start..tag_end]
+                    tag_start=-1
                     puts "style tag readed: "+tag
-                    parameters=tag.gsub("  "," ").split(" ");
+                    parameters=tag.gsub("\t", " ").gsub("\n"," ")..gsub("  "," ").split(" ")
                     if parameters.length==0||parameters.length!=4||parameters[0]!="style_stub"
                         puts "invalid style stub"
-                        in_tag=false
                         @result_content=@result_content+"{%"+tag+"%}"
-                        tag=""
                         next
                     end
+                    puts "parameters (findex, basename, inline) are extracted successfully"
                     result["findex"]=parameters[1]
                     result["basename"]=parameters[2]
                     result["inline"]=parameters[3]
                     return result
                 end
-                tag=tag+@content[@position]
             else
                 if match("{%")
                     puts "{% found"
-                    in_tag=true
-                    tag=""
+                    tag_start=@position
                     next
                 end
                 @result_content=@result_content+@content[@position]

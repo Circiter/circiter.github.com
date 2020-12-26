@@ -102,7 +102,9 @@ module Jekyll
     class Label < Liquid::Tag
         def initialize(name, params, tokens)
             @tag_name=name
+
             parameters=params.gsub("  ", " ").split(" ")
+
             @namespace=parameters[0]
             @identifier=parameters[1]
             @numbering_style=nil
