@@ -484,7 +484,7 @@ class StyleFix
     end
 end
 
-def fix_sizes(content)
+def fix_sizes(content, site)
     return content unless FilesSingleton::multi_mode()
 
     directory="eq"
@@ -515,7 +515,7 @@ def fix_sizes(content)
 
     puts "compiling composite tex file..."
 
-    compile_latex(document_filename, ext, false)
+    compile_latex(document_filename, ext, true)
 
     if !File.exists?(document_filename+compiled_ext)
         puts "can not generate a composite pdf file"
@@ -539,13 +539,6 @@ def fix_sizes(content)
 
     generate_images(document_filename+compiled_ext, File.join(directory, document_filename+img_ext))
 
-    puts "listing all the *.png files:"
-    #Dir.glob(File.join(directory, "*.png")).each do |f|
-    Dir.glob("/eq/*").each do |f|
-        puts f
-    end
-    puts "---------------------"
-
     multi_image=document_filename+"*"+img_ext
     multi_image=File.join(directory, multi_image)
     puts "generated images (#{multi_image}):"
@@ -560,6 +553,10 @@ def fix_sizes(content)
     end
     images.each do |individual_image|
         puts "individual image: "+individual_image
+        puts "site.source="+site.source
+        static_file=Jekyll::StaticFile.new(site, site.source, directory, File.basename(individual_image))
+        site.static_files<<static_file
+        FilesSingleton::register(static_file.path)
     end
     puts "------------------------------------------------"
 
@@ -577,11 +574,7 @@ def fix_sizes(content)
         findex=stub_options["findex"]
         eq_index=stub_options["eq_index"]
 
-        full_filename="#{doc_index}-#{eq_index}.png"
-        static_file=Jekyll::StaticFile.new(site, site.source, directory, full_filename)
-        site.static_files<<static_file
-        FilesSingleton::register(static_file.path)
-        full_filename=File.join(directory, full_filename)
+        full_filename=File.join(directory, "#{doc_index}-#{eq_index}.png")
 
         inline=false
         if stub_options["inline"]=="inline"
@@ -819,16 +812,18 @@ end
 Jekyll::Hooks.register(:pages, :post_render) do |target, payload|
     if target.ext==".md"&&(target.basename=="about"||target.basename=="index")
         FilesSingleton::reset_index()
-        target.content=fix_sizes(target.content)
+        target.content=fix_sizes(target.content, target.site)
         FilesSingleton::reset_fixups()
+        target.content
     end
 end
 
 Jekyll::Hooks.register(:blog_posts, :post_render) do |target, payload|
     if target.data["ext"]==".md"
         FilesSingleton::reset_index()
-        target.content=fix_sizes(target.content)
+        target.content=fix_sizes(target.content, target.site)
         FilesSingleton::reset_fixups()
+        target.content
     end
 end
 
