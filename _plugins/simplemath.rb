@@ -32,7 +32,8 @@ def generate_html(filename, full_filename, formula, inline, style)
 end
 
 def latex_preamble
-    latex_source="\\documentclass[preview=true,tikz=true,border=1pt]{standalone}\n"
+    #latex_source="\\documentclass[preview=true,tikz=true,border=1pt]{standalone}\n"
+    latex_source="\\documentclass[preview,border=1pt]{standalone}\n"
     if FilesSingleton::multi_mode()
         latex_source="\\documentclass[preview=true,multi=true,tikz=true,border=1pt]{standalone}\n"
     end
@@ -55,26 +56,28 @@ end
 def latex_define_formula(findex, formula, inline)
     return "" unless inline
     latex_source="\n"
-    latex_source<<"\\begin{preview}" if FilesSingleton::multi_mode()
-    latex_source<<"\n\\sbox\\xfrm{"
+    latex_source<<"\\sbox\\xfrm{"
     latex_source<<formula
     latex_source<<"}\n"
     latex_source<<"\\immediate\\openout\\frmdims=dimensions#{findex}.tmp\n"
     latex_source<<"\\immediate\\write\\frmdims{depth: \\the\\dp\\xfrm}\n"
     latex_source<<"\\immediate\\write\\frmdims{height: \\the\\ht\\xfrm}\n"
     latex_source<<"\\immediate\\write\\frmdims{width: \\the\\wd\\xfrm}\n"
-    latex_source<<"\\immediate\\closeout\\frmdims"
-    latex_source<<"\\end{preview}" if FilesSingleton::multi_mode()
-    latex_source<<"\n"
+    latex_source<<"\\immediate\\closeout\\frmdims\n"
     return latex_source
 end
 
 def latex_use_formula(findex, formula, inline)
+    latex_source=""
+    latex_source<<"\\begin{preview}" if FilesSingleton::multi_mode()
     if inline
-        return "\\usebox\\xfrm\n\n"
+        latex_source<<"\\usebox\\xfrm"
     else
-        return "\n"+formula+"\n\n"
+        latex_source<<"\n"+formula
     end
+    latex_source<<"\n\\end{preview}" if FilesSingleton::multi_mode()
+    latex_source<<"\n\n"
+    return latex_source
 end
 
 def latex_epilogue()
@@ -177,6 +180,10 @@ def generate_images(document_filename, output_filename)
     if File.exists?(document_filename)
         puts "the file "+document_filename+" exists"
     end
+    if File.exists?(output_filename)
+        puts "output file already exists, removing..."
+        File.delete(output_filename)
+    end
     system("convert -density 120 -trim "+document_filename+" "+output_filename)
     #system("convert -density 120 -trim +repage "+document_filename+" PNG32:"+output_filename)
 end
@@ -223,7 +230,10 @@ def render_latex(formula, inline, site)
     latex_document.puts use_formula
     latex_document.puts latex_epilogue()
     latex_document.close
-    compile_latex("temp-file", ".tex")
+    puts "latex source:"
+    puts(File.read("temp-file.tex"))
+    puts "--------------------------------"
+    compile_latex("temp-file", ".tex", false)
 
     #unless File.exists?("temp-file.dvi")
     unless File.exists?("temp-file.pdf")
