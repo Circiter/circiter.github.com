@@ -170,8 +170,11 @@ def generate_images(document_filename, output_filename)
     #system("dvips -E -q temp-file.dvi -o temp-file.eps >/dev/null 2>&1");
     #system("convert -density 120 -quality 90 -trim temp-file.eps "+full_filename+" >/dev/null 2>&1")
     #system("convert -density 120 -trim "+document_filename+" "+output_filename+" >/dev/null 2>&1")
-    puts("executing: convert -density 120 -trim "+document_filename+" "+output_filename)
-    system("convert -density 120 -trim "+document_filename+" "+output_filename)
+    puts("executing: convert +repage "+document_filename+" "+output_filename)
+    if File.exists?(document_filename)
+        puts "the file "+document_filename+" exists"
+    end
+    system("convert +repage "+document_filename+" "+output_filename)
 end
 
 def render_latex(formula, inline, site)
@@ -425,8 +428,10 @@ class StyleFix
         pos=@position
         while i<substring.length
             return false if pos>=@content.length||@content[pos]!=substring[i]
+            i=i+1
             pos=pos+1
         end
+        puts "matched"
         @position=@position+pos
         return true
     end
@@ -441,6 +446,7 @@ class StyleFix
         while @position<@content.length
             if in_tag
                 if match("%}")
+                    puts "%} found"
                     in_tag=false
                     puts "style tag readed: "+tag
                     parameters=tag.gsub("  "," ").split(" ");
@@ -459,6 +465,7 @@ class StyleFix
                 tag=tag+@content[@position]
             else
                 if match("{%")
+                    puts "{% found"
                     in_tag=true
                     tag=""
                     next
