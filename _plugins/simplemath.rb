@@ -410,7 +410,7 @@ class StyleFix
                     tag=@content[tag_start..tag_end]
                     tag_start=-1
                     puts "style tag readed: "+tag
-                    parameters=tag.gsub("\t", " ").gsub("\n"," ")..gsub("  "," ").split(" ")
+                    parameters=tag.gsub("\t", " ").gsub("\n"," ").gsub("  "," ").split(" ")
                     if parameters.length==0||parameters.length!=4||parameters[0]!="style_stub"
                         puts "invalid style stub"
                         @result_content=@result_content+"{%"+tag+"%}"
