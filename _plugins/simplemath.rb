@@ -417,6 +417,9 @@ class StyleFix
                         next
                     end
                     puts "parameters (findex, basename, inline) are extracted successfully"
+                    puts "findex="+parameters[1]
+                    puts "basename="+parameters[2]
+                    puts "inline="+parameters[3]
                     result["findex"]=parameters[1]
                     result["basename"]=parameters[2]
                     result["inline"]=parameters[3]
