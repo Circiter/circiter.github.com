@@ -434,7 +434,7 @@ class StyleFix
             @position=@position+1
         end
 
-        puts "unterminated tag" if in_tag
+        puts "unterminated tag" if tag_start>=0
 
         return nil
     end
