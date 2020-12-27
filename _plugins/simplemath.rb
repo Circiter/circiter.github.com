@@ -102,6 +102,7 @@ def compile_latex(basename, ext, silent=true)
 end
 
 def generate_style(findex, full_filename, inline)
+    puts "generating style..."
     depth_pt="0pt"
     height_pt="0pt"
     width_pt="0pt"
@@ -159,6 +160,7 @@ def generate_style(findex, full_filename, inline)
         style=style+" vertical-align: -"+depth+"px;";
         #style=style+" vertical-align: -"+depth_pt+"pt;";
     end
+    puts "style calculated: "+style
     return style
 end
 
@@ -521,7 +523,7 @@ def fix_sizes(content, site)
     puts "applying the style fixes..."
 
     # {% style_stub <findex> <eq_index> <inline> %}
-    content.gsub!(/{%\s*style_stub\s+(\w+)\s+(\d+)\s+(\w+)\s*%}/).each do |tag|
+    content=content.gsub(/{%\s*style_stub\s+(\w+)\s+(\d+)\s+(\w+)\s*%}/) do |tag|
         puts "regex matched:"
         puts "tag=#{tag}, findex=#{$1}, eq_index=#{$2}, inline=#{$3}"
         generate_style($1, File.join(directory, "#{doc_index}-#{$2}.png"), $3=="inline")
@@ -868,9 +870,12 @@ end
 
 def postrender(target)
         FilesSingleton::reset_index()
-        target.content=fix_sizes(target.content, target.site)
+        fixed=fix_sizes(target.content, target.site)
+        puts "fixed content:"
+        puts fixed
+        puts "\n------------------------------------------------\n\n"
+        target.content=fixed
         #FilesSingleton::reset_fixups()
-        target.content
 end
 
 Jekyll::Hooks.register(:pages, :pre_render) do |target, payload|
