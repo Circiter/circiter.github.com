@@ -391,7 +391,7 @@ class StyleFix
             pos=pos+1
         end
         puts "matched"
-        @position=@position+pos
+        @position=@position+i-1 # FIXME.
         return true
     end
 
@@ -440,11 +440,17 @@ class StyleFix
         puts "unterminated tag" if tag_start>=0
 
         return nil
+
+        #@content.match(/{%\s*style_stub\s+(\a*)\s+(\d*)\s+(\a*)\s*%}/)
     end
 
     def replace_style_stub(style)
         puts "replacing current style stub..."
         @result_content=@result_content+style
+        # Try \b instead of \w+
+        #@content.sub!(/{% style_stub\w+.*\w+\d*\w+.* %}/, style)
+        #@content.sub!(/{%\s*style_stub\s+(\a*)\s+(\d*)\s+(\a*)\s*%}/, style)
+        #return @content
     end
 
     def get_content()
@@ -452,7 +458,84 @@ class StyleFix
     end
 end
 
+########################################################
+
 def fix_sizes(content, site)
+    return content unless FilesSingleton::multi_mode()
+
+    directory="eq"
+    ext=".tex"
+    compiled_ext=".pdf"
+    img_ext=".png"
+    composite_filename="composite"
+    doc_index=FilesSingleton::document_index()
+    document_filename="#{doc_index}"#"document"
+
+    return content unless File.exists?(composite_filename+ext)
+
+    puts "creating composite tex file..."
+
+    preamble=latex_preamble()
+    epilogue=latex_epilogue()
+    composite_content=File.read(composite_filename+ext);
+
+    document=File.new(document_filename+ext, "w")
+    document.puts(preamble)
+    document.puts(composite_content)
+    document.puts(epilogue)
+    document.close
+
+    puts "compiling composite tex file..."
+
+    compile_latex(document_filename, ext, true)
+
+    if !File.exists?(document_filename+compiled_ext)
+        puts "can not generate a composite pdf file"
+        return content
+    end
+    puts "compiled."
+
+    puts "generating images..."
+
+    generate_images(document_filename+compiled_ext, File.join(directory, document_filename+img_ext))
+
+    multi_image=document_filename+"*"+img_ext
+    multi_image=File.join(directory, multi_image)
+    puts "generated images (#{multi_image}):"
+    images=Dir.glob(multi_image)
+    if images.length==0
+        puts "there are no images for current document"
+    end
+    if images.length==1
+        puts "there is only one image for current document, renaming..."
+        FileUtils.mv(images[0], File.join(directory, document_filename+"-0.png"))
+        #File.rename(images[0], File.join(directory, "#{doc_index}-0.png"))
+    end
+    images.each do |individual_image|
+        puts "registering individual image: "+individual_image
+        static_file=Jekyll::StaticFile.new(site, site.source, directory, File.basename(individual_image))
+        site.static_files<<static_file
+        FilesSingleton::register(static_file.path)
+    end
+
+    puts "applying the style fixes..."
+
+    # {% style_stub <findex> <eq_index> <inline> %}
+    content.gsub!(/{%\s*style_stub\s+(\w+)\s+(\d+)\s+(\w+)\s*%}/).each do |tag|
+        puts "regex matched:"
+        puts "tag=#{tag}, findex=#{$1}, eq_index=#{$2}, inline=#{$3}"
+        generate_style($1, File.join(directory, "#{doc_index}-#{$2}.png"), $3=="inline")
+    end
+
+    Dir.glob("*.tex").each {|f| File.delete(f)}
+    Dir.glob("*.tmp").each {|f| File.delete(f)}
+
+    return content
+end
+
+######################################################
+
+def fix_sizes_old(content, site)
     return content unless FilesSingleton::multi_mode()
 
     directory="eq"
@@ -519,6 +602,7 @@ def fix_sizes(content, site)
         FileUtils.mv(images[0], File.join(directory, document_filename+"-0.png"))
         #File.rename(images[0], File.join(directory, "#{doc_index}-0.png"))
     end
+    puts "registering images..."
     images.each do |individual_image|
         puts "individual image: "+individual_image
         puts "site.source="+site.source
@@ -526,11 +610,19 @@ def fix_sizes(content, site)
         site.static_files<<static_file
         FilesSingleton::register(static_file.path)
     end
-    puts "------------------------------------------------"
 
     stylefix=StyleFix.new(content)
 
     puts "applying the style fixes..."
+
+    # FIXME: Consider to use this snippet instead:
+    # {% style_stub <findex> <eq_index> <inline> %}
+    #content.gsub!(/{%\s*style_stub\s+(\w+)\s+(\d+)\s+(\w+)\s*%}/).each do |tag|
+    #    puts "regex matched:"
+    #    puts "tag=#{tag}, findex=#{$1}, eq_index=#{$2}, inline=#{$3}"
+    #    generate_style($1, File.join(directory, "#{doc_index}-#{$2}.png"), $3=="inline")
+    #end
+
     stub_options=stylefix.locate_next_style_stub()
     #stub_options=FilesSingleton::current_fixup()
     if stub_options==nil
@@ -564,6 +656,8 @@ def fix_sizes(content, site)
     return content
 end
 
+######################################################
+
 def fix_math(content)
     # FIXME: Try to insert &#8288; (word-joiner) after formulas
     # if the following character is not space.
@@ -591,6 +685,10 @@ class MathFix
         @in_regular_text=true
     end
 
+    # FIXME: Try to use <string>.each_char to
+    #        iterate over characters in a utf-8
+    #        compatible way (but it seems to work
+    #        correctly with usual indexing nevertheless).
     def next_character
         @position=@position+1
         return false if @position>=@content.length
@@ -763,35 +861,39 @@ class MathFix
     end
 end
 
+def prerender(target)
+    FilesSingleton::new_document()
+    target.content=fix_math(target.content)
+end
+
+def postrender(target)
+        FilesSingleton::reset_index()
+        target.content=fix_sizes(target.content, target.site)
+        #FilesSingleton::reset_fixups()
+        target.content
+end
+
 Jekyll::Hooks.register(:pages, :pre_render) do |target, payload|
     if target.ext==".md"&&(target.basename=="about"||target.basename=="index")
-        FilesSingleton::new_document()
-        target.content=fix_math(target.content)
+        prerender(target)
     end
 end
 
 Jekyll::Hooks.register(:blog_posts, :pre_render) do |target, payload|
     if target.data["ext"]==".md"
-        FilesSingleton::new_document()
-        target.content=fix_math(target.content)
+        prerender(target)
     end
 end
 
 Jekyll::Hooks.register(:pages, :post_render) do |target, payload|
     if target.ext==".md"&&(target.basename=="about"||target.basename=="index")
-        FilesSingleton::reset_index()
-        target.content=fix_sizes(target.content, target.site)
-        #FilesSingleton::reset_fixups()
-        target.content
+        postrender(target)
     end
 end
 
 Jekyll::Hooks.register(:blog_posts, :post_render) do |target, payload|
     if target.data["ext"]==".md"
-        FilesSingleton::reset_index()
-        target.content=fix_sizes(target.content, target.site)
-        #FilesSingleton::reset_fixups()
-        target.content
+        postrender(target)
     end
 end
 
