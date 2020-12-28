@@ -872,36 +872,33 @@ end
 def postrender(target)
         FilesSingleton::reset_index()
         fixed=fix_sizes(target.content, target.site)
-        puts "fixed content:"
-        puts fixed
-        puts "\n------------------------------------------------\n\n"
         target.content=fixed
         #target.rendered_content=fixed
-        return target.content
+        #return target.content
         #FilesSingleton::reset_fixups()
 end
 
 Jekyll::Hooks.register(:pages, :pre_render) do |target, payload|
     if target.ext==".md"&&(target.basename=="about"||target.basename=="index")
-        return prerender(target)
+        prerender(target)
     end
 end
 
 Jekyll::Hooks.register(:blog_posts, :pre_render) do |target, payload|
     if target.data["ext"]==".md"
-        return prerender(target)
+        prerender(target)
     end
 end
 
 Jekyll::Hooks.register(:pages, :post_render) do |target, payload|
     if target.ext==".md"&&(target.basename=="about"||target.basename=="index")
-        return postrender(target)
+        postrender(target)
     end
 end
 
 Jekyll::Hooks.register(:blog_posts, :post_render) do |target, payload|
     if target.data["ext"]==".md"
-        return postrender(target)
+        postrender(target)
     end
 end
 
