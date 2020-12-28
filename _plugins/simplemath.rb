@@ -866,6 +866,7 @@ end
 def prerender(target)
     FilesSingleton::new_document()
     target.content=fix_math(target.content)
+    return target.content
 end
 
 def postrender(target)
@@ -875,30 +876,32 @@ def postrender(target)
         puts fixed
         puts "\n------------------------------------------------\n\n"
         target.content=fixed
+        #target.rendered_content=fixed
+        return target.content
         #FilesSingleton::reset_fixups()
 end
 
 Jekyll::Hooks.register(:pages, :pre_render) do |target, payload|
     if target.ext==".md"&&(target.basename=="about"||target.basename=="index")
-        prerender(target)
+        return prerender(target)
     end
 end
 
 Jekyll::Hooks.register(:blog_posts, :pre_render) do |target, payload|
     if target.data["ext"]==".md"
-        prerender(target)
+        return prerender(target)
     end
 end
 
 Jekyll::Hooks.register(:pages, :post_render) do |target, payload|
     if target.ext==".md"&&(target.basename=="about"||target.basename=="index")
-        postrender(target)
+        return postrender(target)
     end
 end
 
 Jekyll::Hooks.register(:blog_posts, :post_render) do |target, payload|
     if target.data["ext"]==".md"
-        postrender(target)
+        return postrender(target)
     end
 end
 
