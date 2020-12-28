@@ -102,7 +102,6 @@ def compile_latex(basename, ext, silent=true)
 end
 
 def generate_style(findex, full_filename, inline)
-    puts "generating style..."
     depth_pt="0pt"
     height_pt="0pt"
     width_pt="0pt"
@@ -160,7 +159,6 @@ def generate_style(findex, full_filename, inline)
         style=style+" vertical-align: -"+depth+"px;";
         #style=style+" vertical-align: -"+depth_pt+"pt;";
     end
-    puts "style calculated: "+style
     return style
 end
 
@@ -475,8 +473,6 @@ def fix_sizes(content, site)
 
     return content unless File.exists?(composite_filename+ext)
 
-    puts "creating composite tex file..."
-
     preamble=latex_preamble()
     epilogue=latex_epilogue()
     composite_content=File.read(composite_filename+ext);
@@ -487,45 +483,37 @@ def fix_sizes(content, site)
     document.puts(epilogue)
     document.close
 
-    puts "compiling composite tex file..."
-
     compile_latex(document_filename, ext, true)
 
     if !File.exists?(document_filename+compiled_ext)
         puts "can not generate a composite pdf file"
         return content
     end
-    puts "compiled."
-
-    puts "generating images..."
 
     generate_images(document_filename+compiled_ext, File.join(directory, document_filename+img_ext))
 
     multi_image=document_filename+"*"+img_ext
     multi_image=File.join(directory, multi_image)
-    puts "generated images (#{multi_image}):"
     images=Dir.glob(multi_image)
     if images.length==0
         puts "there are no images for current document"
     end
     if images.length==1
-        puts "there is only one image for current document, renaming..."
         FileUtils.mv(images[0], File.join(directory, document_filename+"-0.png"))
         #File.rename(images[0], File.join(directory, "#{doc_index}-0.png"))
     end
     images.each do |individual_image|
-        puts "registering individual image: "+individual_image
         static_file=Jekyll::StaticFile.new(site, site.source, directory, File.basename(individual_image))
         site.static_files<<static_file
         FilesSingleton::register(static_file.path)
     end
 
-    puts "applying the style fixes..."
+    #puts "applying the style fixes..."
 
     # {% style_stub <findex> <eq_index> <inline> %}
     content=content.gsub(/{%\s*style_stub\s+(\w+)\s+(\d+)\s+(\w+)\s*%}/) do |tag|
-        puts "regex matched:"
-        puts "tag=#{tag}, findex=#{$1}, eq_index=#{$2}, inline=#{$3}"
+        #puts "regex matched:"
+        #puts "tag=#{tag}, findex=#{$1}, eq_index=#{$2}, inline=#{$3}"
         generate_style($1, File.join(directory, "#{doc_index}-#{$2}.png"), $3=="inline")
     end
 
@@ -864,11 +852,13 @@ class MathFix
 end
 
 def prerender(target)
+    puts "prerendering "+target.basename if target.basename!=nil
     FilesSingleton::new_document()
     target.content=fix_math(target.content)
 end
 
 def postrender(target)
+    puts "postrendering "+target.basename if target.basename!=nil
     FilesSingleton::reset_index()
     target.output=fix_sizes(target.content, target.site)
     #FilesSingleton::reset_fixups()
@@ -892,6 +882,8 @@ Jekyll::Hooks.register(:pages, :pre_render) do |target, payload|
     end
     if target.ext==".md"&&(target.basename=="about"||target.basename=="index")
         prerender(target)
+    else
+        target.content
     end
 end
 
@@ -901,20 +893,29 @@ Jekyll::Hooks.register(:blog_posts, :pre_render) do |target, payload|
     else
         puts "target.basename==nil in blog_posts pre_render"
     end
+    if target.ext==nil
+        puts "target.ext==nil in blog_posts pre_render"
+    end
     if target.data["ext"]==".md"
         prerender(target)
+    else
+        target.content
     end
 end
 
 Jekyll::Hooks.register(:pages, :post_render) do |target, payload|
     if target.ext==".md"&&(target.basename=="about"||target.basename=="index")
         postrender(target)
+    else
+        target.output=target.content
     end
 end
 
 Jekyll::Hooks.register(:blog_posts, :post_render) do |target, payload|
     if target.data["ext"]==".md"
         postrender(target)
+    else
+        target.output=target.content
     end
 end
 
