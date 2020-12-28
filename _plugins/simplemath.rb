@@ -882,9 +882,11 @@ end
 
 Jekyll::Hooks.register(:pages, :pre_render) do |target, payload|
     if target.data!=nil
-        puts "extensions: "+target.ext+" and "+target.data["ext"]
-        puts "basename: "+target.basename
-        puts "permalink: "+target.data["permalink"]
+        puts "extensions: "
+        puts "ext: "+target.ext if target.ext!=nil
+        puts "data[ext]: "+target.data["ext"] if target.data.has_key?("ext")
+        puts "basename: "+target.basename if target.basename!=nil
+        puts "permalink: "+target.data["permalink"] if target.data.has_key?("permalink")
     else
         puts "target.data==nil in pages pre_render"
     end
