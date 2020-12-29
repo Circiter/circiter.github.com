@@ -851,19 +851,6 @@ class MathFix
     end
 end
 
-def prerender(target)
-    puts "prerendering "+target.basename if target.basename!=nil
-    FilesSingleton::new_document()
-    target.content=fix_math(target.content)
-end
-
-def postrender(target)
-    puts "postrendering "+target.basename if target.basename!=nil
-    FilesSingleton::reset_index()
-    #target.output=fix_sizes(target.content, target.site)
-    #FilesSingleton::reset_fixups()
-end
-
 #Jekyll::Hooks.register([:pages, :blog_posts], :pre_render) do |target, payload|
 
 #Jekyll::Hooks.register([:pages, :blog_posts], :post_render) do |t, p|
@@ -871,52 +858,34 @@ end
 #end
 
 Jekyll::Hooks.register(:pages, :pre_render) do |target, payload|
-    if target.data!=nil
-        puts "extensions: "
-        puts "ext: "+target.ext if target.ext!=nil
-        puts "data[ext]: "+target.data["ext"] if target.data.has_key?("ext")
-        puts "basename: "+target.basename if target.basename!=nil
-        puts "permalink: "+target.data["permalink"] if target.data.has_key?("permalink")
-    else
-        puts "target.data==nil in pages pre_render"
-    end
     if target.ext==".md"&&(target.basename=="about"||target.basename=="index")
-        prerender(target)
-    else
-        target.content
+        FilesSingleton::new_document()
+        target.content=fix_math(target.content)
     end
 end
 
 Jekyll::Hooks.register(:blog_posts, :pre_render) do |target, payload|
-    if target.basename!=nil
-        puts "basename in blog_posts pre_render: "+target.basename
-    else
-        puts "target.basename==nil in blog_posts pre_render"
-    end
-    if target.ext==nil
-        puts "target.ext==nil in blog_posts pre_render"
-    end
     if target.data["ext"]==".md"
-        prerender(target)
-    else
-        target.content
+        FilesSingleton::new_document()
+        target.content=fix_math(target.content)
     end
 end
 
 Jekyll::Hooks.register(:pages, :post_render) do |target, payload|
     if target.ext==".md"&&(target.basename=="about"||target.basename=="index")
-        postrender(target)
-    else
-        #target.output=target.content
-        target.output
+        FilesSingleton::reset_index()
+        #target.output=fix_sizes(target.content, target.site)
+        #target.output=fix_sizes(target.output, target.site)
+        target.content=fix_sizes(target.content, target.site)
     end
 end
 
 Jekyll::Hooks.register(:blog_posts, :post_render) do |target, payload|
     if target.data["ext"]==".md"
-        postrender(target)
-    else
-        target.output=target.content
+        FilesSingleton::reset_index()
+        #target.output=fix_sizes(target.content, target.site)
+        #target.output=fix_sizes(target.output, target.site)
+        target.content=fix_sizes(target.content, target.site)
     end
 end
 
