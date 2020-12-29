@@ -860,7 +860,7 @@ end
 def postrender(target)
     puts "postrendering "+target.basename if target.basename!=nil
     FilesSingleton::reset_index()
-    target.output=fix_sizes(target.content, target.site)
+    #target.output=fix_sizes(target.content, target.site)
     #FilesSingleton::reset_fixups()
 end
 
@@ -907,7 +907,8 @@ Jekyll::Hooks.register(:pages, :post_render) do |target, payload|
     if target.ext==".md"&&(target.basename=="about"||target.basename=="index")
         postrender(target)
     else
-        target.output=target.content
+        #target.output=target.content
+        target.output
     end
 end
 
