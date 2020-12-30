@@ -876,7 +876,7 @@ Jekyll::Hooks.register(:pages, :post_render) do |target, payload|
         FilesSingleton::reset_index()
         #target.output=fix_sizes(target.content, target.site)
         #target.output=fix_sizes(target.output, target.site)
-        target.output=fix_sizes(target.content, target.site)
+        target.output=fix_sizes(target.output, target.site)
     end
 end
 
@@ -885,7 +885,7 @@ Jekyll::Hooks.register(:blog_posts, :post_render) do |target, payload|
         FilesSingleton::reset_index()
         #target.output=fix_sizes(target.content, target.site)
         #target.output=fix_sizes(target.output, target.site)
-        target.output=fix_sizes(target.content, target.site)
+        target.output=fix_sizes(target.output, target.site)
     end
 end
 
