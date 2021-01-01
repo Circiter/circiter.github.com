@@ -204,11 +204,11 @@ def render_latex(formula, inline, site)
     doc_index=FilesSingleton::document_index()
 
     if FilesSingleton::simple_eq_numbering()#&&FilesSingleton::multi_mode()
-        #puts "fixing equation according to the simple_numbering option."
+        puts "fixing equation according to the simple_numbering option."
         formula=formula.sub(/\A\$\$(.*)\$\$\Z/, '\begin{equation}\1\end{equation}') # FIXME.
-        #puts "<formula>"
-        #puts formula 
-        #puts "</formula>"
+        puts "<formula>"
+        puts formula 
+        puts "</formula>"
     end
 
     define_formula=latex_define_formula(findex, formula, inline)
@@ -402,7 +402,12 @@ def fix_sizes(content, site)
     document.puts(epilogue)
     document.close
 
-    compile_latex(document_filename, ext, true)
+    puts "--------------------------------------"
+    puts "latex-source:"
+    puts File.read(document_filename+ext)
+    puts "--------------------------------------"
+
+    compile_latex(document_filename, ext, false)
 
     if !File.exists?(document_filename+compiled_ext)
         puts "can not generate a composite pdf file"
