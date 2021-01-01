@@ -102,6 +102,7 @@ numbered_labels:
 simplemath:
     shared_context: true
     transparency: true
+    simple_numbering: false
 
 #optional_front_matter:
 #  remove_originals: true

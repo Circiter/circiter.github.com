@@ -164,28 +164,19 @@ end
 
 def style_stub(findex, decimal_index, is_inline)
     inline="block"
-    if is_inline
-        inline="inline"
-    end
+    inline="inline" if is_inline
     return "{% style_stub #{findex} #{decimal_index} #{inline} %}"
     #position=...
     #FilesSingleton::register_fixup(position, findex, basename, inline)
-    #return ""
 end
 
 def generate_images(document_filename, output_filename)
+    silence=" >/dev/null 2>&1"
     #system("dvips -E -q temp-file.dvi -o temp-file.eps >/dev/null 2>&1");
     #system("convert -density 120 -quality 90 -trim temp-file.eps "+full_filename+" >/dev/null 2>&1")
     #system("convert -density 120 +repage -trim +repage "+document_filename+" "+output_filename+" >/dev/null 2>&1")
-    puts("executing: convert -density 120 -trim +repage "+document_filename+" "+output_filename)
-    if File.exists?(document_filename)
-        puts "the file "+document_filename+" exists"
-    end
-    if File.exists?(output_filename)
-        puts "output file already exists, removing..."
-        File.delete(output_filename)
-    end
-    system("convert -density 120 -trim +repage "+document_filename+" "+output_filename)
+    File.delete(output_filename) if File.exists?(output_filename)
+    system("convert -density 120 -trim +repage "+document_filename+" "+output_filename+silence)
     #system("convert -density 120 -trim +repage "+document_filename+" PNG32:"+output_filename)
 end
 
@@ -207,6 +198,10 @@ def render_latex(formula, inline, site)
     findex=FilesSingleton::next_index()
     eq_index=FilesSingleton::next_equation_index()
     doc_index=FilesSingleton::document_index()
+
+    if FilesSingleton::simple_eq_numbering()#&&FilesSingleton::multi_mode()
+        formula=formula.sub(/\a\$\$(.*)\$\$\z/, "\\begin{equation}\1\\end{equation}") # FIXME.
+    end
 
     define_formula=latex_define_formula(findex, formula, inline)
     use_formula=latex_use_formula(findex, formula, inline)
@@ -316,21 +311,32 @@ module FilesSingleton
 
     @shared_context=nil
     @transparency=true
+    @simple_numbering=true
+    @configured=false
 
     def self.read_config(cfg, key, default=nil)
         return cfg[key] if cfg!=nil&&cfg.has_key?(key)
         return default
     end
 
-    def self.multi_mode()
-        return @shared_context if @shared_context!=nil
-
+    def self.load_configuration()
+        return if configured
         cfg=Jekyll.configuration({})
         cfg=read_config(cfg, "simplemath")
         @shared_context=read_config(cfg, "shared_context", false)
         @transparency=read_config(cfg, "transparency", true)
+        @simple_eq_numbering=read_config(cfg, "simple_numbering", true)
+        @configured=true
+    end
 
+    def self.multi_mode()
+        load_configuration()
         return @shared_context
+    end
+
+    def self.simple_eq_numbering()
+        load_configuration()
+        return @simple_numbering
     end
 end
 
@@ -364,101 +370,6 @@ class Jekyll::Site
         end
     end
 end
-
-# TODO: Try to factor out the common
-#       code from the classes StyleFix
-#       and MathFix into a superclass.
-
-# FIXME: Consider to replace it by
-#        a singleton to keep track
-#        of necessary fixups in memory;
-#        then we can apply these fixups
-#        without reparsing of the page
-#        content.
-class StyleFix
-    def initialize(content)
-        @content=content
-        @position=0
-        @result_content=""
-    end
-
-    def match(substring)
-        i=0
-        pos=@position
-        while i<substring.length
-            return false if pos>=@content.length||@content[pos]!=substring[i]
-            i=i+1
-            pos=pos+1
-        end
-        puts "matched"
-        @position=@position+i-1 # FIXME.
-        return true
-    end
-
-    def locate_next_style_stub()
-        puts "searching for a next style stub..."
-        result=Hash.new
-
-        tag_start=-1
-        tag_end=-1
-        puts "@content.length=#{@content.length}"
-        while @position<@content.length
-            if tag_start>=0
-                tag_end=@position
-                if match("%}")
-                    puts "%} found"
-                    tag=@content[tag_start..tag_end]
-                    tag_start=-1
-                    puts "style tag readed: "+tag
-                    parameters=tag.gsub("\t", " ").gsub("\n"," ").gsub("  "," ").split(" ")
-                    if parameters.length==0||parameters.length!=4||parameters[0]!="style_stub"
-                        puts "invalid style stub"
-                        @result_content=@result_content+"{%"+tag+"%}"
-                        next
-                    end
-                    puts "parameters (findex, basename, inline) are extracted successfully"
-                    puts "findex="+parameters[1]
-                    puts "basename="+parameters[2]
-                    puts "inline="+parameters[3]
-                    result["findex"]=parameters[1]
-                    result["basename"]=parameters[2]
-                    result["inline"]=parameters[3]
-                    return result
-                end
-            else
-                if match("{%")
-                    puts "{% found"
-                    tag_start=@position
-                    next
-                end
-                @result_content=@result_content+@content[@position]
-            end
-
-            @position=@position+1
-        end
-
-        puts "unterminated tag" if tag_start>=0
-
-        return nil
-
-        #@content.match(/{%\s*style_stub\s+(\a*)\s+(\d*)\s+(\a*)\s*%}/)
-    end
-
-    def replace_style_stub(style)
-        puts "replacing current style stub..."
-        @result_content=@result_content+style
-        # Try \b instead of \w+
-        #@content.sub!(/{% style_stub\w+.*\w+\d*\w+.* %}/, style)
-        #@content.sub!(/{%\s*style_stub\s+(\a*)\s+(\d*)\s+(\a*)\s*%}/, style)
-        #return @content
-    end
-
-    def get_content()
-        return @result_content
-    end
-end
-
-########################################################
 
 def fix_sizes(content, site)
     return content unless FilesSingleton::multi_mode()
@@ -522,131 +433,6 @@ def fix_sizes(content, site)
 
     return content
 end
-
-######################################################
-
-def fix_sizes_old(content, site)
-    return content unless FilesSingleton::multi_mode()
-
-    directory="eq"
-    ext=".tex"
-    compiled_ext=".pdf"
-    img_ext=".png"
-    composite_filename="composite"
-    doc_index=FilesSingleton::document_index()
-    document_filename="#{doc_index}"#"document"
-
-    return content unless File.exists?(composite_filename+ext)
-
-    puts "creating composite tex file..."
-
-    preamble=latex_preamble()
-    epilogue=latex_epilogue()
-    composite_content=File.read(composite_filename+ext);
-
-    document=File.new(document_filename+ext, "w")
-    document.puts(preamble)
-    document.puts(composite_content)
-    document.puts(epilogue)
-    document.close
-
-    #puts "content of composite tex file:"
-    #puts(File.read(document_filename+ext))
-    #puts "---------------------------------------"
-
-    puts "compiling composite tex file..."
-
-    compile_latex(document_filename, ext, true)
-
-    if !File.exists?(document_filename+compiled_ext)
-        puts "can not generate a composite pdf file"
-        return content
-    end
-    puts "compiled."
-
-    # FIXME: What if a "single" formula in a document
-    #        actually maps to several image files?
-    #        May be store a image hashes to the dimension files?
-    #        Does it will be helpful?
-
-    # If we are processing a block equation and there are
-    # several images for it, then place all the images
-    # sequentially, one after another (may be duplicating
-    # the html markup for defining the proper sizes of images).
-
-    # For inline there is (or should be) only one image generated.
-
-    puts "generating images..."
-
-    generate_images(document_filename+compiled_ext, File.join(directory, document_filename+img_ext))
-
-    multi_image=document_filename+"*"+img_ext
-    multi_image=File.join(directory, multi_image)
-    puts "generated images (#{multi_image}):"
-    images=Dir.glob(multi_image)
-    if images.length==0
-        puts "there are no images for current document"
-    end
-    if images.length==1
-        puts "there is only one image for current document, renaming..."
-        FileUtils.mv(images[0], File.join(directory, document_filename+"-0.png"))
-        #File.rename(images[0], File.join(directory, "#{doc_index}-0.png"))
-    end
-    puts "registering images..."
-    images.each do |individual_image|
-        puts "individual image: "+individual_image
-        puts "site.source="+site.source
-        static_file=Jekyll::StaticFile.new(site, site.source, directory, File.basename(individual_image))
-        site.static_files<<static_file
-        FilesSingleton::register(static_file.path)
-    end
-
-    stylefix=StyleFix.new(content)
-
-    puts "applying the style fixes..."
-
-    # FIXME: Consider to use this snippet instead:
-    # {% style_stub <findex> <eq_index> <inline> %}
-    #content.gsub!(/{%\s*style_stub\s+(\w+)\s+(\d+)\s+(\w+)\s*%}/).each do |tag|
-    #    puts "regex matched:"
-    #    puts "tag=#{tag}, findex=#{$1}, eq_index=#{$2}, inline=#{$3}"
-    #    generate_style($1, File.join(directory, "#{doc_index}-#{$2}.png"), $3=="inline")
-    #end
-
-    stub_options=stylefix.locate_next_style_stub()
-    #stub_options=FilesSingleton::current_fixup()
-    if stub_options==nil
-        puts "stub_options==nil"
-    end
-    while stub_options!=nil
-        puts "style stub located; applying..."
-
-        findex=stub_options["findex"]
-        eq_index=stub_options["eq_index"]
-
-        full_filename=File.join(directory, "#{doc_index}-#{eq_index}.png")
-
-        inline=false
-        if stub_options["inline"]=="inline"
-            inline=true
-        end
-        style=generate_style(findex, full_filename, inline)
-        stylefix.replace_style_stub(style)
-        #content=FilesSingleton::apply_current_fixup(content, style)
-        #stub_options=FilesSingleton::next_fixup()
-        stub_options=stylefix.locate_next_style_stub()
-        #stub_options=nil
-    end
-
-    content=stylefix.get_content()
-
-    Dir.glob("*.tex").each {|f| File.delete(f)}
-    Dir.glob("*.tmp").each {|f| File.delete(f)}
-
-    return content
-end
-
-######################################################
 
 def fix_math(content)
     # FIXME: Try to insert &#8288; (word-joiner) after formulas

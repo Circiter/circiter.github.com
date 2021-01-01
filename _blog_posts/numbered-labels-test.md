@@ -55,8 +55,8 @@ $$
 
 {% tex block %}
 \begin{equation}
-\label{eq:trigonometry}
-\forall\alpha\ (\sin\alpha)^2+(\cos\alpha)^2=1
+    \label{eq:trigonometry}
+    \forall\alpha\ (\sin\alpha)^2+(\cos\alpha)^2=1
 \end{equation}
 {% endtex %}
 
@@ -68,10 +68,14 @@ $$
 
 {% tex block %}
 \begin{equation}
-\label{eq:derivative}
-\frac\mathrm{d}{\mathrm{d}x}f(x)=\lim_{\triangle x\to 0}\frac{f(x+\triangle x)-f(x)}{\triangle 
-x}
+    \label{eq:derivative}
+    \frac{\mathrm{d}}{\mathrm{d}x}f(x)=
+        \lim_{\triangle x\to 0}\frac{f(x+\triangle x)-f(x)}{\triangle x}
 \end{equation}
 {% endtex %}
 
-Формула $(\ref(eq:derivative))$ расположена выше.
+Формула $(\ref{eq:derivative})$ расположена выше.
+
+Ещё одно уравнение $(\ref{eq:other_eq})$ для режима `simple_numbering`.
+
+$$\label{eq:other_eq}\nabla f=0.$$
