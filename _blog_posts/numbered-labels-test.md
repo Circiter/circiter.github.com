@@ -64,7 +64,7 @@ $$
 
 -----------------
 
-См. формулу $(\ref(eq:derivative))$ ниже.
+См. формулу $(\ref{eq:derivative})$ ниже.
 
 {% tex block %}
 \begin{equation}

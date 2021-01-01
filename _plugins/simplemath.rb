@@ -44,14 +44,14 @@ def latex_preamble
     latex_source<<"\\usepackage[utf8]{inputenc}\n"
     latex_source<<"\\usepackage{mathtext}\n"
     latex_source<<"\\usepackage{amsmath,amsfonts,amssymb,color,xcolor,stmaryrd}\n"
-    latex_source<<"\\usepackage{mathtools}\n"
-    latex_source<<"\\mathtoolsset{showonlyrefs=true}\n"
     latex_source<<"\\usepackage[matrix,arrow,curve,frame,arc]{xy}\n"
     latex_source<<"\\usepackage[english,russian]{babel}\n"
     #latex_source<<"\\usepackage{type1cm}\n"
     #latex_source<<"\\usepackage{fouriernc}\n"
     latex_source<<"\\usepackage{tikz}\n"
     latex_source<<"\\usepackage[european,emptydiode,americaninductor]{circuitikz}\n"
+    latex_source<<"\\usepackage{mathtools}\n"
+    latex_source<<"\\mathtoolsset{showonlyrefs=true}\n"
     latex_source<<"\\newwrite\\frmdims\n"
     latex_source<<"\\newsavebox\\xfrm\n"
     latex_source<<"\\begin{document}\n"
@@ -204,7 +204,8 @@ def render_latex(formula, inline, site)
     doc_index=FilesSingleton::document_index()
 
     if FilesSingleton::simple_eq_numbering()#&&FilesSingleton::multi_mode()
-        formula=formula.sub(/\a\$\$(.*)\$\$\z/, "\\begin{equation}\1\\end{equation}") # FIXME.
+        #puts "fixing equation according to the simple_numbering option."
+        formula=formula.sub(/\A\$\$(.*)\$\$\Z/, "\\begin{equation}\1\\end{equation}") # FIXME.
     end
 
     define_formula=latex_define_formula(findex, formula, inline)
@@ -329,7 +330,11 @@ module FilesSingleton
         cfg=read_config(cfg, "simplemath")
         @shared_context=read_config(cfg, "shared_context", false)
         @transparency=read_config(cfg, "transparency", true)
-        @simple_eq_numbering=read_config(cfg, "simple_numbering", true)
+        @simple_numbering=read_config(cfg, "simple_numbering", true)
+        puts "configuration loaded:"
+        puts "shared_context="+(@shared_context?"true":"false")
+        puts "transparency="+(@transparency?"true":"false")
+        puts "simple_numbering="+(@simple_numbering?"true":"false")
         @configured=true
     end
 
