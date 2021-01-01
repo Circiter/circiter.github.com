@@ -205,7 +205,7 @@ def render_latex(formula, inline, site)
 
     if FilesSingleton::simple_eq_numbering()#&&FilesSingleton::multi_mode()
         #puts "fixing equation according to the simple_numbering option."
-        formula=formula.sub(/\A\$\$(.*)\$\$\Z/, "\\begin{equation}"+$1+"\\end{equation}") # FIXME.
+        formula=formula.sub(/\A\$\$(.*)\$\$\Z/, '\begin{equation}\1\end{equation}') # FIXME.
         #puts "<formula>"
         #puts formula 
         #puts "</formula>"
