@@ -44,6 +44,8 @@ def latex_preamble
     latex_source<<"\\usepackage[utf8]{inputenc}\n"
     latex_source<<"\\usepackage{mathtext}\n"
     latex_source<<"\\usepackage{amsmath,amsfonts,amssymb,color,xcolor,stmaryrd}\n"
+    latex_source<<"\\usepackage{mathtools}\n"
+    latex_source<<"\\mathtoolsset{showonlyrefs=true}\n"
     latex_source<<"\\usepackage[matrix,arrow,curve,frame,arc]{xy}\n"
     latex_source<<"\\usepackage[english,russian]{babel}\n"
     #latex_source<<"\\usepackage{type1cm}\n"
