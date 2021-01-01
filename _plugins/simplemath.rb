@@ -205,7 +205,10 @@ def render_latex(formula, inline, site)
 
     if FilesSingleton::simple_eq_numbering()#&&FilesSingleton::multi_mode()
         #puts "fixing equation according to the simple_numbering option."
-        formula=formula.sub(/\A\$\$(.*)\$\$\Z/, "\\begin{equation}\1\\end{equation}") # FIXME.
+        formula=formula.sub(/\A\$\$(.*)\$\$\Z/, "\\begin{equation}"+$1+"\\end{equation}") # FIXME.
+        #puts "<formula>"
+        #puts formula 
+        #puts "</formula>"
     end
 
     define_formula=latex_define_formula(findex, formula, inline)
@@ -331,10 +334,6 @@ module FilesSingleton
         @shared_context=read_config(cfg, "shared_context", false)
         @transparency=read_config(cfg, "transparency", true)
         @simple_numbering=read_config(cfg, "simple_numbering", true)
-        puts "configuration loaded:"
-        puts "shared_context="+(@shared_context?"true":"false")
-        puts "transparency="+(@transparency?"true":"false")
-        puts "simple_numbering="+(@simple_numbering?"true":"false")
         @configured=true
     end
 
