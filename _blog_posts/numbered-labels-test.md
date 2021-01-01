@@ -79,3 +79,5 @@ $$
 Ещё одно уравнение $(\ref{eq:other_eq})$ для режима `simple_numbering`.
 
 $$\label{eq:other_eq}\nabla f=0.$$
+
+Ещё упоминание: $\eqref{eq:other_eq}$.

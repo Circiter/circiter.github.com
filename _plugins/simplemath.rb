@@ -15,6 +15,8 @@ require "erb"
 # and [vertical] positions. But note, that such an approach is incompatible with the
 # caching mechanism.
 
+# TODO: Add the support for \[...\] equations.
+
 def generate_html(filename, full_filename, formula, inline, style)
     #title=CGI.escape(formula)
     #title=ERB::Util.url_encode(formula)
@@ -320,7 +322,7 @@ module FilesSingleton
     end
 
     def self.load_configuration()
-        return if configured
+        return if @configured
         cfg=Jekyll.configuration({})
         cfg=read_config(cfg, "simplemath")
         @shared_context=read_config(cfg, "shared_context", false)
