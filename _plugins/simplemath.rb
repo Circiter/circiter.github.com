@@ -51,7 +51,10 @@ def latex_preamble
     latex_source<<"\\usepackage{tikz}\n"
     latex_source<<"\\usepackage[european,emptydiode,americaninductor]{circuitikz}\n"
     latex_source<<"\\usepackage{mathtools}\n"
-    latex_source<<"\\mathtoolsset{showonlyrefs=true}\n"
+    latex_source<<"\\mathtoolsset{showmanualtags=true}\n"
+    if FilesSingleton::simple_eq_numbering()&&!FilesSingleton::fisher_rule()
+        latex_source<<"\\mathtoolsset{showonlyrefs=true}\n"
+    end
     latex_source<<"\\newwrite\\frmdims\n"
     latex_source<<"\\newsavebox\\xfrm\n"
     latex_source<<"\\begin{document}\n"
@@ -94,14 +97,18 @@ def compile_latex(basename, ext, silent=true)
     silence="" unless silent
     filename=basename+ext
     processor="pdflatex" #="latex"
+    Dir.glob("*.aux").each do |f| File.delete(f) end
     system("#{processor} -interaction=nonstopmode #{filename} #{silence}")
     unless File.exists?(basename+".pdf")
         puts "the first pass of compilation/typesetting fails"
         return
     end
     if FilesSingleton::multi_mode()
-        # N.B., run twice to resolve all the references.
+        # N.B., run twice or even trice (!!!) to resolve all the references.
         system("#{processor} -interaction=nonstopmode #{filename} #{silence}")
+        if !FilesSingleton::fisher_rule()
+            system("#{processor} -interaction=nonstopmode #{filename} #{silence}")
+        end
     end
 end
 
@@ -205,7 +212,7 @@ def render_latex(formula, inline, site)
 
     if FilesSingleton::simple_eq_numbering()#&&FilesSingleton::multi_mode()
         puts "fixing equation according to the simple_numbering option."
-        formula=formula.sub(/\A\$\$(.*)\$\$\Z/, '\begin{equation}\1\end{equation}') # FIXME.
+        formula=formula.sub(/\A\s*\$\$(.*)\$\$\s*\Z/, '\begin{equation}\1\end{equation}')
         puts "<formula>"
         puts formula 
         puts "</formula>"
@@ -321,6 +328,7 @@ module FilesSingleton
     @transparency=true
     @simple_numbering=true
     @configured=false
+    @use_fisher_rule=false
 
     def self.read_config(cfg, key, default=nil)
         return cfg[key] if cfg!=nil&&cfg.has_key?(key)
@@ -334,6 +342,7 @@ module FilesSingleton
         @shared_context=read_config(cfg, "shared_context", false)
         @transparency=read_config(cfg, "transparency", true)
         @simple_numbering=read_config(cfg, "simple_numbering", true)
+        @use_fisher_rule=read_config(cfg, "fisher_rule", false)
         @configured=true
     end
 
@@ -345,6 +354,11 @@ module FilesSingleton
     def self.simple_eq_numbering()
         load_configuration()
         return @simple_numbering
+    end
+
+    def self.fisher_rule()
+        load_configuration()
+        return @use_fisher_rule
     end
 end
 
@@ -401,11 +415,6 @@ def fix_sizes(content, site)
     document.puts(composite_content)
     document.puts(epilogue)
     document.close
-
-    puts "--------------------------------------"
-    puts "latex-source:"
-    puts File.read(document_filename+ext)
-    puts "--------------------------------------"
 
     compile_latex(document_filename, ext, false)
 
