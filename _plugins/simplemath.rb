@@ -51,10 +51,13 @@ def latex_preamble
     latex_source<<"\\usepackage{tikz}\n"
     latex_source<<"\\usepackage[european,emptydiode,americaninductor]{circuitikz}\n"
     latex_source<<"\\usepackage{mathtools}\n"
-    latex_source<<"\\mathtoolsset{showmanualtags=true}\n"
+    latex_source<<"\\usepackage{autonum}\n"
+    #latex_source<<"\\mathtoolsset{showmanualtags=true}\n"
     if FilesSingleton::simple_eq_numbering()&&!FilesSingleton::fisher_rule()
-        latex_source<<"\\mathtoolsset{showonlyrefs=true}\n"
+    #    latex_source<<"\\mathtoolsset{showonlyrefs=true}\n"
+    #    latex_source<<"\def\equation{\equation+}" # FIXME.
     end
+    #latex_source<<"\def\equation*{\equation}" # FIXME.
     latex_source<<"\\newwrite\\frmdims\n"
     latex_source<<"\\newsavebox\\xfrm\n"
     latex_source<<"\\begin{document}\n"
