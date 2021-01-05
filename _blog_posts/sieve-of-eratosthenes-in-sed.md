@@ -49,7 +49,7 @@ $\mathcal{M}_{i+1}=\{m\in M_{i+1} \mid m>p_i\}$. Если же $\mathcal{M}=\var
 
 Более структурированно:
 {% tex block %}
-\begin{align*}
+\begin{align}
 1.\ &M\gets [2; n]\\
 2.\ &p\gets 2\\ 
 3.\ &M\gets M\setminus\{x=kp\}_{k=2}\\
@@ -57,7 +57,7 @@ $\mathcal{M}_{i+1}=\{m\in M_{i+1} \mid m>p_i\}$. Если же $\mathcal{M}=\var
 5.\ &\mathcal{M}=\varnothing \Rightarrow \operatorname{return}\ M\\
 6.\ &p\gets \min\mathcal{M}\\
 7.\ &\operatorname{goto}\ 3.
-\end{align*}
+\end{align}
 {% endtex %}
 
 Утверждается, что $M=\{p\in\mathbb{P} \mid p\leqslant n\}$, где $\mathbb{P}$ -- множество 
@@ -243,7 +243,7 @@ wiki-wheel %}.
 euler1737 %} решета, позволяющую вычеркивать составные числа только один раз. Алгоритм можно 
 описать так:
 {% tex block %}
-\begin{align*}
+\begin{align}
 1.\ &i\gets 0\\
 2.\ &L\gets [2; n]\\
 3.\ &p_i\gets\min L\\
@@ -253,7 +253,7 @@ euler1737 %} решета, позволяющую вычеркивать сос�
 7.\ &L=\varnothing\Rightarrow\operatorname{return}\ \{p_j\}_{j=0}^i\\
 8.\ &i\gets i+1\\
 9.\ &\operatorname{goto}\ 3
-\end{align*}
+\end{align}
 {% endtex %}
 
 Здесь $n$ является длиной решета (как и в ранее описанном алгоритме для решета Эратосфена). 

@@ -125,7 +125,7 @@ push_stack(c);
 добавлена частичная коррекция даты для поддержки григорианского календаря или т.н. нового 
 стиля):
 {% tex block %}
-\begin{align*}
+\begin{align}
 a\ &\gets\textrm{Year}\mod4\\
 b\ &\gets\textrm{Year}\mod7\\
 c\ &\gets\textrm{Year}\mod19\\
@@ -134,7 +134,7 @@ e\ &\gets(2a+4b+d+34)\mod7\\
 t\ &\gets d+e+114+13\\
 \textrm{Month}\ &\gets\lfloor 1/31\rfloor\\
 \textrm{Day}\ &\gets(t\mod31)+1,
-\end{align*}
+\end{align}
 {% endtex %}
 где переменные $\textrm{Year}$, $\textrm{Month}$ и $\textrm{Day}$ означают текущие год, месяц и 
 день, соответственно.
