@@ -55,7 +55,9 @@ def latex_preamble
     #latex_source<<"\\mathtoolsset{showmanualtags=true}\n"
     if FilesSingleton::simple_eq_numbering()&&!FilesSingleton::fisher_rule()
     #    latex_source<<"\\mathtoolsset{showonlyrefs=true}\n"
-        latex_source<<"\\renewenvironment{equation}{\\equation+}{\\endequation+}\n" # FIXME.
+    end
+    if FilesSingleton::simple_eq_numbering()&&FilesSingleton::fisher_rule()
+    #    latex_source<<"\\renewenvironment{equation}{\\equation+}{\\endequation+}\n" # FIXME.
     end
     latex_source<<"\\renewenvironment{align*}{\\align}{\\endalign}\n"
     latex_source<<"\\renewenvironment{equation*}{\\equation}{\\endequation}\n"
