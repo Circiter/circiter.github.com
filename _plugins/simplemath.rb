@@ -51,16 +51,26 @@ def latex_preamble
     latex_source<<"\\usepackage{tikz}\n"
     latex_source<<"\\usepackage[european,emptydiode,americaninductor]{circuitikz}\n"
     latex_source<<"\\usepackage{mathtools}\n"
-    latex_source<<"\\usepackage{autonum}\n"
     #latex_source<<"\\mathtoolsset{showmanualtags=true}\n"
-    if FilesSingleton::simple_eq_numbering()&&!FilesSingleton::fisher_rule()
-    #    latex_source<<"\\mathtoolsset{showonlyrefs=true}\n"
+    if FilesSingleton::simple_eq_numbering()
+        latex_source<<"\\usepackage{autonum}\n"
+        if !FilesSingleton::fisher_rule()
+            #latex_source<<"\\mathtoolsset{showonlyrefs=true}\n"
+            #latex_source<<"\\renewenvironment{align*}{\\align}{\\endalign}\n"
+            #latex_source<<"\\renewenvironment{equation*}{\\equation}{\\endequation}\n"
+            latex_source<<"\\makeatletter\n"
+            latex_source<<"\\newcommand{\\restore@Environment}[1]{%\n"
+            latex_source<<"\\AtBeginDocument{%\n"
+            latex_source<<"\\csletcs{\#1*}{\#1}%\n"
+            latex_source<<"\\csletcs{end\#1*}{end\#1}%\n"
+            latex_source<<"}%\n"
+            latex_source<<"}\n"
+            latex_source<<"\\forcsvlist\\restore@Environment{alignat,equation,gather,multline,flalign,align}\n"
+            latex_source<<"\\makeatother\n"
+        else
+            #latex_source<<"\\renewenvironment{equation}{\\equation+}{\\endequation+}\n" # FIXME.
+        end
     end
-    if FilesSingleton::simple_eq_numbering()&&FilesSingleton::fisher_rule()
-    #    latex_source<<"\\renewenvironment{equation}{\\equation+}{\\endequation+}\n" # FIXME.
-    end
-    latex_source<<"\\renewenvironment{align*}{\\align}{\\endalign}\n"
-    latex_source<<"\\renewenvironment{equation*}{\\equation}{\\endequation}\n"
 
     latex_source<<"\\newwrite\\frmdims\n"
     latex_source<<"\\newsavebox\\xfrm\n"
