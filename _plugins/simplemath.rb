@@ -33,7 +33,7 @@ def generate_html(filename, full_filename, formula, inline, style)
     return result
 end
 
-def latex_preamble
+def latex_preamble()
     #latex_source="\\documentclass[preview=true,tikz=true,border=1pt]{standalone}\n"
     latex_source="\\documentclass[preview,border=1pt]{standalone}\n"
     if FilesSingleton::multi_mode()
@@ -52,24 +52,24 @@ def latex_preamble
     latex_source<<"\\usepackage[european,emptydiode,americaninductor]{circuitikz}\n"
     latex_source<<"\\usepackage{mathtools}\n"
     #latex_source<<"\\mathtoolsset{showmanualtags=true}\n"
-    if FilesSingleton::simple_eq_numbering()
+
+    if FilesSingleton::multi_mode()&&FilesSingleton::simple_eq_numbering()
+        #latex_source<<"\\mathtoolsset{showonlyrefs=true}\n"
         latex_source<<"\\usepackage{autonum}\n"
-        if !FilesSingleton::fisher_rule()
-            #latex_source<<"\\mathtoolsset{showonlyrefs=true}\n"
-            #latex_source<<"\\renewenvironment{align*}{\\align}{\\endalign}\n"
-            #latex_source<<"\\renewenvironment{equation*}{\\equation}{\\endequation}\n"
-            latex_source<<"\\makeatletter\n"
-            latex_source<<"\\newcommand{\\restore@Environment}[1]{%\n"
-            latex_source<<"\\AtBeginDocument{%\n"
-            latex_source<<"\\csletcs{\#1*}{\#1}%\n"
-            latex_source<<"\\csletcs{end\#1*}{end\#1}%\n"
-            latex_source<<"}%\n"
-            latex_source<<"}\n"
-            latex_source<<"\\forcsvlist\\restore@Environment{alignat,equation,gather,multline,flalign,align}\n"
-            latex_source<<"\\makeatother\n"
-        else
-            #latex_source<<"\\renewenvironment{equation}{\\equation+}{\\endequation+}\n" # FIXME.
+        latex_source<<"\\makeatletter\n"
+        latex_source<<"\\newcommand{\\restore@environment}[1]{%\n"
+        latex_source<<"\\AtBeginDocument{%\n"
+        latex_source<<"\\csletcs{\#1*}{\#1}%\n"
+        latex_source<<"\\csletcs{end\#1*}{end\#1}%\n"
+        if FilesSingleton::fisher_rule()
+            # FIXME.
+            latex_source<<"\\csletcs{\#1}{\#1+}%\n"
+            latex_source<<"\\csletcs{end\#1}{end\#1+}%\n"
         end
+        latex_source<<"}%\n"
+        latex_source<<"}\n"
+        latex_source<<"\\forcsvlist\\restore@environment{alignat,equation,gather,multline,flalign,align}\n"
+        latex_source<<"\\makeatother\n"
     end
 
     latex_source<<"\\newwrite\\frmdims\n"
@@ -433,7 +433,7 @@ def fix_sizes(content, site)
     document.puts(epilogue)
     document.close
 
-    compile_latex(document_filename, ext, false)
+    compile_latex(document_filename, ext, true)
 
     if !File.exists?(document_filename+compiled_ext)
         puts "can not generate a composite pdf file"
