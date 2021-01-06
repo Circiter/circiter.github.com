@@ -126,14 +126,14 @@ push_stack(c);
 стиля):
 {% tex block %}
 \begin{align}
-a\ &\gets\textrm{Year}\mod4\\
-b\ &\gets\textrm{Year}\mod7\\
-c\ &\gets\textrm{Year}\mod19\\
-d\ &\gets(19c+15)\mod30\\
-e\ &\gets(2a+4b+d+34)\mod7\\
+a\ &\gets\textrm{Year}\bmod4\\
+b\ &\gets\textrm{Year}\bmod7\\
+c\ &\gets\textrm{Year}\bmod19\\
+d\ &\gets(19c+15)\bmod30\\
+e\ &\gets(2a+4b+d+34)\bmod7\\
 t\ &\gets d+e+114+13\\
 \textrm{Month}\ &\gets\lfloor 1/31\rfloor\\
-\textrm{Day}\ &\gets(t\mod31)+1,
+\textrm{Day}\ &\gets(t\bmod31)+1,
 \end{align}
 {% endtex %}
 где переменные $\textrm{Year}$, $\textrm{Month}$ и $\textrm{Day}$ означают текущие год, месяц и 
