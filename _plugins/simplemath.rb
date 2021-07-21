@@ -230,11 +230,11 @@ def render_latex(formula, inline, site)
     doc_index=FilesSingleton::document_index()
 
     if FilesSingleton::simple_eq_numbering()#&&FilesSingleton::multi_mode()
-        puts "fixing equation according to the simple_numbering option."
+        #puts "fixing equation according to the simple_numbering option."
         formula=formula.sub(/\A\s*\$\$(.*)\$\$\s*\Z/, '\begin{equation}\1\end{equation}')
-        puts "<formula>"
-        puts formula 
-        puts "</formula>"
+        #puts "<formula>"
+        #puts formula 
+        #puts "</formula>"
     end
 
     define_formula=latex_define_formula(findex, formula, inline)

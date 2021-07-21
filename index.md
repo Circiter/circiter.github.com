@@ -9,10 +9,7 @@ title: Дневник Circiter'а.
 {% assign posts_list = site.blog_posts %}
 {% for post in posts_list %}
     {% if post.layout == "post" and post.title != null and post.test == null %}
-* [{{ post.title }}]({{ post.url }})
-    {% if post.lastedit  %}
-        (обновленно: {{ post.lastedit }})
-    {% endif %}
+* [{{ post.title }}]({{ post.url }}){% if post.lastedit %}(){% endif %}
     {% endif %}
 {% endfor %}
 
