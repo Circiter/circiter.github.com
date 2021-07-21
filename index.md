@@ -10,6 +10,9 @@ title: Дневник Circiter'а.
 {% for post in posts_list %}
     {% if post.layout == "post" and post.title != null and post.test == null %}
 * [{{ post.title }}]({{ post.url }})
+    {% if post.lastedit  %}
+        (обновленно: {{ post.lastedit }})
+    {% endif %}
     {% endif %}
 {% endfor %}
 

@@ -219,6 +219,13 @@ pre code {
   border-radius: 0;
 }
 
+/* Added. */
+.sentence-block {
+    background-color: transparent;
+    padding: .5rem;
+    border-left: .25rem solid black;
+}
+
 /* Quotes */
 blockquote {
   padding: .5rem 1rem;

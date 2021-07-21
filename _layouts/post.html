@@ -12,7 +12,7 @@ layout: default
   {% if page.abstract %}
     <span class="abstract">
     <center><b>Аннотация</b></center>
-    {{ page.abstract }}
+    {{ page.abstract | markdownify }}
     <hr/>
     </span>
   {% endif %}
@@ -20,13 +20,6 @@ layout: default
   {{ content | inject_anchors }}
 </div>
 
-{% if page.tags %}
-    <small>метки-категории: <em>
-        {% for tag in page.tags %}
-            <a class="post" href="/tag/{{tag}}">{{tag}}</a>{% unless forloop.last %}, {% endunless %}
-        {% endfor %}
-    </em></small>
-{% endif %}
 {% if page.xdate %}
     <p>
     М.И.Никитин<br>
@@ -35,6 +28,16 @@ layout: default
         <br>
         (последняя правка: {{ page.lastedit }})
     {% endif %}
+    </p>
+{% endif %}
+
+{% if page.tags %}
+    <p>
+    <small>метки-категории: <em>
+        {% for tag in page.tags %}
+            <a class="post" href="/tag/{{tag}}">{{tag}}</a>{% unless forloop.last %}, {% endunless %}
+        {% endfor %}
+    </em></small>
     </p>
 {% endif %}
 {% if page.sig %}

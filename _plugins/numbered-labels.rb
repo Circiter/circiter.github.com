@@ -27,6 +27,11 @@
 
 # FIXME: What about cross-references?
 
+# TODO: Implement labeled environments.
+#       E.g.: {% begindef theorem pythagor %}
+#             ...
+#             {% enddef %}
+
 module LabelsSingleton
     @referenced_labels=Hash.new
     @defined_labels=Hash.new
@@ -158,7 +163,25 @@ module Jekyll
             return "#{number}"
         end
     end
+
+    class SentenceBlock < Liquid::Block
+        include Liquid::StandardFilters
+
+        def initialize(tag_name, text, tokens)
+            super
+            @custom_class_name=text.gsub("  ", " ");
+            #text.gsub("  ", " ").split(" ").each do |x|
+            #end
+        end
+
+        def render(context)
+            source=super
+            class_name="sentence-block"
+            return '<div class="'+class_name+'">'+source+'</div>'
+        end
+    end
 end
 
 Liquid::Template.register_tag("ref", Jekyll::Label)
 Liquid::Template.register_tag("def", Jekyll::Label)
+Liquid::Template.register_tag("sentence", Jekyll::SentenceBlock)
