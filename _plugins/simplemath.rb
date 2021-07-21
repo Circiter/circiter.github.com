@@ -24,6 +24,8 @@ def generate_html(filename, full_filename, formula, inline, style)
     absolute_path="/"+full_filename;
 
     result="<img src=\""+absolute_path+"\" style=\""+style+"\" class=\"latex\">"
+
+    # TODO: Use the <p> instead of <br> and the "text-align: center" style instead of <center>.
     result="<br><center>"+result+"</center><br>" unless inline
 
     cache=File.new(filename+".html_cache", "w")
@@ -484,7 +486,7 @@ end
 # FIXME: There is a problem with an extra newline or paragraph
 # after a $...$ formula at the end of a line.
 # Is the \n after a {% tex %}...{% endtex %} block causes the
-# insertion a new unwanted paragraph brake?
+# insertion a new unwanted paragraph break?
 # TODO: Do not look inside ``` and liquid tags while processing
 # escapes, quotes, and formula brackets ($, $$).
 class MathFix

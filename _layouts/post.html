@@ -27,10 +27,14 @@ layout: default
         {% endfor %}
     </em></small>
 {% endif %}
-{% if page.xyear %}
+{% if page.xdate %}
     <p>
     М.И.Никитин<br>
-    г.Алматы, {{ xyear }}
+    г.Алматы, {{ page.xdate }}
+    {% if page.lastedit %}
+        <br>
+        (последняя правка: {{ page.lastedit }})
+    {% endif %}
     </p>
 {% endif %}
 {% if page.sig %}
