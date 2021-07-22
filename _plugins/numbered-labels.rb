@@ -113,9 +113,10 @@ module Jekyll
 
         def render(context)
             if @my_name=="begin_sentence"
-                '<div class="'+@class_name+'">'
+                return '<div class="'+@class_name+'">'
             else
-                "</div>"
+                return '</div>'
+            end
         end
     end
 
