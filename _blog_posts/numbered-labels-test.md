@@ -11,6 +11,12 @@ abstract: |
 test: true
 ---
 
+{% abstract %}
+Продолжение аннотации. Формула: $\sigma_0(p\in\mathbb{P})=2$.
+
+Следующая строка продолжения аннотации.
+{% endabstract %}
+
 # Тестирование плагина `numbered-labels.rb`
 
 **Теорема {% def theorem non-connected-pairs-in-five-graph %}.**

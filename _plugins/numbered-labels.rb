@@ -199,6 +199,24 @@ module Jekyll
     #        return '<div class="'+class_name+'">'+source+'</div>'
     #    end
     #end
+
+    class AbstractBlock < Liquid::Block
+        include Liquid::StandardFilters
+
+        def initialize(tag_name, text, tokens)
+            super
+            #text.gsub("  ", " ").split(" ").each do |x|
+            #end
+        end
+
+        def render(context)
+            source=super
+            context.environments.first["page"]["xabstract"]=source
+            #page=context.registers[:site].pages.detect{|p| p.path==context["page"]["path"]}
+            #page["xabstract"]=source
+            #return source
+        end
+    end
 end
 
 Liquid::Template.register_tag("ref", Jekyll::Label)
@@ -206,3 +224,4 @@ Liquid::Template.register_tag("def", Jekyll::Label)
 Liquid::Template.register_tag("sentence_begin", Jekyll::Sentence)
 Liquid::Template.register_tag("sentence_end", Jekyll::Sentence)
 #Liquid::Template.register_tag("sentence", Jekyll::SentenceBlock)
+Liquid::Template.register_tag("abstract", Jekyll::AbstractBlock)
