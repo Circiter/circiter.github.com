@@ -20,10 +20,6 @@ layout: default
         <hr/>
         </span>
     {% endif %}
-    {% if page.xabstract %}
-        <center><b>Дополнительно:</b></center>
-        {{ page.xabstract | smartify | markdownify }}
-    {% endif %}
     {% include toc.html %}
     {{ content | inject_anchors }}
 </div>
