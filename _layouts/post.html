@@ -9,10 +9,14 @@ layout: default
         <br/>
         <center><span class="post-date">{{ page.xdate | capitalize }}</span></center>
     {% endif %}
-    {% if page.abstract %}
+    {% if page.abstract or page.xabstract %}
         <span class="abstract">
         <center><b>Аннотация</b></center>
-        {{ page.abstract | smartify | markdownify }}
+        {% if page.abstract %}
+            {{ page.abstract | smartify | markdownify }}
+        {% else %}
+            {{ page.xabstract | smartify | markdownify }}
+        {% endif %}
         <hr/>
         </span>
     {% endif %}
