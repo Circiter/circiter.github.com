@@ -2,10 +2,10 @@
 layout: post
 title: "Проверка нумерации объектов"
 test: true
-abstract: Аннотация с формулой: $x\neq y$.
-          И абзацами.
-          
-          Второй абзац.
+abstract: "Аннотация с формулой: $x\neq y$.
+И абзацами.
+
+Второй абзац."
 ---
 
 # Тестирование плагина `numbered-labels.rb`
@@ -90,9 +90,15 @@ $$\label{eq:other_eq}\nabla f=0.$$
 
 ## Возможные проблемы:
 
-$$\label{eq:suspicious0}x\neq y.$$
+$$\label{eq:suspicious0} x\neq y.$$
 
-$$\label{eq:suspicious1}y\neq z,
+$$\label{eq:suspicious1} y\neq z,
 z\neq w.$$
 
-Ссылки на $\eqref{eq:suspicious0}$ и $\eqref{eq:suspicious}$.
+$$\label{eq:suspicious2}w\neq u.$$
+
+$$\label{eq:suspicious3}u\neq v,
+v\neq x.$$
+
+Ссылки на $\eqref{eq:suspicious0}$, $\eqref{eq:suspicious1}$, $\eqref{eq:suspicious2}$ и 
+$\eqref{eq:suspicious3}$.

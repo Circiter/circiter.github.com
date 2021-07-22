@@ -21,12 +21,15 @@ layout: default
 </div>
 
 {% if page.xdate %}
+    <p>
     М.И.Никитин<br>
     г.Алматы, {{ page.xdate }}
     {% if page.lastedit %}
         <br>
         (последняя правка: {{ page.lastedit }})
     {% endif %}
+    </p>
+    <br>
 {% endif %}
 
 {% if page.tags %}
