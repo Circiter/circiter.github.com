@@ -200,6 +200,6 @@ end
 
 Liquid::Template.register_tag("ref", Jekyll::Label)
 Liquid::Template.register_tag("def", Jekyll::Label)
-Liquid::Template.register_tag("begin_sentence", Jekyll::Sentence);
-Liquid::Template.register_tag("end_sentence", Jekyll::Sentence);
+Liquid::Template.register_tag("begin_sentence", Jekyll::Sentence)
+Liquid::Template.register_tag("end_sentence", Jekyll::Sentence)
 #Liquid::Template.register_tag("sentence", Jekyll::SentenceBlock)
