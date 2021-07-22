@@ -232,11 +232,11 @@ def render_latex(formula, inline, site)
     if FilesSingleton::simple_eq_numbering()#&&FilesSingleton::multi_mode()
         #puts "fixing equation according to the simple_numbering option."
         formula=formula.sub(/\A\s*\$\$(.*)\$\$\s*\Z/m, '\begin{equation}\1\end{equation}')
-        if /\\label/.match(formula)!=nil
-            puts "<formula-with-label>"
-            puts formula 
-            puts "</formula-with-label>"
-        end
+        #if /\\label/.match(formula)!=nil
+        #    puts "<formula-with-label>"
+        #    puts formula 
+        #    puts "</formula-with-label>"
+        #end
     end
 
     define_formula=latex_define_formula(findex, formula, inline)
