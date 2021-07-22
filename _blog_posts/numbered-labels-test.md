@@ -27,11 +27,11 @@ abstract: "Аннотация с формулой: $x\neq y$.
 
 -------
 
-{% begin_sentence %}
+{% sentence_begin %}
 **Теорема {% def theorem pythagor %} (теорема Пифагора).**
 
 В прямоугольном треугольнике, квадрат гипотенузы равен сумме квадратов катетов.
-{% end_sentence %}
+{% sentence_end %}
 
 Теорема Пифагора озвучена в теореме {% ref theorem pythagor %}.
 

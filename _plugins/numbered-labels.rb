@@ -28,9 +28,11 @@
 # FIXME: What about cross-references?
 
 # TODO: Implement labeled environments.
-#       E.g.: {% begindef theorem pythagor %}
+#       E.g.: {% blockdef theorem pythagor %}
 #             ...
-#             {% enddef %}
+#             {% endblockdef %}
+# N.B., currently, instead of labeled environments there is
+# a pseudoenvironment {% sentene_begin %} ... {% sentence_end %}.
 
 module LabelsSingleton
     @referenced_labels=Hash.new
@@ -112,10 +114,10 @@ module Jekyll
         end
 
         def render(context)
-            if @my_name=="begin_sentence"
-                return '<div class="'+@class_name+'">'
+            if @my_name=="sentence_begin"
+                return '\n<div class="'+@class_name+'">\n'
             else
-                return '</div>'
+                return '\n</div>\n'
             end
         end
     end
@@ -201,6 +203,6 @@ end
 
 Liquid::Template.register_tag("ref", Jekyll::Label)
 Liquid::Template.register_tag("def", Jekyll::Label)
-Liquid::Template.register_tag("begin_sentence", Jekyll::Sentence)
-Liquid::Template.register_tag("end_sentence", Jekyll::Sentence)
+Liquid::Template.register_tag("sentence_begin", Jekyll::Sentence)
+Liquid::Template.register_tag("sentence_end", Jekyll::Sentence)
 #Liquid::Template.register_tag("sentence", Jekyll::SentenceBlock)
