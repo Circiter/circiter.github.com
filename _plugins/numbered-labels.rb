@@ -104,6 +104,21 @@ def read_config(config, key, default=nil)
 end
 
 module Jekyll
+    class Sentence < Liquid::Tag
+        def initialize(name, params, tokens)
+            #parameters=params.gsub("  ", " ").split(" ")
+            @my_name=name
+            @class_name="sentence-block"
+        end
+
+        def render(context)
+            if @my_name=="begin_sentence"
+                '<div class="'+@class_name+'">'
+            else
+                "</div>"
+        end
+    end
+
     class Label < Liquid::Tag
         def initialize(name, params, tokens)
             @tag_name=name
@@ -121,7 +136,7 @@ module Jekyll
         end
 
         def render(context)
-            id=context["page"]["id"]
+            #id=context["page"]["id"]
             number=LabelsSingleton::find_defined(@namespace, @identifier)
             number_in_referenced=LabelsSingleton::find_referenced(@namespace, @identifier)
 
@@ -164,24 +179,27 @@ module Jekyll
         end
     end
 
-    class SentenceBlock < Liquid::Block
-        include Liquid::StandardFilters
+    ## FIXME: This environment prevents markdown processing.
+    #class SentenceBlock < Liquid::Block
+    #    include Liquid::StandardFilters
 
-        def initialize(tag_name, text, tokens)
-            super
-            @custom_class_name=text.gsub("  ", " ");
-            #text.gsub("  ", " ").split(" ").each do |x|
-            #end
-        end
+    #    def initialize(tag_name, text, tokens)
+    #        super
+    #        @custom_class_name=text.gsub("  ", " ");
+    #        #text.gsub("  ", " ").split(" ").each do |x|
+    #        #end
+    #    end
 
-        def render(context)
-            source=super
-            class_name="sentence-block"
-            return '<div class="'+class_name+'">'+source+'</div>'
-        end
-    end
+    #    def render(context)
+    #        source=super
+    #        class_name="sentence-block"
+    #        return '<div class="'+class_name+'">'+source+'</div>'
+    #    end
+    #end
 end
 
 Liquid::Template.register_tag("ref", Jekyll::Label)
 Liquid::Template.register_tag("def", Jekyll::Label)
-Liquid::Template.register_tag("sentence", Jekyll::SentenceBlock)
+Liquid::Template.register_tag("begin_sentence", Jekyll::Sentence);
+Liquid::Template.register_tag("end_sentence", Jekyll::Sentence);
+#Liquid::Template.register_tag("sentence", Jekyll::SentenceBlock)

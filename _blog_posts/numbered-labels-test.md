@@ -2,6 +2,10 @@
 layout: post
 title: "Проверка нумерации объектов"
 test: true
+abstract: Аннотация с формулой: $x\neq y$.
+          И абзацами.
+          
+          Второй абзац.
 ---
 
 # Тестирование плагина `numbered-labels.rb`
@@ -23,11 +27,11 @@ test: true
 
 -------
 
-{% sentence %}
+{% begin_sentence %}
 **Теорема {% def theorem pythagor %} (теорема Пифагора).**
 
 В прямоугольном треугольнике, квадрат гипотенузы равен сумме квадратов катетов.
-{% endsentence %}
+{% end_sentence %}
 
 Теорема Пифагора озвучена в теореме {% ref theorem pythagor %}.
 
@@ -83,3 +87,12 @@ $$
 $$\label{eq:other_eq}\nabla f=0.$$
 
 Ещё упоминание: $\eqref{eq:other_eq}$.
+
+## Возможные проблемы:
+
+$$\label{eq:suspicious0}x\neq y.$$
+
+$$\label{eq:suspicious1}y\neq z,
+z\neq w.$$
+
+Ссылки на $\eqref{eq:suspicious0}$ и $\eqref{eq:suspicious}$.

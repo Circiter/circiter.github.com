@@ -21,17 +21,17 @@ layout: default
 </div>
 
 {% if page.xdate %}
-    <p>
     М.И.Никитин<br>
     г.Алматы, {{ page.xdate }}
     {% if page.lastedit %}
         <br>
         (последняя правка: {{ page.lastedit }})
     {% endif %}
-    </p>
 {% endif %}
 
 {% if page.tags %}
+{% assign tags_count = page.tags | size %}
+{% if tags_count != 0 %}
     <p>
     <small>метки-категории: <em>
         {% for tag in page.tags %}
@@ -39,6 +39,7 @@ layout: default
         {% endfor %}
     </em></small>
     </p>
+{% endif %}
 {% endif %}
 {% if page.sig %}
     <p><small>[<a href="/sig/{{ page.path | split: '/' | last }}.sha256.sig">ЭЦП (SHA-256, RSA)</a>] (<a href="https://gist.github.com/Circiter/92e7b9368c1e29c055a688d12d61466c">ключ</a>)<small></p>
