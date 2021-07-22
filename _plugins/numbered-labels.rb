@@ -115,9 +115,9 @@ module Jekyll
 
         def render(context)
             if @my_name=="sentence_begin"
-                return '\n<div class="'+@class_name+'">\n'
+                return "\n<div class=\""+@class_name+"\">\n"
             else
-                return '\n</div>\n'
+                return "\n</div>\n"
             end
         end
     end

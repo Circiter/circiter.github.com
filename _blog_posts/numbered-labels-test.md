@@ -1,11 +1,13 @@
 ---
 layout: post
 title: "Проверка нумерации объектов"
-test: true
-abstract: "Аннотация с формулой: $x\neq y$.
+abstract: |
+Аннотация с формулой: $x\neq y$.
 И абзацами.
 
-Второй абзац."
+Второй абзац.
+
+test: true
 ---
 
 # Тестирование плагина `numbered-labels.rb`
