@@ -215,6 +215,7 @@ module Jekyll
             #page=context.registers[:site].pages.detect{|p| p.path==context["page"]["path"]}
             #page["xabstract"]=source
             #return source
+            return ""
         end
     end
 end
