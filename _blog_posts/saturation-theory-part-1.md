@@ -2,6 +2,7 @@
 layout: post
 title: "Теория насыщения. Часть I."
 xdate: "июль, 2021"
+lastedit: "август, 2021"
 sig: true
 toc: true
 tags: математика математические-болезни теория-чисел открытые-проблемы гипотезы-измышляю теория-насыщения
@@ -448,13 +449,13 @@ $\rho(\Sigma_i)=\rho(M)$, т.е. переформулировать специа
 Насыщенная $\Sigma_i$ делится на $M$ (по определению), а это означает, что $\Sigma_i$ делится на 
 любой делитель числа $M$, в частности, $\Sigma_i\equiv 0\pmod{d_{r<i}}$. Делители $d_{r<i}$ 
 интересны тем, что $\forall r<i$ выполняется $$\frac{1}{d_r}\Sigma_i = 
-\frac{1}{d_r}\sum_{j=0}^{i-1} d_j = \frac{d_r}{d_r}+\sum_{i>j\neq r} 
+\frac{1}{d_r}\sum_{j=0}^{i-1} d_j = \frac{d_r}{d_r}+\sum_{\substack{j<i\\j\neq r}} 
 \frac{d_j}{d_r}\in\mathbb{N}.$$
 
 Но такая сумма, очевидно, может быть целым числом только если после вычитания 
-$\frac{d_r}{d_r}=1$ остаётся целая сумма $\sum_{i>j\neq r}\frac{d_j}{d_r}\in\mathbb{N}$, т.е. 
-если $\sum_{i>j\neq r} d_j$ или, что то же самое, $\sum_{j<i} d_j - d_r=\Sigma_i-d_r$ делится на 
-$d_r$. $\blacksquare$
+$\frac{d_r}{d_r}=1$ остаётся целая сумма $\sum\limits_{\substack{j<i\\j\neq 
+r}}\frac{d_j}{d_r}\in\mathbb{N}$, т.е. если $\sum\limits_{\substack{j<i\\j\neq r}} d_j$ или, что 
+то же самое, $\sum_{j<i} d_j - d_r=\Sigma_i-d_r$ делится на $d_r$. $\blacksquare$
 
 ## Факторизация с двойкой
 
@@ -493,26 +494,26 @@ $k_q$. Т.е. будет выполняться: $$\label{eq0} \frac{1}{k_q d_r}
 d_r}\sum_{j<i} d_j = \sum_{j<i}\frac{d_j}{k_q d_r}\in\mathbb{N}.$$
 
 Слагаемое при $j=r$ можно вынести в $\eqref{eq0}$ за знак суммирования (cf. лемма {% ref lemma 
-removed-summand %}): $$\label{eq1} \sum_\substack{j<i\\j\neq r}\frac{d_j}{k_q d_r} + 
+removed-summand %}): $$\label{eq1} \sum_{\substack{j<i\\j\neq r}}\frac{d_j}{k_q d_r} + 
 \frac{1}{k_q}\in\mathbb{N}.$$
 
 Для целочисленности суммы $\eqref{eq1}$ необходимо, чтобы сумма остатков от деления 
-$\sum\limits_\substack{j<i\\j\neq r} d_j/d_r$ и единицы на $k_q$ была кратна $k_q$. С 
+$\sum\limits_{\substack{j<i\\j\neq r}} d_j/d_r$ и единицы на $k_q$ была кратна $k_q$. С 
 использованием обозначения $x\bmod y$, обозначающего остаток от деления $x$ на $y$, это условие 
-можно записать как $\big(\sum\limits_\substack{j<i\\j\neq r} d_j/d_r\big)\bmod k_q + 1 \bmod 
+можно записать как $\big(\sum\limits_{\substack{j<i\\j\neq r}} d_j/d_r\big)\bmod k_q + 1 \bmod 
 k_q\equiv 0\pmod{k_q}$.
 
 Т.к. единица не делится на $k_q$, то первое слагаемое со знаком суммирования тоже не должно 
 делиться на $k_q$. Также следует заметить, что слагаемое $1\bmod k_q$ не зависит от $r$. Всё это 
 приводит к $\big(\sum_{i>j\neq r} d_j/d_r\big)\bmod k_q=\operatorname{const}>0$. Если я не 
 ошибаюсь, такое условие можно снова <<умножить>> на $d_r$ (т.е. умножить обе части лежащего в 
-основе сравнения по модулю $k_q$) и получить выражение $$\label{eq2} \sum_\substack{j<i\\j\neq 
-r} d_j\equiv\operatorname{const}_{>0}\pmod{k_q}.$$
+основе сравнения по модулю $k_q$) и получить выражение $$\label{eq2} \sum_{\substack{j<i\\j\neq 
+r}} d_j\equiv\operatorname{const}_{>0}\pmod{k_q}.$$
 
 Выражение $\eqref{eq2}$ было получено выбрасыванием $d_r$ из $\Sigma_i$, но этот же процесс 
 можно повторить и для другого индекса $g$, в результате чего будет получено аналогичное 
-выражение $\sum\limits_\substack{j<i\\j\neq g} d_j\equiv\operatorname{const}_{>0}\pmod{k_q}$. 
-Вычитание последнего выражения из $\eqref{eq2}$ даёт $\sum\limits_\substack{j<i\\j\neq r}d_j - 
+выражение $\sum\limits_{\substack{j<i\\j\neq g}} d_j\equiv\operatorname{const}_{>0}\pmod{k_q}$. 
+Вычитание последнего выражения из $\eqref{eq2}$ даёт $\sum\limits_{\substack{j<i\\j\neq r}}d_j - 
 \sum_{i>j\neq g} d_j \equiv 0\pmod{k_q}.$ Суммы в левой части этого сравнения отличаются только 
 наличием/отсутствием слагаемых $d_r$ и $d_g$, поэтому после привидения подобных слагаемых мы 
 получим $$\label{eq3} d_g-d_r\equiv 0\pmod{k_q}.$$

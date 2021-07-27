@@ -17,6 +17,8 @@ test: true
 Следующая строка продолжения аннотации.
 {% endabstract %}
 
+$\unitfrac{m}{s}$
+
 # Тестирование плагина `numbered-labels.rb`
 
 **Теорема {% def theorem non-connected-pairs-in-five-graph %}.**

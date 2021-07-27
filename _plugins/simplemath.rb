@@ -54,6 +54,7 @@ def latex_preamble()
     latex_source<<"\\usepackage{tikz}\n"
     latex_source<<"\\usepackage[european,emptydiode,americaninductor]{circuitikz}\n"
     latex_source<<"\\usepackage{mathtools}\n"
+    latex_source<<"\\usepackage{units}\n"
     #latex_source<<"\\mathtoolsset{showmanualtags=true}\n"
 
     if FilesSingleton::multi_mode()&&FilesSingleton::simple_eq_numbering()
