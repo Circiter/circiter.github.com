@@ -17,7 +17,7 @@ test: true
 Следующая строка продолжения аннотации.
 {% endabstract %}
 
-$\unitfrac{m}{s}$ vs. $\nicefrac{m}{s} vs. $\nicefrac[\itshape]{m}{s}$.
+$\unitfrac{m}{s}$ vs. $\nicefrac{m}{s}$ vs. $\nicefrac[\itshape]{m}{s}$.
 
 # Тестирование плагина `numbered-labels.rb`
 
