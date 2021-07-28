@@ -343,7 +343,7 @@ GNU в Posix и смогло ли бы это решить проблему по
 * <http://www.oocities.org/mettw/personal/software/src/sedhttpd.txt> -- http-сервер на sed.
 * <http://sed.sourceforge.net/grabbag/scripts/turing.sed> -- машина Тьюринга на sed; да,
    это -- готовое [конструктивное] доказательство вычислительной универсальности языка sed.
-* <http://sed.sourceforge.net/grabbag/scripts/sokoban.sed> -- широкоизвестная игра
+* <http://sed.sourceforge.net/grabbag/scripts/sokoban.sed> -- широко известная игра
    <span class="inline">![i18n-sokoban](/public/images/sokoban.png)</span> (сокобан); эта 
    реализация интересна, разумеется, перемещением персонажа во всех направлениях (в т.ч. 
    вверх-вниз), чего обычно на sed достичь не так-то просто.
