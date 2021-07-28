@@ -122,14 +122,17 @@ K)=1$.
 Ключевые утверждения (гипотезы {% ref hypothesis general-conjecture %}, {% ref hypothesis 
 main-observation %} и {% ref hypothesis even-saturation %}, наблюдения {% ref observation 
 odd-no-saturation %} и {ref observation pairwise-differences }) и связи между ними представлены 
-в диаграмме ниже:$\def\generalconjecture{{% ref hypothesis general-conjecture %}}$
+в диаграмме ниже:$\def\generalconjecture{ {% ref hypothesis general-conjecture %} } 
+\def\oddnosaturation{ {% ref observation odd-no-saturation %} } \def\mainobservation{ {% ref 
+hypothesis main-observation %} } \def\pairwisedifferences{ {% ref observation 
+pairwise-differences %} } \def\evensaturation{ {% ref hypothesis even-saturation %} } $
 
 {% tex block %}
 {% raw %}
 \xymatrix{%
     {}&{}\txt{Гипотеза \generalconjecture}\ar@{=>}[d]&{}\\
-    {}\txt{Наблюдение 1}\ar@{->}[r]\ar@{=>}[d]&{}\txt{Гипотеза 2}\ar@{=>}[d]&{}\txt{Наблюдение 2}\ar@{=>}[d]\\
-    {}\txt{Наблюдение 1 \scalebox{1.5}{$\star$}}\ar@{->}[r]\POS*+<0cm, .5cm>\frm{_\}},+D*++!U\txt{Нечётные $M$}&{}\txt{Гипотеза 2 \scalebox{1.5}{$\star$}}&{}\txt{Гипотеза 3}\ar@{->}[l]\ar@{->}[ul]\POS*+<0cm, .5cm>\frm{_\}},+D*++!U\txt{Чётные $M$}
+    {}\txt{Наблюдение \oddnosaturation}\ar@{->}[r]\ar@{=>}[d]&{}\txt{Гипотеза \mainobservation}\ar@{=>}[d]&{}\txt{Наблюдение \pairwisedifferences}\ar@{=>}[d]\\
+    {}\txt{Наблюдение \oddnosaturation \scalebox{1.5}{$\star$}}\ar@{->}[r]\POS*+<0cm,.5cm>\frm{_\}},+D*++!U\txt{Нечётные $M$}&{}\txt{Гипотеза \mainobservation \scalebox{1.5}{$\star$}}&{}\txt{Гипотеза \evensaturation}\ar@{->}[l]\ar@{->}[ul]\POS*+<0cm,.5cm>\frm{_\}},+D*++!U\txt{Чётные $M$}
 }
 {% endraw %}
 {% endtex %}
