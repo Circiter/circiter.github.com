@@ -358,7 +358,7 @@ $M$. В заключительной части предыдущего сооб�
 Обозначим $\mu_j=m_j^{\alpha(j)}$. Очевидно, $\forall i,j\ i\neq j\Rightarrow\text{НОД}(\mu_i, 
 \mu_j )=1$ (т.е. модули $\{\mu_j\}$ попарно взаимно просты). Тогда конструктивная версия К.Т.О. 
 даст решение в виде $$\label{eq:generalsolution} \sum_j \left(\nicefrac{M}{\mu_j} 
-\right)^{\varphi(\mu_j)} \cdot(-r_j),$$ заменяющем решение $\eqref{eq:originalsolution}$.
+\right)^{\varphi(\mu_j)} \cdot(-r_j),$$ заменяющим решение $\eqref{eq:originalsolution}$.
 
 Из $\eqref{eq:euler-power-prime}$ следует, что показатель степени в $\eqref{eq:generalsolution}$ 
 равен $\varphi(\mu_j)=\varphi(m_j^{\alpha(j)})=m_j^{\alpha(j)}-m_j^{\alpha(j)-1}$. Очевидно, 
