@@ -126,6 +126,11 @@ macro processed: begin {% ref observation odd-no-saturation %} end
 \def\mainobservation{ {% ref hypothesis main-observation %} }
 \def\pairwisedifferences{ {% ref observation pairwise-differences %} }
 \def\evensaturation{ {% ref hypothesis even-saturation %} }
+using definitions: (\generalconjecture)
+{% endtex %}
+
+{% tex %}
+using definitions in another TeX block: (\generalconjecture)
 {% endtex %}
 
 Ключевые утверждения (гипотезы {% ref hypothesis general-conjecture %}, {% ref hypothesis 
@@ -278,8 +283,6 @@ hypothesis no-odd-perfect %} весьма вероятной.
 Я же собираюсь применить к гипотезе {% ref hypothesis no-odd-perfect %} строящуюся теория 
 насыщения. :)
 
-### Основной результат
-
 **Доказательство гипотезы {% ref hypothesis no-odd-perfect %}**
 
 Пусть *произвольное* нечётное $M$ таково, что $\sigma_1(M)=2m$ для некоторого 
@@ -333,8 +336,8 @@ $m\in\mathbb{N}$. К этому случаю применима лемма 1 п�
 {% sentence_begin %}
 **Некоторые свойства**
 
-* Функция Эйлера мультипликативна: $\varphi(ab)=\varphi(a)\varphi(b)$;
-* Для $p\in\mathbb{P}$ верно $\varphi(p)=p-1$;
+* Функция Эйлера мультипликативна: $\varphi(ab)=\varphi(a)\varphi(b)$,
+* Для $p\in\mathbb{P}$ верно $\varphi(p)=p-1$,
 * Для степени $n$ простого $p$ выполняется $$\label{eq:euler-power-prime} 
 \varphi(p^n)=p^n-p^{n-1}.$$
 {% sentence_end  %}
