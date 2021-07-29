@@ -741,21 +741,7 @@ module Jekyll
             end
 
         end
-
-#        class LatexPseudoblock < Liquid::Block
-#            def initialize(name, params, tokens)
-#                @my_name=name
-#            end
-#
-#            def render(context)
-#                if @my_name=="tex_begin"
-#                else
-#                end
-#            end
-#        end
     end
 end
 
 Liquid::Template.register_tag("tex", Jekyll::Tags::LatexBlock)
-#Liquid::Template.register_tag("tex_begin", Jekyll::Tags::LatexPseudoblock)
-#Liquid::Template.register_tag("tex_end", Jekyll::Tags::LatexPseudoblock)
