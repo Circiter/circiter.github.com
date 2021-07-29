@@ -120,17 +120,11 @@ K)=1$.
 ## Связи между утверждениями
 
 {% tex %}
-macro processed: begin {% ref observation odd-no-saturation %} end
 \gdef\generalconjecture{ {% ref hypothesis general-conjecture %} } 
-\def\oddnosaturation{ {% ref observation odd-no-saturation %} }
-\def\mainobservation{ {% ref hypothesis main-observation %} }
-\def\pairwisedifferences{ {% ref observation pairwise-differences %} }
-\def\evensaturation{ {% ref hypothesis even-saturation %} }
+\gdef\mainobservation{ {% ref hypothesis main-observation %} }
+\gdef\pairwisedifferences{ {% ref observation pairwise-differences %} }
+\gdef\evensaturation{ {% ref hypothesis even-saturation %} }
 using definitions: (\generalconjecture)
-{% endtex %}
-
-{% tex %}
-using definitions in another TeX block: (\generalconjecture)
 {% endtex %}
 
 Ключевые утверждения (гипотезы {% ref hypothesis general-conjecture %}, {% ref hypothesis 
@@ -138,6 +132,7 @@ main-observation %} и {% ref hypothesis even-saturation %}, наблюдени�
 odd-no-saturation %} и {% ref observation pairwise-differences %}) и связи между ними 
 представлены в диаграмме ниже:
 {% tex block %}
+\def\oddnosaturation{ {% ref observation odd-no-saturation %} }
 {% raw %}
 \xymatrix{%
     {}&{}\txt{Гипотеза \generalconjecture}\ar@{=>}[d]&{}\\
