@@ -38,10 +38,10 @@ end
 
 def latex_preamble()
     #latex_source="\\documentclass[preview=true,tikz=true,border=1pt]{standalone}\n"
-    latex_source="\\documentclass[preview,border=1pt]{standalone}\n"
+    latex_source="\\documentclass[preview,border=2pt]{standalone}\n"
     if FilesSingleton::multi_mode()
         #latex_source="\\documentclass[preview=true,multi=true,tikz=true,border=1pt]{standalone}\n"
-        latex_source="\\documentclass[preview,multi,border=1pt]{standalone}\n"
+        latex_source="\\documentclass[preview,multi,border=2pt]{standalone}\n"
     end
     latex_source<<"\\usepackage[T1,T2A]{fontenc}\n"
     latex_source<<"\\usepackage[utf8]{inputenc}\n"
