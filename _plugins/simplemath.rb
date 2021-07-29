@@ -194,6 +194,7 @@ def generate_style(findex, full_filename, inline)
     return style
 end
 
+# FIXME: Replace the style_stub-hack with something safe.
 def style_stub(findex, decimal_index, is_inline)
     inline="block"
     inline="inline" if is_inline
@@ -740,7 +741,21 @@ module Jekyll
             end
 
         end
+
+#        class LatexPseudoblock < Liquid::Block
+#            def initialize(name, params, tokens)
+#                @my_name=name
+#            end
+#
+#            def render(context)
+#                if @my_name=="tex_begin"
+#                else
+#                end
+#            end
+#        end
     end
 end
 
 Liquid::Template.register_tag("tex", Jekyll::Tags::LatexBlock)
+#Liquid::Template.register_tag("tex_begin", Jekyll::Tags::LatexPseudoblock)
+#Liquid::Template.register_tag("tex_end", Jekyll::Tags::LatexPseudoblock)
