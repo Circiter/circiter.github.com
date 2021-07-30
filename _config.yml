@@ -106,6 +106,8 @@ simplemath:
     simple_numbering: true
     fisher_rule: false
 
+excerpt_separator: ""
+
 #optional_front_matter:
 #  remove_originals: true
 
