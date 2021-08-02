@@ -550,7 +550,7 @@ $$\label{eq2} \sum_{\substack{j<i\\j\neq r}} d_j\equiv\operatorname{const}_{>0}\
 Вычитание последнего выражения из $\eqref{eq2}$ даёт $\sum\limits_{\substack{j<i\\j\neq r}}d_j - 
 \sum\limits_{\substack{j<i\\j\neq g}} d_j \equiv 0\pmod{k_q}.$ Суммы в левой части этого 
 сравнения отличаются только наличием/отсутствием слагаемых $d_r$ и $d_g$, поэтому после 
-привидения подобных слагаемых мы получим $$\label{eq3} d_g-d_r\equiv 0\pmod{k_q}.$$
+приведения подобных слагаемых мы получим $$\label{eq3} d_g-d_r\equiv 0\pmod{k_q}.$$
 
 Если наблюдение {% ref observation pairwise-differences %} верно, то для случая $M\equiv 0\pmod 
 2$ выполняется $\forall d_g\ \exists d_r<d_g\ d_g-d_r\not\equiv 0\pmod{k_q}$. Это входит в 
