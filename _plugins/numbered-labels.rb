@@ -34,6 +34,9 @@
 # N.B., currently, instead of labeled environments there is
 # a pseudoenvironment {% sentene_begin %} ... {% sentence_end %}.
 
+# TODO: Extend the {% def ... %} syntax to allow the enforcement of a spicific
+#       number (manual number specification).
+
 module LabelsSingleton
     @referenced_labels=Hash.new
     @defined_labels=Hash.new

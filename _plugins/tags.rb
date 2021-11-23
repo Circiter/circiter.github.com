@@ -4,6 +4,9 @@
 # Original code from jameshfisher.com
 # Modified by Circiter.
 
+# TODO: Make it possible to specify a list of tags for a blog-post; such a tags
+#       may be included in a keywords html-header, for example.
+
 require "fileutils"
 
 module Jekyll
