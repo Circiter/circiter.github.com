@@ -480,7 +480,7 @@ $\mathfrak{S}$ и для каждой $s\in\mathfrak{S}$ находить под
 отображение $\xi$. $\blacksquare$
 
 {% sentence_begin %}
-**Предложение {% ref sentence new-divisor-criterion %}:** $\exists \mu\in\xi(i)\ d_i\equiv 
+**Предложение {% def sentence new-divisor-criterion %}:** $\exists \mu\in\xi(i)\ d_i\equiv 
 0\pmod\mu$. Это просто обновлённый критерий делителя; само утверждения я нахожу достаточно 
 очевидным.
 {% sentence_end %}
