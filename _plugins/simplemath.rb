@@ -217,6 +217,14 @@ def render_latex(formula, inline, site)
     directory="eq"
     FileUtils.mkdir_p(directory) unless File.exists?(directory)
 
+    # FIXME:
+    to_remove=Dir.glob("eq/*.png")
+    to_remove.each do |f|
+        if File.exists?(f)
+            File.unlink(f)
+        end
+    end
+
     basename=Digest::MD5.hexdigest(formula)
     filename=basename+".png"
     full_filename=File.join(directory, filename)
