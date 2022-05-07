@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Теория насыщения. Часть II. &middot; Дневник Circiter'а
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/hyde.css">
+  <link rel="stylesheet" href="/public/css/style.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Exo+2">
+  <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml" />
+  <link type="text/plain" rel="author" href="/humans.txt" />
+  <!-- From catb.org/hacker-emblem/glider.ico  -->
+  <link rel="shortcut icon" href="/public/images/glider.ico" />
+
+</head>
+
+
+  <body>
+
+    <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <!--<h1>
+        <a href="/">
+          Дневник Circiter'а
+        </a>
+      </h1>-->
+      <p class="lead">Технический блог о программировании, математике, радиолюбительской практике, электронике и занимательной науке.</p>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="sidebar-nav-item" href="/">Главная страница</a>
+
+      
+      
+        
+          
+        
+      
+        
+          
+            <a class="sidebar-nav-item" href="/about">Справка</a>
+          
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+
+    </nav>
+  </div>
+</div>
+
+
+    <div class="content container">
+      <div class="post">
+    <h2 class="post-title no-toc">Тео­рия насы­ще­ния. Часть II.</h2>
+    <!-- <span class="post-date">7 May 2022</span> -->
+    
+        <br>
+        <center><span class="post-date">Август, 2021</span></center>
+    
+    
+        <span class="abstract">
+        <center><b>Анно­та­ция</b></center>
+        
+            <p>Сооб­ще­ние явля­ется про­дол­же­нием серии «тео­рия насы­ще­ния». В пер­вой части были зало­жены основы
+тео­рии, изу­ча­ю­щей инте­рес­ный фено­мен «насы­ще­ния» фак­то­ри­за­ций частич­ных сумм дели­те­лей. В том
+числе, был при­ведён ряд гипо­тез и наблю­де­ний вме­сте со схе­ма­тич­ными попыт­ками их дока­за­тельств.
+Но почти ничего не было ска­зано о воз­мож­ных при­ме­не­ниях этих несколько спе­ку­ля­тив­ных
+резуль­та­тов.</p>
+<p>Тео­рия насы­ще­ния (если она не оши­бочна) при­звана раз­ре­шить неко­то­рые кон­фликты между адди­тив­ными
+и муль­ти­пли­ка­тив­ными аспек­тами тео­рии чисел, и, похоже, что фено­мен насы­ще­ния поз­во­ляет
+при­бли­зится к реше­нию неко­то­рых дав­них слож­ных задач, среди кото­рых и широко извест­ная гипо­теза
+о несу­ще­ство­ва­нии нечёт­ных совер­шен­ных чисел (кон­кретно, к концу сооб­ще­ния при­во­дятся два
+дока­за­тель­ства отсут­ствия нечёт­ных совер­шен­ных чисел; есте­ственно, выпол­нен­ные исходя из
+пред­по­ло­же­ния о вер­но­сти основ­ных резуль­та­тов тео­рии насы­ще­ния).</p>
+
+        
+        <hr>
+        </span>
+    
+    
+    <h3>Содер­жа­ние:</h3>
+    <ul id="toc" class="section-nav">
+<li class="toc-entry toc-h1"><a href="#section">Вве­де­ние</a></li>
+<li class="toc-entry toc-h1">
+<a href="#section-1">Опре­де­ле­ния и ста­рые резуль­таты</a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#section-2">Связи между утвер­жде­ни­ями</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h1"><a href="#section-3">Новые вспо­мо­га­тель­ные резуль­таты</a></li>
+<li class="toc-entry toc-h1">
+<a href="#section-4">Прак­ти­че­ское при­ме­не­ние</a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#section-5">Нечёт­ные совер­шен­ные числа</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h1"><a href="#section-6">Заклю­че­ние</a></li>
+<li class="toc-entry toc-h1"><a href="#section-7">Ссылки</a></li>
+<li class="toc-entry toc-h1"><a href="#a">При­ло­же­ние A</a></li>
+</ul>
+
+
+    <h1 id="section">
+<a class="anchor" href="#section" aria-hidden="true"><span class="octicon octicon-link"></span></a>Вве­де­ние</h1>
+<p>Я рад, что чита­тель не сбе­жал после про­чте­ния анно­та­ции. :) Да, задаче о нечёт­ных совер­шен­ных
+чис­лах около двух кило­лет, и её до сих пор офи­ци­ально не решили. Обще­при­ня­тая гипо­теза гла­сит,
+что таких чисел попро­сту не суще­ствует, и именно эта гипо­теза будет основ­ных объ­ек­том для
+«кли­ни­че­ских испы­та­ний» тео­рии насы­ще­ния.</p>
+<p>Реко­мен­ду­ется озна­ко­миться с пер­вой частью <a class="citation" href="#saturation-theory-part-1">[1]</a> этой серии
+сооб­ще­ний. В ней опи­саны основы этой неболь­шой тео­рии, даются необ­хо­ди­мые опре­де­ле­ния. Основ­ным
+резуль­та­том про­ведён­ных изыс­ка­ний явля­ется ряд гипо­тез и наблю­де­ний вме­сте с наброс­ками их
+дока­за­тельств (по край­ней мере, для инте­рес­ного част­ного слу­чая).</p>
+<p>(Фор­мат этих заме­ток не под­ра­зу­ме­вает исполь­зо­ва­ния неудоб­ных пере­крёст­ных ссы­лок между
+сооб­ще­ни­ями. Поэтому основ­ные резуль­таты и опре­де­ле­ния я кратко повторю здесь.)</p>
+<h1 id="section-1">
+<a class="anchor" href="#section-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Опре­де­ле­ния и ста­рые резуль­таты</h1>
+<div class="sentence-block">
+<p><strong>Кое-какие обо­зна­че­ния</strong></p>
+<ul>
+<li>
+<span class="nolinebreak"><img src="/eq/5-0.png" style="height: 18px; width: 39px; vertical-align: -5px;" class="latex"></span> – коли­че­ство всех дели­те­лей числа <span class="nolinebreak"><img src="/eq/5-1.png" style="height: 9px; width: 10px; vertical-align: -0px;" class="latex">;</span>
+</li>
+<li>
+<span class="nolinebreak"><img src="/eq/5-2.png" style="height: 18px; width: 276px; vertical-align: -5px;" class="latex"></span> – сумма всех дели­те­лей числа <span class="nolinebreak"><img src="/eq/5-3.png" style="height: 9px; width: 10px; vertical-align: -0px;" class="latex">;</span>
+</li>
+<li>
+<span class="nolinebreak"><img src="/eq/5-4.png" style="height: 12px; width: 10px; vertical-align: -0px;" class="latex"></span> – мно­же­ство всех про­стых чисел;</li>
+<li>
+<span class="nolinebreak"><img src="/eq/5-5.png" style="height: 18px; width: 35px; vertical-align: -5px;" class="latex"></span> – мно­же­ство раз­лич­ных про­стых дели­те­лей числа <span class="nolinebreak"><img src="/eq/5-6.png" style="height: 9px; width: 10px; vertical-align: -0px;" class="latex">;</span>
+</li>
+<li>
+<span class="nolinebreak"><img src="/eq/5-7.png" style="height: 12px; width: 18px; vertical-align: -0px;" class="latex"></span> – про­из­воль­ное число, отно­си­тельно кото­рого по-умолчанию рас­смат­ри­ва­ются мно­гие
+резуль­таты тео­рии насы­ще­ния;</li>
+<li>
+<span class="nolinebreak"><img src="/eq/5-8.png" style="height: 12px; width: 14px; vertical-align: -0px;" class="latex"></span> – мно­же­ство дели­те­лей числа <span class="nolinebreak"><img src="/eq/5-9.png" style="height: 12px; width: 18px; vertical-align: -0px;" class="latex"></span> (N.B., <span class="nolinebreak"><img src="/eq/5-10.png" style="height: 18px; width: 86px; vertical-align: -5px;" class="latex">);</span>
+</li>
+<li>
+<span class="nolinebreak"><img src="/eq/5-11.png" style="height: 18px; width: 62px; vertical-align: -5px;" class="latex"></span> – раз­лич­ные про­стые числа («за­пре­щён­ные моду­ли»), мень­шие числа
+<span class="nolinebreak"><img src="/eq/5-12.png" style="height: 12px; width: 18px; vertical-align: -0px;" class="latex"></span> и вза­имно про­стые с ним;</li>
+<li>
+<span class="nolinebreak"><img src="/eq/5-13.png" style="height: 18px; width: 74px; vertical-align: -5px;" class="latex"></span> – число, фак­то­ри­за­ция кото­рого обра­зо­вана всеми чис­лами <span class="nolinebreak"><img src="/eq/5-14.png" style="height: 15px; width: 12px; vertical-align: -3px;" class="latex"></span> (N.B., все
+фак­торы раз­личны).</li>
+</ul>
+</div>
+<div class="sentence-block">
+<p><strong>Опре­де­ле­ния</strong></p>
+<ul>
+<li>Число <span class="nolinebreak"><img src="/eq/5-15.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex"></span> – <em>слабо насы­щенно</em> если <span class="nolinebreak"><img src="/eq/5-16.png" style="height: 16px; width: 48px; vertical-align: -3px;" class="latex"></span> выпол­ня­ется импли­ка­ция <span class="nolinebreak"><img src="/eq/5-17.png" style="height: 18px; width: 245px; vertical-align: -5px;" class="latex">;</span>
+</li>
+<li>Число <span class="nolinebreak"><img src="/eq/5-18.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex"></span> – <em>насы­щенно</em> если <span class="nolinebreak"><img src="/eq/5-19.png" style="height: 18px; width: 114px; vertical-align: -5px;" class="latex">;</span>
+</li>
+<li>Число <span class="nolinebreak"><img src="/eq/5-20.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex"></span> – <em>сильно насы­щенно</em> если <span class="nolinebreak"><img src="/eq/5-21.png" style="height: 18px; width: 114px; vertical-align: -5px;" class="latex"></span> и <span class="nolinebreak"><img src="/eq/5-22.png" style="height: 18px; width: 113px; vertical-align: -5px;" class="latex">;</span>
+</li>
+<li>Дели­тели числа <span class="nolinebreak"><img src="/eq/5-23.png" style="height: 12px; width: 18px; vertical-align: -0px;" class="latex"></span> состав­ляют мно­же­ство <span class="nolinebreak"><img src="/eq/5-24.png" style="height: 12px; width: 14px; vertical-align: -0px;" class="latex">,</span> а будучи упо­ря­до­чен­ными неко­то­рым обра­зом,
+обра­зуют после­до­ва­тель­ность <span class="nolinebreak"><img src="/eq/5-25.png" style="height: 24px; width: 123px; vertical-align: -5px;" class="latex">;</span>
+</li>
+<li>Отно­ше­ние порядка по-умолчанию для мно­же­ства <span class="nolinebreak"><img src="/eq/5-26.png" style="height: 12px; width: 14px; vertical-align: -0px;" class="latex"></span> есть <span class="nolinebreak"><img src="/eq/5-27.png" style="height: 14px; width: 11px; vertical-align: -2px;" class="latex">,</span> и если дели­тели <span class="nolinebreak"><img src="/eq/5-28.png" style="height: 18px; width: 29px; vertical-align: -5px;" class="latex"></span>
+упо­ря­до­чены отно­си­тельно <span class="nolinebreak"><img src="/eq/5-29.png" style="height: 14px; width: 11px; vertical-align: -2px;" class="latex">,</span> т.е., упо­ря­до­чены по воз­рас­та­нию, то гово­рят о
+<em>кано­ни­че­ском порядке</em> дели­те­лей;</li>
+<li>Частич­ные суммы дели­те­лей числа <span class="nolinebreak"><img src="/eq/5-30.png" style="height: 12px; width: 18px; vertical-align: -0px;" class="latex"></span> обра­зуют после­до­ва­тель­ность <span class="nolinebreak"><img src="/eq/5-31.png" style="height: 18px; width: 37px; vertical-align: -5px;" class="latex">,</span> задан­ную
+рекур­рентно: <span class="nolinebreak"><img src="/eq/5-32.png" style="height: 16px; width: 169px; vertical-align: -4px;" class="latex">.</span>
+</li>
+</ul>
+</div>
+<div class="sentence-block">
+<p><strong>Гипо­теза 1</strong></p>
+<p><span class="nolinebreak"><img src="/eq/5-33.png" style="height: 18px; width: 343px; vertical-align: -5px;" class="latex"></span> (из
+насы­щен­но­сти сле­дует силь­ная насы­щен­ность).</p>
+</div>
+<p>Из 1 выте­кает утвер­жде­ние о логи­че­ской необ­хо­ди­мо­сти
+силь­ной насы­щен­но­сти и для насы­ще­ния частич­ных сумм дели­те­лей, неза­ви­симо от порядка вклю­че­ния
+дели­те­лей в сумму. По факту, неко­то­рые из при­ведён­ных в преды­ду­щем сооб­ще­нии наброс­ков
+дока­за­тельств, под­ра­зу­ме­вают кано­ни­че­ский поря­док дели­те­лей. Так что, глав­ным инстру­мен­том (и
+основ­ным объ­ек­том попы­ток дока­за­тельства) в теку­щей вер­сии тео­рии насы­ще­ния явля­ется сле­ду­ю­щее
+утвер­жде­ние:</p>
+<div class="sentence-block">
+<p><strong>Гипо­теза 2</strong></p>
+<p>При кано­ни­че­ском порядке сум­ми­ро­ва­ния дели­те­лей, спра­вед­ливо <span class="nolinebreak"><img src="/eq/5-34.png" style="height: 18px; width: 291px; vertical-align: -5px;" class="latex">.</span></p>
+</div>
+<div class="sentence-block">
+<p><strong>Наблю­де­ние 1</strong></p>
+<p>Для нечёт­ных <span class="nolinebreak"><img src="/eq/5-35.png" style="height: 13px; width: 47px; vertical-align: -1px;" class="latex">,</span> при кано­ни­че­ском порядке дели­те­лей, ни одна из частич­ных сумм не дости­гает
+насы­ще­ния: <span class="nolinebreak"><img src="/eq/5-36.png" style="height: 21px; width: 296px; vertical-align: -6px;" class="latex">.</span></p>
+</div>
+<div class="sentence-block">
+<p><strong>Наблю­де­ние 2</strong></p>
+<p>Для чёт­ных <span class="nolinebreak"><img src="/eq/5-37.png" style="height: 13px; width: 48px; vertical-align: -1px;" class="latex"></span> спра­вед­ливо <span class="nolinebreak"><img src="/eq/5-38.png" style="height: 18px; width: 484px; vertical-align: -4px;" class="latex">.</span></p>
+<p>При­мер­ная сло­вес­ная фор­му­ли­ровка: для про­из­воль­ного, зара­нее выбран­ного запре­щён­ного модуля <span class="nolinebreak"><img src="/eq/5-39.png" style="height: 13px; width: 8px; vertical-align: -0px;" class="latex">,</span>
+среди попар­ных раз­но­стей дели­те­лей числа <span class="nolinebreak"><img src="/eq/5-40.png" style="height: 12px; width: 18px; vertical-align: -0px;" class="latex"></span> «мно­го» раз­но­стей, не деля­щихся на <span class="nolinebreak"><img src="/eq/5-41.png" style="height: 13px; width: 8px; vertical-align: -0px;" class="latex">,</span> а именно,
+если выбрать какой-нибудь неми­ни­маль­ный (не рав­ный еди­нице) дели­тель, то най­дётся мень­ший
+дели­тель, такой, что раз­ность между этими двумя дели­те­лями не будет кратна <span class="nolinebreak"><img src="/eq/5-42.png" style="height: 13px; width: 8px; vertical-align: -0px;" class="latex">.</span></p>
+</div>
+<div class="sentence-block">
+<p><strong>Гипо­теза 3</strong></p>
+<p>Если <span class="nolinebreak"><img src="/eq/5-43.png" style="height: 12px; width: 18px; vertical-align: -0px;" class="latex"></span> – чёт­ное, то <span class="nolinebreak"><img src="/eq/5-44.png" style="height: 18px; width: 291px; vertical-align: -5px;" class="latex">.</span></p>
+</div>
+<h2 id="section-2">
+<a class="anchor" href="#section-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>Связи между утвер­жде­ни­ями</h2>
+<p>Клю­че­вые утвер­жде­ния (гипо­тезы 1, 2 и 3, наблю­де­ния 1 и 2) и связи между ними
+пред­став­лены на диа­грамме ниже:
+<br></p>
+<center><img src="/eq/5-45.png" style="height: 184px; width: 446px;" class="latex"></center>
+<br>
+<p>В левом столбце раз­ме­щены утвер­жде­ния для нечёт­ных <span class="nolinebreak"><img src="/eq/5-46.png" style="height: 12px; width: 18px; vertical-align: -0px;" class="latex">,</span> в пра­вом – для чёт­ных.</p>
+<p>Звёз­доч­ками <span class="nolinebreak"><img src="/eq/5-47.png" style="height: 8px; width: 9px; vertical-align: -0px;" class="latex"></span> поме­чены вер­сии утвер­жде­ний, сде­лан­ные в пред­по­ло­же­нии попар­ного раз­ли­чия
+всех про­стых мно­жи­те­лей в раз­ло­же­нии <span class="nolinebreak"><img src="/eq/5-48.png" style="height: 12px; width: 18px; vertical-align: -0px;" class="latex"></span> (у всех фак­то­ров еди­нич­ные сте­пени). Стрел­ками
+<span class="nolinebreak"><img src="/eq/5-49.png" style="height: 10px; width: 15px; vertical-align: -0px;" class="latex"></span> поме­чены обыч­ные логи­че­ские импли­ка­ции, <span class="nolinebreak"><img src="/eq/5-50.png" style="height: 13px; width: 54px; vertical-align: -0px;" class="latex"></span> озна­чает, что из
+утвер­жде­ния <span class="nolinebreak"><img src="/eq/5-51.png" style="height: 12px; width: 14px; vertical-align: -0px;" class="latex"></span> сле­дует утвер­жде­ние <span class="nolinebreak"><img src="/eq/5-52.png" style="height: 12px; width: 13px; vertical-align: -0px;" class="latex">.</span></p>
+<p>Стрелки же <span class="nolinebreak"><img src="/eq/5-53.png" style="height: 10px; width: 15px; vertical-align: -0px;" class="latex"></span> (могу­щие быть заменён­ными на <span class="nolinebreak"><img src="/eq/5-54.png" style="height: 10px; width: 15px; vertical-align: -0px;" class="latex">)</span> поз­во­ляют пока­зать, как одно
+утвер­жде­ние вно­сит вклад в дока­за­тель­ство дру­гого: <span class="nolinebreak"><img src="/eq/5-55.png" style="height: 13px; width: 54px; vertical-align: -0px;" class="latex"></span> озна­чает, что утвер­жде­ние <span class="nolinebreak"><img src="/eq/5-56.png" style="height: 12px; width: 14px; vertical-align: -0px;" class="latex">,</span>
+воз­можно наряду с дру­гими утвер­жде­ни­ями, «вно­сит вклад» в утвер­жде­ние <span class="nolinebreak"><img src="/eq/5-57.png" style="height: 12px; width: 13px; vertical-align: -0px;" class="latex"></span> – к при­меру,
+дока­за­тель­ство утвер­жде­ния <span class="nolinebreak"><img src="/eq/5-58.png" style="height: 12px; width: 14px; vertical-align: -0px;" class="latex"></span> может вхо­дить, в каче­стве фраг­мента, в дока­за­тель­ство <span class="nolinebreak"><img src="/eq/5-59.png" style="height: 12px; width: 13px; vertical-align: -0px;" class="latex">;</span>
+понятно, что утвер­жде­ние <span class="nolinebreak"><img src="/eq/5-60.png" style="height: 12px; width: 14px; vertical-align: -0px;" class="latex"></span> в этом слу­чае обычно логи­че­ски необ­хо­димо для утвер­жде­ния <span class="nolinebreak"><img src="/eq/5-61.png" style="height: 12px; width: 13px; vertical-align: -0px;" class="latex">,</span> т.е.
+<span class="nolinebreak"><img src="/eq/5-62.png" style="height: 13px; width: 54px; vertical-align: -0px;" class="latex">.</span> Ну, может быть, это и не самые удач­ные обо­зна­че­ния… :)</p>
+<h1 id="section-3">
+<a class="anchor" href="#section-3" aria-hidden="true"><span class="octicon octicon-link"></span></a>Новые вспо­мо­га­тель­ные резуль­таты</h1>
+<div class="sentence-block">
+<p><strong>Гипо­теза 4 (след­ствие гипо­тезы 2)</strong></p>
+<p><span class="nolinebreak"><img src="/eq/5-63.png" style="height: 21px; width: 503px; vertical-align: -6px;" class="latex"></span></p>
+</div>
+<p><strong>Дока­за­тель­ство</strong></p>
+<p>Мно­же­ство <span class="nolinebreak"><img src="/eq/5-64.png" style="height: 13px; width: 10px; vertical-align: -0px;" class="latex"></span> состоит из нату­раль­ных чисел, не деля­щихся на про­стое <span class="nolinebreak"><img src="/eq/5-65.png" style="height: 13px; width: 8px; vertical-align: -0px;" class="latex">.</span> Гипо­теза утвер­ждает,
+что если все эле­менты <span class="nolinebreak"><img src="/eq/5-66.png" style="height: 13px; width: 10px; vertical-align: -0px;" class="latex"></span> – суть дели­тели мак­си­мума <span class="nolinebreak"><img src="/eq/5-67.png" style="height: 13px; width: 10px; vertical-align: -0px;" class="latex">,</span> то сумма всех эле­мен­тов <span class="nolinebreak"><img src="/eq/5-68.png" style="height: 13px; width: 10px; vertical-align: -0px;" class="latex"></span> не равна
+<span class="nolinebreak"><img src="/eq/5-69.png" style="height: 13px; width: 65px; vertical-align: -0px;" class="latex">.</span></p>
+<p>Поло­жим <span class="nolinebreak"><img src="/eq/5-70.png" style="height: 13px; width: 85px; vertical-align: -0px;" class="latex">.</span> Пусть мно­же­ство всех дели­те­лей есть <span class="nolinebreak"><img src="/eq/5-71.png" style="height: 12px; width: 14px; vertical-align: -0px;" class="latex">.</span> Т.к. эле­менты <span class="nolinebreak"><img src="/eq/5-72.png" style="height: 13px; width: 10px; vertical-align: -0px;" class="latex"></span> не делятся на
+<span class="nolinebreak"><img src="/eq/5-73.png" style="height: 13px; width: 8px; vertical-align: -0px;" class="latex">,</span> то мак­си­маль­ный эле­мент, M, не делится на <span class="nolinebreak"><img src="/eq/5-74.png" style="height: 13px; width: 8px; vertical-align: -0px;" class="latex">;</span> сле­до­ва­тельно, ни один из эле­мен­тов <span class="nolinebreak"><img src="/eq/5-75.png" style="height: 12px; width: 14px; vertical-align: -0px;" class="latex"></span> не
+делится на <span class="nolinebreak"><img src="/eq/5-76.png" style="height: 13px; width: 8px; vertical-align: -0px;" class="latex">.</span> Упо­ря­до­чим все дели­тели в воз­рас­та­ю­щую после­до­ва­тель­ность <span class="nolinebreak"><img src="/eq/5-77.png" style="height: 18px; width: 89px; vertical-align: -5px;" class="latex">.</span>
+Оче­видно, <span class="nolinebreak"><img src="/eq/5-78.png" style="height: 15px; width: 47px; vertical-align: -2px;" class="latex">.</span> Теперь обра­зуем частич­ные суммы <span class="nolinebreak"><img src="/eq/5-79.png" style="height: 15px; width: 15px; vertical-align: -3px;" class="latex"></span> дели­те­лей <span class="nolinebreak"><img src="/eq/5-80.png" style="height: 18px; width: 29px; vertical-align: -5px;" class="latex"></span> по
+пра­вилу <span class="nolinebreak"><img src="/eq/5-81.png" style="height: 16px; width: 49px; vertical-align: -3px;" class="latex"></span> и <span class="nolinebreak"><img src="/eq/5-82.png" style="height: 16px; width: 106px; vertical-align: -4px;" class="latex">.</span></p>
+<p>Т.к. <span class="nolinebreak"><img src="/eq/5-83.png" style="height: 15px; width: 47px; vertical-align: -2px;" class="latex">,</span> то <span class="nolinebreak"><img src="/eq/5-84.png" style="height: 18px; width: 95px; vertical-align: -5px;" class="latex">.</span> Число <span class="nolinebreak"><img src="/eq/5-85.png" style="height: 12px; width: 15px; vertical-align: -0px;" class="latex"></span> опре­де­ля­ется как обычно. При
+этом выпол­ня­ется <span class="nolinebreak"><img src="/eq/5-86.png" style="height: 18px; width: 111px; vertical-align: -5px;" class="latex">,</span> т.е. <span class="nolinebreak"><img src="/eq/5-87.png" style="height: 13px; width: 8px; vertical-align: -0px;" class="latex"></span> при­сут­ствует в раз­ло­же­нии <span class="nolinebreak"><img src="/eq/5-88.png" style="height: 12px; width: 15px; vertical-align: -0px;" class="latex"></span> на про­стые
+мно­жи­тели. Все эти усло­вия делают при­ме­ни­мой гипо­тезу 2. Она
+утвер­ждает, что <span class="nolinebreak"><img src="/eq/5-89.png" style="height: 18px; width: 291px; vertical-align: -5px;" class="latex">.</span> В
+част­но­сти, т.к. <span class="nolinebreak"><img src="/eq/5-90.png" style="height: 13px; width: 8px; vertical-align: -0px;" class="latex"></span> вхо­дит в фак­то­ри­за­цию <span class="nolinebreak"><img src="/eq/5-91.png" style="height: 12px; width: 15px; vertical-align: -0px;" class="latex">,</span> то <br></p>
+<center><img src="/eq/5-92.png" style="height: 18px; width: 439px;" class="latex"></center>
+<br>
+<p>Теперь можно завер­шить дока­за­тель­ство, вос­поль­зо­вав­шись мето­дом от про­тив­ного. Пусть
+<span class="nolinebreak"><img src="/eq/5-93.png" style="height: 18px; width: 122px; vertical-align: -5px;" class="latex">.</span> Из этого сле­дует, что <span class="nolinebreak"><img src="/eq/5-94.png" style="height: 17px; width: 17px; vertical-align: -5px;" class="latex"></span> – насы­щенна отно­си­тельно <span class="nolinebreak"><img src="/eq/5-95.png" style="height: 12px; width: 18px; vertical-align: -0px;" class="latex">,</span> т.е.
+<span class="nolinebreak"><img src="/eq/5-96.png" style="height: 18px; width: 123px; vertical-align: -5px;" class="latex">.</span> Но <span class="nolinebreak"><img src="/eq/5-97.png" style="height: 17px; width: 19px; vertical-align: -4px;" class="latex"></span> гово­рит, что <span class="nolinebreak"><img src="/eq/5-98.png" style="height: 18px; width: 114px; vertical-align: -5px;" class="latex">.</span>
+Про­ти­во­ре­чие. <span class="nolinebreak"><img src="/eq/5-99.png" style="height: 12px; width: 11px; vertical-align: -0px;" class="latex"></span></p>
+<div class="sentence-block">
+<p><strong>Лемма 1 (след­ствие гипо­тезы 4)</strong></p>
+<p>Пусть <span class="nolinebreak"><img src="/eq/5-100.png" style="height: 13px; width: 39px; vertical-align: -1px;" class="latex"></span> и <span class="nolinebreak"><img src="/eq/5-101.png" style="height: 13px; width: 51px; vertical-align: -1px;" class="latex">,</span> такое, что <span class="nolinebreak"><img src="/eq/5-102.png" style="height: 18px; width: 114px; vertical-align: -5px;" class="latex">.</span> Пусть так­же
+<span class="nolinebreak"><img src="/eq/5-103.png" style="height: 13px; width: 55px; vertical-align: -1px;" class="latex">,</span> такое, что <span class="nolinebreak"><img src="/eq/5-104.png" style="height: 18px; width: 93px; vertical-align: -5px;" class="latex">.</span> Тогда <span class="nolinebreak"><img src="/eq/5-105.png" style="height: 16px; width: 55px; vertical-align: -3px;" class="latex">.</span></p>
+</div>
+<p><strong>Дока­за­тель­ство</strong></p>
+<p>Пред­по­ло­жим, что <span class="nolinebreak"><img src="/eq/5-106.png" style="height: 13px; width: 55px; vertical-align: -0px;" class="latex">,</span> откуда <span class="nolinebreak"><img src="/eq/5-107.png" style="height: 18px; width: 97px; vertical-align: -5px;" class="latex">.</span></p>
+<p>Пусть <span class="nolinebreak"><img src="/eq/5-108.png" style="height: 13px; width: 10px; vertical-align: -0px;" class="latex"></span> – мно­же­ство дели­те­лей числа <span class="nolinebreak"><img src="/eq/5-109.png" style="height: 12px; width: 18px; vertical-align: -0px;" class="latex">.</span> Тогда <br></p>
+<center><img src="/eq/5-110.png" style="height: 24px; width: 340px;" class="latex"></center>
+<br>
+Заме­тим, что <span class="nolinebreak"><img src="/eq/5-111.png" style="height: 13px; width: 50px; vertical-align: -1px;" class="latex">,</span> ведь <span class="nolinebreak"><img src="/eq/5-112.png" style="height: 12px; width: 18px; vertical-align: -0px;" class="latex"></span> явля­ется своим дели­те­лем. При этом, оче­видно, <br><center><img src="/eq/5-113.png" style="height: 17px; width: 330px;" class="latex"></center>
+<br> и, по постро­е­нию, <br><center><img src="/eq/5-114.png" style="height: 18px; width: 391px;" class="latex"></center>
+<br>
+<p>Т.к., по усло­вию, <span class="nolinebreak"><img src="/eq/5-115.png" style="height: 12px; width: 18px; vertical-align: -0px;" class="latex"></span> не делится на про­стое <span class="nolinebreak"><img src="/eq/5-116.png" style="height: 13px; width: 8px; vertical-align: -0px;" class="latex">,</span> т.е. <span class="nolinebreak"><img src="/eq/5-117.png" style="height: 12px; width: 18px; vertical-align: -0px;" class="latex"></span> не содер­жит <span class="nolinebreak"><img src="/eq/5-118.png" style="height: 13px; width: 8px; vertical-align: -0px;" class="latex"></span> в своей фак­то­ри­за­ции,
+то в сумме <span class="nolinebreak"><img src="/eq/5-119.png" style="height: 18px; width: 47px; vertical-align: -5px;" class="latex"></span> всех дели­те­лей <span class="nolinebreak"><img src="/eq/5-120.png" style="height: 12px; width: 18px; vertical-align: -0px;" class="latex"></span> ни одно из сла­га­е­мых не делится на <span class="nolinebreak"><img src="/eq/5-121.png" style="height: 13px; width: 8px; vertical-align: -0px;" class="latex">,</span> и,
+соот­вет­ственно, ни один эле­мент мно­же­ства <span class="nolinebreak"><img src="/eq/5-122.png" style="height: 13px; width: 10px; vertical-align: -0px;" class="latex"></span> тоже не кра­тен <span class="nolinebreak"><img src="/eq/5-123.png" style="height: 13px; width: 8px; vertical-align: -0px;" class="latex">;</span> дру­гими сло­вами
+<br></p>
+<center><img src="/eq/5-124.png" style="height: 17px; width: 328px;" class="latex"></center>
+<br>
+<p>Свой­ства <span class="nolinebreak"><img src="/eq/5-125.png" style="height: 17px; width: 19px; vertical-align: -4px;" class="latex"></span> и <span class="nolinebreak"><img src="/eq/5-126.png" style="height: 17px; width: 19px; vertical-align: -4px;" class="latex">,</span> озна­чают, что ко мно­же­ству <span class="nolinebreak"><img src="/eq/5-127.png" style="height: 13px; width: 10px; vertical-align: -0px;" class="latex">,</span>
+при дан­ном <span class="nolinebreak"><img src="/eq/5-128.png" style="height: 13px; width: 8px; vertical-align: -0px;" class="latex">,</span> при­ме­нима гипо­теза 4. Её заклю­че­ние
+утвер­ждает, что <span class="nolinebreak"><img src="/eq/5-129.png" style="height: 17px; width: 109px; vertical-align: -4px;" class="latex">,</span> откуда сле­дует, учи­ты­вая равен­ства <span class="nolinebreak"><img src="/eq/5-130.png" style="height: 17px; width: 19px; vertical-align: -4px;" class="latex"></span> и
+<span class="nolinebreak"><img src="/eq/5-131.png" style="height: 17px; width: 19px; vertical-align: -4px;" class="latex">,</span> что <span class="nolinebreak"><img src="/eq/5-132.png" style="height: 18px; width: 97px; vertical-align: -5px;" class="latex">.</span> Про­ти­во­ре­чие. <span class="nolinebreak"><img src="/eq/5-133.png" style="height: 12px; width: 11px; vertical-align: -0px;" class="latex"></span></p>
+<h1 id="section-4">
+<a class="anchor" href="#section-4" aria-hidden="true"><span class="octicon octicon-link"></span></a>Прак­ти­че­ское при­ме­не­ние</h1>
+<h2 id="section-5">
+<a class="anchor" href="#section-5" aria-hidden="true"><span class="octicon octicon-link"></span></a>Нечёт­ные совер­шен­ные числа</h2>
+<div class="sentence-block">
+<p><strong>Опре­де­ле­ние</strong></p>
+<p>Число <span class="nolinebreak"><img src="/eq/5-134.png" style="height: 9px; width: 10px; vertical-align: -0px;" class="latex">,</span> такое, что <span class="nolinebreak"><img src="/eq/5-135.png" style="height: 18px; width: 81px; vertical-align: -5px;" class="latex">,</span> назы­ва­ется <em>совер­шен­ным</em> чис­лом (поло­вина суммы всех
+дели­те­лей совер­шен­ного числа равна самому числу) <a class="citation" href="#wiki-perfect-number">[2,3]</a>.</p>
+</div>
+<div class="sentence-block">
+<p><strong>Гипо­теза 5</strong></p>
+<p><span class="nolinebreak"><img src="/eq/5-136.png" style="height: 18px; width: 211px; vertical-align: -5px;" class="latex">.</span> Т.е. пред­по­ла­га­ется, что не суще­ствует нечёт­ных
+совер­шен­ных чисел.</p>
+</div>
+<div class="sentence-block">
+<p><strong>При­ме­ча­ние</strong></p>
+<p>Ино­гда эту гипо­тезу назы­вают гипо­те­зой Эйлера, но весьма условно, в том смысле, что она вос­хо­дит
+аж к Нико­маху Герас­скому (<em>circa</em> 100 лет до н.э.), см. пере­воды <a class="citation" href="#nicomachus-ru">[4,5]</a>. Более того, сам я точно не знаю, в какой именно из своих работ Эйлер
+выска­зы­вался о воз­мож­ном несу­ще­ство­ва­нии нечёт­ных совер­шен­ных чисел (как только узнаю, сразу
+добавлю ссылку в спи­сок лите­ра­туры).</p>
+</div>
+<p>В XIX веке, Силь­ве­стер при­во­дил извест­ный эври­сти­че­ский аргу­мент <a class="citation" href="#sylvester1887">[6]</a> —
+«сеть Силь­ве­стра» — в пользу несу­ще­ство­ва­ния нечёт­ных совер­шен­ных чисел. Он апел­ли­ро­вал к
+слиш­ком малой веро­ят­но­сти одно­вре­мен­ного удо­вле­тво­ре­ния нечёт­ным совер­шен­ным чис­лом всем
+извест­ным огра­ни­че­ниям (а их нако­пи­лось немало) на воз­мож­ный вид таких гипо­те­ти­че­ских объ­ек­тов.</p>
+<p>В конце XX – начале XXI века появился теперь широко извест­ный эври­сти­че­ский аргу­мент Поме­ранса
+<a class="citation" href="#pomerance-argument">[7]</a>. Сна­чала Карл Поме­ранс вспо­ми­нает резуль­тат Эйлера о том, что
+нечёт­ное совер­шен­ное <span class="nolinebreak"><img src="/eq/5-137.png" style="height: 9px; width: 10px; vertical-align: -0px;" class="latex"></span> должно иметь вид <span class="nolinebreak"><img src="/eq/5-138.png" style="height: 18px; width: 30px; vertical-align: -3px;" class="latex">,</span> где <span class="nolinebreak"><img src="/eq/5-139.png" style="height: 18px; width: 162px; vertical-align: -5px;" class="latex">.</span>
+Т.к. <span class="nolinebreak"><img src="/eq/5-140.png" style="height: 18px; width: 30px; vertical-align: -3px;" class="latex"></span> делится на <span class="nolinebreak"><img src="/eq/5-141.png" style="height: 12px; width: 9px; vertical-align: -4px;" class="latex">,</span> Поме­ранс заме­чает, что <span class="nolinebreak"><img src="/eq/5-142.png" style="height: 19px; width: 51px; vertical-align: -4px;" class="latex"></span> должна делиться на <span class="nolinebreak"><img src="/eq/5-143.png" style="height: 12px; width: 9px; vertical-align: -4px;" class="latex">.</span> Из
+опре­де­ле­ния совер­шен­ного числа так­же выте­кает, что <span class="nolinebreak"><img src="/eq/5-144.png" style="height: 19px; width: 59px; vertical-align: -4px;" class="latex"></span> должна делиться на <span class="nolinebreak"><img src="/eq/5-145.png" style="height: 12px; width: 9px; vertical-align: -4px;" class="latex">.</span>
+Отсюда дела­ется вывод об огра­ни­чен­но­сти коли­че­ства таких <span class="nolinebreak"><img src="/eq/5-146.png" style="height: 12px; width: 9px; vertical-align: -4px;" class="latex"></span> лога­риф­мом от <span class="nolinebreak"><img src="/eq/5-147.png" style="height: 9px; width: 14px; vertical-align: -0px;" class="latex"></span> и о том, что
+веро­ят­ность дели­мо­сти <span class="nolinebreak"><img src="/eq/5-148.png" style="height: 18px; width: 39px; vertical-align: -5px;" class="latex"></span> на <span class="nolinebreak"><img src="/eq/5-149.png" style="height: 9px; width: 10px; vertical-align: -0px;" class="latex"></span> равна <span class="nolinebreak"><img src="/eq/5-150.png" style="height: 18px; width: 156px; vertical-align: -4px;" class="latex">.</span> Веро­ят­ность же того, что
+хотя-бы одно число <span class="nolinebreak"><img src="/eq/5-151.png" style="height: 12px; width: 9px; vertical-align: -4px;" class="latex"></span> подой­дёт равна <span class="nolinebreak"><img src="/eq/5-152.png" style="height: 19px; width: 78px; vertical-align: -4px;" class="latex">.</span> Из схо­ди­мо­сти суммы <span class="nolinebreak"><img src="/eq/5-153.png" style="height: 28px; width: 97px; vertical-align: -15px;" class="latex"></span> дела­ется вывод о суще­ство­ва­нии лишь конеч­ного коли­че­ства нечёт­ных совер­шен­ных
+чисел.</p>
+<p>Далее Поме­ранс обра­ща­ется к фак­ти­че­ским резуль­та­там поиска таких чисел. Из того, что иско­мых
+чисел, мень­ших <span class="nolinebreak"><img src="/eq/5-154.png" style="height: 15px; width: 35px; vertical-align: -0px;" class="latex"></span> не обна­ру­жено, и из того, что для нечёт­ных совер­шен­ных чисел, боль­ших
+<span class="nolinebreak"><img src="/eq/5-155.png" style="height: 15px; width: 35px; vertical-align: -0px;" class="latex"></span> должно выпол­няться <span class="nolinebreak"><img src="/eq/5-156.png" style="height: 15px; width: 80px; vertical-align: -1px;" class="latex">,</span> Поме­ранс при­хо­дит к тому, что на самом деле лучше
+рас­смат­ри­вать сумму <span class="nolinebreak"><img src="/eq/5-157.png" style="height: 30px; width: 150px; vertical-align: -17px;" class="latex"></span> (как я пони­маю, из-за того,
+что <span class="nolinebreak"><img src="/eq/5-158.png" style="height: 17px; width: 104px; vertical-align: -1px;" class="latex">)</span> и, чис­ленно оце­нив эту сумму как не пре­вы­ша­ю­щую <span class="nolinebreak"><img src="/eq/5-159.png" style="height: 15px; width: 39px; vertical-align: -0px;" class="latex">,</span>
+делает заклю­че­ние о слиш­ком малой веро­ят­но­сти суще­ство­ва­ния нечёт­ных совер­шен­ных чисел и даже
+сразу уси­ли­вает его до несуще­ство­ва­ния таких чисел.</p>
+<p>В общем, очень мно­гие верили и верят (но не все; Декарт, воз­можно, являлся важ­ным исклю­че­нием) в
+то, что суще­ствуют только чёт­ные совер­шен­ные числа (при­чём, фак­ти­че­ски, аргу­мент Поме­ранса
+при­ме­ним и к чёт­ным совер­шен­ных чис­лам тоже, так что, хотя они и суще­ствуют, но их коли­че­ство,
+воз­можно, конечно). И аргу­менты Силь­ве­стра и Поме­ранса делают спра­вед­ли­вость гипо­тезы 5 весьма веро­ят­ной.</p>
+<p>Я же соби­ра­юсь при­ме­нить к гипо­тезе 5 стро­я­щу­юся тео­рия
+насы­ще­ния. :)</p>
+<p><strong>Дока­за­тель­ство гипо­тезы 5</strong></p>
+<p>Пусть <em>про­из­воль­ное</em> нечёт­ное <span class="nolinebreak"><img src="/eq/5-160.png" style="height: 12px; width: 18px; vertical-align: -0px;" class="latex"></span> таково, что <span class="nolinebreak"><img src="/eq/5-161.png" style="height: 18px; width: 93px; vertical-align: -5px;" class="latex"></span> для неко­то­рого
+<span class="nolinebreak"><img src="/eq/5-162.png" style="height: 13px; width: 47px; vertical-align: -1px;" class="latex">.</span> К этому слу­чаю при­ме­нима лемма 1 при <span class="nolinebreak"><img src="/eq/5-163.png" style="height: 13px; width: 39px; vertical-align: -0px;" class="latex">.</span> Она гово­рит, что <span class="nolinebreak"><img src="/eq/5-164.png" style="height: 16px; width: 55px; vertical-align: -3px;" class="latex">.</span> А из
+про­из­воль­но­сти выбора нечёт­ного <span class="nolinebreak"><img src="/eq/5-165.png" style="height: 12px; width: 18px; vertical-align: -0px;" class="latex"></span> сле­дует, что ни одно нечёт­ное <span class="nolinebreak"><img src="/eq/5-166.png" style="height: 12px; width: 18px; vertical-align: -0px;" class="latex"></span> не может удо­вле­тво­рять
+урав­не­нию <span class="nolinebreak"><img src="/eq/5-167.png" style="height: 18px; width: 97px; vertical-align: -5px;" class="latex">,</span> т.е. не может быть совер­шен­ным. Иначе говоря, все совер­шен­ные числа
+явля­ются чёт­ными. <span class="nolinebreak"><img src="/eq/5-168.png" style="height: 12px; width: 11px; vertical-align: -0px;" class="latex"></span></p>
+<p>Это дока­за­тель­ство опи­ра­лось на гипо­тезу 2 (или более общую
+гипо­тезу 1), утвер­жда­ю­щую, что из насы­щен­но­сти сле­дует
+силь­ная насы­щен­ность. Но так полу­чи­лось, что наблю­де­ние 1
+об отсут­ствии насы­щен­ных сумм дели­те­лей нечёт­ных чисел может исполь­зо­ваться для упро­щён­ного
+дока­за­тель­ства гипо­тезы 5 напря­мую (т.е., на теку­щий момент,
+тео­рия насы­ще­ния вклю­чает в себя больше чем тре­бу­ется для дока­за­тель­ства отсут­ствия нечёт­ных
+совер­шен­ных чисел).</p>
+<div class="sentence-block">
+<p><strong>Опре­де­ле­ние:</strong> <span class="nolinebreak"><img src="/eq/5-169.png" style="height: 18px; width: 123px; vertical-align: -5px;" class="latex"></span> – <em>сумма соб­ствен­ных дели­те­лей</em> числа <span class="nolinebreak"><img src="/eq/5-170.png" style="height: 9px; width: 10px; vertical-align: -0px;" class="latex"></span> (ещё её
+назы­вают <em>аликват­ной сум­мой</em>).</p>
+</div>
+<p><strong>Дока­за­тель­ство 2 гипо­тезы 5</strong></p>
+<p>Оче­видно, совер­шен­ные числа могут быть опре­де­лены как непо­движ­ные точки функ­ции <span class="nolinebreak"><img src="/eq/5-171.png" style="height: 18px; width: 30px; vertical-align: -5px;" class="latex">.</span> Так если
+неко­то­рое нечёт­ное <span class="nolinebreak"><img src="/eq/5-172.png" style="height: 9px; width: 10px; vertical-align: -0px;" class="latex"></span> явля­ется непо­движ­ной точ­кой <span class="nolinebreak"><img src="/eq/5-173.png" style="height: 9px; width: 7px; vertical-align: -0px;" class="latex">,</span> то выпол­ня­ется <span class="nolinebreak"><img src="/eq/5-174.png" style="height: 18px; width: 63px; vertical-align: -5px;" class="latex">,</span> откуда
+<span class="nolinebreak"><img src="/eq/5-175.png" style="height: 18px; width: 128px; vertical-align: -5px;" class="latex">.</span> Но наблю­де­ние 1 гово­рит, что для
+нечёт­ного <span class="nolinebreak"><img src="/eq/5-176.png" style="height: 9px; width: 10px; vertical-align: -0px;" class="latex"></span> ника­кая частич­ная сумма дели­те­лей, в т.ч. и аликват­ная сумма, не может быть
+насы­щен­ной и, соот­вет­ственно, не может делиться на <span class="nolinebreak"><img src="/eq/5-177.png" style="height: 9px; width: 10px; vertical-align: -0px;" class="latex">.</span> Про­ти­во­ре­чие. <span class="nolinebreak"><img src="/eq/5-178.png" style="height: 12px; width: 11px; vertical-align: -0px;" class="latex"></span></p>
+<p>Эйлер пока­зал, что у нечёт­ных совер­шен­ных чисел один фак­тор дол­жен иметь сте­пень, срав­ни­мую с
+еди­ни­цей по модулю 4, осталь­ные – чёт­ные сте­пени. Поэтому, рас­смот­рен­ного в преды­ду­щем
+сооб­ще­нии спе­ци­аль­ного слу­чая фак­торизации без повто­ров, при кото­рой все сте­пени нечётны и равны
+еди­нице, явно не доста­точно для при­ме­не­ния к гипо­тезе 5 (хотя
+в заклю­чи­тель­ной части того сооб­ще­ния я ука­зал на воз­мож­ный путь обоб­ще­ния).</p>
+<p>Выше я про­де­мон­стри­ро­вал воз­мож­ный под­ход к про­блеме нечёт­ных совер­шен­ных чисел. И как только
+общее дока­за­тель­ство гипо­тезы 2 будет готово, это сразу же
+будет озна­чать, что дей­стви­тельно не суще­ствует ни одного нечёт­ного совер­шен­ного числа. :)</p>
+<p>В при­ло­же­нии A может быть най­дена заплатка, обес­пе­чи­ва­ю­щая иско­мое обоб­ще­ние выпол­нен­ного ранее
+дока­за­тель­ства наблю­де­ния 1. Неявно под­ра­зу­ме­ва­ется, что
+адап­та­ция дру­гих дока­за­тельств из пер­вой части этой серии сооб­ще­ний, тоже может быть выпол­нена
+без осо­бых труд­но­стей или же вовсе не тре­бу­ется.</p>
+<h1 id="section-6">
+<a class="anchor" href="#section-6" aria-hidden="true"><span class="octicon octicon-link"></span></a>Заклю­че­ние</h1>
+<p>Сам срок, про­шед­ший с выхода «Вве­де­ния в ариф­ме­ти­ку» Нико­маха из Герасы, пре­вы­сив­ший уже две
+тысячи лет, наме­кает на неко­то­рую подо­зри­тель­ность моего резуль­тата.</p>
+<p>Веро­ят­ност­ный аргу­мент Поме­ранса так и вовсе есть обра­зец неод­но­знач­но­сти типа «ста­кан полон
+<em>versus</em> ста­кан пуст» – можно делать акцент на исче­за­юще малой веро­ят­но­сти и, соот­вет­ственно,
+делать вывод о несу­ще­ство­ва­нии нечёт­ных совер­шен­ных чисел (даже несмотря, ещё раз повто­рюсь, на
+потен­ци­аль­ную при­ме­ни­мость этого аргу­мента к чёт­ным совер­шен­ным чис­лам при их явном
+суще­ство­ва­нии), а можно обра­тить вни­ма­ние на воз­мож­ное не равен­ство этой веро­ят­но­сти нулю и
+сде­лать вывод (про­ти­во­по­лож­ный!) о их воз­мож­ном суще­ство­ва­нии, – хотя, в то же самое время,
+под­хо­дя­щая вари­а­ция аргу­мента Поме­ранса, по-видимому, могла бы ока­заться цен­ной для обос­но­ва­ния
+гипо­тезы о конеч­но­сти всех совер­шен­ных чисел.</p>
+<p>Таким обра­зом, убе­ди­тель­ной неза­ви­си­мой под­держки вер­но­сти или оши­боч­но­сти моего дока­за­тель­ства
+мне найти не уда­лось. Но сам фено­мен насы­ще­ния не ста­но­вится от этого менее инте­рес­ным.</p>
+<p>Вопросы и задачи, оста­ю­щи­еся пока откры­тыми:</p>
+<ul>
+<li>Верна ли гипо­теза 1? Я лишь выска­зал её, но <em>de facto</em>
+вме­сто неё дока­зы­вал и при­ме­нял гипо­тезу 2;</li>
+<li>Каковы дру­гие воз­мож­ные при­ме­не­ния тео­рии насы­ще­ния?</li>
+<li>Потен­ци­ально инте­рес­ной целе­вой зада­чей для насто­я­щей тео­рии мог бы стать [тоже пока откры­тый]
+вопрос о конеч­но­сти коли­че­ства совер­шен­ных чисел вообще (т.е. <em>чёт­ных</em>, раз нечёт­ных
+скорее-всего не суще­ствует). Но при­го­ден ли этот мате­ма­ти­че­ский аппа­рат для реше­ния задач такого
+рода?</li>
+<li>Можно вре­менно про­игно­ри­ро­вать воз­раст «ги­по­тезы Никомаха-Эйлера», вспом­нив, что тео­рема
+Гёделя о непол­ноте появи­лась только в веке XX, и задаться вопро­сом, а не обу­слов­лено ли
+пер­ма­нент­ное усколь­за­ния нечёт­ных совер­шен­ных чисел от попы­ток их поиска именно подоб­ными
+явле­ни­ями. Дру­гими сло­вами, не явля­ется ли гипо­теза 5
+недо­ка­зу­е­мой?</li>
+<li>Тре­бу­ется испра­вить, обоб­щить и ском­пи­ли­ро­вать име­ю­щи­еся фраг­мен­тар­ные наброски дока­за­тельств,
+при­дав тео­рии насы­ще­ния доста­точ­ную фор­ма­ли­зо­ван­ность.</li>
+</ul>
+<h1 id="section-7">
+<a class="anchor" href="#section-7" aria-hidden="true"><span class="octicon octicon-link"></span></a>Ссылки</h1>
+<ul class="bibliography">
+<li>
+<span id="saturation-theory-part-1">1. </span> <a href="http://circiter.github.io/saturation-theory-part-1">http://circiter.github.io/saturation-theory-part-1</a>
+</li>
+<li>
+<span id="wiki-perfect-number">2. </span> <a href="http://en.wikipedia.org/wiki/perfect_number">http://en.wikipedia.org/wiki/perfect_number</a>
+</li>
+<li>
+<span id="wiki-perfect-number-ru">3. </span> <a href="http://ru.wikipedia.org/wiki/%D1%81%D0%BE%D0%B2%D0%B5%D1%80%D1%88%D0%B5%D0%BD%D0%BD%D0%BE%D0%B5_%D1%87%D0%B8%D1%81%D0%BB%D0%BE">http://ru.wikipedia.org/wiki/совершенное_число</a>
+</li>
+<li>
+<span id="nicomachus-ru">4. Нико­мах Гераз­ский. Вве­де­ние в ариф­ме­тику / пер. Щет­ни­ков А.И.</span> </li>
+<li>
+<span id="nicomachus-en">5. Nicomachus of Gerasa. Introduction to Arithmetic / пер. Martin Luther D’Ooge</span> </li>
+<li>
+<span id="sylvester1887">6. Sylvester J.J. Sur les nombres dits de Hamilton. 1887</span> </li>
+<li>
+<span id="pomerance-argument">7. Pomerance’s Heuristic that Odd Perfect Numbers are Unlikely</span> <a href="http://web.archive.org/web/20061229094011/http://oddperfect.org/pomerance.html">http://web.archive.org/web/20061229094011/http://oddperfect.org/pomerance.html</a>
+</li>
+</ul>
+<h1 id="a">
+<a class="anchor" href="#a" aria-hidden="true"><span class="octicon octicon-link"></span></a>При­ло­же­ние A</h1>
+<p>В дан­ном при­ло­же­нии пред­став­лена «за­плат­ка», пред­по­ло­жи­тельно исправ­ля­ю­щая (обоб­ща­ю­щая)
+дока­за­тель­ство наблю­де­ния 1 (само дока­за­тель­ство нахо­дится
+в <a href="http://circiter.github.io/saturation-theory-part-1">пер­вой части</a> этой серии сооб­ще­ний).</p>
+<div class="sentence-block">
+<p><strong>Опре­де­ле­ние:</strong> Функ­ция Эйлера <span class="nolinebreak"><img src="/eq/5-179.png" style="height: 18px; width: 32px; vertical-align: -5px;" class="latex"></span> равна коли­че­ству чисел, мень­ших <span class="nolinebreak"><img src="/eq/5-180.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex"></span> и вза­имно
+про­стых с ним.</p>
+</div>
+<div class="sentence-block">
+<p><strong>Пред­ло­же­ние:</strong> Известно, что для сте­пени <span class="nolinebreak"><img src="/eq/5-181.png" style="height: 9px; width: 10px; vertical-align: -0px;" class="latex"></span> про­стого <span class="nolinebreak"><img src="/eq/5-182.png" style="height: 12px; width: 9px; vertical-align: -4px;" class="latex"></span> выпол­ня­ется
+<br></p>
+<center><img src="/eq/5-183.png" style="height: 20px; width: 355px;" class="latex"></center>
+<br>
+</div>
+<p>В наброске дока­за­тель­ства наблю­де­ния 1 исполь­зо­ва­лась
+кон­струк­тив­ная китай­ская тео­рема об остат­ках, давав­шая реше­ние (по модулю <span class="nolinebreak"><img src="/eq/5-184.png" style="height: 12px; width: 18px; vertical-align: -0px;" class="latex">)</span> вида
+<br></p>
+<center><img src="/eq/5-185.png" style="height: 39px; width: 388px;" class="latex"></center>
+<br> где
+<span class="nolinebreak"><img src="/eq/5-186.png" style="height: 18px; width: 36px; vertical-align: -5px;" class="latex"></span> – все раз­лич­ные фак­торы числа <span class="nolinebreak"><img src="/eq/5-187.png" style="height: 12px; width: 18px; vertical-align: -0px;" class="latex"></span> для слу­чае его фак­то­ри­за­ции без повто­ров:
+<span class="nolinebreak"><img src="/eq/5-188.png" style="height: 20px; width: 86px; vertical-align: -7px;" class="latex">.</span>
+<p>В общем слу­чае, число <span class="nolinebreak"><img src="/eq/5-189.png" style="height: 12px; width: 18px; vertical-align: -0px;" class="latex"></span> фак­то­ри­зу­ется в виде <span class="nolinebreak"><img src="/eq/5-190.png" style="height: 25px; width: 104px; vertical-align: -7px;" class="latex"></span> (кано­ни­че­ское
+раз­ло­же­ние), где <span class="nolinebreak"><img src="/eq/5-191.png" style="height: 18px; width: 30px; vertical-align: -5px;" class="latex"></span> – мак­си­маль­ная сте­пень про­стого дели­теля <span class="nolinebreak"><img src="/eq/5-192.png" style="height: 13px; width: 21px; vertical-align: -5px;" class="latex">,</span> на кото­рую делится
+<span class="nolinebreak"><img src="/eq/5-193.png" style="height: 12px; width: 18px; vertical-align: -0px;" class="latex">.</span> В заклю­чи­тель­ной части преды­ду­щего сооб­ще­ния я пред­по­ло­жил, что можно, при при­ме­не­нии
+К.Т.О., вме­сто про­стых чисел <span class="nolinebreak"><img src="/eq/5-194.png" style="height: 13px; width: 21px; vertical-align: -5px;" class="latex"></span> исполь­зо­вать вза­имно про­стые модули <span class="nolinebreak"><img src="/eq/5-195.png" style="height: 25px; width: 39px; vertical-align: -7px;" class="latex">.</span> Теперь
+я уве­рен, что это дей­стви­тельно можно сде­лать.</p>
+<p>Обо­зна­чим <span class="nolinebreak"><img src="/eq/5-196.png" style="height: 25px; width: 78px; vertical-align: -7px;" class="latex">.</span> Оче­видно, <span class="nolinebreak"><img src="/eq/5-197.png" style="height: 18px; width: 218px; vertical-align: -5px;" class="latex"></span> (т.е. модули <span class="nolinebreak"><img src="/eq/5-198.png" style="height: 18px; width: 32px; vertical-align: -5px;" class="latex"></span> попарно вза­имно про­сты). Тогда кон­струк­тив­ная вер­сия К.Т.О.
+даст реше­ние в виде <br></p>
+<center><img src="/eq/5-199.png" style="height: 40px; width: 367px;" class="latex"></center>
+<br> заме­ня­ю­щим реше­ние <span class="nolinebreak"><img src="/eq/5-200.png" style="height: 17px; width: 19px; vertical-align: -4px;" class="latex">.</span>
+<p>Из <span class="nolinebreak"><img src="/eq/5-201.png" style="height: 17px; width: 19px; vertical-align: -4px;" class="latex"></span> сле­дует, что пока­за­тель сте­пени в <span class="nolinebreak"><img src="/eq/5-202.png" style="height: 17px; width: 19px; vertical-align: -4px;" class="latex"></span>
+равен <span class="nolinebreak"><img src="/eq/5-203.png" style="height: 25px; width: 267px; vertical-align: -7px;" class="latex">.</span> Оче­видно,
+<span class="nolinebreak"><img src="/eq/5-204.png" style="height: 27px; width: 91px; vertical-align: -14px;" class="latex">,</span> а из-за нечёт­но­сти <span class="nolinebreak"><img src="/eq/5-205.png" style="height: 12px; width: 18px; vertical-align: -0px;" class="latex"></span> выпол­ня­ется <span class="nolinebreak"><img src="/eq/5-206.png" style="height: 25px; width: 82px; vertical-align: -14px;" class="latex">.</span> Отсюда,
+<br></p>
+<center><img src="/eq/5-207.png" style="height: 29px; width: 435px;" class="latex"></center>
+<br>
+<p>(Пол­ная роль этого нера­вен­ства мне пока неясна, а далее пока будет доста­точно усло­вия <span class="nolinebreak"><img src="/eq/5-208.png" style="height: 18px; width: 94px; vertical-align: -5px;" class="latex">.)</span></p>
+<p>Здесь будут про­пу­щены рас­суж­де­ния, ана­ло­гич­ные рас­суж­де­ниям из пер­вого сооб­ще­ния (выпол­нен­ным
+для <span class="nolinebreak"><img src="/eq/5-209.png" style="height: 13px; width: 21px; vertical-align: -5px;" class="latex">,</span> а не для <span class="nolinebreak"><img src="/eq/5-210.png" style="height: 13px; width: 16px; vertical-align: -5px;" class="latex">),</span> при­во­дя­щие в насто­я­щем слу­чае к необ­хо­ди­мо­сти про­верки дели­мо­сти
+выра­же­ния <span class="nolinebreak"><img src="/eq/5-211.png" style="height: 17px; width: 19px; vertical-align: -4px;" class="latex"></span> на модули <span class="nolinebreak"><img src="/eq/5-212.png" style="height: 13px; width: 16px; vertical-align: -5px;" class="latex">.</span> Из этих рас­суж­де­ний выте­кает задача
+про­верки дроб­но­сти выра­же­ния <br></p>
+<center><img src="/eq/5-213.png" style="height: 64px; width: 426px;" class="latex"></center>
+<br> полу­чен­ного из
+<span class="nolinebreak"><img src="/eq/5-214.png" style="height: 17px; width: 19px; vertical-align: -4px;" class="latex"></span> деле­нием его на <span class="nolinebreak"><img src="/eq/5-215.png" style="height: 13px; width: 16px; vertical-align: -5px;" class="latex"></span> (для про­из­воль­ного <span class="nolinebreak"><img src="/eq/5-216.png" style="height: 15px; width: 8px; vertical-align: -3px;" class="latex">)</span> и выноса одного из
+сла­га­е­мых суммы за её пре­делы.
+<p>Легко видеть, что под­вы­ра­же­ние <span class="nolinebreak"><img src="/eq/5-217.png" style="height: 12px; width: 6px; vertical-align: -0px;" class="latex"></span> все­гда больше нуля, а вот под­вы­ра­же­ние <span class="nolinebreak"><img src="/eq/5-218.png" style="height: 12px; width: 13px; vertical-align: -0px;" class="latex"></span>
+может быть равно нулю (если все фак­торы числа <span class="nolinebreak"><img src="/eq/5-219.png" style="height: 12px; width: 18px; vertical-align: -0px;" class="latex"></span> равны друг другу).</p>
+<p>Даль­ней­шие рас­суж­де­ния пол­но­стью ана­ло­гичны уже выпол­нен­ным в пер­вом сооб­ще­нии. Я лишь кратко
+повторю самое важ­ное. Итак, в под­вы­ра­же­нии <span class="nolinebreak"><img src="/eq/5-220.png" style="height: 12px; width: 13px; vertical-align: -0px;" class="latex"></span> мы можем поде­лить <span class="nolinebreak"><img src="/eq/5-221.png" style="height: 12px; width: 18px; vertical-align: -0px;" class="latex"></span> на <span class="nolinebreak"><img src="/eq/5-222.png" style="height: 12px; width: 18px; vertical-align: -4px;" class="latex">,</span> что
+даст целое число, боль­шее еди­ницы. Еди­ница могла бы полу­читься только если в нали­чии имелся бы
+ровно один модуль <span class="nolinebreak"><img src="/eq/5-223.png" style="height: 12px; width: 18px; vertical-align: -4px;" class="latex">,</span> но в таком слу­чае всё под­вы­ра­же­ние <span class="nolinebreak"><img src="/eq/5-224.png" style="height: 12px; width: 13px; vertical-align: -0px;" class="latex"></span> было бы нулём (см.
+преды­ду­щий абзац), а зна­чит – целым чис­лом. Если же дробь <span class="nolinebreak"><img src="/eq/5-225.png" style="height: 17px; width: 65px; vertical-align: -4px;" class="latex">,</span> то после
+воз­ве­де­ния в <em>нену­ле­вую</em> сте­пень — <em>cf.</em> нера­вен­ство <span class="nolinebreak"><img src="/eq/5-226.png" style="height: 17px; width: 19px; vertical-align: -4px;" class="latex"></span> — полу­чится целое
+число, боль­шее еди­ницы и деля­ще­еся на <span class="nolinebreak"><img src="/eq/5-227.png" style="height: 13px; width: 16px; vertical-align: -5px;" class="latex"></span> (т.к. <span class="nolinebreak"><img src="/eq/5-228.png" style="height: 16px; width: 40px; vertical-align: -3px;" class="latex">).</span> Это при­во­дит к цело­чис­лен­но­сти
+под­вы­ра­же­ния <span class="nolinebreak"><img src="/eq/5-229.png" style="height: 12px; width: 13px; vertical-align: -0px;" class="latex">.</span></p>
+<p>В под­вы­ра­же­нии <span class="nolinebreak"><img src="/eq/5-230.png" style="height: 12px; width: 6px; vertical-align: -0px;" class="latex"></span> дробь <span class="nolinebreak"><img src="/eq/5-231.png" style="height: 17px; width: 33px; vertical-align: -4px;" class="latex"></span> – целая. Но важно, что такая дробь
+«вы­чер­ки­ва­ет» <span class="nolinebreak"><img src="/eq/5-232.png" style="height: 13px; width: 16px; vertical-align: -5px;" class="latex"></span> из <span class="nolinebreak"><img src="/eq/5-233.png" style="height: 12px; width: 18px; vertical-align: -0px;" class="latex">,</span> и, поэтому, сама дробь на <span class="nolinebreak"><img src="/eq/5-234.png" style="height: 13px; width: 16px; vertical-align: -5px;" class="latex"></span> вто­рой раз уже не делится.
+Резуль­тат воз­ве­де­ния в сте­пень <span class="nolinebreak"><img src="/eq/5-235.png" style="height: 18px; width: 40px; vertical-align: -5px;" class="latex"></span> тоже не будет делиться на <span class="nolinebreak"><img src="/eq/5-236.png" style="height: 13px; width: 16px; vertical-align: -5px;" class="latex"></span> (состав­ля­ю­щим
+<span class="nolinebreak"><img src="/eq/5-237.png" style="height: 13px; width: 16px; vertical-align: -5px;" class="latex"></span> фак­то­рам неот­куда взяться). Число <span class="nolinebreak"><img src="/eq/5-238.png" style="height: 13px; width: 14px; vertical-align: -5px;" class="latex">,</span> по ана­ло­гии с преды­ду­щим сооб­ще­нием, опре­де­лим
+как оста­ток от деле­ния частич­ной суммы <span class="nolinebreak"><img src="/eq/5-239.png" style="height: 15px; width: 15px; vertical-align: -3px;" class="latex"></span> на модуль <span class="nolinebreak"><img src="/eq/5-240.png" style="height: 13px; width: 16px; vertical-align: -5px;" class="latex">.</span> Такой оста­ток меньше
+<span class="nolinebreak"><img src="/eq/5-241.png" style="height: 13px; width: 16px; vertical-align: -5px;" class="latex"></span> и делиться на <span class="nolinebreak"><img src="/eq/5-242.png" style="height: 13px; width: 16px; vertical-align: -5px;" class="latex"></span> не может. В итоге полу­ча­ется, что под­вы­ра­же­ние <span class="nolinebreak"><img src="/eq/5-243.png" style="height: 12px; width: 6px; vertical-align: -0px;" class="latex"></span> – есть
+дробь со зна­ме­на­те­лем <span class="nolinebreak"><img src="/eq/5-244.png" style="height: 13px; width: 16px; vertical-align: -5px;" class="latex"></span> и чис­ли­те­лем, не деля­щимся на <span class="nolinebreak"><img src="/eq/5-245.png" style="height: 13px; width: 16px; vertical-align: -5px;" class="latex">.</span> Т.е. под­вы­ра­же­ние
+<span class="nolinebreak"><img src="/eq/5-246.png" style="height: 12px; width: 6px; vertical-align: -0px;" class="latex"></span> – дроб­ное число. (Здесь стоит под­черк­нуть ещё раз, что <span class="nolinebreak"><img src="/eq/5-247.png" style="height: 13px; width: 16px; vertical-align: -5px;" class="latex"></span> вычер­ки­ва­ется из <span class="nolinebreak"><img src="/eq/5-248.png" style="height: 12px; width: 18px; vertical-align: -0px;" class="latex"></span>
+и, в резуль­тате, <span class="nolinebreak"><img src="/eq/5-249.png" style="height: 18px; width: 139px; vertical-align: -5px;" class="latex">,</span> поэтому дроб­ность или
+цело­чис­лен­ность <span class="nolinebreak"><img src="/eq/5-250.png" style="height: 12px; width: 6px; vertical-align: -0px;" class="latex"></span> пол­но­стью опре­де­ля­ется дели­мо­стью <span class="nolinebreak"><img src="/eq/5-251.png" style="height: 13px; width: 14px; vertical-align: -5px;" class="latex"></span> на <span class="nolinebreak"><img src="/eq/5-252.png" style="height: 13px; width: 16px; vertical-align: -5px;" class="latex">.)</span></p>
+<p>Всё это гово­рит о том, что выра­же­ние <span class="nolinebreak"><img src="/eq/5-253.png" style="height: 17px; width: 27px; vertical-align: -4px;" class="latex">,</span> как сумма дроб­ного и
+целого чисел, – есть число дроб­ное. Дру­гими сло­вами, выра­же­ние <span class="nolinebreak"><img src="/eq/5-254.png" style="height: 17px; width: 19px; vertical-align: -4px;" class="latex"></span> не
+делится на <span class="nolinebreak"><img src="/eq/5-255.png" style="height: 13px; width: 16px; vertical-align: -5px;" class="latex">,</span> а из про­из­воль­но­сти <span class="nolinebreak"><img src="/eq/5-256.png" style="height: 15px; width: 8px; vertical-align: -3px;" class="latex"></span> полу­ча­ется, что <span class="nolinebreak"><img src="/eq/5-257.png" style="height: 17px; width: 19px; vertical-align: -4px;" class="latex"></span> не
+делится вообще ни на один из моду­лей <span class="nolinebreak"><img src="/eq/5-258.png" style="height: 18px; width: 32px; vertical-align: -5px;" class="latex">.</span></p>
+<p>Можно ли счи­тать, как думал я при напи­са­нии пред­ва­ри­тель­ной вер­сии этого сооб­ще­ния, что, по
+ана­ло­гии с дока­за­тель­ством из пер­вого сооб­ще­ния, некрат­ность дели­теля каж­дому из <span class="nolinebreak"><img src="/eq/5-259.png" style="height: 18px; width: 32px; vertical-align: -5px;" class="latex"></span>
+дока­зы­вает шаг индук­ции из-за про­ти­во­ре­чия с «кри­те­ри­ями дели­те­ля» (см. пер­вое сооб­ще­ние;
+кратко: дели­тель <span class="nolinebreak"><img src="/eq/5-260.png" style="height: 12px; width: 18px; vertical-align: -0px;" class="latex"></span> дол­жен делиться хотя бы на один из <span class="nolinebreak"><img src="/eq/5-261.png" style="height: 18px; width: 32px; vertical-align: -5px;" class="latex">)?</span> Нет! Если теку­щий дели­тель
+<span class="nolinebreak"><img src="/eq/5-262.png" style="height: 15px; width: 13px; vertical-align: -3px;" class="latex"></span> не делится на неко­то­рый <span class="nolinebreak"><img src="/eq/5-263.png" style="height: 25px; width: 78px; vertical-align: -7px;" class="latex">,</span> то это не зна­чит, что он не делится,
+ска­жем для при­мера, на <span class="nolinebreak"><img src="/eq/5-264.png" style="height: 25px; width: 56px; vertical-align: -7px;" class="latex">.</span></p>
+<p>Фак­ти­че­ски, рас­суж­де­ния, при­ведён­ные выше в этой заплатке дей­ствуют только если <span class="nolinebreak"><img src="/eq/5-265.png" style="height: 15px; width: 13px; vertical-align: -3px;" class="latex"></span>
+при­над­ле­жит под­хо­дя­щему под­мно­же­ству мно­же­ства <span class="nolinebreak"><img src="/eq/5-266.png" style="height: 12px; width: 14px; vertical-align: -0px;" class="latex"></span> дели­те­лей числа <span class="nolinebreak"><img src="/eq/5-267.png" style="height: 12px; width: 18px; vertical-align: -0px;" class="latex">.</span> Такое под­мно­же­ство
+должно состо­ять из дели­те­лей, могу­щих быть «со­бран­ны­ми» из моду­лей <span class="nolinebreak"><img src="/eq/5-268.png" style="height: 18px; width: 32px; vertical-align: -5px;" class="latex">.</span> Для дру­гих
+дели­те­лей опи­сан­ный аргу­мент не рабо­тает. Но это же и под­ска­зы­вает воз­мож­ный гипо­те­ти­че­ский путь
+завер­ше­ния дока­за­тель­ства шага индук­ции.</p>
+<p>В пер­вом сооб­ще­нии мы имели дело с <em>систе­мой моду­лей</em> <span class="nolinebreak"><img src="/eq/5-269.png" style="height: 18px; width: 36px; vertical-align: -5px;" class="latex">,</span> в насто­я­щем сооб­ще­нии – с
+<span class="nolinebreak"><img src="/eq/5-270.png" style="height: 18px; width: 32px; vertical-align: -5px;" class="latex">.</span> Это – пре­дель­ные, край­ние слу­чаи, и, воз­можно, раз­ре­шить воз­ник­шую про­блему
+удастся с помо­щью вве­де­ния боль­шего коли­че­ства «про­ме­жу­точ­ных» систем моду­лей. Этот зыб­кий
+путь опи­ра­ется на ряд вспо­мо­га­тель­ных [оста­ю­щихся пока недо­ка­зан­ными] гипо­тез.</p>
+<div class="sentence-block">
+<p><strong>Опре­де­ле­ние</strong></p>
+<p>Пусть <span class="nolinebreak"><img src="/eq/5-271.png" style="height: 13px; width: 12px; vertical-align: -0px;" class="latex"></span> – семей­ство всех воз­мож­ных систем моду­лей (для дан­ного числа <span class="nolinebreak"><img src="/eq/5-272.png" style="height: 12px; width: 18px; vertical-align: -0px;" class="latex">).</span> Для
+<span class="nolinebreak"><img src="/eq/5-273.png" style="height: 13px; width: 41px; vertical-align: -1px;" class="latex"></span> обо­зна­чим <span class="nolinebreak"><img src="/eq/5-274.png" style="height: 30px; width: 128px; vertical-align: -18px;" class="latex">.</span> Для нужд К.Т.О.
+необ­хо­димо, чтобы выпол­ня­лось <span class="nolinebreak"><img src="/eq/5-275.png" style="height: 18px; width: 205px; vertical-align: -5px;" class="latex">.</span></p>
+<p>Каж­дая система <span class="nolinebreak"><img src="/eq/5-276.png" style="height: 13px; width: 41px; vertical-align: -1px;" class="latex"></span> порож­дает под­мно­же­ство <span class="nolinebreak"><img src="/eq/5-277.png" style="height: 15px; width: 57px; vertical-align: -3px;" class="latex">,</span> такое, что каж­дый
+дели­тель <span class="nolinebreak"><img src="/eq/5-278.png" style="height: 15px; width: 49px; vertical-align: -3px;" class="latex"></span> кон­стру­и­ру­ется из этих моду­лей, т.е. <span class="nolinebreak"><img src="/eq/5-279.png" style="height: 17px; width: 117px; vertical-align: -4px;" class="latex">.</span></p>
+</div>
+<div class="sentence-block">
+<p><strong>Гипо­теза 6 (без дока­за­тель­ства):</strong> <span class="nolinebreak"><img src="/eq/5-280.png" style="height: 18px; width: 182px; vertical-align: -6px;" class="latex">.</span> Т.е. гипо­те­ти­че­ская функ­ция
+<span class="nolinebreak"><img src="/eq/5-281.png" style="height: 18px; width: 24px; vertical-align: -5px;" class="latex"></span> клас­си­фи­ци­рует дели­тели по их индек­сам в после­до­ва­тель­но­сти <span class="nolinebreak"><img src="/eq/5-282.png" style="height: 18px; width: 29px; vertical-align: -5px;" class="latex"></span> и
+сопо­став­ляет им под­хо­дя­щие системы моду­лей.</p>
+</div>
+<p><strong>Идея дока­за­тель­ства:</strong> Может быть эту гипо­тезу и не надо дока­зы­вать. :) Может быть сго­дится
+аргу­мент «по опре­де­ле­нию». Будем про­сто пере­би­рать все­воз­мож­ные системы моду­лей из
+<span class="nolinebreak"><img src="/eq/5-283.png" style="height: 13px; width: 12px; vertical-align: -0px;" class="latex"></span> и для каж­дой <span class="nolinebreak"><img src="/eq/5-284.png" style="height: 13px; width: 41px; vertical-align: -1px;" class="latex"></span> нахо­дить под­хо­дя­щее под­мно­же­ство (мак­си­маль­ное по
+вклю­че­нию) <span class="nolinebreak"><img src="/eq/5-285.png" style="height: 15px; width: 57px; vertical-align: -3px;" class="latex">.</span> Табу­ли­ро­ва­ние индек­сов вхо­дя­щих в <span class="nolinebreak"><img src="/eq/5-286.png" style="height: 15px; width: 20px; vertical-align: -3px;" class="latex"></span> дели­те­лей и даст тре­бу­е­мое
+отоб­ра­же­ние <span class="nolinebreak"><img src="/eq/5-287.png" style="height: 16px; width: 8px; vertical-align: -3px;" class="latex">.</span> <span class="nolinebreak"><img src="/eq/5-288.png" style="height: 12px; width: 11px; vertical-align: -0px;" class="latex"></span></p>
+<div class="sentence-block">
+<p><strong>Пред­ло­же­ние 1:</strong> <span class="nolinebreak"><img src="/eq/5-289.png" style="height: 18px; width: 182px; vertical-align: -5px;" class="latex">.</span> Это про­сто обнов­лён­ный кри­те­рий дели­те­ля; само утвер­жде­ния я нахожу доста­точно
+оче­вид­ным.</p>
+</div>
+<div class="sentence-block">
+<p><strong>Гипо­теза 7 (без дока­за­тель­ства)</strong></p>
+<p>Пусть <span class="nolinebreak"><img src="/eq/5-290.png" style="height: 15px; width: 55px; vertical-align: -3px;" class="latex"></span> для неко­то­рого <span class="nolinebreak"><img src="/eq/5-291.png" style="height: 18px; width: 55px; vertical-align: -5px;" class="latex"></span> (см. гипо­тезу 6) и пусть система срав­не­ний <span class="nolinebreak"><img src="/eq/5-292.png" style="height: 18px; width: 129px; vertical-align: -5px;" class="latex"></span> (где <span class="nolinebreak"><img src="/eq/5-293.png" style="height: 13px; width: 38px; vertical-align: -3px;" class="latex"></span> про­бе­гает все воз­мож­ные
+зна­че­ния) имеет реше­ние <span class="nolinebreak"><img src="/eq/5-294.png" style="height: 18px; width: 129px; vertical-align: -4px;" class="latex"></span> (N.B., по модулю <span class="nolinebreak"><img src="/eq/5-295.png" style="height: 15px; width: 62px; vertical-align: -3px;" class="latex">,</span> а не
+обя­за­тельно <span class="nolinebreak"><img src="/eq/5-296.png" style="height: 12px; width: 18px; vertical-align: -0px;" class="latex">),</span> для неко­то­рого числа <span class="nolinebreak"><img src="/eq/5-297.png" style="height: 14px; width: 13px; vertical-align: -0px;" class="latex"></span> [дава­е­мого К.Т.О.]. Тогда, если <span class="nolinebreak"><img src="/eq/5-298.png" style="height: 14px; width: 13px; vertical-align: -0px;" class="latex"></span> не делится на
+неко­то­рый <span class="nolinebreak"><img src="/eq/5-299.png" style="height: 13px; width: 38px; vertical-align: -3px;" class="latex">,</span> то и <span class="nolinebreak"><img src="/eq/5-300.png" style="height: 15px; width: 13px; vertical-align: -3px;" class="latex"></span> не делится на <span class="nolinebreak"><img src="/eq/5-301.png" style="height: 12px; width: 10px; vertical-align: -4px;" class="latex">.</span> Кратко: <span class="nolinebreak"><img src="/eq/5-302.png" style="height: 21px; width: 321px; vertical-align: -6px;" class="latex">.</span></p>
+</div>
+<p><strong>Сооб­ра­же­ния по дока­за­тель­ству:</strong> Я не знаю как дока­зать эту гипо­тезу, но все пре­тен­зии здесь к
+китай­ской тео­реме об остат­ках. :) Я про­сто при­ни­маю за долж­ное, что если оценка дели­теля, т.е.
+реше­ние <span class="nolinebreak"><img src="/eq/5-303.png" style="height: 14px; width: 13px; vertical-align: -0px;" class="latex">,</span> полу­чен­ное при­ме­не­нием этой тео­ремы, делится на <span class="nolinebreak"><img src="/eq/5-304.png" style="height: 12px; width: 10px; vertical-align: -4px;" class="latex">,</span> то и насто­я­щий дели­тель
+<span class="nolinebreak"><img src="/eq/5-305.png" style="height: 15px; width: 13px; vertical-align: -3px;" class="latex"></span> дол­жен делиться на <span class="nolinebreak"><img src="/eq/5-306.png" style="height: 12px; width: 10px; vertical-align: -4px;" class="latex"></span> (разве не разумно ожи­дать, что оценка или при­бли­же­ние неко­то­рого
+объ­екта, должны обла­дать боль­шин­ством свойств этого объ­екта?). Про­блема здесь в том, что
+основ­ная тео­рема ариф­ме­тики, в таком слу­чае, при­во­дит к равен­ству <span class="nolinebreak"><img src="/eq/5-307.png" style="height: 16px; width: 48px; vertical-align: -3px;" class="latex">,</span> но в реаль­но­сти
+чис­лен­ные зна­че­ния дели­теля и его К.Т.О.-оценки вроде как не обя­заны сов­па­дать… Одна из
+«ды­рок» тео­рии насы­ще­ния, воз­можно, нахо­дится именно здесь.</p>
+<p>На основе этих допол­ни­тель­ных опре­де­ле­ний и гипо­тез можно про­дол­жить гово­рить об основ­ном
+дока­за­тель­стве [наблю­де­ния 1].</p>
+<p>Итак, под­ра­зу­ме­ва­ется, что для любой <span class="nolinebreak"><img src="/eq/5-308.png" style="height: 13px; width: 41px; vertical-align: -1px;" class="latex"></span> дей­стви­тельна пря­мая адап­та­ция
+аргу­мента, при­ведён­ного в начале опи­са­ния этой заплатки. При­ме­не­ние такого аргу­мента при­во­дит к
+выводу о том, что на неко­то­ром шаге индук­тив­ного дока­за­тель­ства наблю­де­ния 1, реше­ние системы <span class="nolinebreak"><img src="/eq/5-309.png" style="height: 18px; width: 202px; vertical-align: -5px;" class="latex">,</span> а именно
+число <span class="nolinebreak"><img src="/eq/5-310.png" style="height: 14px; width: 13px; vertical-align: -0px;" class="latex">,</span> ока­зы­ва­ется некрат­ным каж­дому из моду­лей <span class="nolinebreak"><img src="/eq/5-311.png" style="height: 18px; width: 56px; vertical-align: -5px;" class="latex">.</span> Из гипо­тезы 7 тогда сле­дует, что и <span class="nolinebreak"><img src="/eq/5-312.png" style="height: 15px; width: 13px; vertical-align: -3px;" class="latex"></span> не делится ни на один из
+<span class="nolinebreak"><img src="/eq/5-313.png" style="height: 18px; width: 56px; vertical-align: -5px;" class="latex">.</span> Но это нару­шает новый кри­те­рий дели­теля из пред­ло­же­ния 1 и при­во­дит к жела­е­мому про­ти­во­ре­чию, дока­зы­вая, т.о., шаг индук­ции (от
+про­тив­ного) и теперь наконец-то завер­шает дока­за­тель­ство.</p>
+<p>Ещё раз под­чёр­ки­ваю, что при­ведён­ный в насто­я­щем при­ло­же­нии фраг­мент явля­ется именно
+«за­плат­кой», тре­бу­ю­щей сво­его нало­же­ния на исход­ное дока­за­тель­ство наблю­де­ния 1 из пер­вого сооб­ще­ния. Как нибудь потом я обя­за­тельно напишу
+пол­ное дока­за­тель­ство, но пока заплатка лучше чем ниче­го… :)</p>
+
+</div>
+
+
+    <p>
+    М.И.Никитин<br>
+    г.Алматы, август, 2021
+    
+    </p>
+    <br>
+
+
+
+
+
+    <p>
+    <small>метки-категории: <em>
+        
+            <a class="post" href="/tag/%D0%BC%D0%B0%D1%82%D0%B5%D0%BC%D0%B0%D1%82%D0%B8%D0%BA%D0%B0">мате­ма­тика</a>, 
+        
+            <a class="post" href="/tag/%D0%BC%D0%B0%D1%82%D0%B5%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B5-%D0%B1%D0%BE%D0%BB%D0%B5%D0%B7%D0%BD%D0%B8">математические-болезни</a>, 
+        
+            <a class="post" href="/tag/%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F-%D1%87%D0%B8%D1%81%D0%B5%D0%BB">теория-чисел</a>, 
+        
+            <a class="post" href="/tag/%D0%BE%D1%82%D0%BA%D1%80%D1%8B%D1%82%D1%8B%D0%B5-%D0%BF%D1%80%D0%BE%D0%B1%D0%BB%D0%B5%D0%BC%D1%8B">открытые-проблемы</a>, 
+        
+            <a class="post" href="/tag/%D1%81%D0%BE%D0%B2%D0%B5%D1%80%D1%88%D0%B5%D0%BD%D0%BD%D1%8B%D0%B5-%D1%87%D0%B8%D1%81%D0%BB%D0%B0">совершенные-числа</a>, 
+        
+            <a class="post" href="/tag/%D0%BD%D0%B5%D1%87%D1%91%D1%82%D0%BD%D1%8B%D0%B5-%D1%81%D0%BE%D0%B2%D0%B5%D1%80%D1%88%D0%B5%D0%BD%D0%BD%D1%8B%D0%B5-%D1%87%D0%B8%D1%81%D0%BB%D0%B0">нечётные-совершенные-числа</a>, 
+        
+            <a class="post" href="/tag/%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F-%D0%BD%D0%B0%D1%81%D1%8B%D1%89%D0%B5%D0%BD%D0%B8%D1%8F">теория-насыщения</a>
+        
+    </em></small>
+    </p>
+
+
+
+    <p><small>[<a href="/sig/saturation-theory-part-2.md.sha256.sig">ЭЦП (SHA-256, RSA)</a>] (<a href="https://gist.github.com/Circiter/92e7b9368c1e29c055a688d12d61466c">ключ</a>)<small></small></small></p>
+
+
+    </div>
+
+  <footer>
+    <a href="mailto:xcirciter@gmail.com"><i class="svg-icon email"></i></a>
+    <a href="https://github.com/Circiter"><i class="svg-icon github"></i></a>
+    <a href="/rss.xml"><i class="svg-icon rss"></i></a>
+    <!--<img src="/public/images/no-cookies.png" alt="no cookies"></img>-->
+    <!-- From catb.org/hacker-emblem/glider-small.png -->
+    <h2><a href="http://catb.org/hacker-emblem"><img src="/public/images/glider-small.png" /></a>&nbsp;EOF</h2>
+    <p><small>&copy;&nbsp;Circiter,&nbsp;2020&ndash;2022. Все права защищены. (см. также <a href="/LICENSE">LICENSE</a>)</small></p>
+</footer>
+
+
+  </body>
+</html>

@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Небольшая коллекция sed-скриптов. &middot; Дневник Circiter'а
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/hyde.css">
+  <link rel="stylesheet" href="/public/css/style.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Exo+2">
+  <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml" />
+  <link type="text/plain" rel="author" href="/humans.txt" />
+  <!-- From catb.org/hacker-emblem/glider.ico  -->
+  <link rel="shortcut icon" href="/public/images/glider.ico" />
+
+</head>
+
+
+  <body>
+
+    <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <!--<h1>
+        <a href="/">
+          Дневник Circiter'а
+        </a>
+      </h1>-->
+      <p class="lead">Технический блог о программировании, математике, радиолюбительской практике, электронике и занимательной науке.</p>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="sidebar-nav-item" href="/">Главная страница</a>
+
+      
+      
+        
+          
+        
+      
+        
+          
+            <a class="sidebar-nav-item" href="/about">Справка</a>
+          
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+
+    </nav>
+  </div>
+</div>
+
+
+    <div class="content container">
+      <div class="post">
+    <h2 class="post-title no-toc">Неболь­шая кол­лек­ция sed-скриптов.</h2>
+    <!-- <span class="post-date">7 May 2022</span> -->
+    
+        <br>
+        <center><span class="post-date">Апрель, 2020</span></center>
+    
+    
+    
+    <h3>Содер­жа­ние:</h3>
+    <ul id="toc" class="section-nav">
+<li class="toc-entry toc-h1">
+<a href="#section">Неце­ле­вое исполь­зо­ва­ние поточ­ного редак­тора.</a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#a-hrefhttpsgithubcomcirciterocr-in-sedocr-in-seda">ocr-in-sed</a></li>
+<li class="toc-entry toc-h2"><a href="#a-hrefhttpsgithubcomcirciterdrawing-in-seddrawing-in-seda">drawing-in-sed</a></li>
+<li class="toc-entry toc-h2"><a href="#a-hrefhttpsgithubcomcircitercomputus-in-sedcomputus-in-seda">computus-in-sed</a></li>
+<li class="toc-entry toc-h2"><a href="#a-hrefhttpsgithubcomcirciterlangton-ant-in-sedlangton-ant-in-seda">langton-ant-in-sed</a></li>
+<li class="toc-entry toc-h2"><a href="#a-hrefhttpsgithubcomcirciterelementary-ca-in-sedelementary-ca-in-seda">elementary-ca-in-sed</a></li>
+<li class="toc-entry toc-h2"><a href="#a-hrefhttpsgithubcomcirciterlife-in-sedlife-in-seda">life-in-sed</a></li>
+<li class="toc-entry toc-h2"><a href="#a-hrefhttpsgithubcomcircitermusic-in-sedmusic-in-seda">music-in-sed</a></li>
+<li class="toc-entry toc-h2"><a href="#a-hrefhttpsgithubcomcircitermaze-in-sedmaze-in-seda">maze-in-sed</a></li>
+<li class="toc-entry toc-h2"><a href="#a-hrefhttpsgithubcomcircitersieve-in-sedsieve-in-seda">sieve-in-sed</a></li>
+<li class="toc-entry toc-h2"><a href="#a-hrefhttpsgithubcomcircitersuperpermutations-in-sedsuperpermutations-in-seda">superpermutations-in-sed</a></li>
+<li class="toc-entry toc-h2"><a href="#a-hrefhttpsgithubcomcircitercw-in-sedcw-in-seda">cw-in-sed</a></li>
+<li class="toc-entry toc-h2"><a href="#a-hrefhttpsgithubcomcirciterr2d2-in-sedr2d2-in-seda">r2d2-in-sed</a></li>
+<li class="toc-entry toc-h2"><a href="#a-hrefhttpsgithubcomcirciterinfix-compiler-in-sedinfix-compiler-in-seda">infix-compiler-in-sed</a></li>
+<li class="toc-entry toc-h2"><a href="#a-hrefhttpsgithubcomcirciterbanner-in-sedbanner-in-seda">banner-in-sed</a></li>
+<li class="toc-entry toc-h2"><a href="#a-hrefhttpsgithubcomcirciterquine-kleene-generatorquine-kleene-generatora">quine-kleene-generator</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h1"><a href="#section-1">Мини­ре­по­зи­то­рии</a></li>
+<li class="toc-entry toc-h1"><a href="#section-2">Скрипты дру­гих авто­ров.</a></li>
+</ul>
+
+
+    <h1 id="section">
+<a class="anchor" href="#section" aria-hidden="true"><span class="octicon octicon-link"></span></a>Неце­ле­вое исполь­зо­ва­ние поточ­ного редак­тора.</h1>
+<p>На дан­ной стра­нице пред­став­лен крат­кий анно­ти­ро­ван­ный спи­сок неко­то­рых непрак­тич­ных сце­на­риев для
+широко извест­ного поточ­ного редак­тора <a href="http://en.wikipedia.org/wiki/sed">sed</a>. В работе этой ути­литы основ­ное место зани­мает команда
+<code>s/&lt;шаблон&gt;/&lt;замещающий_текст&gt;/</code> (вме­сто сим­вола <code>/</code> может исполь­зо­ваться и дру­гой раз­де­ли­тель),
+ищу­щая и заме­ня­ю­щая фраг­мент тек­ста, удо­вле­тво­ря­ю­щий неко­то­рому регу­ляр­ному выражению-шаблону.</p>
+<p>Эта команда, могу­щая пока­заться далёкой по своей функ­ци­о­наль­но­сти от обес­пе­че­ния Тьюринг-полноты
+вход­ного языка sed, вме­сте с мет­ками и коман­дами пере­хода (услов­ного и безуслов­ного) всё же
+делает дан­ный редак­тор вычислительно-универсальным. Фак­ти­че­ски, он может рас­смат­ри­ваться в
+каче­стве реа­ли­за­ции <a href="http://ru.wikipedia.org/wiki/%D0%BD%D0%BE%D1%80%D0%BC%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9_%D0%B0%D0%BB%D0%B3%D0%BE%D1%80%D0%B8%D1%82%D0%BC">нор­маль­ных алго­риф­мов Мар­кова</a> (хотя это и не обще­при­ня­тое мне­ние), а
+пол­нота по-Тьюрингу обу­слав­ли­вает саму воз­мож­ность всех про­изо­шед­ших с sed при­клю­че­ний [с его
+нестан­дарт­ным исполь­зо­ва­нием].</p>
+<p>В основ­ном, здесь пред­став­лены мои скрипты, но в конце при­во­дится спи­сок неко­то­рых из похо­жих
+на них в своей непрак­тич­но­сти (а нередко кратно пре­вы­ша­ю­щих мои поделки в своей уди­ви­тель­но­сти
+и тех­но­ло­ги­че­ской слож­но­сти реа­ли­за­ции) скрип­тов дру­гих авто­ров.</p>
+<p>Сложно, а быть может уже и вовсе невоз­можно ска­зать, какие ещё необыч­ные сце­на­рии писа­лись за всю
+исто­рию суще­ство­ва­ния этого редак­тора, исполь­зо­вав­ше­гося с начала/середины семи­де­ся­тых годов
+про­шлого века; так что остаётся лишь про­дол­жать неспеш­ные поиски ана­ло­гич­ных арте­фак­тов и, конечно,
+писать свои.</p>
+<p>Итак, моя учет­ная запись на GitHub содер­жит сле­ду­ю­щие репо­зи­то­рии со скрип­тами для sed:</p>
+<h2 id="a-hrefhttpsgithubcomcirciterocr-in-sedocr-in-seda">
+<a class="anchor" href="#a-hrefhttpsgithubcomcirciterocr-in-sedocr-in-seda" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://github.com/Circiter/ocr-in-sed">ocr-in-sed</a>
+</h2>
+<p>Этот скрипт напи­сан под впе­чат­ле­нием от одно­строч­ной C-программы неко­его Эрика Коп­чин­ского
+(<a href="http://www.mimuw.edu.pl/~erykk">Eryk Kopczynski</a>), напи­сан­ной для небезыз­вест­ного
+кон­курса <a href="http://ioccc.org">ioccc</a> за 2004 год и выпол­ня­ю­щей опти­че­ское рас­по­зна­ва­ние
+тек­ста находя эйле­рову харак­те­ри­стику его «три­ан­гу­ля­ции» (насколько
+вообще можно гово­рить о три­ан­гу­ля­ции для кар­тинки в стиле ASCII-арт).</p>
+<p>Да, меня тоже сна­чала сбила с толку воз­мож­ность рас­по­зна­ва­ния на основе именно этого
+топо­ло­ги­че­ского инва­ри­анта, оче­видно име­ю­щего оди­на­ко­вые зна­че­ния вообще для всех пла­нар­ных
+гра­фов; поэтому инте­ре­су­ю­щихся пока пере­ад­ре­сую на ста­тью (S.B.Gray, Local Properties
+of Binary Images in Two Dimensions, 1971), пред­по­ло­жи­тельно явля­ю­щу­юся осно­вой для про­граммы
+Коп­чин­ского. По-сути, авторы расчи­ты­вают инва­ри­ант, рав­ный раз­но­сти между коли­че­ством связ­ных
+обла­стей и коли­че­ством дырок, но расчи­ты­вают его под­счи­ты­вая раз­лич­ные чисто локаль­ные кон­фи­гу­ра­ции
+пик­се­лей в <span class="nolinebreak"><img src="/eq/6-0.png" style="height: 11px; width: 37px; vertical-align: -1px;" class="latex">-окне,</span> про­бе­гая им по всему изоб­ра­же­нию (в ста­тье этот свер­точ­ный под­ход
+рас­про­стра­нен и на <span class="nolinebreak"><img src="/eq/6-1.png" style="height: 12px; width: 37px; vertical-align: -1px;" class="latex">-окна,</span> но у Коп­чин­ского при­ме­нено малень­кое окно).</p>
+<p>Увы, осо­бая про­стота этой логики сильно огра­ни­чи­вает функ­ци­о­наль­ность осно­ван­ной на ней про­граммы
+рас­поз­но­ва­ния сим­во­лов… И кроме целых из, ска­жем так, не очень боль­шого про­ме­жутка <span class="nolinebreak"><img src="/eq/6-2.png" style="height: 18px; width: 38px; vertical-align: -5px;" class="latex"></span> эта
+OCR-программа ничего рас­по­знать тол­ком не может.</p>
+<p>В любом слу­чая, я решил реа­ли­зо­вать этот же алго­ритм, напи­сав ана­ло­гич­ный скрипт для sed;
+есте­ственно вообще не стре­мясь к одно­строч­но­сти.</p>
+<h2 id="a-hrefhttpsgithubcomcirciterdrawing-in-seddrawing-in-seda">
+<a class="anchor" href="#a-hrefhttpsgithubcomcirciterdrawing-in-seddrawing-in-seda" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://github.com/Circiter/drawing-in-sed">drawing-in-sed</a>
+</h2>
+<p>Про­стой гра­фи­че­ский редак­тор, выпол­ня­ю­щий команды со стан­дарт­ного ввода и реа­ли­зу­ю­щий
+неко­то­рое подмножество/версию <a href="http://en.wikipedia.org/wiki/Turtle_graphics">чере­па­шьей гра­фики</a> и
+<a href="http://en.wikipedia.org/wiki/L-system">систем Лин­ден­май­ера</a>. Сго­дится для рисо­ва­ния
+неко­то­рых гео­мет­ри­че­ских фигур, сим­во­лов, фрак­та­лов. Не самое оче­вид­ное при­ме­не­ние sed,
+не так ли?</p>
+<h2 id="a-hrefhttpsgithubcomcircitercomputus-in-sedcomputus-in-seda">
+<a class="anchor" href="#a-hrefhttpsgithubcomcircitercomputus-in-sedcomputus-in-seda" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://github.com/Circiter/computus-in-sed">computus-in-sed</a>
+</h2>
+<p>А это почти полез­ный скрипт, <a href="http://ru.wikipedia.org/wiki/%D0%BF%D0%B0%D1%81%D1%85%D0%B0%D0%BB%D0%B8%D1%8F">расчи­ты­ва­ю­щий</a> дату пра­во­слав­ной
+Пасхи. Тео­ре­ти­че­ски, может быть легко моди­фи­ци­ро­ван для рас­чета дат като­ли­че­ской, еврей­ской,
+аст­ро­но­ми­че­ской Пасхи. Больше инфор­ма­ции можно найти в
+<a href="http://circiter.github.io/computus-in-sed">отдель­ном сооб­ще­нии</a>.</p>
+<h2 id="a-hrefhttpsgithubcomcirciterlangton-ant-in-sedlangton-ant-in-seda">
+<a class="anchor" href="#a-hrefhttpsgithubcomcirciterlangton-ant-in-sedlangton-ant-in-seda" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://github.com/Circiter/langton-ant-in-sed">langton-ant-in-sed</a>
+</h2>
+<p>Симу­ля­ция извест­ного авто­мата «<a href="http://en.wikipedia.org/wiki/Langton%27s_ant">мура­вей
+Ланг­тона</a>», инте­рес­ного, среди про­чего, своей
+Тьюринг-полнотой и инте­рес­ной откры­той про­бле­мой, свя­зан­ной с аттрак­то­рами («до­ро­га» с
+пери­о­дом 104 шага) этой дина­ми­че­ской системы для всех конеч­ных началь­ных кон­фи­гу­ра­ций.</p>
+<h2 id="a-hrefhttpsgithubcomcirciterelementary-ca-in-sedelementary-ca-in-seda">
+<a class="anchor" href="#a-hrefhttpsgithubcomcirciterelementary-ca-in-sedelementary-ca-in-seda" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://github.com/Circiter/elementary-ca-in-sed">elementary-ca-in-sed</a>
+</h2>
+<p><a href="http://en.wikipedia.org/wiki/elementary_cellular_automaton">Эле­мен­тар­ные</a> одно­мер­ные конеч­ные
+авто­маты по-Вольфраму. Доста­точно полез­ная воз­мож­ность для sed, поз­во­ля­ю­щая созда­вать узоры,
+гене­ри­ро­вать псев­до­слу­чай­ные числа, моде­ли­ро­вать неко­то­рые физи­че­ские про­цессы.</p>
+<h2 id="a-hrefhttpsgithubcomcirciterlife-in-sedlife-in-seda">
+<a class="anchor" href="#a-hrefhttpsgithubcomcirciterlife-in-sedlife-in-seda" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://github.com/Circiter/life-in-sed">life-in-sed</a>
+</h2>
+<p><a href="http://en.wikipedia.org/wiki/Conway%27s_Game_of_Life">Игра «жиз­нь»</a> Кон­вея, теперь и на sed.</p>
+<h2 id="a-hrefhttpsgithubcomcircitermusic-in-sedmusic-in-seda">
+<a class="anchor" href="#a-hrefhttpsgithubcomcircitermusic-in-sedmusic-in-seda" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://github.com/Circiter/music-in-sed">music-in-sed</a>
+</h2>
+<p>Пиа­нино на sed! Кто же не делал что-то вроде <code>cat /dev/urandom &gt; /dev/audio</code> или
+<code>sudo cat /dev/mem &gt; /dev/audio</code>? Редак­тор sed вполне может при­няв со стан­дарт­ного ввода
+нот­ную запись, син­те­зи­ро­вать после­до­ва­тель­ность сим­во­лов, кото­рая будучи отправ­лен­ной в
+<a href="http://www.opensound.com">oss</a>-устройство <code>/dev/audio</code> (или его ана­лог), при­во­дит к про­иг­ры­ва­нию
+соот­вет­ству­ю­щей мело­дии через зву­ко­вую карту. Всё очень про­сто. :)</p>
+<p>Пово­дом для напи­са­ния этого скрипта яви­лось <a href="http://kmkeen.com/awk-music">сооб­ще­ние</a> Kyle Keen об
+этом спо­собе гене­ра­ции звука. Но там был при­ме­нен пол­но­цен­ный язык про­грам­ми­ро­ва­ния awk,
+поз­во­лив­ший легко полу­чить более каче­ствен­ный чем у меня звук за счет исполь­зо­ва­ния тре­уголь­ной формы
+сиг­нала. Так появи­лась музы­каль­ная программа-синтезатор на гораздо более огра­ни­чен­ном sed, именно
+в силу огра­ни­чен­но­сти и пред­став­ля­ю­щем боль­ший спор­тив­ный инте­рес.</p>
+<h2 id="a-hrefhttpsgithubcomcircitermaze-in-sedmaze-in-seda">
+<a class="anchor" href="#a-hrefhttpsgithubcomcircitermaze-in-sedmaze-in-seda" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://github.com/Circiter/maze-in-sed">maze-in-sed</a>
+</h2>
+<p>В попытке понять напи­сан­ную на sed одним [пред­по­ло­жи­тельно Син­га­пур­ским]
+<a href="https://github.com/xsot">хаке­ром</a> про­грамму поиска выхода из лаби­ринта я
+напи­сал свою вер­сию, вклю­чив в поставку [пока не пол­но­стью рабо­то­спо­соб­ный]
+ком­пле­мен­тар­ный гене­ра­тор лаби­рин­тов (есте­ственно тоже на sed).</p>
+<h2 id="a-hrefhttpsgithubcomcircitersieve-in-sedsieve-in-seda">
+<a class="anchor" href="#a-hrefhttpsgithubcomcircitersieve-in-sedsieve-in-seda" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://github.com/Circiter/sieve-in-sed">sieve-in-sed</a>
+</h2>
+<p><a href="http://en.wikipedia.org/wiki/Sieve_of_Eratosthenes">Решето Эра­то­сфена</a> на sed. Кроме соб­ственно
+решета, реа­ли­зо­ван­ного в <code>sieve.sed</code>, в репо­зи­то­рии можно найти скрипт <code>factor.sed</code>, раз­ла­га­ю­щий
+дан­ное число на его про­стые дели­тели. А для демон­стра­ции при­ме­не­ния про­стых чисел (и в
+соот­вет­ствии с эзо­те­ри­че­ской направ­лен­но­стью подоб­ных раз­вле­че­ний с редак­то­ром sed) позже были
+добав­лены скрипты <code>anagram.sed</code> и <code>collatz.sed</code>, – для детек­ти­ро­ва­ния ана­грамм, и для
+реа­ли­за­ции дина­ми­че­ской системы из гипо­тезы <span class="nolinebreak"><img src="/eq/6-3.png" style="height: 13px; width: 45px; vertical-align: -1px;" class="latex"></span> (<a href="http://ru.wikipedia.org/wiki/%D0%B3%D0%B8%D0%BF%D0%BE%D1%82%D0%B5%D0%B7%D0%B0_%D0%9A%D0%BE%D0%BB%D0%BB%D0%B0%D1%82%D1%86%D0%B0">гипо­тезы
+Кол­латца</a>), соот­вет­ственно.</p>
+<p>Позже была напи­сана реа­ли­за­ция решета Эйлера, вычер­ки­ва­ю­щего каж­дое состав­ное число только один
+раз (см. <code>euler-sieve.sed</code> в том же репо­зи­то­рии). Правда, как потом выяс­ни­лось, этот код не
+имеет вообще ника­ких пре­иму­ществ перед обыч­ным реше­том Эра­то­сфена из-за слиш­ком доро­гой опе­ра­ции
+умно­же­ния на sed или, по край­ней мере, из-за выбран­ного спо­соба осу­ществ­ле­ния умно­же­ния.</p>
+<p>Объ­яс­не­ние работы дан­ных скрип­тов содер­жится в отдель­ном
+<a href="http://circiter.github.io/sieve-of-eratosthenes-in-sed">сооб­ще­нии</a> этого днев­ника.</p>
+<h2 id="a-hrefhttpsgithubcomcircitersuperpermutations-in-sedsuperpermutations-in-seda">
+<a class="anchor" href="#a-hrefhttpsgithubcomcircitersuperpermutations-in-sedsuperpermutations-in-seda" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://github.com/Circiter/superpermutations-in-sed">superpermutations-in-sed</a>
+</h2>
+<p>Гене­ра­ция [вообще говоря, не явля­ю­щихся мини­маль­ными]
+<a href="http://en.wikipedia.org/wiki/superpermutation">супер­пе­ре­ста­но­вок</a>.</p>
+<h2 id="a-hrefhttpsgithubcomcircitercw-in-sedcw-in-seda">
+<a class="anchor" href="#a-hrefhttpsgithubcomcircitercw-in-sedcw-in-seda" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://github.com/Circiter/cw-in-sed">cw-in-sed</a>
+</h2>
+<p>Этот скрипт при­ни­мает на вход тек­сто­вое сооб­ще­ние и гене­ри­рует тональ­ный теле­граф­ный сиг­нал
+(код Морзе), про­иг­ры­ва­е­мый зву­ко­вой кар­той ком­пью­тера по прин­ципу, опи­сан­ному выше в раз­деле
+о син­те­за­торе мело­дий.</p>
+<h2 id="a-hrefhttpsgithubcomcirciterr2d2-in-sedr2d2-in-seda">
+<a class="anchor" href="#a-hrefhttpsgithubcomcirciterr2d2-in-sedr2d2-in-seda" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://github.com/Circiter/r2d2-in-sed">r2d2-in-sed</a>
+</h2>
+<p>Син­те­за­тор «ре­чи» робота <a href="http://en.wikipedia.org/wiki/R2-D2">r2d2</a> из все­лен­ной «Звёзд­ных Войн»
+Д.Лукаса. При­ме­нен тот же прин­цип гене­ра­ции тек­сто­вого потока, озву­чи­ва­е­мого пере­на­прав­ле­нием в
+<code>/dev/audio</code>. В отли­чии от программы-пианино или от гене­ра­тора «мор­зян­ки», здесь кроме чистых нот
+(на самом деле всего-лишь пря­мо­уголь­ного сиг­нала вме­сто сину­со­иды) име­ется воз­мож­ность созда­ния
+белого шума, а так­же воз­мож­ность слу­чай­ного выбора нот.</p>
+<p>Инте­ресно, можно ли научить r2d2 гово­рить [по-человечески]? Пора вне­сти син­те­за­тор речи в TODO-список. :)</p>
+<h2 id="a-hrefhttpsgithubcomcirciterinfix-compiler-in-sedinfix-compiler-in-seda">
+<a class="anchor" href="#a-hrefhttpsgithubcomcirciterinfix-compiler-in-sedinfix-compiler-in-seda" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://github.com/Circiter/infix-compiler-in-sed">infix-compiler-in-sed</a>
+</h2>
+<p>Даже будучи <em>тек­сто­вым</em> редак­то­ром, sed не предо­став­ляет удоб­ных инстру­мен­тов для раз­бора
+(син­так­си­че­ского ана­лиза) контекстно-свободных грам­ма­тик. Наи­бо­лее про­стой метод раз­бора, а именно
+рекурсивно-нисходящий ана­лиз, сло­жен в реа­ли­за­ции на sed из-за отсут­ствия адек­ват­ной под­держки
+рекур­сии. Однако в тео­рии ничто не мешает напи­сать рекурсивно-нисходящий пар­сер, и даже ком­пи­ля­тор,
+для какого-нибудь про­стого языка, напри­мер для ариф­ме­ти­че­ских фор­мул (с обыч­ной инфикс­ной нота­цией).</p>
+<p>Кон­кретно этот про­ект явля­ется малень­ким (и страшно неэф­фек­тив­ным) ком­пи­ля­то­ром фор­мул, при­ни­ма­ю­щим
+ариф­ме­ти­че­ское выра­же­ние (ска­жем, <code>(1+2)*3</code>) и про­ду­ци­ру­ю­щим насто­я­щий машин­ный код ([пока] только для
+x86-архитектуры и для 32 бит­ного Linux в каче­стве ОС). На дан­ный момент, мой скрипт не умеет
+гене­ри­ро­вать пол­но­цен­ный испол­ня­е­мый файл (хотя это в прин­ципе и воз­можно), поэтому для добав­ле­ния
+всех необ­хо­ди­мых заго­лов­ков я реко­мен­дую вос­поль­зо­ваться
+Perl-скриптом <a href="https://github.com/XlogicX/m2elf">m2elf.pl</a>.</p>
+<h2 id="a-hrefhttpsgithubcomcirciterbanner-in-sedbanner-in-seda">
+<a class="anchor" href="#a-hrefhttpsgithubcomcirciterbanner-in-sedbanner-in-seda" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://github.com/Circiter/banner-in-sed">banner-in-sed</a>
+</h2>
+<p>Упро­щен­ный ана­лог ути­лит типа <code>banner</code>/<code>sysvbanner</code> или <a href="http://www.figlet.org">figlet</a>. Для дан­ной строки печа­тает
+её «ASCII-art» вари­ант (c боль­шими сим­во­лами), про­сто скле­и­вая соот­вет­ству­ю­щие её зна­кам фраг­менты
+тек­ста из спе­ци­ально под­го­тов­лен­ного «шриф­та». Под­дер­жи­ва­ется авто­ма­ти­че­ская кор­рек­ция меж­бук­вен­ных
+интер­ва­лов, т.е. авто­кер­нинг (с воз­мож­но­стью наблю­де­ния за  бес­по­лез­ной, но забав­ной ани­ма­цией
+этого про­цесса).</p>
+<h2 id="a-hrefhttpsgithubcomcirciterquine-kleene-generatorquine-kleene-generatora">
+<a class="anchor" href="#a-hrefhttpsgithubcomcirciterquine-kleene-generatorquine-kleene-generatora" aria-hidden="true"><span class="octicon octicon-link"></span></a><a href="https://github.com/Circiter/quine-kleene-generator">quine-kleene-generator</a>
+</h2>
+<p>Гене­ра­тор (неэф­фек­тив­ных) квай­нов для sed. Правда, сам гене­ра­тор пред­став­ляет собой набор как
+sed-скрип­тов, так и скрип­тов обо­лочки. Для гене­ра­ции квай­нов исполь­зу­ется дока­за­тель­ство вто­рой
+рекур­сив­ной тео­ремы Клини о непо­движ­ных точ­ках частично-рекурсивных функ­ций. N.B., квайны
+полу­ча­ются очень боль­шими по раз­меру, но гене­ра­тор всё-равно ока­зался поле­зен в моих неболь­ших
+экспериментах/упражнениях по тео­рии вычис­ли­мо­сти.</p>
+<p>Подроб­но­сти можно найти в серии сооб­ще­ний <a href="http://circiter.github.io/quinelogy-part-1">«За­ни­ма­тель­ное квай­но­вод­ство»</a>.</p>
+<hr>
+<h1 id="section-1">
+<a class="anchor" href="#section-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Мини­ре­по­зи­то­рии</h1>
+<p>Кроме этого на <a href="http://gist.github.com/Circiter/">http://gist.github.com/Circiter/</a> хра­нятся сле­ду­ю­щие «ми­ни­ре­по­зи­то­рии» (gists):</p>
+<ul>
+<li>
+<p><a href="https://gist.github.com/Circiter/ffa8c2875457c1f45da4c08268e7e076">sleep-sort.sed</a> – реа­ли­за­ция
+алго­ритма «спя­щей сор­ти­ров­ки».</p>
+</li>
+<li>
+<p><a href="https://gist.github.com/Circiter/09f0866d18e77d487c3308fcfce0be5c">von-neumann-extractor.sed</a>
+– скрипт пре­об­ра­зует дан­ную <span class="nolinebreak"><img src="/eq/6-4.png" style="height: 12px; width: 19px; vertical-align: -0px;" class="latex">-битную</span> после­до­ва­тель­ность в <span class="nolinebreak"><img src="/eq/6-5.png" style="height: 9px; width: 10px; vertical-align: -0px;" class="latex">-битную</span> с вырав­ни­ва­нием
+частот/количеств еди­ниц и нулей. Скрипт напи­сан по моти­вам работы (Von Neumann, Various
+techniques used in connection with random digits, 1951).</p>
+</li>
+<li>
+<p><a href="https://gist.github.com/Circiter/042264eb9e9ee360d0eafa10eedf3f21">binary-multiplication.sed</a>
+– реа­ли­за­ция алго­ритма умно­же­ния дво­ич­ных чисел, напи­сан­ная по моти­вам (и путем упро­ще­ния)
+кода умно­же­ния деся­тич­ных чисел, взя­того со стра­ницы
+<a href="http://codegolf.stackexchange.com/a/49442">http://codegolf.stackexchange.com/a/49442</a>.</p>
+<p>Пусть <span class="nolinebreak"><img src="/eq/6-6.png" style="height: 12px; width: 65px; vertical-align: -4px;" class="latex"></span> – цифры дво­ич­ного пред­став­ле­ния числа <span class="nolinebreak"><img src="/eq/6-7.png" style="height: 12px; width: 8px; vertical-align: -4px;" class="latex">,</span> при­чём <span class="nolinebreak"><img src="/eq/6-8.png" style="height: 12px; width: 14px; vertical-align: -4px;" class="latex"></span> – млад­ший
+бит <span class="nolinebreak"><img src="/eq/6-9.png" style="height: 12px; width: 8px; vertical-align: -4px;" class="latex">,</span> тогда при­мер­ный вид алго­ритма для умно­же­ния чисел <span class="nolinebreak"><img src="/eq/6-10.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex"></span> и <span class="nolinebreak"><img src="/eq/6-11.png" style="height: 12px; width: 8px; vertical-align: -4px;" class="latex"></span> будет таков:</p>
+<ol>
+<li>
+<span class="nolinebreak"><img src="/eq/6-12.png" style="height: 12px; width: 43px; vertical-align: -0px;" class="latex"></span> (ини­ци­а­ли­за­ция акку­му­ля­тора).</li>
+<li>Конец если <span class="nolinebreak"><img src="/eq/6-13.png" style="height: 15px; width: 39px; vertical-align: -3px;" class="latex">;</span> резуль­тат лежит в <span class="nolinebreak"><img src="/eq/6-14.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex">.</span>
+</li>
+<li>Если <span class="nolinebreak"><img src="/eq/6-15.png" style="height: 15px; width: 45px; vertical-align: -3px;" class="latex">,</span> то <span class="nolinebreak"><img src="/eq/6-16.png" style="height: 12px; width: 73px; vertical-align: -1px;" class="latex">.</span>
+</li>
+<li>
+<span class="nolinebreak"><img src="/eq/6-17.png" style="height: 12px; width: 53px; vertical-align: -0px;" class="latex">;</span> <span class="nolinebreak"><img src="/eq/6-18.png" style="height: 18px; width: 73px; vertical-align: -5px;" class="latex">.</span>
+</li>
+<li>Перейти к шагу 2.</li>
+</ol>
+<p>Алго­ритм непо­сред­ственно сле­дует из дво­ич­ного раз­ло­же­ния <span class="nolinebreak"><img src="/eq/6-19.png" style="height: 20px; width: 187px; vertical-align: -5px;" class="latex">.</span> Дей­стви­тельно, <span class="nolinebreak"><img src="/eq/6-20.png" style="height: 20px; width: 193px; vertical-align: -6px;" class="latex">,</span> где <span class="nolinebreak"><img src="/eq/6-21.png" style="height: 18px; width: 108px; vertical-align: -5px;" class="latex">.</span>
+(Опе­ра­ция <span class="nolinebreak"><img src="/eq/6-22.png" style="height: 18px; width: 73px; vertical-align: -5px;" class="latex"></span> на каж­дой ите­ра­ции уда­ляет один самый млад­ший бит числа
+<span class="nolinebreak"><img src="/eq/6-23.png" style="height: 12px; width: 8px; vertical-align: -4px;" class="latex">,</span> т.о. сдви­гая дво­ич­ную запись числа: <span class="nolinebreak"><img src="/eq/6-24.png" style="height: 13px; width: 56px; vertical-align: -4px;" class="latex">.)</span></p>
+<p>Акту­аль­ный код на sed доста­точно точно сле­дует этому наброску.</p>
+</li>
+<li>
+<p><a href="https://gist.github.com/Circiter/46456d2f568f07960a1d9e1c15464c04">binary-addition.sed</a> –
+реа­ли­за­ция алго­ритма сло­же­ния дво­ич­ных чисел, исполь­зу­ется в выше­при­ве­ден­ном коде умно­же­ния
+чисел.</p>
+<p>Если, как и преж­де, под­ра­зу­ме­ва­ется, что числа <span class="nolinebreak"><img src="/eq/6-25.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex">,</span> <span class="nolinebreak"><img src="/eq/6-26.png" style="height: 12px; width: 8px; vertical-align: -4px;" class="latex"></span> я <span class="nolinebreak"><img src="/eq/6-27.png" style="height: 9px; width: 8px; vertical-align: -0px;" class="latex"></span> могут быть пред­став­лены как
+строки цифр <span class="nolinebreak"><img src="/eq/6-28.png" style="height: 18px; width: 30px; vertical-align: -5px;" class="latex">,</span> <span class="nolinebreak"><img src="/eq/6-29.png" style="height: 18px; width: 28px; vertical-align: -5px;" class="latex"></span> и <span class="nolinebreak"><img src="/eq/6-30.png" style="height: 18px; width: 28px; vertical-align: -5px;" class="latex">,</span> соот­вет­ственно, а нуле­вые эле­менты этих
+после­до­ва­тель­но­стей суть млад­шие цифры чисел <span class="nolinebreak"><img src="/eq/6-31.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex">,</span> <span class="nolinebreak"><img src="/eq/6-32.png" style="height: 12px; width: 8px; vertical-align: -4px;" class="latex">,</span> <span class="nolinebreak"><img src="/eq/6-33.png" style="height: 9px; width: 8px; vertical-align: -0px;" class="latex">,</span> то псев­до­код для вычис­ле­ния
+<span class="nolinebreak"><img src="/eq/6-34.png" style="height: 14px; width: 69px; vertical-align: -3px;" class="latex"></span> может быть таким:</p>
+<ol>
+<li><span class="nolinebreak"><img src="/eq/6-35.png" style="height: 12px; width: 40px; vertical-align: -0px;" class="latex">.</span></li>
+<li>Если <span class="nolinebreak"><img src="/eq/6-36.png" style="height: 12px; width: 40px; vertical-align: -0px;" class="latex"></span> или <span class="nolinebreak"><img src="/eq/6-37.png" style="height: 15px; width: 39px; vertical-align: -3px;" class="latex">,</span> то конец (ответ нахо­дится в <span class="nolinebreak"><img src="/eq/6-38.png" style="height: 9px; width: 8px; vertical-align: -0px;" class="latex">).</span>
+</li>
+<li><span class="nolinebreak"><img src="/eq/6-39.png" style="height: 14px; width: 91px; vertical-align: -3px;" class="latex"></span></li>
+<li><span class="nolinebreak"><img src="/eq/6-40.png" style="height: 13px; width: 65px; vertical-align: -1px;" class="latex"></span></li>
+<li>Если <span class="nolinebreak"><img src="/eq/6-41.png" style="height: 14px; width: 44px; vertical-align: -3px;" class="latex">,</span> то <span class="nolinebreak"><img src="/eq/6-42.png" style="height: 14px; width: 47px; vertical-align: -3px;" class="latex">,</span>
+</li>
+<li>Иначе <span class="nolinebreak"><img src="/eq/6-43.png" style="height: 14px; width: 46px; vertical-align: -3px;" class="latex">,</span> <span class="nolinebreak"><img src="/eq/6-44.png" style="height: 13px; width: 64px; vertical-align: -3px;" class="latex">.</span>
+</li>
+<li>
+<span class="nolinebreak"><img src="/eq/6-45.png" style="height: 18px; width: 74px; vertical-align: -5px;" class="latex">;</span> <span class="nolinebreak"><img src="/eq/6-46.png" style="height: 18px; width: 73px; vertical-align: -5px;" class="latex">.</span>
+</li>
+<li>Перейти к шагу 2.</li>
+</ol>
+<p>N.B., здесь «циф­ры» <span class="nolinebreak"><img src="/eq/6-47.png" style="height: 11px; width: 12px; vertical-align: -3px;" class="latex"></span> – это про­из­воль­ные неот­ри­ца­тель­ные целые, необя­за­тельно
+удо­вле­тво­ря­ю­щие <span class="nolinebreak"><img src="/eq/6-48.png" style="height: 14px; width: 44px; vertical-align: -3px;" class="latex">;</span> так­же сле­дует учесть, что при моди­фи­ка­ции одного из пред­став­ле­ний,
+авто­ма­ти­че­ски обнов­ля­ется и дру­гое.</p>
+<p>Соот­вет­ству­ю­щий код на sed сле­дует этому плану, за исклю­че­нием работы со счёт­чи­ком <span class="nolinebreak"><img src="/eq/6-49.png" style="height: 12px; width: 5px; vertical-align: -0px;" class="latex"></span> – для
+добав­ле­ния оче­ред­ной цифры к резуль­тату, эта цифра про­сто при­пи­сы­ва­ется в начало хра­ня­щей его
+строки, без какого либо счёт­чика.</p>
+</li>
+<li>
+<p><a href="https://gist.github.com/Circiter/8d19dee9ca046ceae534f40e2ec10ff0">dec-to-bin.sed</a> – пере­вод
+деся­тич­ного числа в дво­ич­ную систему счис­ле­ния.</p>
+</li>
+<li>
+<p><a href="https://gist.github.com/Circiter/28532a371eeea8d497c53ae81b8d7a80">dec-to-hex.sed</a> – осно­ван­ный на преды­ду­щем скрипте
+(<code>dec-to-bin.sed</code>) код пре­об­ра­зо­ва­ния числа из деся­тич­ной системы счис­ле­ния в шест­на­дца­ти­рич­ную. При необ­хо­ди­мо­сти
+оба при­мера срав­ни­тельно легко обоб­ща­ются и на дру­гие системы счис­ле­ния по осно­ва­нию 2 (e.g. на вось­ми­рич­ную).</p>
+</li>
+<li>
+<p><a href="https://gist.github.com/Circiter/ab4f8538d3882562e38a2e7525acc480">permutations.sed</a> – пере­ста­новки,
+самые обыч­ные пере­ста­новки.</p>
+</li>
+<li>
+<p><a href="https://gist.github.com/Circiter/b4fcf325a0de308771799bbd60208a31">sushi.sed</a> – попытка
+ими­та­ции эффекта «циф­ро­вой дождь», попу­ля­ри­зо­ван­ного в одном извест­ном арте­факте мас­со­вой
+куль­туры (име­ется ввиду экра­ни­за­ция Вачов­скими эсха­то­ло­ги­че­ских моти­вов из «от­кро­ве­ний
+Иоан­на» с при­вле­че­нием идей в двухе лемов­ских «стран­ных ящи­ков про­фес­сора Кон­ко­ра­на»).</p>
+<p>Выгля­дит как осы­па­ю­щийся набор типо­граф­ских сим­во­лов (в ори­ги­нале, моди­фи­ци­ро­ван­ных япон­ских,
+но здесь исполь­зу­ется всего-лишь малень­кое под­мно­же­ство ASCII), остав­ля­ю­щих за собой
+после­све­че­ние как на ста­рых ЭЛТ-мониторах или осцил­ло­гра­фах.</p>
+<p>(В моей апо­кри­фи­че­ской интер­пре­та­ции, этот эффект можно рас­смат­ри­вать как дис­кре­ти­зи­ро­ван­ный
+вари­ант водо­пад­ной визу­а­ли­за­ции вре­мен­ной раз­вертки РЧ-спектра, хорошо извест­ной всем
+зна­ко­мым с SDR-техникой; в фильме этот инстру­мент при­ме­нялся для отладки эму­ля­тора, а так­же
+для «об­рат­ной отлад­ки» – не только хакеры, несанк­ци­о­ни­ро­ванно под­клю­чив­ши­еся к
+эмулятору/симулятору, но и неко­то­рые про­граммы, запу­щен­ные в эму­ля­торе, могли каким-то
+обра­зом полу­чать инже­нер­ный доступ к его недо­ку­мен­ти­ро­ван­ным функ­циям и
+изучать/модифицировать пере­хва­ты­ва­е­мые потоки дан­ных.)</p>
+<p>Скрипт, с гастро­но­ми­че­ским назва­нием <code>sushi.sed</code>, напи­сан в неко­то­ром смысле «по-ошибке»,
+но при­го­ден для демон­стра­ции воз­мож­но­сти гене­ра­ции псев­до­слу­чай­ных чисел в редак­торе sed (тот
+же самый ГПСЧ при­менён, напри­мер, в <a href="https://github.com/Circiter/sedtris">моди­фи­ци­ро­ван­ном</a>
+sed-тетрисе или в <a href="https://github.com/Circiter/r2d2-in-sed">ими­та­торе</a> вокально-речевых
+зву­ков r2d2).</p>
+<p>Реа­ли­за­ция с вызо­вом дат­чика слу­чай­ных чисел по необ­хо­ди­мо­сти для каж­дого оче­ред­ного сим­вола
+отри­со­вы­ва­е­мых тре­ков рабо­тает доста­точно мед­ленно, поэтому я выло­жил неболь­шую
+<a href="https://gist.github.com/Circiter/679cf4686ec0b7070a752fda5b4e6d06">заплатку</a>, поз­во­ля­ю­щую
+вычис­лять неко­то­рое коли­че­ство слу­чай­ных чисел зара­нее, а затем про­сто брать их из этого
+резер­ву­ара энтро­пии по оче­реди. Такая моди­фи­ка­ция тре­бует допол­ни­тель­ного вре­мени для запуска
+скрипта, но после ини­ци­а­ли­за­ции рабо­тает быст­рее (хотя и с ожи­да­е­мым сни­же­нием каче­ства
+слу­чай­но­сти). После ска­чи­ва­ния обеих фай­лов, <code>sushi.sed</code> и <code>sushi.patch</code>, можно выпол­нить
+сле­ду­ю­щие команды:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">chmod</span> +x sushi.sed
+<span class="nb">cp </span>sushi.sed sushi.fast.sed
+patch sushi.fast.sed sushi.patch
+ ...
+<span class="nb">echo</span> | ./sushi.fast.sed
+</code></pre></div></div>
+</li>
+<li>
+<p><a href="https://gist.github.com/Circiter/aadaad1cc3ddce7cf13b333a65b0f78b">up-n-down.sed</a> –
+экс­пе­ри­мен­таль­ный спо­соб пере­ме­ще­ния вверх и вниз в sed путем мат­рич­ного транс­по­ни­ро­ва­ния
+буфера редак­ти­ро­ва­ния.</p>
+</li>
+<li>
+<p><a href="https://gist.github.com/Circiter/93281adfd2cdf142da5837d1dec6c770">transpose.sed</a> – транс­по­ни­ро­ва­ние
+мат­рицы.</p>
+</li>
+<li>
+<p><a href="https://gist.github.com/Circiter/77951d75b6b0e3b4ecc9b689e17863c3">sliding-window.sed</a> – дру­гой
+под­ход к пере­ме­ще­нию вверх и вниз. Послед­няя строка мат­рицы дуб­ли­ру­ется и исполь­зу­ется как рефе­ренс­ный
+счет­чик. От теку­щей клетки дви­жутся два мар­кера в про­ти­во­по­лож­ных направ­ле­ниях (вправо и влево),
+на каж­дом шаге декре­мен­ти­руя рефе­ренс­ный счёт­чик. Как только счёт­чик обну­лится, мы можем утвер­ждать,
+что один (левый) мар­кер нахо­дится над теку­щей клет­кой (т.е. выше неё), пра­вый – под ней. Далее вокруг
+теку­щей клетки выде­ля­ется 8-окрестность <span class="nolinebreak"><img src="/eq/6-50.png" style="height: 12px; width: 37px; vertical-align: -1px;" class="latex">,</span> окра­ши­ва­ется, отоб­ра­жа­ется. И так для всех кле­ток с их
+после­до­ва­тель­ным обхо­дом (слева-направо, сверху-вниз).</p>
+<p>Сам я послед­нее время исполь­зую дру­гой под­ход к вер­ти­каль­ной нави­га­ции в sed, осно­ван­ный на
+добав­ле­нии мар­ке­ров в начало каж­дой строки с после­ду­ю­щим син­хрон­ным пере­ме­ще­нием всех мар­ке­ров
+вправо до столк­но­ве­ния одного из них с теку­щей выбран­ной клет­кой. В этот момент мы можем дви­гаться
+вверх-вниз вдоль мар­ке­ров, затем уда­лить их и начать рабо­тать с дру­гой клет­кой (счет­чик не нужен).
+Эле­мен­тарно.</p>
+</li>
+</ul>
+<p><em>Nota bene,</em> я почти все­гда пишу на диа­лекте <a href="http://www.gnu.org/software/sed">GNU sed</a>, что,
+увы, создаёт про­блемы с исполь­зо­ва­нием моих sed-скриптов на вся­ких там Mac’ах, BSD’ях и этих
+ваших Android’ах. Воз­мо­жен ли кон­вер­тер (может быть даже напи­сан­ный, о ужас, на самом sed) из
+GNU в Posix и смогло ли бы это решить про­блему пор­та­бель­но­сти?</p>
+<p><em>Post scriptum.</em> Мно­гие из моих sed-сценариев, — ровно как и насто­я­щий спи­сок, — носят чисто
+развлекательно-экспериментальный харак­тер и пер­ма­нентно нахо­дятся в режиме
+написания/дописывания; функ­ци­о­наль­ность может менятся кар­ди­нально без пред­ва­ри­тель­ных
+уве­дом­ле­ний и раци­о­наль­ных обос­но­ва­ний.</p>
+<hr>
+<h1 id="section-2">
+<a class="anchor" href="#section-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>Скрипты дру­гих авто­ров.</h1>
+<p>Выше была опи­сана задача транс­ля­ции между диа­лек­тами sed. Бли­жай­шие по смыслу най­ден­ные мною
+про­екты – <a href="http://lvogel.free.fr/sed/sedcheck.sed">sedcheck.sed</a> за автор­ством
+<a href="http://lvogel.free.fr">Laurent Vogel</a>, про­ве­ря­ю­щий скрипты на Posix-совместимость;
+и транс­ля­тор <a href="https://github.com/lhoursquentin/sed-bin">sed-bin</a> от Quentin L’Hours,
+кон­вер­ти­ру­ю­щий sed в C (при­ме­ча­тельно, что оба про­екта сами явля­ются sed-скриптами).</p>
+<p>Нако­нец, транс­ля­тор <a href="https://github.com/shinh/elvm">https://github.com/shinh/elvm</a> поз­во­ляет пре­об­ра­зо­вать C-код снова в sed. И
+хотя сам он и не напи­сан на sed, но может оттранс­ли­ро­вать самого себя с C на sed. Поэтому, можно
+счи­тать, что sed-bin и elvm сов­местно могли бы исполь­зо­ваться для «нор­ма­ли­за­ции» sed-скриптов.</p>
+<p>Про­дол­жим обзор мира sed.</p>
+<p>На стра­ни­цах <a href="http://sed.sourceforge.net">http://sed.sourceforge.net</a> и <a href="http://sed.sourceforge.net/grabbag">http://sed.sourceforge.net/grabbag</a> (автор: Paolo Bonzini)
+можно найти неплохую кол­лек­цию sed-скриптов раз­ной сте­пени полез­но­сти. Сто­ить отме­тить неко­то­рые из
+пред­став­лен­ных там вещей:</p>
+<ul>
+<li>
+<a href="http://sed.sourceforge.net/grabbag/scripts/dc.sed">http://sed.sourceforge.net/grabbag/scripts/dc.sed</a> – пост­фикс­ный каль­ку­ля­тор
+(исполь­зует обрат­ную поль­скую нотацию); под­дер­жи­вает ариф­ме­тику, корни, пере­вод
+между систе­мами счис­ле­ния и т.д.</li>
+<li>
+<a href="http://sed.sf.net/grabbag/tutorials/hanoi.htm">http://sed.sf.net/grabbag/tutorials/hanoi.htm</a> – <a href="en.wikipedia.org/wiki/Tower_of_Hanoi">Ханой­ские башни</a>.</li>
+<li>
+<a href="http://www.oocities.org/mettw/personal/software/src/sedhttpd.txt">http://www.oocities.org/mettw/personal/software/src/sedhttpd.txt</a> – http-сервер на sed.</li>
+<li>
+<a href="http://sed.sourceforge.net/grabbag/scripts/turing.sed">http://sed.sourceforge.net/grabbag/scripts/turing.sed</a> – машина Тью­ринга на sed; да,
+это – гото­вое [кон­струк­тив­ное] дока­за­тель­ство вычис­ли­тель­ной уни­вер­саль­но­сти языка sed.</li>
+<li>
+<a href="http://sed.sourceforge.net/grabbag/scripts/sokoban.sed">http://sed.sourceforge.net/grabbag/scripts/sokoban.sed</a> – широко извест­ная игра
+<span class="inline"><img src="/public/images/sokoban.png" alt="i18n-sokoban"></span> (сокобан); эта
+реа­ли­за­ция инте­ресна, разу­ме­ется, пере­ме­ще­нием пер­со­нажа во всех направ­ле­ниях (в т.ч.
+вверх-вниз), чего обычно на sed достичь не так-то про­сто.</li>
+<li>
+<a href="http://sed.sourceforge.net/grabbag/scripts/bf2c.sed">http://sed.sourceforge.net/grabbag/scripts/bf2c.sed</a> – транс­ля­тор из, — ну кто
+же его не знает, — bf в C. (Т.к. bf явля­ется раз­но­вид­но­стью уни­вер­саль­ной машины Тью­ринга,
+то такой транс­ля­тор тоже явля­ется «про­стым» дока­за­тель­ством Тьюринг-полноты sed.)</li>
+</ul>
+<p>Так же на про­сто­рах интер­нета были най­дены:</p>
+<ul>
+<li>
+<p><a href="https://github.com/shinh/sedlisp">sedlisp</a> – напи­сан­ный япон­цем <a href="https://github.com/shinh">Shinichiro Hamaji</a>
+интер­пре­та­тор неболь­шого под­мно­же­ства lisp’а.</p>
+</li>
+<li>
+<p><a href="https://github.com/mb64/sel">sel</a> – ана­ло­гич­ная реа­ли­за­ция lisp-интерпретатора на sed,
+напи­сан­ная Mark Barbone.</p>
+</li>
+<li>
+<p><a href="https://github.com/stedolan/bf.sed">bf.sed</a> – напи­сан­ный <a href="http://stedolan.net">Stephen Dolan</a>
+ком­пи­ля­тор bf, гене­ри­ру­ю­щий x86-код, обер­ну­тый в гото­вый к выпол­не­нию elf-файл [для Linux].</p>
+</li>
+<li>
+<p><a href="https://github.com/bolknote/SedChess">SedChess</a> – шах­маты, реа­ли­зо­ван­ные
+<a href="https://github.com/bolknote">Евге­нием Сте­па­ни­ще­вым</a> из Каза­ни; больше 1000 строк. Опи­са­ние
+можно найти в <a href="https://habr.com/ru/post/191006">habr/191006</a>.</p>
+</li>
+<li>
+<p><a href="https://github.com/uuner/sedtris">sedtris</a> – реа­ли­за­ция игры «тет­рис», выпол­нен­ная
+<a href="https://github.com/uuner">Юлией Йоман­тайте</a> (из Нью-Йорка). У меня есть
+<a href="https://github.com/Circiter/sedtris">про­из­вод­ный репо­зи­то­рий</a>, «fork», с неболь­шим
+улуч­ше­нием (добав­лен ГПСЧ на основе кле­точ­ного авто­мата, реа­ли­зу­ю­щего «пра­вило 30» по-Вольфраму).</p>
+</li>
+<li>
+<p><a href="https://gist.github.com/xsot/99a8a4304660916455ba2c2c774e623a">https://gist.github.com/xsot/99a8a4304660916455ba2c2c774e623a</a> – напи­сан­ная
+Wei Heng (aka <a href="https://github.com/xsot">xsot</a>) про­грамма реше­ния лаби­рин­тов (т.е. поиска пути,
+в дан­ном слу­чае обхо­дом в ширину).</p>
+</li>
+<li>
+<p><a href="http://laurent.le-brun.eu/pub/path.sed">http://laurent.le-brun.eu/pub/path.sed</a> – дру­гая, более мини­ма­ли­стич­ная, реа­ли­за­ция обхода
+лаби­рин­тов, напи­сан­ная <a href="http://laurent.le-brun.eu">Laurent Le Brun</a>.</p>
+</li>
+<li>
+<p><a href="http://codegolf.stackexchange.com/a/49442">http://codegolf.stackexchange.com/a/49442</a> – умно­же­ние чисел на sed.</p>
+</li>
+<li>
+<p><a href="https://github.com/MakeNowJust/quine/blob/master/quine.sed">quine.sed</a> из
+<a href="https://github.com/MakeNowJust/quine">«му­зея квай­нов»</a> – квайн на sed; само­сто­я­тельно его
+напи­сать <a href="http://circiter.github.io/quinelogy-part-1">не так-то и про­сто</a>, но у его
+<a href="https://github.com/MakeNowJust">автора</a>, Tsuyusato Kitsune (см. <a href="http://quine.codes/">http://quine.codes/</a>),
+бога­тый опыт в квай­но­вод­стве (им были напи­саны квайны для более чем 260 (да, двух­сот
+шести­де­сяти [или даже двух­сот шести­де­сяти семи, кажется]) раз­ных язы­ков про­грам­ми­ро­ва­ния).</p>
+</li>
+<li>
+<p><a href="https://github.com/mame/quine-relay">https://github.com/mame/quine-relay</a> – «ите­ра­тив­ный»
+мно­го­язы­ко­вой квайн, или цеп­ной квайн (авторы: <a href="https://github.com/mame">Yusuke Endoh</a>, даже
+напи­сав­ший <a href="http://gihyo.jp/book/2015/978-4-7741-7643-7">книжку</a>, на япон­ском, об
+эзо­те­ри­че­ском про­грам­ми­ро­ва­нии вообще и квай­нах в част­но­сти; и
+<a href="https://twitter.com/hirekoke">hirekoke</a>), а именно про­грамма, напи­сан­ная на одном языке, при
+запуске выда­ю­щая про­грамму на дру­гом языке, в свою оче­редь печа­та­ю­щую про­грамму на тре­тьем, и
+т.д., пока послед­няя про­грамма не напе­ча­тает снова самую первую. Кон­кретно этот мно­го­язы­ко­вой
+квайн, про­бе­гает при своей работе 128 язы­ков (на начало 2020 года), в том числе и sed.</p>
+<p>К сожа­ле­нию, хотя такие «квай­ны», на пер­вый взгляд, могут пока­заться доста­точно слож­ными,
+на деле же слож­ность их напи­са­ния ока­зы­ва­ется несколько меньше слож­но­сти обыч­ных, истин­ных
+квай­нов. Так­же не сле­дует путать такие про­граммы с квайнами-полиглотами (квайн-полиглот, или,
+как я его кратко назы­ваю, поликвайн, явля­ется кор­рект­ной про­грам­мой одно­вре­менно на
+несколь­ких язы­ках) и муль­ти­квай­нами (про­грам­мами, печа­та­ю­щими подоб­ные про­граммы на раз­ных
+язы­ках в зави­си­мо­сти от аргу­мен­тов команд­ной строки, в т.ч. веду­щими себя как обыч­ные квайны
+будучи запу­щен­ными без аргу­мен­тов).</p>
+<p>(Тер­мины «итеративный/цепной квайн», «по­ликвайн», «муль­ти­квайн» нельзя назвать
+обще­при­ня­тыми и они исполь­зу­ются здесь про­сто чтобы дать соот­вет­ству­ю­щим поня­тиям под­хо­дя­щие
+име­на; офи­ци­аль­ной квай­но­ло­ги­че­ской тер­ми­но­ло­гии, боюсь, пока нет.)</p>
+</li>
+<li>
+<p><a href="https://github.com/jinchizhong/sed-snake">https://github.com/jinchizhong/sed-snake</a> – игра
+<a href="https://en.wikipedia.org/wiki/Snake_(video_game_genre)">«змей­ка»</a>;
+автор – <a href="https://github.com/jinchizhong">Chizhong Jin</a>.</p>
+</li>
+<li>
+<p><a href="https://github.com/ValeriyKr/sfb">https://github.com/ValeriyKr/sfb</a> – sed-реализация игры
+<a href="https://en.wikipedia.org/wiki/Flappy_Bird">«flappy bird»</a>; автор – Вале­рий Киреев.</p>
+</li>
+<li>
+<p><a href="https://github.com/ValeriyKr/gravity-defied">https://github.com/ValeriyKr/gravity-defied</a> – ещё одна sed-игрушка, от
+<a href="https://github.com/Firemoon777">Воль­де­мара</a>.</p>
+</li>
+<li>
+<p><a href="https://github.com/jinchizhong/sed-nqueens">https://github.com/jinchizhong/sed-nqueens</a> – клас­си­че­ская
+задачка о <a href="http://en.wikipedia.org/wiki/eight_queens_puzzle">рас­ста­новке несколь­ких фер­зей</a> на шах­мат­ной
+доске. Обычно реша­ется с помо­щью обхода в глу­бину, что
+под­ра­зу­ме­вает исполь­зо­ва­ние рекур­сии, под­держки кото­рой
+в sed нет (и её как обычно при­хо­дится эму­ли­ро­вать с помо­щью
+искус­ствен­ного <s>интел­лекта</s> стека и команды <code>b</code>).</p>
+</li>
+</ul>
+
+</div>
+
+
+    <p>
+    М.И.Никитин<br>
+    г.Алматы, апрель, 2020
+    
+    </p>
+    <br>
+
+
+
+
+
+    <p>
+    <small>метки-категории: <em>
+        
+            <a class="post" href="/tag/%D1%8D%D0%B7%D0%BE%D1%82%D0%B5%D1%80%D0%B8%D0%BA%D0%B0">эзо­те­рика</a>, 
+        
+            <a class="post" href="/tag/%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5">про­грам­ми­ро­ва­ние</a>, 
+        
+            <a class="post" href="/tag/sed">sed</a>
+        
+    </em></small>
+    </p>
+
+
+
+    <p><small>[<a href="/sig/sed-collection.md.sha256.sig">ЭЦП (SHA-256, RSA)</a>] (<a href="https://gist.github.com/Circiter/92e7b9368c1e29c055a688d12d61466c">ключ</a>)<small></small></small></p>
+
+
+    </div>
+
+  <footer>
+    <a href="mailto:xcirciter@gmail.com"><i class="svg-icon email"></i></a>
+    <a href="https://github.com/Circiter"><i class="svg-icon github"></i></a>
+    <a href="/rss.xml"><i class="svg-icon rss"></i></a>
+    <!--<img src="/public/images/no-cookies.png" alt="no cookies"></img>-->
+    <!-- From catb.org/hacker-emblem/glider-small.png -->
+    <h2><a href="http://catb.org/hacker-emblem"><img src="/public/images/glider-small.png" /></a>&nbsp;EOF</h2>
+    <p><small>&copy;&nbsp;Circiter,&nbsp;2020&ndash;2022. Все права защищены. (см. также <a href="/LICENSE">LICENSE</a>)</small></p>
+</footer>
+
+
+  </body>
+</html>

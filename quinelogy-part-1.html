@@ -1,0 +1,1467 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Занимательное квайноводство. Часть I. &middot; Дневник Circiter'а
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/hyde.css">
+  <link rel="stylesheet" href="/public/css/style.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Exo+2">
+  <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml" />
+  <link type="text/plain" rel="author" href="/humans.txt" />
+  <!-- From catb.org/hacker-emblem/glider.ico  -->
+  <link rel="shortcut icon" href="/public/images/glider.ico" />
+
+</head>
+
+
+  <body>
+
+    <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <!--<h1>
+        <a href="/">
+          Дневник Circiter'а
+        </a>
+      </h1>-->
+      <p class="lead">Технический блог о программировании, математике, радиолюбительской практике, электронике и занимательной науке.</p>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="sidebar-nav-item" href="/">Главная страница</a>
+
+      
+      
+        
+          
+        
+      
+        
+          
+            <a class="sidebar-nav-item" href="/about">Справка</a>
+          
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+
+    </nav>
+  </div>
+</div>
+
+
+    <div class="content container">
+      <div class="post">
+    <h2 class="post-title no-toc">Зани­ма­тель­ное квай­но­вод­ство. Часть I.</h2>
+    <!-- <span class="post-date">7 May 2022</span> -->
+    
+        <br>
+        <center><span class="post-date">Июль, 2020</span></center>
+    
+    
+        <span class="abstract">
+        <center><b>Анно­та­ция</b></center>
+        
+            <p>В этом сооб­ще­нии (в пер­вой части серии сооб­ще­ний), после крат­кого вве­де­ния в неко­то­рые основы
+тео­рии вычис­ли­мо­сти, в основ­ном опи­сы­ва­ются резуль­таты про­стого экс­пе­ри­мента по
+авто­ма­ти­зи­ро­ван­ному кон­стру­и­ро­ва­нию квайна с исполь­зо­ва­нием вто­рой рекур­сив­ной тео­ремы Клини.</p>
+<p>В каче­стве целе­вого языка выбран язык поточ­ного редак­тора [GNU] sed. Изло­же­ние, однако, не
+спе­ци­фично для этого языка и может трак­то­ваться в более широ­ком кон­тек­сте. Фак­ти­че­ски, в
+пред­ла­га­е­мом цикле сооб­ще­ний изла­га­ются неко­то­рые под­ходы к систе­ма­ти­че­скому кон­стру­и­ро­ва­нию
+квай­нов.</p>
+
+        
+        <hr>
+        </span>
+    
+    
+    <h3>Содер­жа­ние:</h3>
+    <ul id="toc" class="section-nav">
+<li class="toc-entry toc-h1">
+<a href="#section">Вве­де­ние в квай­но­ло­гию</a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#emversusem-">Искус­ство versus ремесло</a></li>
+<li class="toc-entry toc-h2"><a href="#section-1">Эффек­тив­ность и выбор назва­ния серии сооб­ще­ний.</a></li>
+<li class="toc-entry toc-h2"><a href="#section-2">Поста­новка задачи</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h1">
+<a href="#section-3">Ввод­ные заме­ча­ния</a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#section-4">Тео­рема об уни­вер­саль­ной функ­ции</a></li>
+<li class="toc-entry toc-h2"><a href="#s-m-n--">S-m-n тео­рема Клини</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h1"><a href="#section-5">Непо­движ­ные точки вычис­ли­мых функ­ций</a></li>
+<li class="toc-entry toc-h1"><a href="#section-6">Глав­ный экс­пе­ри­мент</a></li>
+<li class="toc-entry toc-h1"><a href="#section-7">Про­ме­жу­точ­ные итоги</a></li>
+<li class="toc-entry toc-h1">
+<a href="#section-8">Допол­ни­тель­ная тео­рия</a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#section-9">Про­блема оста­новки</a></li>
+<li class="toc-entry toc-h2"><a href="#section-10">Диа­го­на­ли­за­ция</a></li>
+<li class="toc-entry toc-h2"><a href="#section-11">Тео­рема Кан­тора</a></li>
+<li class="toc-entry toc-h2"><a href="#section-12">Тео­рема Ловера</a></li>
+<li class="toc-entry toc-h2">
+<a href="#section-13">Связь диа­го­на­ли­за­ции с тео­ре­мами о непо­движ­ной точке</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#section-14">Вер­сия «от про­тив­но­го».</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h1"><a href="#section-15">Немного о пре­де­лах позна­ва­е­мо­сти</a></li>
+<li class="toc-entry toc-h1">
+<a href="#section-16">Дру­гие под­ходы и «слегка откры­тые» вопросы</a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#vs-">«Кре­а­ци­а­низм» vs. «абио­ге­нез»</a></li>
+<li class="toc-entry toc-h2"><a href="#section-17">Кими­ан­ские квайны и ите­ра­тив­ное вычис­ле­ние непо­движ­ной точки</a></li>
+<li class="toc-entry toc-h2">
+<a href="#section-18">Дру­гие кон­струк­тив­ные тео­ремы о непо­движ­ной точке</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#section-19">Пер­вая рекур­сив­ная тео­рема Клини</a></li>
+<li class="toc-entry toc-h3"><a href="#section-20">Тео­рема Клини о непо­движ­ной точке [из тео­рии решёток]</a></li>
+<li class="toc-entry toc-h3"><a href="#section-21">Тео­рема Кнастера-Тарского</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#section-22">Ком­би­на­тор непо­движ­ной точки в лямбда-исчислении</a></li>
+<li class="toc-entry toc-h2"><a href="#section-23">Логи­че­ское про­грам­ми­ро­ва­ние в огра­ни­че­ниях</a></li>
+<li class="toc-entry toc-h2"><a href="#section-24">Эво­лю­ци­он­ные алго­ритмы</a></li>
+<li class="toc-entry toc-h2"><a href="#section-25">Цеп­ные квайны</a></li>
+<li class="toc-entry toc-h2"><a href="#section-26">Гене­ра­тор квай­нов, не зави­си­мый от языка</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h1"><a href="#section-27">Заклю­че­ние</a></li>
+<li class="toc-entry toc-h1"><a href="#section-28">Ссылки</a></li>
+</ul>
+
+
+    <h1 id="section">
+<a class="anchor" href="#section" aria-hidden="true"><span class="octicon octicon-link"></span></a>Вве­де­ние в квай­но­ло­гию</h1>
+<p>Всем известно «стан­дарт­ное» упраж­не­ние в про­грам­ми­ро­ва­нии, заклю­ча­ю­ще­еся в напи­са­нии
+про­граммы, печа­та­ю­щей свой соб­ствен­ный текст. За такими само­реп­ли­ци­ру­ю­щи­мися про­грам­мами
+доста­точно давно закре­пи­лось назва­ние «квайн» (так­же встре­ча­ются вари­анты
+написания/произношения «ку­айн», «квин», «ку­ин») вве­ден­ное в извест­ной книге Хофштад­тера
+[26] в честь фило­софа Куайна (Уил­лард Ван Орман Куайн = Willard Van Orman Quine) и его
+«па­ра­докса Куай­на» [15].</p>
+<p>Сами квайны при этом появи­лись раньше. Может быть их исто­рию сле­до­вало бы вести с работ фон
+Ней­мана по само­реп­ли­ци­ру­ю­щимся [кле­точ­ным] авто­ма­там [9, 48] или даже с работ Чёрча и Хас­ке­ля…</p>
+<p>Квайны явля­ются немного пара­док­саль­ными про­грам­мами, в соот­вет­ствии с быто­вой инту­и­цией не
+могу­щими суще­ство­вать, – ведь может пока­заться, что про­грамма не может выве­сти текст, име­ю­щий
+длину, рав­ную длине самой про­граммы (должно остаться место для кода, выпол­ня­ю­щего печать). И тем
+не менее они суще­ствуют (и не тре­буют сжа­тия дан­ных, кото­рое, в соот­вет­ствии с фун­да­мен­таль­ной
+тео­ре­мой ком­прес­сии, не все­гда воз­можно).</p>
+<p>Более того, тео­рия вычис­ли­мо­сти гово­рит, что квайны можно напи­сать на <em>любом</em> [доста­точно
+выра­зи­тель­ном] языке про­грам­ми­ро­ва­ния. На деле, конечно, слож­ность напи­са­ния и раз­мер
+резуль­ти­ру­ю­щего кода сильно варьи­ру­ются от языка к языку.</p>
+<p>В каче­стве при­ме­ров квай­нов можно при­ве­сти такие поделки (авторы мне не известны):</p>
+<p>Квайн на lisp:</p>
+<div class="language-lisp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">((</span><span class="k">lambda</span> <span class="p">(</span><span class="nv">x</span><span class="p">)</span>
+  <span class="p">(</span><span class="nb">list</span> <span class="nv">x</span> <span class="p">(</span><span class="nb">list</span> <span class="p">(</span><span class="k">quote</span> <span class="k">quote</span><span class="p">)</span> <span class="nv">x</span><span class="p">)))</span>
+<span class="p">(</span><span class="k">quote</span>
+  <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nv">x</span><span class="p">)</span>
+    <span class="p">(</span><span class="nb">list</span> <span class="nv">x</span> <span class="p">(</span><span class="nb">list</span> <span class="p">(</span><span class="k">quote</span> <span class="k">quote</span><span class="p">)</span> <span class="nv">x</span><span class="p">)))))</span>
+</code></pre></div></div>
+<p>Квайн на сте­ко­вом rpn-языке форт (forth):</p>
+<pre><code>s" 2dup 115 emit 34 emit 32 emit type 34 emit type cr bye"
+2dup 115 emit 34 emit 32 emit type 34 emit type cr bye
+</code></pre>
+<p>(Это одна длин­ная строка, могу­щая отоб­ра­жаться на несколь­ких экран­ных стро­ках.)</p>
+<p>Квайн на экс­пе­ри­мен­таль­ном функ­ци­о­наль­ном сте­ко­вом rpn-языке joy [32]:</p>
+<pre><code>"dup.putchars.10 putch."
+dup.putchars.10 putch.
+</code></pre>
+<p>Квайн для <span class="nolinebreak"><img src="/eq/3-0.png" style="height: 13px; width: 8px; vertical-align: -0px;" class="latex">-исчисления(почти</span> то же, что и выше на lisp): <br></p>
+<center><img src="/eq/3-1.png" style="height: 18px; width: 109px;" class="latex"></center>
+<br>
+<p>В стан­дарт­ной биб­лио­теке языка C есть функ­ция фор­ма­ти­ро­ван­ного вывода <code>printf</code>, кото­рая может
+быть исполь­зо­вана [в каче­стве сур­ро­гата <span class="nolinebreak"><img src="/eq/3-2.png" style="height: 16px; width: 22px; vertical-align: -4px;" class="latex">-функции]</span> для внед­ре­ния тек­ста про­граммы в него
+само­го; что-то вроде <code>printf(f, f)</code>, только с уче­том тех­ни­че­ских слож­но­стей с вло­жен­ными
+кавыч­ками для обрам­ле­ния строк. По этому прин­ципу построен такой извест­ный одно­строч­ный
+мини­квайн на C (здесь не ука­зан заго­ло­воч­ный файл <code>stdio.h</code>, в кото­ром опре­де­лена <code>printf</code>, но в
+таком виде этот код всё-равно ком­пи­ли­ру­ется и рабо­тает):</p>
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">char</span><span class="o">*</span><span class="n">f</span><span class="o">=</span><span class="s">"char*f=%c%s%c;main(){printf(f,34,f,34,10);}%c"</span><span class="p">;</span><span class="n">main</span><span class="p">(){</span><span class="n">printf</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="mi">34</span><span class="p">,</span><span class="n">f</span><span class="p">,</span><span class="mi">34</span><span class="p">,</span><span class="mi">10</span><span class="p">);}</span>
+</code></pre></div></div>
+<p>Мно­гие квайны (в т.ч. боль­шин­ство из при­ве­ден­ных выше) зло­упо­треб­ляют экра­ни­ро­ва­нием строк,
+спе­ци­аль­ными кодами сим­во­лов (зави­ся­щими от исполь­зу­е­мой в системе коди­ровки, e.g. ASCII) и
+биб­лио­теч­ными функ­ци­ями под­ста­новки (замены под­строк), «скры­ва­ю­щи­ми» суще­ствен­ную часть
+про­ис­хо­дя­щих про­цес­сов. «Идео­ло­ги­че­ски» более чистым под­хо­дом пред­став­ля­ется огра­ни­че­ние
+стро­ко­вых мани­пу­ля­ций кон­ка­те­на­цией строк при одно­вре­мен­ной мини­ми­за­ции экра­ни­ро­ва­ний. Непло­хим
+образ­чи­ком подоб­ной стра­те­гии напи­са­ния квай­нов явля­ется квайн (на pascal’е) от Dan Hoey (взя­тый
+мною из [50]):</p>
+<pre><code>program s;const bbb='program s;const bbb';a='a';b='b';bb=');writeln(';
+aa='''';ab='=''';ba=''';';
+aaa='begin writeln(bbb,ab,bbb,ba,a,ab,a,ba,b,ab,b,ba,b,b,ab,bb,ba';
+aba='a,a,ab,aa,aa,ba,a,b,ab,ab,aa,ba,b,a,ab,aa,ba,ba';
+abb='a,a,a,ab,aaa,ba);writeln(a,b,a,ab,aba,ba);writeln(a,b,b,ab,abb,ba';
+baa='b,a,a,ab,baa,ba);writeln(b,a,b,ab,bab,ba);writeln(aaa,bb';
+bab='aba,bb);writeln(abb);writeln(bb,baa);writeln(bb,bab)end.';
+begin writeln(bbb,ab,bbb,ba,a,ab,a,ba,b,ab,b,ba,b,b,ab,bb,ba);writeln(
+a,a,ab,aa,aa,ba,a,b,ab,ab,aa,ba,b,a,ab,aa,ba,ba);writeln(
+a,a,a,ab,aaa,ba);writeln(a,b,a,ab,aba,ba);writeln(a,b,b,ab,abb,ba
+);writeln(b,a,a,ab,baa,ba);writeln(b,a,b,ab,bab,ba);writeln(aaa,bb
+);writeln(aba,bb);writeln(abb);writeln(bb,baa);writeln(bb,bab)end.
+
+</code></pre>
+<p>(N.B., на самом деле этот квайн запи­сы­ва­ется в одну строку.)</p>
+<p>Непло­хое вве­де­ние в напи­са­ние квай­нов можно найти, напри­мер, в [1, 30]; а неплохую кол­лек­цию
+– в [30, 18].</p>
+<h2 id="emversusem-">
+<a class="anchor" href="#emversusem-" aria-hidden="true"><span class="octicon octicon-link"></span></a>Искус­ство <em>versus</em> ремесло</h2>
+<p>Основ­ной при­чи­ной про­ве­де­ния неболь­шого экс­пе­ри­мента, став­шего осно­вой насто­я­щего сооб­ще­ния,
+яви­лось жела­ние напи­сать, или, точ­нее говоря, попро­бо­вать напи­сать квайн на вход­ном языке
+поточ­ного редак­тора sed. При­ме­не­ние поис­ко­вых систем для поиска уже име­ю­щихся реше­ний при­вело к
+обна­ру­же­нию квайна <code>quine.sed</code> [17] из «му­зея квай­нов» [18] (автор: Tsuyusato Kitsune):</p>
+<figure class="highlight"><pre><code class="language-plaintext" data-lang="plaintext">s/^/s11^113311;h;s221[1]221122g;s112[2]11222211g;G;s11^22([^3]*22)3322([^22n]*22).22(.*22)$1122122322211/;h;s\1[1]\/\g;s/2[2]/\\/g;G;s/^\([^3]*\)33\([^\n]*\).\(.*\)$/\1\3\2/</code></pre></figure>
+<p>(N.B., это одна строка тек­ста.)</p>
+<p>Вряд ли у меня вышло бы улуч­шить (напри­мер, сокра­тить) этот квайн. Более того, само­сто­я­тель­ная
+попытка напи­сать нечто подоб­ное тоже не увен­ча­лась успе­хом. Поэтому было при­нято реше­ние
+дей­ство­вать более систе­ма­тич­ным обра­зом и вос­поль­зо­ваться уже име­ю­щимся в рас­по­ря­же­нии
+мате­ма­тики арсе­на­лом гото­вых тео­ре­ти­че­ских средств.</p>
+<p>Вто­рая рекур­сив­ная тео­рема Клини имеет своим след­ствием утвер­жде­ние о суще­ство­ва­нии квайна для
+любого языка про­грам­ми­ро­ва­ния, а кон­струк­тив­ный харак­тер её дока­за­тель­ства дает гото­вый рецепт
+для напи­са­ния такого «са­мо­ре­пли­ка­то­ра» (ниже об этом будет напи­сано подроб­нее).</p>
+<p>Стан­дарт­ные посо­бия по тео­рии вычис­ли­мо­сти нередко не огра­ни­чи­ва­ются лишь утвер­жде­ни­ями о
+суще­ство­ва­нии квай­нов, и даже при­во­дят кон­крет­ные при­меры их кон­стру­и­ро­ва­ния, правда, выби­рая
+при этом, как пра­вило, «удоб­ные» языки про­грам­ми­ро­ва­ния, напри­мер, праг­ма­ти­че­ские реа­ли­за­ции
+<span class="nolinebreak"><img src="/eq/3-3.png" style="height: 13px; width: 8px; vertical-align: -0px;" class="latex">-исчисления,</span> такие как lisp и его про­из­вод­ные.</p>
+<p>Попа­да­лись инте­рес­ные исклю­че­ния, e.g. [35, 36], но для слиш­ком абстракт­ных машин. Поэтому я
+решил повто­рить клас­си­че­ский экс­пе­ри­мент с кон­стру­и­ро­ва­нием квайна на основе дока­за­тель­ства
+рекур­сив­ной тео­ремы Клини, но выпол­нить этот экс­пе­ри­мент на языке sed (кстати, всё-равно
+ока­зав­шемся доста­точно удоб­ным для этой задачи, в основ­ном из-за воз­мож­но­сти объ­еди­не­ния
+скрип­тов их кон­ка­те­на­цией).</p>
+<p><strong>Обнов­ле­ние (август, 2020):</strong> <em>Уже после напи­са­ния чер­но­вика этого сооб­ще­ния, при­меры
+при­ме­не­ния вто­рой рекур­сив­ной тео­ремы Клини к прак­ти­че­ским язы­кам про­грам­ми­ро­ва­ния всё-таки
+отыс­ка­лись на про­сто­рах интер­нета. В [53] можно найти гене­ра­тор квай­нов на JavaScript
+(ECMAScript), а в [54] – похо­жий гене­ра­тор, но для C++. При­чем в послед­нем при­мере, ука­зан­ная
+ути­лита пози­ци­о­ни­ру­ется как доста­точно общий инстру­мент для добав­ле­ния рефлек­сив­ных воз­мож­но­стей
+к языку, с огра­ни­чен­ной штат­ной рефлек­сией (i.e., сге­не­ри­ро­ван­ная про­грамма может как про­сто
+печа­тать свой соб­ствен­ный текст, так и вычис­лять про­из­воль­ные функ­ции от него, ска­жем, нахо­дить
+свою длину).</em></p>
+<p><em>Воз­можно чита­телю так­же будет инте­ресна ана­ло­гич­ная ути­лита [55], пре­об­ра­зу­ю­щая про­из­воль­ную
+про­грамму на C в квайн.</em></p>
+<p>Резуль­таты экс­пе­ри­мента гово­рят о воз­мож­но­сти авто­ма­ти­че­ской, или «не­твор­че­ской» гене­ра­ции
+квай­нов, в том числе и на sed.</p>
+<h2 id="section-1">
+<a class="anchor" href="#section-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Эффек­тив­ность и выбор назва­ния серии сооб­ще­ний.</h2>
+<p>Быть может неко­то­рым пока­за­лось бы несколько более бла­го­звуч­ным слово вроде «квай­но­де­лия», но
+«квай­но­вод­ство» под­хо­дит куда луч­ше… От части потому, что, как и обе­щают стан­дарт­ные ввод­ные
+курсы по тео­рии вычис­ли­мо­сти, квайны, кон­стру­и­ру­е­мые пря­мым при­ме­не­нием [вто­рой рекур­сив­ной]
+тео­ремы Клини, обычно полу­ча­ются, мягко говоря, «не­эф­фек­тив­ны­ми», как по вре­мени, так и по
+про­стран­ству. Ещё одной мет­ри­кой эффек­тив­но­сти может быть отно­ше­ния объ­ё­мов дан­ных и кода;
+спе­ци­ально я не иссле­до­вал этот вопрос, так что не могу ска­зать как с этим обстоят дела у
+авто­ма­ти­че­ски сге­не­ри­ро­ван­ных квай­нов, но невер­няка неопти­мально. :)</p>
+<h2 id="section-2">
+<a class="anchor" href="#section-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>Поста­новка задачи</h2>
+<p>Пусть квайн хра­нится в испол­ня­е­мом файле <code>quine</code>, полу­чен­ным ком­пи­ля­цией его исход­ного тек­ста из
+файла <code>quine.source</code>. Для меня доста­точно чисто фор­маль­ного выпол­не­ния сле­ду­ю­щего теста:</p>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./quine any_argument <span class="o">&gt;</span> quine.output
+diff quine.source quine.output
+</code></pre></div></div>
+<p>или ана­ло­гич­ного теста для интер­пре­ти­ру­е­мого языка (здесь <code>interpreter</code> – испол­ня­е­мый файл
+интер­пре­та­тора или ана­ло­гич­ная внут­рен­няя команда обо­лочки):</p>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>interpreter quine.source any_argument <span class="o">&gt;</span> quine.output
+diff quine.source quine.output
+</code></pre></div></div>
+<p>Для sed это соот­вет­ствует сле­ду­ю­щему тесту:</p>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">echo </span>any_argument | <span class="nb">sed</span> <span class="nt">-f</span> quine.sed <span class="o">&gt;</span> quine.output
+diff quine.sed quine.output
+</code></pre></div></div>
+<p>Про­верку на три­ви­аль­ность (в част­но­сти, на пустоту) можно выпол­нять и «вруч­ную» (из-за
+пло­хой фор­ма­ли­зу­е­мо­сти и неко­то­рой субъ­ек­тив­но­сти).</p>
+<p>То есть, квайн конеч­ного раз­мера (ска­жем, поме­ща­ю­щийся на жест­кий диск) дол­жен напе­чать свой
+соб­ствен­ный текст за конеч­ное (и разум­ное время). Абсо­лютно не важно, будут ли исход­ный текст и
+ском­пи­ли­ро­ван­ная про­грамма весить несколько кило­байт или несколько мега­байт. Гораздо важ­нее,
+чтобы квайн был истин­ным, т.е. был непу­стым, «со­дер­жа­тель­ным», и не исполь­зо­вал «не­чест­ные»
+рефлек­сив­ные воз­мож­но­сти (вроде чте­ния сво­его исход­ного тек­ста из файла).</p>
+<h1 id="section-3">
+<a class="anchor" href="#section-3" aria-hidden="true"><span class="octicon octicon-link"></span></a>Ввод­ные заме­ча­ния</h1>
+<p>В тео­рии вычис­ли­мо­сти особо важ­ное место зани­мают несколько инте­рес­ных тео­рем о вычис­ли­мых
+функ­циях. В этом сооб­ще­нии я хотел бы кратко рас­ска­зать об этих тео­ремах и о неко­то­рых их
+при­ме­не­ниях.</p>
+<p>Для неко­то­рой про­граммы с тек­стом <span class="nolinebreak"><img src="/eq/3-4.png" style="height: 12px; width: 9px; vertical-align: -4px;" class="latex"></span> соот­вет­ству­ю­щую ей (частич­ную) вычис­ли­мую функ­цию обычно
+обо­зна­чают как <span class="nolinebreak"><img src="/eq/3-5.png" style="height: 13px; width: 18px; vertical-align: -5px;" class="latex">,</span> однако, воиз­бе­жа­ние нагро­мож­де­ния ниж­них индек­сов далее будет
+исполь­зо­ваться несколько более удоб­ное обо­зна­че­ние, широко при­ме­ня­ю­ще­еся при изу­че­нии семан­тики
+язы­ков про­грам­ми­ро­ва­ния, а именно <span class="nolinebreak"><img src="/eq/3-6.png" style="height: 18px; width: 18px; vertical-align: -5px;" class="latex">.</span></p>
+<p>Обычно, в тео­рии алго­рит­мов (тео­рии вычис­ли­мо­сти, тео­рии рекур­сии) гово­рят о [гёде­лев­ском]
+номере про­граммы, а не о её тек­сте, но далее будет исполь­зо­ваться более нагляд­ное и при­выч­ное,
+по край­ней мере для про­грам­ми­стов, слово <em>текст</em>, ино­гда даже <em>исход­ный код</em>, без пря­мого отсыла
+к поня­тию <em>нуме­ра­ции</em> из тео­рии вычис­ли­мо­сти. Более того, враз­рез с тра­ди­ци­он­ным
+сло­во­упо­треб­ле­нием, в насто­я­щем сооб­ще­нии нередко про­грамма и её текст будут отож­деств­ляться, –
+здесь это про­сто одно и то же. (Крат­ко­сти и про­стоты ради, это сооб­ще­ние будет вообще несколько
+нефор­маль­ным и не стро­гим.)</p>
+<p>При одно­вре­мен­ном рас­смот­ре­нии несколь­ких язы­ков про­грам­ми­ро­ва­ния, как, напри­мер, при
+работе с транс­ля­то­рами, можно ука­зы­вать язык про­грам­ми­ро­ва­ния в ниж­нем индексе
+семан­ти­че­ских ско­бок, e.g., <span class="nolinebreak"><img src="/eq/3-7.png" style="height: 18px; width: 25px; vertical-align: -5px;" class="latex">.</span> (Кстати, в лите­ра­туре
+встре­ча­ется и более необыч­ная нота­ция, напри­мер, вообще не исполь­зу­ю­шая какие-либо индексы и
+скобки, для эко­но­мии места.)</p>
+<p>Сим­во­лом <span class="nolinebreak"><img src="/eq/3-8.png" style="height: 11px; width: 11px; vertical-align: -0px;" class="latex"></span> будет обо­зна­чено неза­вер­ша­ю­ще­еся вычис­ле­ние, т.е. <span class="nolinebreak"><img src="/eq/3-9.png" style="height: 11px; width: 11px; vertical-align: -0px;" class="latex"></span> – это зна­че­ние
+бес­ко­неч­ного цикла. Равен­ство <span class="nolinebreak"><img src="/eq/3-10.png" style="height: 18px; width: 61px; vertical-align: -5px;" class="latex"></span> есть сокра­ще­ние
+для <span class="nolinebreak"><img src="/eq/3-11.png" style="height: 18px; width: 133px; vertical-align: -5px;" class="latex">.</span> (Под­ра­зу­ме­ва­ется, что
+для неко­то­рых <span class="nolinebreak"><img src="/eq/3-12.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex">,</span> может выпол­нятся <span class="nolinebreak"><img src="/eq/3-13.png" style="height: 18px; width: 77px; vertical-align: -5px;" class="latex"></span> и <span class="nolinebreak"><img src="/eq/3-14.png" style="height: 18px; width: 75px; vertical-align: -5px;" class="latex">.)</span></p>
+<h2 id="section-4">
+<a class="anchor" href="#section-4" aria-hidden="true"><span class="octicon octicon-link"></span></a>Тео­рема об уни­вер­саль­ной функ­ции</h2>
+<p>Сна­чала хоте­лось бы упо­мя­нуть тео­рему о суще­ство­ва­нии уни­вер­саль­ной про­граммы, а фак­ти­че­ски о
+воз­мож­но­сти напи­са­ния интер­пре­та­то­ров для любых под­хо­дя­щих (Тьюринг-полных) язы­ков
+про­грам­ми­ро­ва­ния, при­чем под­ра­зу­ме­ва­ется, что интер­пре­та­тор пишется на его же вход­ном языке.
+Более фор­мально, эта тео­рема утвер­ждает, что суще­ствуют вычис­ли­мая функ­ция — <em>уни­вер­саль­ная
+функ­ция</em> — <span class="nolinebreak"><img src="/eq/3-15.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex">,</span> а так­же соот­вет­ству­ю­щая ей программа-интерпретатор <span class="nolinebreak"><img src="/eq/3-16.png" style="height: 12px; width: 9px; vertical-align: -0px;" class="latex">,</span> такие, что для любой
+про­граммы <span class="nolinebreak"><img src="/eq/3-17.png" style="height: 12px; width: 9px; vertical-align: -4px;" class="latex">,</span> интер­пре­та­тор может быть запу­щен с несколь­кими аргу­мен­тами, пер­вый из кото­рых
+равен <span class="nolinebreak"><img src="/eq/3-18.png" style="height: 12px; width: 9px; vertical-align: -4px;" class="latex">,</span> а остав­ши­еся суть про­сто аргу­менты для этой про­граммы. Так запу­щен­ный интер­пре­та­тор
+дол­жен воз­вра­тить тот же резуль­тат, что и сама про­грамма <span class="nolinebreak"><img src="/eq/3-19.png" style="height: 12px; width: 9px; vertical-align: -4px;" class="latex"></span> при тех же аргу­мен­тах.</p>
+<p>То есть, <span class="nolinebreak"><img src="/eq/3-20.png" style="height: 18px; width: 283px; vertical-align: -5px;" class="latex">.</span></p>
+<p><strong>Набро­сок дока­за­тель­ства.</strong></p>
+<p>Дока­за­тель­ство может про­во­дится про­сто предъ­яв­ле­нием гото­вого интер­пре­та­тора в виде машины
+Тью­ринга, т.е. путем постро­е­ние т.н. уни­вер­саль­ной машины Тью­ринга, симу­ли­ру­ю­щей работу любой
+дру­гой машины Тью­ринга. Понятно, что можно исполь­зо­вать и любую дру­гую модель вычис­ле­ний, e.g.,
+<span class="nolinebreak"><img src="/eq/3-21.png" style="height: 13px; width: 8px; vertical-align: -0px;" class="latex">-исчисление.</span> Но здесь, для крат­ко­сти, аргу­мен­та­ция будет менее кон­струк­тив­ной и более
+абстракт­ной.</p>
+<p>Есте­ственно счи­тать про­грам­мами куски тек­ста (i.e., строки) на неко­то­ром языке про­грам­ми­ро­ва­ния.
+Пусть на стро­ках опре­делён обыч­ный поря­док <span class="nolinebreak"><img src="/eq/3-22.png" style="height: 10px; width: 11px; vertical-align: -1px;" class="latex">,</span> а именно, для строк <span class="nolinebreak"><img src="/eq/3-23.png" style="height: 9px; width: 7px; vertical-align: -0px;" class="latex"></span> и <span class="nolinebreak"><img src="/eq/3-24.png" style="height: 9px; width: 8px; vertical-align: -0px;" class="latex"></span> выпол­ня­ется <span class="nolinebreak"><img src="/eq/3-25.png" style="height: 10px; width: 38px; vertical-align: -1px;" class="latex"></span>
+если <span class="nolinebreak"><img src="/eq/3-26.png" style="height: 18px; width: 53px; vertical-align: -5px;" class="latex"></span> (i.e., срав­ни­ва­ются длины) или, в слу­чае <span class="nolinebreak"><img src="/eq/3-27.png" style="height: 18px; width: 53px; vertical-align: -5px;" class="latex">,</span> если <span class="nolinebreak"><img src="/eq/3-28.png" style="height: 9px; width: 7px; vertical-align: -0px;" class="latex"></span> лек­си­ко­гра­фи­че­ски
+пред­ше­ствует <span class="nolinebreak"><img src="/eq/3-29.png" style="height: 9px; width: 8px; vertical-align: -0px;" class="latex">.</span> Т.о., все про­граммы можно отсор­ти­ро­вать отно­си­тельно <span class="nolinebreak"><img src="/eq/3-30.png" style="height: 10px; width: 11px; vertical-align: -1px;" class="latex">,</span> полу­чив в резуль­тате
+упо­ря­до­чен­ную после­до­ва­тель­ность <span class="nolinebreak"><img src="/eq/3-31.png" style="height: 18px; width: 29px; vertical-align: -5px;" class="latex">.</span> Будем счи­тать, что для любой про­граммы <span class="nolinebreak"><img src="/eq/3-32.png" style="height: 12px; width: 14px; vertical-align: -4px;" class="latex"></span> можно
+постро­ить спе­ци­а­ли­зи­ро­ван­ное вычис­ли­тель­ное устрой­ство <span class="nolinebreak"><img src="/eq/3-33.png" style="height: 11px; width: 12px; vertical-align: -3px;" class="latex">,</span> пре­об­ра­зу­ю­щее вход­ные дан­ные <span class="nolinebreak"><img src="/eq/3-34.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex"></span> в
+выход­ные <span class="nolinebreak"><img src="/eq/3-35.png" style="height: 18px; width: 31px; vertical-align: -5px;" class="latex"></span> (эта нота­ция, по-факту, озна­чает запуск устрой­ства <span class="nolinebreak"><img src="/eq/3-36.png" style="height: 11px; width: 12px; vertical-align: -3px;" class="latex"></span> с аргу­мен­том <span class="nolinebreak"><img src="/eq/3-37.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex">).</span></p>
+<p>Теперь можно опре­де­лить функ­цию <span class="nolinebreak"><img src="/eq/3-38.png" style="height: 18px; width: 106px; vertical-align: -5px;" class="latex">.</span> Пол­нота по Тью­рингу поз­во­ляет утвер­ждать, что
+для любой вычис­ли­мой функ­ции <span class="nolinebreak"><img src="/eq/3-39.png" style="height: 16px; width: 9px; vertical-align: -3px;" class="latex"></span> суще­ствует вычис­ли­тель­ное устрой­ство <span class="nolinebreak"><img src="/eq/3-40.png" style="height: 9px; width: 7px; vertical-align: -0px;" class="latex">,</span> такое, что <span class="nolinebreak"><img src="/eq/3-41.png" style="height: 18px; width: 104px; vertical-align: -5px;" class="latex">;</span> а раз в после­до­ва­тель­но­сти <span class="nolinebreak"><img src="/eq/3-42.png" style="height: 18px; width: 28px; vertical-align: -5px;" class="latex"></span> есть вычис­ли­тель­ные устрой­ства для всех
+про­грамм, то най­дётся число <span class="nolinebreak"><img src="/eq/3-43.png" style="height: 9px; width: 10px; vertical-align: -0px;" class="latex">,</span> такое, что <span class="nolinebreak"><img src="/eq/3-44.png" style="height: 11px; width: 46px; vertical-align: -3px;" class="latex">.</span> Полу­ча­ется, что <span class="nolinebreak"><img src="/eq/3-45.png" style="height: 18px; width: 151px; vertical-align: -5px;" class="latex">,</span> т.е.,
+функ­ция <span class="nolinebreak"><img src="/eq/3-46.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex"></span> может исполь­зо­ваться вме­сто любой вычис­ли­мой функ­ции <span class="nolinebreak"><img src="/eq/3-47.png" style="height: 16px; width: 9px; vertical-align: -3px;" class="latex"></span> если изве­стен её номер <span class="nolinebreak"><img src="/eq/3-48.png" style="height: 9px; width: 10px; vertical-align: -0px;" class="latex">;</span>
+дру­гими сло­вами, <span class="nolinebreak"><img src="/eq/3-49.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex"></span> – уни­вер­саль­ная функ­ция.</p>
+<p>Оста­лось пока­зать, что <span class="nolinebreak"><img src="/eq/3-50.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex"></span> вычис­лима. Для этого надо напи­сать интер­пре­та­тор <span class="nolinebreak"><img src="/eq/3-51.png" style="height: 12px; width: 9px; vertical-align: -0px;" class="latex"></span> и скон­стру­ир­вать
+соот­вет­ству­ю­щее вычис­ли­тель­ное устрой­ство <span class="nolinebreak"><img src="/eq/3-52.png" style="height: 12px; width: 12px; vertical-align: -0px;" class="latex">,</span> по пер­вому аргу­менту <span class="nolinebreak"><img src="/eq/3-53.png" style="height: 9px; width: 10px; vertical-align: -0px;" class="latex"></span> команд­ной
+строки извле­ка­ю­щее устрой­ство с индек­сом <span class="nolinebreak"><img src="/eq/3-54.png" style="height: 9px; width: 10px; vertical-align: -0px;" class="latex"></span> из после­до­ва­тель­но­сти <span class="nolinebreak"><img src="/eq/3-55.png" style="height: 18px; width: 28px; vertical-align: -5px;" class="latex"></span> и запус­ка­ю­щее его,
+пере­да­вая ему при запуске осталь­ные свои аргу­менты. Т.е., должно выпол­няться <span class="nolinebreak"><img src="/eq/3-56.png" style="height: 18px; width: 104px; vertical-align: -5px;" class="latex">.</span> Видно, что <span class="nolinebreak"><img src="/eq/3-57.png" style="height: 12px; width: 12px; vertical-align: -0px;" class="latex"></span> – устрой­ство, вычис­ля­ю­щее <span class="nolinebreak"><img src="/eq/3-58.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex">,</span> а <span class="nolinebreak"><img src="/eq/3-59.png" style="height: 12px; width: 9px; vertical-align: -0px;" class="latex"></span> – про­грамма, это
+дела­ю­щая. Таким обра­зом, <span class="nolinebreak"><img src="/eq/3-60.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex"></span> – вычис­ли­мая уни­вер­саль­ная функ­ция. <span class="nolinebreak"><img src="/eq/3-61.png" style="height: 12px; width: 11px; vertical-align: -0px;" class="latex"></span></p>
+<p>N.B., сама тео­рема не зави­сит от языка про­грам­ми­ро­ва­ния и тре­бует лишь его пол­ноты по Тью­рингу,
+т.е. воз­мож­но­сти напи­сать для любой вычис­ли­мой функ­ции про­грамму, её вычис­ля­ю­щую; да, зву­чит
+немного тав­то­ло­гично, и, тем не менее, есть языки не явля­ю­щи­еся Тьюринг-полными: на них нельзя
+реа­ли­зо­вать неко­то­рые про­граммы, легко пишу­щи­еся на каком-нибудь уни­вер­саль­ном, Тьюринг-полном
+языке. Суще­ствуют ли про­граммы, не могу­щие быть пере­не­сены на машину Тью­ринга или любую
+экви­ва­лент­ную ей машину, но могу­щие выпол­няться на каком-нибудь дру­гом ком­пью­тере – инте­рес­ный
+фило­соф­ский вопрос; тезис Чёрча-Тью­ринга гово­рит, что нет, таких про­грамм не суще­ствует (и
+дей­стви­тельно, все извест­ные тео­ре­ти­че­ские кон­струк­ции более мощ­ных ком­пью­те­ров кон­флик­туют с
+теми или иными физи­че­скими зако­нами и в это все­лен­ной рабо­тать не могут).</p>
+<p>А вот суще­ство­ва­ние вычис­ли­мой уни­вер­саль­ной функ­ции, по-видимому, не влечёт за собой пол­ноты по
+Тью­рингу – если взять неко­то­рый под­хо­дя­щий неуни­вер­саль­ный язык, то можно дей­ство­вать как в
+выше­при­ве­ден­ном наброске дока­за­тель­ства, т.е. можно сге­не­ри­ро­вать и отсор­ти­ро­вать все про­граммы
+[для этого языка] и вычис­ли­тель­ные устрой­ства, а потом опре­де­лить функ­цию, выби­ра­ю­щую и
+исполь­зу­ю­щую нуж­ное устрой­ство по его номеру. Если выбран­ный язык будет доста­точно богат, чтобы
+на нём можно было выра­зить такой выбор и запуск, то мы полу­чим вычис­ли­мую уни­вер­саль­ную функ­цию,
+правда, уни­вер­саль­ную не для всех вычис­ли­мых функ­ций, а только для функ­ций, реа­ли­зу­е­мых на таком
+языке.</p>
+<p>Фак­ти­че­ски, тео­рема об уни­вер­саль­ной функ­ции гово­рит, что частич­ная (т.е. не явля­ю­ща­яся всюду
+опре­делён­ной) функ­ция <span class="nolinebreak"><img src="/eq/3-62.png" style="height: 18px; width: 75px; vertical-align: -5px;" class="latex"></span> от аргу­мен­тов <span class="nolinebreak"><img src="/eq/3-63.png" style="height: 12px; width: 42px; vertical-align: -4px;" class="latex"></span> сама
+явля­ется вычис­ли­мой (или т.н. частично рекур­сив­ной) функ­цией <span class="nolinebreak"><img src="/eq/3-64.png" style="height: 18px; width: 80px; vertical-align: -5px;" class="latex"></span> от аргу­мен­тов
+<span class="nolinebreak"><img src="/eq/3-65.png" style="height: 12px; width: 59px; vertical-align: -4px;" class="latex"></span> (доба­вился ещё один аргу­мент).</p>
+<p>Исполь­зо­ва­ние тео­ремы об уни­вер­саль­ной функ­ции в дан­ном сооб­ще­нии будет весьма огра­ни­чен­ным;
+здесь без неё можно было бы и обой­тись (если не счи­тать тео­рему Род­жерса, см. ниже). И всё-же
+она в опре­делён­ные моменты будет важна. Кроме этого, стоит обра­тить вни­ма­ние на исполь­зо­ван­ное в
+дока­за­тель­стве раз­де­ле­ние на про­граммы (тек­сты про­грамм), вычис­ли­тель­ные устрой­ства и их номера,
+– нам при­шлось исполь­зо­вать устрой­ства, чтобы под­черк­нуть меха­ни­стич­ность и физи­че­скую
+реа­ли­зу­е­мость вычис­ле­ний, тек­сто­вое пред­став­ле­ние про­грамм, чтобы иметь воз­мож­ность сор­ти­ро­вать
+и нуме­ро­вать про­граммы/устрой­ства, и, нако­нец, при­шлось выбрать кон­крет­ный (но не един­ствен­ный)
+спо­соб такой нуме­ра­ции с помо­щью сор­ти­ровки по воз­рас­та­нию отно­си­тельно порядка <span class="nolinebreak"><img src="/eq/3-66.png" style="height: 10px; width: 11px; vertical-align: -1px;" class="latex">.</span></p>
+<p>В даль­ней­шем такое раз­де­ле­ние пред­став­ле­ний будет лиш­ним и поэтому, как я уже гово­рил ранее,
+тек­сты про­грамм, про­граммы и их номера будут отож­деств­ляться. Сам кон­крет­ный спо­соб нуме­ра­ции
+можно будет счи­тать зада­нием языка про­граммирования, хотя на прак­тике же удобно отож­деств­лять
+язык про­граммирования с семан­ти­че­ской функ­цией <span class="nolinebreak"><img src="/eq/3-67.png" style="height: 19px; width: 91px; vertical-align: -4px;" class="latex">,</span>
+сопо­став­ля­ю­щей про­грамме <span class="nolinebreak"><img src="/eq/3-68.png" style="height: 12px; width: 9px; vertical-align: -4px;" class="latex"></span> функ­цию <span class="nolinebreak"><img src="/eq/3-69.png" style="height: 13px; width: 54px; vertical-align: -0px;" class="latex">,</span> где <span class="nolinebreak"><img src="/eq/3-70.png" style="height: 12px; width: 14px; vertical-align: -0px;" class="latex"></span> – мно­же­ство, над кото­рым опре­де­лены
+вычис­ли­мые функ­ции (в боль­шин­стве слу­чаев можно счи­тать <span class="nolinebreak"><img src="/eq/3-71.png" style="height: 13px; width: 49px; vertical-align: -0px;" class="latex">)</span> или с парой <span class="nolinebreak"><img src="/eq/3-72.png" style="height: 18px; width: 50px; vertical-align: -5px;" class="latex">.</span> (В сле­ду­ю­щей части этой серии сооб­ще­ний, я поста­ра­юсь уде­лить
+долж­ное вни­ма­ние поня­тию нуме­ра­ции, но здесь оно свою полез­ность, похоже, пока исчер­пало.)</p>
+<p>N.B., Так­же под­ра­зу­ме­ва­ется, что паре зна­че­ний <span class="nolinebreak"><img src="/eq/3-73.png" style="height: 18px; width: 36px; vertical-align: -5px;" class="latex"></span> можно сопо­ста­вить вза­имно одно­знач­ным
+обра­зом <span class="nolinebreak"><img src="/eq/3-74.png" style="height: 17px; width: 28px; vertical-align: -5px;" class="latex"></span> (при­чем отоб­ра­же­ние <span class="nolinebreak"><img src="/eq/3-75.png" style="height: 18px; width: 92px; vertical-align: -5px;" class="latex"></span> вычис­лимо). Это поз­во­ляет опре­де­лять
+функ­ции с боль­шим коли­че­ством аргу­мен­тов через функ­ции с мень­шим коли­че­ством, напри­мер
+<span class="nolinebreak"><img src="/eq/3-76.png" style="height: 18px; width: 255px; vertical-align: -5px;" class="latex">.</span> Т.о., тео­ре­ти­че­ски можно вообще
+обхо­диться только одно­мест­ными функ­ци­ями, но из сооб­ра­же­ний удоб­ства, к такому мини­ма­лизму
+при­бе­гать, наде­юсь, не при­дётся.</p>
+<h2 id="s-m-n--">
+<a class="anchor" href="#s-m-n--" aria-hidden="true"><span class="octicon octicon-link"></span></a>S-m-n тео­рема Клини</h2>
+<p>Дру­гой, не менее важ­ной тео­ре­мой явля­ется т.н. <span class="nolinebreak"><img src="/eq/3-77.png" style="height: 16px; width: 22px; vertical-align: -4px;" class="latex">-теорема</span> (извест­ная так­же как тео­рема о
+пара­мет­ри­за­ции или ите­ра­тив­ная тео­рема) [14, 3], утвер­жда­ю­щая, что может быть напи­сана
+про­грамма, умень­ша­ю­щая коли­че­ство аргу­мен­тов путем фик­са­ции зна­че­ний неко­то­рых из них: для
+про­граммы <span class="nolinebreak"><img src="/eq/3-78.png" style="height: 12px; width: 9px; vertical-align: -4px;" class="latex">,</span> реа­ли­зу­ю­щей функ­цию <span class="nolinebreak"><img src="/eq/3-79.png" style="height: 17px; width: 14px; vertical-align: -3px;" class="latex"></span> с <span class="nolinebreak"><img src="/eq/3-80.png" style="height: 12px; width: 45px; vertical-align: -1px;" class="latex"></span> аргу­мен­тами и для задан­ных зна­че­ний
+<span class="nolinebreak"><img src="/eq/3-81.png" style="height: 12px; width: 74px; vertical-align: -4px;" class="latex"></span> для пер­вых <span class="nolinebreak"><img src="/eq/3-82.png" style="height: 9px; width: 14px; vertical-align: -0px;" class="latex"></span> аргу­мен­тов суще­ствует про­грамма <span class="nolinebreak"><img src="/eq/3-83.png" style="height: 12px; width: 8px; vertical-align: -4px;" class="latex"></span> для спе­ци­а­ли­зи­ро­ван­ной
+<span class="nolinebreak"><img src="/eq/3-84.png" style="height: 9px; width: 10px; vertical-align: -0px;" class="latex">-местной</span> функ­ции, удо­вле­тво­ря­ю­щая <span class="nolinebreak"><img src="/eq/3-85.png" style="height: 18px; width: 297px; vertical-align: -4px;" class="latex"></span> для любых <span class="nolinebreak"><img src="/eq/3-86.png" style="height: 15px; width: 11px; vertical-align: -3px;" class="latex">.</span></p>
+<p>Так­же суще­ствует вычис­ли­мая (при­ми­тивно рекур­сив­ная при опре­делён­ном выборе языка
+про­грам­ми­ро­ва­ния) всюду опре­делён­ная функ­ция, — соб­ственно, <span class="nolinebreak"><img src="/eq/3-87.png" style="height: 16px; width: 22px; vertical-align: -4px;" class="latex">-функция,</span> — пре­об­ра­зу­ю­щая
+про­грамму <span class="nolinebreak"><img src="/eq/3-88.png" style="height: 12px; width: 9px; vertical-align: -4px;" class="latex"></span> в про­грамму <span class="nolinebreak"><img src="/eq/3-89.png" style="height: 12px; width: 8px; vertical-align: -4px;" class="latex">.</span></p>
+<p>То есть, для про­граммы <span class="nolinebreak"><img src="/eq/3-90.png" style="height: 12px; width: 9px; vertical-align: -4px;" class="latex"></span> выпол­ня­ется <span class="nolinebreak"><img src="/eq/3-91.png" style="height: 18px; width: 424px; vertical-align: -5px;" class="latex">.</span></p>
+<p>Далее при­го­дится част­ный слу­чай <span class="nolinebreak"><img src="/eq/3-92.png" style="height: 18px; width: 16px; vertical-align: -4px;" class="latex"></span> с фик­са­цией всего одного из двух аргу­мен­тов.</p>
+<p>Нетрудно видеть, что <span class="nolinebreak"><img src="/eq/3-93.png" style="height: 16px; width: 22px; vertical-align: -4px;" class="latex"></span> тео­рема, по-существу, реа­ли­зует частич­ные вычис­ле­ния (спе­ци­а­ли­за­цию
+про­грамм) [4, 5], т.е. дает воз­мож­ность выпол­нить часть вычис­ле­ний, зави­ся­щих от фик­си­ру­е­мого
+аргумента(-ов), зара­нее, до выпол­не­ния про­граммы (что может быть исполь­зо­вано, напри­мер, для
+опти­ми­за­ции кода). Есть неко­то­рое сход­ство между частич­ной спе­ци­а­ли­за­цией и <em>кар­рин­гом</em> из
+функ­ци­о­наль­ного про­грам­ми­ро­ва­ния.</p>
+<p>Дока­за­тель­ство <span class="nolinebreak"><img src="/eq/3-94.png" style="height: 16px; width: 22px; vertical-align: -4px;" class="latex"></span> тео­ремы кон­струк­тивно и может быть осно­вано на явном выпи­сы­ва­нии
+про­граммы (или на явном постро­е­нии машины Тью­ринга), при­сва­и­ва­ю­щей опре­де­лен­ные зна­че­ния
+исклю­ча­е­мым аргу­мен­там и обес­пе­чи­ва­ю­щей запуск про­граммы при поступ­ле­нии недо­ста­ю­щих дан­ных
+(такого три­ви­аль­ного алго­ритма недо­ста­точно для напи­са­ния опти­ми­зи­ру­ю­щего спе­ци­а­ли­за­то­ра; но он
+может быть улуч­шен).</p>
+<p>(Само дока­за­тель­ство здесь при­во­дится не будет, а инте­ре­су­ю­щимся реко­мен­ду­ется обра­титься к
+пер­во­ис­точ­ни­кам или более совре­мен­ным мате­ри­а­лам по тео­рии вычис­ли­мо­сти.)</p>
+<p>Стоит отме­тить, что выше­при­ве­ден­ные тео­ремы во мно­гом схожи, и даже в неко­то­ром смысле
+«взаимо-обратны» – тео­рема об уни­вер­саль­ной функ­ции пре­об­ра­зует «ста­ти­че­ский» пара­метр —
+про­грамму — в «ди­на­ми­че­ский» аргу­мент, кото­рый может затем при­ни­мать любое зна­че­ние;
+<span class="nolinebreak"><img src="/eq/3-95.png" style="height: 16px; width: 22px; vertical-align: -4px;" class="latex">-теорема,</span> напро­тив, пре­об­ра­зует дина­ми­че­ский аргу­мент в ста­ти­че­ский, при­пи­сы­вая ему
+апри­ори задан­ное зна­че­ние.</p>
+<p>Эта сим­мет­рия хорошо видна если выпи­сать клю­че­вые урав­не­ния обоих тео­рем одно под дру­гим
+(здесь, для крат­ко­сти, исполь­зу­ется <span class="nolinebreak"><img src="/eq/3-96.png" style="height: 18px; width: 16px; vertical-align: -4px;" class="latex">-функция):</span>
+<br></p>
+<center><img src="/eq/3-97.png" style="height: 45px; width: 177px;" class="latex"></center>
+<br>
+<p>В неко­то­ром смысле, они при этом всё-же раз­личны – кроме струк­тур­ных раз­ли­чий фор­мул,
+<span class="nolinebreak"><img src="/eq/3-98.png" style="height: 16px; width: 22px; vertical-align: -4px;" class="latex">-функцию</span> можно счи­тать при­ми­тивно рекур­сив­ной (для её реа­ли­за­ции не обя­за­тельно нужен
+уни­вер­саль­ный язык про­грам­ми­ро­ва­ния).</p>
+<h1 id="section-5">
+<a class="anchor" href="#section-5" aria-hidden="true"><span class="octicon octicon-link"></span></a>Непо­движ­ные точки вычис­ли­мых функ­ций</h1>
+<p>Далее опи­сы­ва­ется тео­рема о суще­ство­ва­нии непо­движ­ных точек вычис­ли­мых функ­ций, извест­ная так­же
+как вто­рая рекур­сив­ная тео­рема Клини [14]; здесь при­во­дится несколько упро­щен­ная её вер­сия,
+впро­чем, пол­но­стью доста­точ­ная для реше­ния постав­лен­ных задач.</p>
+<p><strong>Вто­рая рекур­сив­ная тео­рема Клини.</strong></p>
+<p>Для любой вычис­ли­мой функ­ции <span class="nolinebreak"><img src="/eq/3-99.png" style="height: 18px; width: 37px; vertical-align: -5px;" class="latex"></span> суще­ствует про­грамма <span class="nolinebreak"><img src="/eq/3-100.png" style="height: 12px; width: 9px; vertical-align: -4px;" class="latex"></span> («не­по­движ­ная точ­ка»),
+такая, что <br></p>
+<center><img src="/eq/3-101.png" style="height: 18px; width: 355px;" class="latex"></center>
+<br>
+<p><strong>Дока­за­тель­ство.</strong></p>
+<p>Напи­шем про­грамму <span class="nolinebreak"><img src="/eq/3-102.png" style="height: 9px; width: 7px; vertical-align: -0px;" class="latex">,</span> такую, что <span class="nolinebreak"><img src="/eq/3-103.png" style="height: 19px; width: 175px; vertical-align: -4px;" class="latex">.</span> Тогда
+<span class="nolinebreak"><img src="/eq/3-104.png" style="height: 19px; width: 85px; vertical-align: -4px;" class="latex">.</span></p>
+<p>Дей­стви­тельно, если запу­стим <span class="nolinebreak"><img src="/eq/3-105.png" style="height: 12px; width: 9px; vertical-align: -4px;" class="latex"></span> для какого-нибудь аргу­мента <span class="nolinebreak"><img src="/eq/3-106.png" style="height: 9px; width: 8px; vertical-align: -0px;" class="latex">,</span> то полу­чим <span class="nolinebreak"><img src="/eq/3-107.png" style="height: 19px; width: 151px; vertical-align: -4px;" class="latex">.</span> По опре­де­ле­нию <span class="nolinebreak"><img src="/eq/3-108.png" style="height: 18px; width: 16px; vertical-align: -4px;" class="latex">-функции,</span> <span class="nolinebreak"><img src="/eq/3-109.png" style="height: 19px; width: 166px; vertical-align: -4px;" class="latex">.</span> Теперь при­ме­ним опре­де­ле­ние для <span class="nolinebreak"><img src="/eq/3-110.png" style="height: 9px; width: 7px; vertical-align: -0px;" class="latex"></span> и
+полу­чим, что <span class="nolinebreak"><img src="/eq/3-111.png" style="height: 19px; width: 239px; vertical-align: -4px;" class="latex">.</span> Понятно, что эта цепочка
+равенств по тран­зи­тив­но­сти при­во­дит к <span class="nolinebreak"><img src="/eq/3-112.png" style="height: 18px; width: 109px; vertical-align: -5px;" class="latex">.</span> <span class="nolinebreak"><img src="/eq/3-113.png" style="height: 12px; width: 11px; vertical-align: -0px;" class="latex"></span></p>
+<p>В дан­ном сооб­ще­нии осо­бый инте­рес пред­став­ляет част­ный слу­чай <span class="nolinebreak"><img src="/eq/3-114.png" style="height: 18px; width: 79px; vertical-align: -5px;" class="latex">,</span> порож­да­ю­щий квайны:
+легко видеть, что при этом <span class="nolinebreak"><img src="/eq/3-115.png" style="height: 18px; width: 141px; vertical-align: -5px;" class="latex">,</span> то есть про­грамма <span class="nolinebreak"><img src="/eq/3-116.png" style="height: 12px; width: 9px; vertical-align: -4px;" class="latex"></span> при
+запуске печа­тает сама себя, как и поло­жено квайну.</p>
+<p>Ино­гда при­го­жда­ется дру­гая вер­сия этой тео­ремы (при опре­де­лен­ном выборе языка, строго
+говоря, не экви­ва­лент­ная тео­реме Кли­ни; см. [39]), пред­ло­жен­ная в [19]:</p>
+<p><strong>Тео­рема Род­жерса.</strong></p>
+<p>Для любой всюду опре­делён­ной вычис­ли­мой функ­ции <span class="nolinebreak"><img src="/eq/3-117.png" style="height: 18px; width: 25px; vertical-align: -5px;" class="latex"></span> суще­ствует непо­движ­ная точка <span class="nolinebreak"><img src="/eq/3-118.png" style="height: 12px; width: 9px; vertical-align: -4px;" class="latex">,</span>
+т.е. такая про­грамма <span class="nolinebreak"><img src="/eq/3-119.png" style="height: 12px; width: 9px; vertical-align: -4px;" class="latex">,</span> что <span class="nolinebreak"><img src="/eq/3-120.png" style="height: 18px; width: 148px; vertical-align: -5px;" class="latex">.</span></p>
+<p><strong>Дока­за­тель­ство.</strong></p>
+<p>Опре­де­лим функ­цию <span class="nolinebreak"><img src="/eq/3-121.png" style="height: 18px; width: 28px; vertical-align: -5px;" class="latex"></span> так, что <br></p>
+<center><img src="/eq/3-122.png" style="height: 21px; width: 348px;" class="latex"></center>
+<br> Теперь напи­шем про­грамму <span class="nolinebreak"><img src="/eq/3-123.png" style="height: 9px; width: 7px; vertical-align: -0px;" class="latex">,</span> такую, что <span class="nolinebreak"><img src="/eq/3-124.png" style="height: 13px; width: 18px; vertical-align: -0px;" class="latex"></span>
+выпол­ня­ется <br><center><img src="/eq/3-125.png" style="height: 21px; width: 346px;" class="latex"></center>
+<br> Утвер­жда­ется, что <span class="nolinebreak"><img src="/eq/3-126.png" style="height: 18px; width: 61px; vertical-align: -5px;" class="latex"></span>
+– есть иско­мая непо­движ­ная точка.
+<p>Под­ста­новка (3) в пра­вую часть (2) дает <span class="nolinebreak"><img src="/eq/3-127.png" style="height: 21px; width: 146px; vertical-align: -6px;" class="latex"></span> и <span class="nolinebreak"><img src="/eq/3-128.png" style="height: 21px; width: 131px; vertical-align: -6px;" class="latex">.</span> Послед­нее урав­не­ние при обо­зна­че­нии
+<span class="nolinebreak"><img src="/eq/3-129.png" style="height: 18px; width: 61px; vertical-align: -5px;" class="latex"></span> уже соот­вет­ствует опре­де­ле­нию непо­движ­ной точки из усло­вия этой тео­ремы, т.е.,
+<span class="nolinebreak"><img src="/eq/3-130.png" style="height: 18px; width: 85px; vertical-align: -5px;" class="latex">.</span> <span class="nolinebreak"><img src="/eq/3-131.png" style="height: 12px; width: 11px; vertical-align: -0px;" class="latex"></span></p>
+<p>N.B., во вто­рой тео­реме Клини о рекур­сии мы можем выбрать любую вычис­ли­мую функ­цию <span class="nolinebreak"><img src="/eq/3-132.png" style="height: 16px; width: 9px; vertical-align: -3px;" class="latex">,</span> даже
+если она не опре­де­лена для неко­то­рых зна­че­ний аргу­мен­тов (т.е. если соот­вет­ству­ю­щая этой функ­ции
+про­грамма зави­сает при таких вход­ных данных); в тео­реме Род­жерса мы можем выбрать только всюду
+опре­делён­ную функ­цию <span class="nolinebreak"><img src="/eq/3-133.png" style="height: 16px; width: 9px; vertical-align: -3px;" class="latex">,</span> иначе в выра­же­нии <span class="nolinebreak"><img src="/eq/3-134.png" style="height: 18px; width: 42px; vertical-align: -5px;" class="latex"></span> не было бы смысла при
+неко­то­рых <span class="nolinebreak"><img src="/eq/3-135.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex">.</span></p>
+<p>Из тео­ремы Клини и тео­ремы об уни­вер­саль­ной функ­ции сле­дует тео­рема Род­жерса, а из тео­ремы
+Род­жерса и <span class="nolinebreak"><img src="/eq/3-136.png" style="height: 16px; width: 22px; vertical-align: -4px;" class="latex">-теоремы</span> – тео­рема Клини. (Но есть нюансы [39].)</p>
+<p>Для при­ме­не­ния тео­ремы Род­жерса к слу­чаю с квай­нами, удобно, сле­дуя [2], вве­сти опе­ра­тор
+<span class="nolinebreak"><img src="/eq/3-137.png" style="height: 15px; width: 40px; vertical-align: -4px;" class="latex">,</span> для дан­ного аргу­мента кон­стру­и­ру­ю­щий про­грамму, печа­та­ю­щую этот
+аргу­мент. Т.е. опре­де­ле­ние опе­ра­тора <span class="nolinebreak"><img src="/eq/3-138.png" style="height: 15px; width: 40px; vertical-align: -4px;" class="latex"></span> выгля­дит как
+<span class="nolinebreak"><img src="/eq/3-139.png" style="height: 18px; width: 93px; vertical-align: -5px;" class="latex"></span> [и почти соот­вет­ствует одно­имен­ному опе­ра­тору из,
+e.g., lisp’а].</p>
+<p>Квайны суть непо­движ­ные точки этого опе­ра­тора [в смысле фор­му­ли­ровки тео­ремы Род­жерса].</p>
+<p><strong>Дока­за­тель­ство.</strong></p>
+<p>Пусть <span class="nolinebreak"><img src="/eq/3-140.png" style="height: 12px; width: 8px; vertical-align: -4px;" class="latex"></span> – непо­движ­ная точка <span class="nolinebreak"><img src="/eq/3-141.png" style="height: 15px; width: 40px; vertical-align: -4px;" class="latex">,</span> т.е. <span class="nolinebreak"><img src="/eq/3-142.png" style="height: 13px; width: 18px; vertical-align: -0px;" class="latex"></span> выпол­ня­ется
+<span class="nolinebreak"><img src="/eq/3-143.png" style="height: 18px; width: 153px; vertical-align: -5px;" class="latex"></span> Под­ста­новка
+опре­де­ле­ния <span class="nolinebreak"><img src="/eq/3-144.png" style="height: 15px; width: 40px; vertical-align: -4px;" class="latex"></span> в это урав­не­ние дает <span class="nolinebreak"><img src="/eq/3-145.png" style="height: 18px; width: 178px; vertical-align: -5px;" class="latex">.</span> Но <span class="nolinebreak"><img src="/eq/3-146.png" style="height: 18px; width: 72px; vertical-align: -5px;" class="latex"></span> и есть опре­де­ле­ние
+квайна. <span class="nolinebreak"><img src="/eq/3-147.png" style="height: 12px; width: 11px; vertical-align: -0px;" class="latex"></span></p>
+<p><strong>При­ме­ча­ние.</strong></p>
+<p>Вообще, в мате­ма­тике, непо­движ­ной точ­кой функ­ции <span class="nolinebreak"><img src="/eq/3-148.png" style="height: 18px; width: 25px; vertical-align: -5px;" class="latex"></span> обычно назы­вают зна­че­ние
+<span class="nolinebreak"><img src="/eq/3-149.png" style="height: 12px; width: 9px; vertical-align: -4px;" class="latex">,</span> такое, что <span class="nolinebreak"><img src="/eq/3-150.png" style="height: 18px; width: 61px; vertical-align: -5px;" class="latex"></span> (i.e., <span class="nolinebreak"><img src="/eq/3-151.png" style="height: 16px; width: 9px; vertical-align: -3px;" class="latex"></span> остав­ляет <span class="nolinebreak"><img src="/eq/3-152.png" style="height: 12px; width: 9px; vertical-align: -4px;" class="latex"></span> неиз­мен­ным). Поэтому «не­по­движ­ные точ­ки» из
+тео­рем 1 и 2 не совсем соот­вет­ствуют такому обще­при­ня­тому опре­де­ле­нию.</p>
+<p>Тем не менее, тер­мин <em>непо­движ­ная точка</em> хорошо отра­жает суть этих тео­рем – неко­то­рое
+пре­об­ра­зо­ва­ние не меняет зна­че­ние аргу­мента, т.е. остав­ляет его непо­движ­ным (более того, из
+<span class="nolinebreak"><img src="/eq/3-153.png" style="height: 18px; width: 61px; vertical-align: -5px;" class="latex"></span> сле­дует <span class="nolinebreak"><img src="/eq/3-154.png" style="height: 18px; width: 85px; vertical-align: -5px;" class="latex">,</span> i.e. непо­движ­ные точки по
+Род­жерсу очень близки к обыч­ному опре­де­ле­нию; обрат­ное, впро­чем, неверно: рас­смот­рен­ные тео­ремы
+о непо­движ­ной точке вовсе не гаран­ти­руют нали­чия обыч­ной непо­движ­ной точки <span class="nolinebreak"><img src="/eq/3-155.png" style="height: 12px; width: 9px; vertical-align: -4px;" class="latex">,</span> такой, что
+<span class="nolinebreak"><img src="/eq/3-156.png" style="height: 18px; width: 61px; vertical-align: -5px;" class="latex">).</span></p>
+<p>Я лишь наме­ре­ва­юсь, в рам­ках этой серии сооб­ще­ний, для удоб­ства вве­сти обо­зна­че­ния для этих
+«не­стан­дарт­ных» непо­движ­ных точек, а именно, пусть опе­ра­торы <span class="nolinebreak"><img src="/eq/3-157.png" style="height: 16px; width: 40px; vertical-align: -3px;" class="latex"></span> и
+<span class="nolinebreak"><img src="/eq/3-158.png" style="height: 16px; width: 38px; vertical-align: -3px;" class="latex"></span> обо­зна­чают непо­движ­ные точки [функ­ции <span class="nolinebreak"><img src="/eq/3-159.png" style="height: 16px; width: 9px; vertical-align: -3px;" class="latex">]</span> из тео­рем Клини и Род­жерса,
+соот­вет­ственно. В кон­тек­сте, тре­бу­ю­щем работы с несколь­кими непо­движ­ными точ­ками, эти опе­ра­торы
+будут обо­зна­чать мно­же­ства непо­движ­ных точек. Обо­зна­че­ние <span class="nolinebreak"><img src="/eq/3-160.png" style="height: 16px; width: 31px; vertical-align: -3px;" class="latex"></span> будет
+исполь­зо­ваться для мно­же­ства тра­ди­ци­он­ных непо­движ­ных точек, <span class="nolinebreak"><img src="/eq/3-161.png" style="height: 18px; width: 154px; vertical-align: -5px;" class="latex">.</span> А так как, в общем слу­чае, непо­движ­ная точка не явля­ется един­ствен­ной, запись типа
+<span class="nolinebreak"><img src="/eq/3-162.png" style="height: 16px; width: 63px; vertical-align: -3px;" class="latex"></span> пусть озна­чает <span class="nolinebreak"><img src="/eq/3-163.png" style="height: 16px; width: 61px; vertical-align: -3px;" class="latex"></span> (и ана­ло­гично для
+<span class="nolinebreak"><img src="/eq/3-164.png" style="height: 12px; width: 27px; vertical-align: -0px;" class="latex">,</span> <span class="nolinebreak"><img src="/eq/3-165.png" style="height: 12px; width: 25px; vertical-align: -0px;" class="latex">).</span></p>
+<p>Финаль­ное заме­ча­ние, пол­но­стью оправ­ды­ва­ю­щее назва­ние «не­по­движ­ная точ­ка» для опе­ра­то­ров
+<span class="nolinebreak"><img src="/eq/3-166.png" style="height: 12px; width: 27px; vertical-align: -0px;" class="latex"></span> и <span class="nolinebreak"><img src="/eq/3-167.png" style="height: 12px; width: 25px; vertical-align: -0px;" class="latex">:</span> вве­дем опе­ра­тор <span class="nolinebreak"><img src="/eq/3-168.png" style="height: 21px; width: 198px; vertical-align: -6px;" class="latex">,</span> где <span class="nolinebreak"><img src="/eq/3-169.png" style="height: 13px; width: 13px; vertical-align: -0px;" class="latex"></span> – неко­то­рое дву­мест­ное отно­ше­ние. Тогда
+<span class="nolinebreak"><img src="/eq/3-170.png" style="height: 14px; width: 68px; vertical-align: -2px;" class="latex">.</span> Дру­гие типы непо­движ­ных точек можно теперь тоже
+опре­де­лять через <span class="nolinebreak"><img src="/eq/3-171.png" style="height: 16px; width: 28px; vertical-align: -3px;" class="latex"></span> при долж­ном выборе отно­ше­ния <span class="nolinebreak"><img src="/eq/3-172.png" style="height: 13px; width: 13px; vertical-align: -0px;" class="latex">.</span> Напри­мер, пусть
+отно­ше­ние <span class="nolinebreak"><img src="/eq/3-173.png" style="height: 6px; width: 21px; vertical-align: -0px;" class="latex"></span> срав­ни­вает про­граммы по их эффекту, т.е.,
+<span class="nolinebreak"><img src="/eq/3-174.png" style="height: 18px; width: 162px; vertical-align: -5px;" class="latex">.</span> Тогда
+<span class="nolinebreak"><img src="/eq/3-175.png" style="height: 15px; width: 83px; vertical-align: -3px;" class="latex">.</span> (N.B., как обычно, запись
+<span class="nolinebreak"><img src="/eq/3-176.png" style="height: 12px; width: 50px; vertical-align: -4px;" class="latex"></span> есть сокра­ще­ние для <span class="nolinebreak"><img src="/eq/3-177.png" style="height: 18px; width: 74px; vertical-align: -5px;" class="latex">).</span></p>
+<h1 id="section-6">
+<a class="anchor" href="#section-6" aria-hidden="true"><span class="octicon octicon-link"></span></a>Глав­ный экс­пе­ри­мент</h1>
+<p>В [42] при­ве­ден сле­ду­ю­щий экс­пе­ри­мент по квай­но­ге­не­ра­ции на lisp (автор кода мне не изве­стен):</p>
+<div class="language-lisp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="nv">define</span> <span class="nv">g</span> <span class="p">(</span><span class="k">quote</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nv">x</span> <span class="nv">y</span><span class="p">)</span> <span class="nv">x</span><span class="p">)))</span> <span class="c1">; g(x, y) = x</span>
+
+<span class="p">(</span><span class="nv">define</span> <span class="nv">s11</span> <span class="p">(</span><span class="k">quote</span> <span class="p">(</span><span class="k">lambda</span> <span class="p">(</span><span class="nv">f</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">list</span> <span class="p">(</span><span class="k">quote</span> <span class="k">lambda</span><span class="p">)</span>
+    <span class="p">(</span><span class="k">quote</span> <span class="p">(</span><span class="nv">y</span><span class="p">))</span> <span class="p">(</span><span class="nb">list</span> <span class="nv">f</span> <span class="nv">x</span> <span class="p">(</span><span class="k">quote</span> <span class="nv">y</span><span class="p">))))))</span> <span class="c1">; from s-m-n theorem</span>
+
+<span class="p">(</span><span class="nv">define</span> <span class="nv">m</span> <span class="p">(</span><span class="nb">list</span> <span class="p">(</span><span class="k">quote</span> <span class="k">lambda</span><span class="p">)</span> <span class="p">(</span><span class="k">quote</span> <span class="p">(</span><span class="nv">x</span> <span class="nv">y</span><span class="p">))</span>
+    <span class="p">(</span><span class="nb">list</span> <span class="nv">g</span> <span class="p">(</span><span class="nb">list</span> <span class="nv">s11</span> <span class="p">(</span><span class="k">quote</span> <span class="nv">x</span><span class="p">)</span> <span class="p">(</span><span class="k">quote</span> <span class="nv">x</span><span class="p">))</span> <span class="p">(</span><span class="k">quote</span> <span class="nv">y</span><span class="p">))))</span>
+
+<span class="p">(</span><span class="nv">define</span> <span class="nv">quine</span> <span class="p">(</span><span class="nb">eval</span> <span class="p">(</span><span class="nb">list</span> <span class="nv">s11</span> <span class="nv">m</span> <span class="nv">m</span><span class="p">)))</span>
+
+<span class="c1">; tests</span>
+<span class="p">(</span><span class="nb">eval</span> <span class="p">(</span><span class="nb">list</span> <span class="nv">quine</span> <span class="no">nil</span><span class="p">))</span>
+<span class="p">(</span><span class="nb">eval</span> <span class="p">(</span><span class="nb">list</span> <span class="nv">g</span> <span class="nv">quine</span> <span class="no">nil</span><span class="p">))</span>
+</code></pre></div></div>
+<p>(В [47] можно найти неве­ро­ят­ную кол­лек­цию ана­ло­гич­ных экс­пе­ри­мен­тов со вто­рой рекур­сив­ный
+тео­ре­мой Клини, выпол­нен­ных на языке scheme, диа­лекте lisp’а.)</p>
+<p>Этот фраг­мент кода про­сто вос­про­из­во­дит дока­за­тель­ство вто­рой рекур­сив­ной тео­ремы Клини.
+Ана­ло­гич­ным обра­зом я дей­ство­вал и при повто­ре­нии этого экс­пе­ри­мента на sed. Соот­вет­ству­ю­щий код
+может быть най­ден в GitHub-репо­зи­то­рии [46]. Кон­кретно, в репо­зи­то­рии содер­жится ряд скрип­тов,
+<code>*.sed</code> и <code>*.sh</code>, назна­че­ние каж­дого из кото­рых рас­смот­ренно ниже.</p>
+<p>Редак­тор sed направ­ляет дан­ные со стан­дарт­ного ввода в основ­ной буфер редак­ти­ро­ва­ния (т.н. <em>the
+pattern space</em>). И т.к. мне не изве­стен спо­соб пере­дачи тра­ди­ци­он­ных аргу­мен­тов команд­ной
+строки скрипту для этого редак­тора, то именно чте­ние со стан­дарт­ного ввода было при­ме­нено в
+каче­стве един­ствен­ного меха­низма пере­дачи аргу­мен­тов. При этом, из-за необ­хо­ди­мо­сти пере­дачи
+несколь­ких аргу­мен­тов, пона­до­би­лось либо вве­сти разделитель/терминатор (e.g. нуле­вой байт), либо
+при­пи­сы­вать зна­че­ние длины перед каж­дым аргу­мен­том. Как ни странно, изна­чально был выбран вто­рой
+метод, в основ­ном из-за отсут­ствия необ­хо­ди­мо­сти в экра­ни­ро­ва­нии раз­де­ли­теля.</p>
+<p>Итак, далее при­ве­ден пере­чень скрип­тов с их крат­ким опи­са­нием:</p>
+<ul>
+<li>
+<p><code>construct-input.sh</code> при­ни­мает на вход спи­сок фай­лов со зна­че­ни­ями аргу­мен­тов и фор­ми­рует
+пакет аргу­мен­тов из них, т.е. читает эти зна­че­ния и посы­лает на стан­дарт­ный вывод, снаб­див
+заго­лов­ками (дли­нами). Фор­мат пакета дан­ных с аргу­мен­тами выгля­дит так:</p>
+<pre><code>&lt;длина аргумента 1&gt;...&lt;длина аргумента n&gt;&lt;аргумент 1&gt;...&lt;аргумент n&gt;
+</code></pre>
+<p>Длина каж­дого аргу­мента пред­став­лена дво­ич­ным шест­на­дца­ти­раз­ряд­ным чис­лом (т.е. этот фор­мат
+не отли­ча­ется уни­вер­саль­но­стью, но этого хва­тает для прак­ти­че­ского при­ме­не­ния).</p>
+</li>
+<li>
+<p>Скрипт <code>s11.sed</code> [три­ви­ально] реа­ли­зует <span class="nolinebreak"><img src="/eq/3-178.png" style="height: 18px; width: 16px; vertical-align: -4px;" class="latex">-функцию.</span> Этот сце­на­рий при­ни­мает исход­ную
+про­грамму <span class="nolinebreak"><img src="/eq/3-179.png" style="height: 12px; width: 9px; vertical-align: -4px;" class="latex"></span> в пер­вом аргу­менте и фик­си­ру­е­мый аргу­мент <span class="nolinebreak"><img src="/eq/3-180.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex"></span> для неё – во вто­ром своем
+аргу­менте. Резуль­та­том работы скрипта будет дру­гая про­грамма, полу­чен­ная путем при­пи­сы­ва­ния к
+<span class="nolinebreak"><img src="/eq/3-181.png" style="height: 12px; width: 9px; vertical-align: -4px;" class="latex"></span> неболь­шого «инъ­ек­то­ра» – фраг­мента кода, встра­и­ва­ю­щего ранее при­ня­тый аргу­мент <span class="nolinebreak"><img src="/eq/3-182.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex"></span> (и
+теперь явля­ю­щийся частью инъ­ек­тора) перед новым аргу­мен­том <span class="nolinebreak"><img src="/eq/3-183.png" style="height: 12px; width: 8px; vertical-align: -4px;" class="latex"></span> (кото­рый будет пере­дан
+фор­ми­ру­е­мой про­грамме при её запуске). После моди­фи­ка­ции пакета аргу­мен­тов, инъ­ек­тор пере­даёт
+управ­ле­ние про­грамме <span class="nolinebreak"><img src="/eq/3-184.png" style="height: 12px; width: 9px; vertical-align: -4px;" class="latex"></span> так, что она «ви­дит» пару аргу­мен­тов <span class="nolinebreak"><img src="/eq/3-185.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex"></span> и <span class="nolinebreak"><img src="/eq/3-186.png" style="height: 12px; width: 8px; vertical-align: -4px;" class="latex">,</span> несмотря на то,
+что при запуске ей был пере­дан един­ствен­ный аргу­мент <span class="nolinebreak"><img src="/eq/3-187.png" style="height: 12px; width: 8px; vertical-align: -4px;" class="latex">.</span></p>
+<p>Неболь­шая тех­ни­че­ская слож­ность заклю­ча­ется в необ­хо­ди­мо­сти экра­ни­ро­ва­ния спе­ци­аль­ных
+сим­во­лов в аргу­менте <span class="nolinebreak"><img src="/eq/3-188.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex"></span> при фор­ми­ро­ва­нии инъ­ек­тора (с <span class="nolinebreak"><img src="/eq/3-189.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex">,</span> встро­ен­ным в него). Экра­ни­ро­ва­ние
+про­из­во­дится в соот­вет­ствии с син­так­си­сом регу­ляр­ных выра­же­ний sed, путем добав­ле­ния
+сим­вола<code>\</code> перед неко­то­рыми сим­во­лами, вроде того же <code>\</code> или пере­вода строки <code>\n</code>.</p>
+</li>
+<li>
+<p><code>minifier.sed</code> исполь­зу­ется для уда­ле­ния ненуж­ных сим­во­лов (пустые строки, ком­мен­та­рии). При
+гене­ра­ции квайна этот скрипт при­ме­ня­ется для <em>опци­о­наль­ного</em> «сжа­тия» скрип­тов <code>s11.sed</code> и
+<code>duplicate-first.sed</code>, что впо­след­ствии умень­шает раз­мер и уве­ли­чи­вает ско­рость работы
+резуль­ти­ру­ю­щего квайна.</p>
+</li>
+<li>
+<p><code>is-quine.sh</code> – про­стой shell-скрипт, про­ве­ря­ю­щий пере­дан­ный ему в аргу­мен­тах sed-скрипт и
+опре­де­ля­ю­щий, явля­ется ли он квай­ном.</p>
+</li>
+<li>
+<p><code>generate.sh</code> про­из­во­дит «ми­ни­фи­ка­цию» скрип­тов <code>s11.sed</code> и <code>duplicate-first.sed</code>, после
+чего запус­кает <code>generate-q.sh</code>, а после его завер­ше­ния про­ве­ряет гото­вый про­дукт — квайн в
+файле <code>q.sed</code> — с помо­щью скрипта <code>is-quine.sh</code></p>
+</li>
+<li>
+<p><code>duplicate-first.sed</code> при­ни­мает два аргу­мента <span class="nolinebreak"><img src="/eq/3-190.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex"></span> и <span class="nolinebreak"><img src="/eq/3-191.png" style="height: 12px; width: 8px; vertical-align: -4px;" class="latex"></span> и заме­няет вто­рой пер­вым, т.е.,
+игно­ри­рует <span class="nolinebreak"><img src="/eq/3-192.png" style="height: 12px; width: 8px; vertical-align: -4px;" class="latex"></span> и фор­ми­рует пакет из двух оди­на­ко­вых аргу­мен­тов <span class="nolinebreak"><img src="/eq/3-193.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex"></span> и <span class="nolinebreak"><img src="/eq/3-194.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex">.</span></p>
+</li>
+<li>
+<p><code>generate-e.sh</code> кон­стру­и­рует про­грамму <span class="nolinebreak"><img src="/eq/3-195.png" style="height: 9px; width: 7px; vertical-align: -0px;" class="latex"></span> из дока­за­тель­ства тео­ремы Клини. Для этого
+[мини­фи­ци­ро­ван­ный, сжа­тый] код про­граммы <code>duplicate-first.sed</code> добав­ля­ется в начало [тоже
+сжа­того] <code>s11.sed</code> и объ­единён­ный код сохра­ня­ется в <code>e.sed</code>. При запуске <span class="nolinebreak"><img src="/eq/3-196.png" style="height: 9px; width: 7px; vertical-align: -0px;" class="latex">,</span> как и
+тре­бу­ется, будет выпол­няться <span class="nolinebreak"><img src="/eq/3-197.png" style="height: 19px; width: 153px; vertical-align: -4px;" class="latex">,</span> т.е. сна­чала
+вто­рой аргу­мент будет заме­нен пер­вым (с помо­щью кода из <code>duplicate-first.sed</code>), затем
+управ­ле­ние будет пере­дано коду <span class="nolinebreak"><img src="/eq/3-198.png" style="height: 18px; width: 16px; vertical-align: -4px;" class="latex">-функции</span> из <code>s11.sed</code>.</p>
+</li>
+<li>
+<p><code>generate-q.sh</code> сна­чала запус­кает <code>generate-e.sh</code> для созда­ния <code>e.sed</code>, потом запус­кает
+<code>s11.sed</code> (или его сжа­тую вер­сию, хотя здесь это не имеет зна­че­ния) пере­дав ему в каче­стве
+обоих его аргу­мен­тов содер­жи­мое только что сге­не­ри­ро­ван­ного <code>e.sed</code>. (N.B., <code>generate-e.sh</code>
+исполь­зо­вал содер­жи­мое <code>s11.sed</code> для гене­ра­ции <code>e.sed</code> на его осно­ве; в дан­ном же слу­чае,
+скрипту <code>generate-q.sh</code> не тре­бу­ется доступ к тек­сту <code>s11.sed</code>, но лишь воз­мож­ность его
+выпол­не­ния; по той же при­чине здесь не исполь­зу­ется <code>duplicate-first.sed</code>)</p>
+</li>
+<li>
+<p><code>first-only.sed</code> из двух пере­дан­ных ему аргу­мен­тов воз­вра­щает только пер­вый. Реа­ли­зует
+<span class="nolinebreak"><img src="/eq/3-199.png" style="height: 12px; width: 13px; vertical-align: -0px;" class="latex">-комбинатор</span> из ком­би­на­тор­ной логики и <span class="nolinebreak"><img src="/eq/3-200.png" style="height: 13px; width: 27px; vertical-align: -0px;" class="latex">-исчисления.</span> В
+дистрибутив/репозиторий вклю­чен про­сто для демон­стра­ции, хотя, в соот­вет­ствии с
+дока­за­тель­ством тео­ремы Клини, явля­ется реа­ли­за­цией функ­ции <span class="nolinebreak"><img src="/eq/3-201.png" style="height: 18px; width: 79px; vertical-align: -5px;" class="latex">,</span> позже
+исполь­зо­вав­шейся для дока­за­тель­ства суще­ство­ва­ния квайна.</p>
+</li>
+<li>
+<p><code>concat.sed</code> воз­вра­щет объ­единён­ные зна­че­ния обоих аргу­мен­тов; ника­кие заго­ловки в резуль­тат
+не вклю­ча­ются. На деле, <code>concat.sed</code> вклю­чен в репо­зи­то­рий только для демон­стра­ции – скрипт
+<code>generate-e.sh</code> не исполь­зует <code>concat.sed</code>, а про­из­во­дит объ­еди­не­ние тек­стов про­сто
+после­до­ва­тель­ным копи­ро­ва­нием оных в целе­вой файл.</p>
+</li>
+</ul>
+<p>(Заметьте, послед­ние два скрипта, <code>first-only.sed</code> и <code>concat.sed</code> кон­цеп­ту­ально не явля­ются
+лиш­ними и они могли бы быть исполь­зо­ваны, но по-факту, в ходе опти­ми­за­ции, были заме­нены
+ана­ло­гич­ными сред­ствами команд­ной обо­лочки, – для эффек­тив­но­сти.)</p>
+<p>Для гене­ра­ции квайна доста­точно запу­стить <code>./generate.sh</code>, в резуль­тате чего в том же ката­логе
+[через неко­то­рое время] дол­жен появиться файл <code>q.sed</code>, явля­ю­щийся иско­мым квай­ном на sed.</p>
+<h1 id="section-7">
+<a class="anchor" href="#section-7" aria-hidden="true"><span class="octicon octicon-link"></span></a>Про­ме­жу­точ­ные итоги</h1>
+<p>Опи­са­ние основ­ного экс­пе­ри­мента завер­шено (и я реко­мен­дую немного поизу­чать код скрип­тов из
+репо­зи­то­рия). Но о квай­нах рас­ска­зать можно ещё мно­гое. А неко­то­рые вопросы оста­ются
+вовсе мало­изу­чен­ными, фак­ти­че­ски, откры­тыми.</p>
+<p>Несмотря на при­ве­ден­ные дока­за­тель­ста тео­рем о непо­движ­ных точ­ках (Клини и Род­жерса), кому-то,
+может быть, хоте­лось бы глубже понять струк­туру этих и подоб­ных им дока­за­тельств. Поэтому ниже я
+при­веду неко­то­рые допол­ни­тель­ные све­де­ния с при­ме­рами. К концу сооб­ще­ния я попро­буя немного
+задеть неко­то­рые из фило­соф­ских аспек­тов квай­нов и тео­рии вычис­ли­мо­сти. И, пожа­луй, завершу
+изло­же­ние попыт­кой сфор­му­ли­ро­вать инте­ре­су­ю­щие меня, но пока не име­ю­щие офи­ци­аль­ного ответа
+откры­тые вопросы.</p>
+<p>Наде­юсь, это не послед­нее сооб­ще­ние этой серии. Поэтому, темы, не затро­ну­тые здесь, будут, по
+воз­мож­но­сти, обсуж­даться позже в дру­гих частях.</p>
+<h1 id="section-8">
+<a class="anchor" href="#section-8" aria-hidden="true"><span class="octicon octicon-link"></span></a>Допол­ни­тель­ная тео­рия</h1>
+<h2 id="section-9">
+<a class="anchor" href="#section-9" aria-hidden="true"><span class="octicon octicon-link"></span></a>Про­блема оста­новки</h2>
+<p>Про­бле­мой останова(-ки) назы­вают задачу опре­де­ле­ния завер­ша­е­мо­сти про­из­воль­ной про­граммы по её
+коду. Известна тео­рема об алго­рит­ми­че­ской нераз­ре­ши­мо­сти такой задачи, т.е. о невоз­мож­но­сти
+постро­е­ния алго­ритма, уста­нав­ли­ва­ю­щего для про­из­воль­ной про­граммы конеч­ность вре­мени её
+выпол­не­ния [8].</p>
+<p><strong>Дока­за­тель­ство 1.</strong></p>
+<p>В пользу этого утвер­жде­ния можно при­ве­сти такие доводы. Вве­дем функ­цию <span class="nolinebreak"><img src="/eq/3-202.png" style="height: 18px; width: 46px; vertical-align: -5px;" class="latex">,</span> опре­делён­ную
+для всех <span class="nolinebreak"><img src="/eq/3-203.png" style="height: 12px; width: 9px; vertical-align: -4px;" class="latex">,</span> кото­рая в каче­стве своих аргу­мен­тов при­ни­мает текст неко­то­рой про­граммы <span class="nolinebreak"><img src="/eq/3-204.png" style="height: 12px; width: 9px; vertical-align: -4px;" class="latex"></span> и
+вход­ные дан­ные <span class="nolinebreak"><img src="/eq/3-205.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex"></span> этой про­граммы, после чего воз­вра­щает 1 если эта про­грамма завер­ша­ется за
+конеч­ное время, и 0 – если про­грамма «за­ви­са­ет»: <br></p>
+<center><img src="/eq/3-206.png" style="height: 50px; width: 195px;" class="latex"></center>
+<br>
+<p>Пусть <span class="nolinebreak"><img src="/eq/3-207.png" style="height: 18px; width: 46px; vertical-align: -5px;" class="latex"></span> – любая вычис­ли­мая (реа­ли­зу­е­мая в виде ком­пью­тер­ной про­граммы) функ­ция двух
+аргу­мен­тов, спо­соб­ная обра­ба­ты­вать тек­сты про­грамм. Напи­шем про­грамму <span class="nolinebreak"><img src="/eq/3-208.png" style="height: 12px; width: 8px; vertical-align: -4px;" class="latex"></span> так, чтобы
+выпол­ня­лось: <br></p>
+<center><img src="/eq/3-209.png" style="height: 50px; width: 188px;" class="latex"></center>
+<br>
+<p>Т.е. <span class="nolinebreak"><img src="/eq/3-210.png" style="height: 12px; width: 8px; vertical-align: -4px;" class="latex"></span> пере­даёт свой аргу­мент функ­ции <span class="nolinebreak"><img src="/eq/3-211.png" style="height: 16px; width: 9px; vertical-align: -3px;" class="latex"></span> и если та воз­вра­щает ноль, то ноль (или любое дру­гое
+конеч­ное зна­че­ние) воз­вра­щает и <span class="nolinebreak"><img src="/eq/3-212.png" style="height: 12px; width: 8px; vertical-align: -4px;" class="latex">,</span> но в про­тив­ном слу­чае <span class="nolinebreak"><img src="/eq/3-213.png" style="height: 12px; width: 8px; vertical-align: -4px;" class="latex"></span> воз­вра­щает неопре­де­лен­ное
+зна­че­ние, а именно зави­сает, входя в бес­ко­неч­ный цикл.</p>
+<p>Так как <span class="nolinebreak"><img src="/eq/3-214.png" style="height: 16px; width: 9px; vertical-align: -3px;" class="latex"></span> тоже реа­ли­зу­ема в виде про­граммы (т.е. вычис­лима), то полу­че­ние зна­че­ния <span class="nolinebreak"><img src="/eq/3-215.png" style="height: 18px; width: 45px; vertical-align: -5px;" class="latex"></span>
+можно счи­тать обыч­ным вызо­вом под­про­граммы. Все осталь­ные дей­ствия (про­верка на равен­ство нулю,
+воз­врат резуль­тата, услов­ный пере­ход, бес­ко­неч­ный цикл) тоже выпол­нимы на любом комп­пью­тере.</p>
+<p>Теперь мы можем пере­дать про­грамме <span class="nolinebreak"><img src="/eq/3-216.png" style="height: 12px; width: 8px; vertical-align: -4px;" class="latex"></span> её соб­ствен­ный текст; тогда, если <span class="nolinebreak"><img src="/eq/3-217.png" style="height: 18px; width: 77px; vertical-align: -5px;" class="latex">,</span> то и
+<span class="nolinebreak"><img src="/eq/3-218.png" style="height: 18px; width: 72px; vertical-align: -5px;" class="latex">.</span> Дру­гими сло­вами, в этом слу­чае <span class="nolinebreak"><img src="/eq/3-219.png" style="height: 12px; width: 8px; vertical-align: -4px;" class="latex"></span> воз­вра­щает резуль­тат и
+завер­ша­ется, т.е. <span class="nolinebreak"><img src="/eq/3-220.png" style="height: 18px; width: 75px; vertical-align: -5px;" class="latex">.</span> Если же <span class="nolinebreak"><img src="/eq/3-221.png" style="height: 18px; width: 76px; vertical-align: -5px;" class="latex">,</span> то <span class="nolinebreak"><img src="/eq/3-222.png" style="height: 18px; width: 40px; vertical-align: -5px;" class="latex"></span> зави­сает и
+таким обра­зом <span class="nolinebreak"><img src="/eq/3-223.png" style="height: 18px; width: 76px; vertical-align: -5px;" class="latex">.</span></p>
+<p>В любом слу­чае, из этого полу­ча­ется, что <span class="nolinebreak"><img src="/eq/3-224.png" style="height: 18px; width: 114px; vertical-align: -5px;" class="latex">.</span> Таким обра­зом, функ­ция <span class="nolinebreak"><img src="/eq/3-225.png" style="height: 13px; width: 8px; vertical-align: -0px;" class="latex"></span> не
+сов­па­дает [хотя бы в одной точке] с вычис­ли­мой <span class="nolinebreak"><img src="/eq/3-226.png" style="height: 16px; width: 9px; vertical-align: -3px;" class="latex">.</span> А из про­из­воль­но­сти выбора функ­ции <span class="nolinebreak"><img src="/eq/3-227.png" style="height: 16px; width: 9px; vertical-align: -3px;" class="latex"></span>
+немед­ленно выте­кает, что функ­ция <span class="nolinebreak"><img src="/eq/3-228.png" style="height: 13px; width: 8px; vertical-align: -0px;" class="latex"></span> не сов­па­дает вообще ни с одной вычис­ли­мой функ­цией, т.е.
+<span class="nolinebreak"><img src="/eq/3-229.png" style="height: 13px; width: 8px; vertical-align: -0px;" class="latex"></span> невы­чис­лима (в смысле несу­ще­ство­ва­ния про­граммы, вычис­ля­ю­щей зна­че­ние этой функ­ции для всех
+про­грамм). <span class="nolinebreak"><img src="/eq/3-230.png" style="height: 12px; width: 11px; vertical-align: -0px;" class="latex"></span></p>
+<p><strong>Дока­за­тель­ство 2.</strong></p>
+<p>Инте­ресно, что можно вос­поль­зо­ваться тео­ре­мой Клини и попро­бо­вать дока­зать про­блему оста­нова
+мето­дом «от про­тив­но­го».</p>
+<p>Допу­стим, опре­делён­ная выше функ­ция оста­нова <span class="nolinebreak"><img src="/eq/3-231.png" style="height: 18px; width: 46px; vertical-align: -5px;" class="latex"></span> – вычис­ли­мая. Опре­де­лим вычис­ли­мую
+функ­цию <br></p>
+<center><img src="/eq/3-232.png" style="height: 50px; width: 200px;" class="latex"></center>
+<br> Вто­рая рекур­сив­ная
+тео­рема гово­рит, что <span class="nolinebreak"><img src="/eq/3-233.png" style="height: 18px; width: 152px; vertical-align: -5px;" class="latex">.</span> Опре­де­ле­ние
+равен­ства вычис­ли­мых функ­ций, опре­де­ле­ние <span class="nolinebreak"><img src="/eq/3-234.png" style="height: 16px; width: 9px; vertical-align: -3px;" class="latex"></span> и опре­де­ле­ние функ­ции оста­нова дают сле­ду­ю­щие
+цепочки логи­че­ских эква­ва­лент­но­стей <br><center><img src="/eq/3-235.png" style="height: 50px; width: 478px;" class="latex"></center>
+<br> При­шли к
+про­ти­во­ре­чию; зна­чит, функ­ция <span class="nolinebreak"><img src="/eq/3-236.png" style="height: 13px; width: 8px; vertical-align: -0px;" class="latex"></span> не явля­ется вычис­ли­мой. <span class="nolinebreak"><img src="/eq/3-237.png" style="height: 12px; width: 11px; vertical-align: -0px;" class="latex"></span>
+<h2 id="section-10">
+<a class="anchor" href="#section-10" aria-hidden="true"><span class="octicon octicon-link"></span></a>Диа­го­на­ли­за­ция</h2>
+<p>Схема пер­вого дока­за­тель­ства для про­блемы оста­нова фак­ти­че­ски осно­вана на про­це­дуре
+диа­го­на­ли­за­ции [6]. Вто­рое дока­за­тель­ство, впро­чем, тоже: ведь оно исполь­зует тео­рему Клини,
+дока­за­тель­ство кото­рой так­же осно­вано на диа­го­на­ли­за­ции. Далее я попы­та­юсь пояс­нить суть этого
+про­цесса. Итак, если у нас есть неко­то­рая бес­ко­неч­ная мат­рица <span class="nolinebreak"><img src="/eq/3-238.png" style="height: 16px; width: 16px; vertical-align: -4px;" class="latex"></span> (верх­ний индекс нуме­рует
+строки, ниж­ний – столбцы), то мы можем постро­ить вектор-строку <span class="nolinebreak"><img src="/eq/3-239.png" style="height: 13px; width: 7px; vertical-align: -0px;" class="latex">,</span> не сов­па­да­ю­щий ни с одной
+из строк мат­рицы. Для этого доста­точно лишь каким-то обра­зом пре­об­ра­зо­вать эле­менты диа­го­нали
+(отсюда назва­ние метода) мат­рицы <span class="nolinebreak"><img src="/eq/3-240.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex"></span> так, чтобы для любого <span class="nolinebreak"><img src="/eq/3-241.png" style="height: 9px; width: 8px; vertical-align: -0px;" class="latex"></span> выпол­ня­лось <span class="nolinebreak"><img src="/eq/3-242.png" style="height: 16px; width: 52px; vertical-align: -4px;" class="latex"></span>
+(напри­мер, <span class="nolinebreak"><img src="/eq/3-243.png" style="height: 16px; width: 81px; vertical-align: -4px;" class="latex">).</span></p>
+<p>Дей­стви­тельно, пред­по­ло­жим, что <span class="nolinebreak"><img src="/eq/3-244.png" style="height: 13px; width: 7px; vertical-align: -0px;" class="latex"></span> равен одной из строк мат­рицы <span class="nolinebreak"><img src="/eq/3-245.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex">.</span> Это озна­чает, что
+суще­ствует такой индекс <span class="nolinebreak"><img src="/eq/3-246.png" style="height: 9px; width: 8px; vertical-align: -0px;" class="latex">,</span> что <span class="nolinebreak"><img src="/eq/3-247.png" style="height: 17px; width: 50px; vertical-align: -5px;" class="latex"></span> для всех <span class="nolinebreak"><img src="/eq/3-248.png" style="height: 12px; width: 5px; vertical-align: -0px;" class="latex">.</span> Однако, по-построению <span class="nolinebreak"><img src="/eq/3-249.png" style="height: 13px; width: 7px; vertical-align: -0px;" class="latex">,</span> при
+<span class="nolinebreak"><img src="/eq/3-250.png" style="height: 12px; width: 36px; vertical-align: -0px;" class="latex"></span> имеет место нера­вен­ство <span class="nolinebreak"><img src="/eq/3-251.png" style="height: 16px; width: 52px; vertical-align: -4px;" class="latex">;</span> про­ти­во­ре­чие. Сле­до­ва­тельно, мы дей­стви­тельно
+постро­или новый объ­ект <span class="nolinebreak"><img src="/eq/3-252.png" style="height: 13px; width: 7px; vertical-align: -0px;" class="latex">,</span> не вхо­дя­щий в мат­рицу <span class="nolinebreak"><img src="/eq/3-253.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex">.</span></p>
+<p><strong>При­ме­ча­ние.</strong></p>
+<p>Назва­ние метода (диа­го­на­ли­за­ция) несколько условно, т.к., по-видимому, доста­точно чтобы в каж­дой
+строке был хотя-бы один пре­об­ра­зу­е­мый эле­мент, совсем не обя­за­тельно лежа­щий на глав­ной
+диа­го­нали. [44] (Правда, нужно учи­ты­вать, что пере­ста­нов­кой строк можно вер­нуть пре­об­ра­зу­е­мые
+эле­менты на диа­го­наль мат­ри­цы; это заме­ча­ние пока имеет инту­и­тив­ный харак­тер и деталь­ного
+ана­лиза здесь не будет.)</p>
+<p>Воз­можно, что пока при­ме­не­ние этого трюка с кон­стру­и­ро­ва­нием пато­ло­ги­че­ской строки мат­рицы может
+пока­заться далёким от при­ве­ден­ных дока­за­тельств раз­би­ра­е­мых здесь тео­рем (Клини, Род­жерса и
+про­блемы остановки); поэтому пред­став­ля­ется нелиш­ним неболь­шое про­дви­же­ние ближе к исто­ри­че­ским
+осно­вам метода, и, я наде­юсь, это сразу про­яс­нит связь по край­ней мере с про­бле­мой оста­нова.
+А вот тео­ремы о непо­движ­ных точ­ках потре­буют боль­шего вни­ма­ния… Итак, сей­час коп­нём вглубь
+исто­рии.</p>
+<h2 id="section-11">
+<a class="anchor" href="#section-11" aria-hidden="true"><span class="octicon octicon-link"></span></a>Тео­рема Кан­тора</h2>
+<p>Изна­чально, диа­го­наль­ный метод был раз­ра­бо­тан и при­ме­нен Кан­то­ром [7] для дока­за­тель­ства
+суще­ство­ва­ния мно­жеств, боль­ших любого счет­ного бес­ко­неч­ного мно­жества, или, точ­нее говоря, для
+дока­за­тель­ства несуще­ство­ва­ния сюръ­ек­ции <span class="nolinebreak"><img src="/eq/3-254.png" style="height: 18px; width: 72px; vertical-align: -5px;" class="latex">,</span> где <span class="nolinebreak"><img src="/eq/3-255.png" style="height: 18px; width: 33px; vertical-align: -5px;" class="latex"></span>
+– булеан мно­же­ства <span class="nolinebreak"><img src="/eq/3-256.png" style="height: 13px; width: 12px; vertical-align: -0px;" class="latex">.</span> Можно выра­зить тео­рему Кан­тора так:
+<span class="nolinebreak"><img src="/eq/3-257.png" style="height: 18px; width: 68px; vertical-align: -4px;" class="latex">.</span> В более общем виде, тео­рема Кан­тора гово­рит о несу­ще­ство­ва­нии
+сюръ­ек­ции <span class="nolinebreak"><img src="/eq/3-258.png" style="height: 15px; width: 66px; vertical-align: -0px;" class="latex">,</span> где <span class="nolinebreak"><img src="/eq/3-259.png" style="height: 12px; width: 14px; vertical-align: -0px;" class="latex">,</span> <span class="nolinebreak"><img src="/eq/3-260.png" style="height: 12px; width: 13px; vertical-align: -0px;" class="latex"></span> – неко­то­рые мно­же­ства (при­чем <span class="nolinebreak"><img src="/eq/3-261.png" style="height: 12px; width: 13px; vertical-align: -0px;" class="latex"></span> должно быть невы­рож­ден­ным,
+напри­мер в смысле суще­ство­ва­ния бес­по­рядка <span class="nolinebreak"><img src="/eq/3-262.png" style="height: 13px; width: 52px; vertical-align: -0px;" class="latex">,</span> т.е., пере­ста­новки без непо­движ­ных точек),
+а <span class="nolinebreak"><img src="/eq/3-263.png" style="height: 14px; width: 25px; vertical-align: -0px;" class="latex"></span> – мно­же­ство всех функ­ций <span class="nolinebreak"><img src="/eq/3-264.png" style="height: 13px; width: 54px; vertical-align: -0px;" class="latex"></span> (струк­турно, обо­зна­че­ние <span class="nolinebreak"><img src="/eq/3-265.png" style="height: 14px; width: 25px; vertical-align: -0px;" class="latex"></span> соот­вет­ствует фор­муле
+<span class="nolinebreak"><img src="/eq/3-266.png" style="height: 20px; width: 40px; vertical-align: -4px;" class="latex"></span> для под­счета коли­че­ства таких функ­ций).</p>
+<p>Рас­смот­рим более детально при­мер с <span class="nolinebreak"><img src="/eq/3-267.png" style="height: 18px; width: 68px; vertical-align: -5px;" class="latex">.</span></p>
+<p>Мы можем зако­ди­ро­вать про­из­воль­ное под­мно­же­ство <span class="nolinebreak"><img src="/eq/3-268.png" style="height: 15px; width: 50px; vertical-align: -2px;" class="latex"></span> дво­ич­ной мас­кой, т.е.
+после­до­ва­тель­но­стью <span class="nolinebreak"><img src="/eq/3-269.png" style="height: 11px; width: 19px; vertical-align: -3px;" class="latex">,</span> такой, что <span class="nolinebreak"><img src="/eq/3-270.png" style="height: 14px; width: 50px; vertical-align: -3px;" class="latex"></span> если <span class="nolinebreak"><img src="/eq/3-271.png" style="height: 13px; width: 41px; vertical-align: -1px;" class="latex"></span> и <span class="nolinebreak"><img src="/eq/3-272.png" style="height: 14px; width: 51px; vertical-align: -3px;" class="latex"></span> если <span class="nolinebreak"><img src="/eq/3-273.png" style="height: 17px; width: 41px; vertical-align: -1px;" class="latex">.</span></p>
+<p>После этого мы смо­жем опре­де­лить мат­рицу <span class="nolinebreak"><img src="/eq/3-274.png" style="height: 21px; width: 15px; vertical-align: -7px;" class="latex"></span> (бес­ко­неч­ных раз­ме­ров), каж­дая строка <span class="nolinebreak"><img src="/eq/3-275.png" style="height: 15px; width: 13px; vertical-align: -0px;" class="latex"></span>
+кото­рой будет содер­жать дво­ич­ную маску для каж­дого под­мно­же­ства <span class="nolinebreak"><img src="/eq/3-276.png" style="height: 13px; width: 12px; vertical-align: -0px;" class="latex">.</span> Теперь мы при­ме­ним
+к диа­го­наль­ным эле­мен­там <span class="nolinebreak"><img src="/eq/3-277.png" style="height: 19px; width: 34px; vertical-align: -5px;" class="latex"></span> мат­рицы опе­ра­цию инвер­ти­ро­ва­ния <span class="nolinebreak"><img src="/eq/3-278.png" style="height: 18px; width: 161px; vertical-align: -5px;" class="latex"></span> (т.е. <span class="nolinebreak"><img src="/eq/3-279.png" style="height: 18px; width: 61px; vertical-align: -5px;" class="latex"></span> и <span class="nolinebreak"><img src="/eq/3-280.png" style="height: 18px; width: 62px; vertical-align: -5px;" class="latex">),</span> в резуль­тате чего полу­чим новый
+бес­ко­неч­ный вектор-строку <span class="nolinebreak"><img src="/eq/3-281.png" style="height: 19px; width: 77px; vertical-align: -5px;" class="latex">,</span> кото­рый не будет сов­па­дать ни с одной из строк
+мат­рицы.</p>
+<p>Т.е. мы полу­чили совер­шенно новый объ­ект, име­ю­щий кон­крет­ное опи­са­ние в виде дво­ич­ной
+после­до­ва­тель­но­сти, тоже могу­щей быть дво­ич­ной мас­кой для неко­то­рого под­мно­же­ства <span class="nolinebreak"><img src="/eq/3-282.png" style="height: 13px; width: 12px; vertical-align: -0px;" class="latex">,</span>
+но не вхо­дя­щей в мат­рицу <span class="nolinebreak"><img src="/eq/3-283.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex">.</span> Этот при­мер пока­зы­вает, что раз строки мат­рицы про­ну­ме­ро­ваны
+чис­лами <span class="nolinebreak"><img src="/eq/3-284.png" style="height: 13px; width: 12px; vertical-align: -0px;" class="latex">,</span> а мы полу­чили «лиш­нюю» дво­ич­ную маску, опре­де­ля­ю­щую некое «лиш­нее»
+под­мно­же­ство <span class="nolinebreak"><img src="/eq/3-285.png" style="height: 13px; width: 12px; vertical-align: -0px;" class="latex">,</span> то мно­же­ство всех под­мно­жеств <span class="nolinebreak"><img src="/eq/3-286.png" style="height: 13px; width: 12px; vertical-align: -0px;" class="latex">,</span> содер­жа­щее это лиш­нее
+под­мно­же­ство и обо­зна­ча­е­мое <span class="nolinebreak"><img src="/eq/3-287.png" style="height: 18px; width: 33px; vertical-align: -5px;" class="latex">,</span> строго больше самого <span class="nolinebreak"><img src="/eq/3-288.png" style="height: 13px; width: 12px; vertical-align: -0px;" class="latex">;</span> выра­же­ние
+«строго боль­ше» озна­чает, что в <span class="nolinebreak"><img src="/eq/3-289.png" style="height: 18px; width: 33px; vertical-align: -5px;" class="latex"></span> есть лиш­ние, допол­ни­тель­ные эле­менты и
+нельзя опре­де­лить какую-нибудь функ­цию из <span class="nolinebreak"><img src="/eq/3-290.png" style="height: 13px; width: 12px; vertical-align: -0px;" class="latex"></span> <em>на</em> <span class="nolinebreak"><img src="/eq/3-291.png" style="height: 18px; width: 33px; vertical-align: -5px;" class="latex">,</span> т.е. такую
+функ­цию, чтобы у каж­дого эле­мента <span class="nolinebreak"><img src="/eq/3-292.png" style="height: 18px; width: 33px; vertical-align: -5px;" class="latex"></span> был про­об­раз.</p>
+<p>При­ме­ни­тельно же к про­блеме оста­нова, в каче­стве бес­ко­неч­ной мат­рицы исполь­зу­ются зна­че­ния <span class="nolinebreak"><img src="/eq/3-293.png" style="height: 18px; width: 46px; vertical-align: -5px;" class="latex">,</span> т.е. строки соот­вет­ствуют функ­циям. При­чем диа­го­наль­ные зна­че­ния обо­ра­чи­ва­ются в функ­цию
+<span class="nolinebreak"><img src="/eq/3-294.png" style="height: 18px; width: 19px; vertical-align: -5px;" class="latex"></span> так, чтобы функ­ция оста­нова <span class="nolinebreak"><img src="/eq/3-295.png" style="height: 13px; width: 8px; vertical-align: -0px;" class="latex"></span> [хотя бы на диа­го­наль­ных эле­мен­тах
+мат­рицы] воз­вра­щала резуль­тат, отлич­ный от резуль­тата при­ме­не­ния <span class="nolinebreak"><img src="/eq/3-296.png" style="height: 16px; width: 9px; vertical-align: -3px;" class="latex"></span> к тем же аргу­мен­там.</p>
+<h2 id="section-12">
+<a class="anchor" href="#section-12" aria-hidden="true"><span class="octicon octicon-link"></span></a>Тео­рема Ловера</h2>
+<p>Уильям Ловер пред­ло­жил [43] обоб­щен­ную тео­рему из кото­рой сле­дуют мно­гие дру­гие резуль­таты
+диа­го­на­ли­за­ции, вклю­чая и про­блему оста­нова и тео­рему Гёделя о непол­ноте и неко­то­рые дру­гие. См.
+[44] для изло­же­ния тех же резуль­та­тов на языке тео­рии мно­жеств (работа [43] сфор­му­ли­ро­вана с
+суще­ствен­ным при­вле­че­нием тео­рии кате­го­рий).</p>
+<h2 id="section-13">
+<a class="anchor" href="#section-13" aria-hidden="true"><span class="octicon octicon-link"></span></a>Связь диа­го­на­ли­за­ции с тео­ре­мами о непо­движ­ной точке</h2>
+<p>(Этот под­раз­дел добав­лен через месяцы после раз­ме­ще­ния в моем днев­нике пер­вой вер­сии этого
+сооб­ще­ния. Доба­вить новый под­раз­дел, демон­стри­ру­ю­щий роль диа­го­на­ли­за­ции при поиске непо­движ­ных
+точек, я решил после того как од­на­жды про­чи­тал своё же сооб­ще­ние и не уви­дел чёт­ких сле­дов
+диа­го­наль­ного про­цесса в при­ве­ден­ных дока­за­тель­ствах тео­рем Клини и Род­жерса, кроме харак­тер­ного
+при­ема с само­при­ме­не­нием про­грамм… Мате­риал в основ­ном напи­сан по моти­вам [56].)</p>
+<p>В рас­смот­рен­ных выше при­ме­рах при­ме­не­ния диа­го­наль­ного про­цесса мы опре­де­ляли мно­же­ство всех
+объ­ек­тов опре­делён­ного типа, пред­став­ляли их стро­ками мат­рицы, а затем при­ме­няли неко­то­рую
+опе­ра­цию к диа­го­наль­ным эле­мен­там и т.о. кон­стру­и­ро­вали новый объ­ект, не могу­щий быть опи­сан­ным
+ни одной стро­кой мат­рицы. Но при поиске непо­движ­ной точки, как в тео­ре­мах Клини и Род­жерса,
+тре­бу­ется, на­обо­рот, постро­ить или найти объ­ект с тре­бу­е­мыми свой­ствами в исход­ном наборе, а не
+дока­зать, что его там нет. При­чем же тут диа­го­на­ли­за­ция?</p>
+<p>Все дело в том, что если нам уда­ется постро­ить новую после­до­ва­тель­ность <span class="nolinebreak"><img src="/eq/3-297.png" style="height: 13px; width: 7px; vertical-align: -0px;" class="latex"></span> (ино­гда назы­ва­е­мую
+анти­диа­го­на­лью [ кото­рую не сле­дует путать с побоч­ной диа­го­на­лью мат­рицы]), путем при­ме­не­ния
+неко­его пре­об­ра­зо­ва­ния <span class="nolinebreak"><img src="/eq/3-298.png" style="height: 9px; width: 10px; vertical-align: -0px;" class="latex"></span> к диа­го­наль­ным эле­мен­там мат­рицы <span class="nolinebreak"><img src="/eq/3-299.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex">,</span> то мы, как уже было
+ска­зано ранее, можем быть уве­рены, что среди строк мат­рицы <span class="nolinebreak"><img src="/eq/3-300.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex"></span> объ­екта <span class="nolinebreak"><img src="/eq/3-301.png" style="height: 13px; width: 7px; vertical-align: -0px;" class="latex"></span> нет. Но если по
+какой-то при­чине «ан­ти­диа­го­наль­ный» объ­ект <span class="nolinebreak"><img src="/eq/3-302.png" style="height: 13px; width: 7px; vertical-align: -0px;" class="latex"></span> постро­ить не полу­ча­ется, то среди строк мат­рицы
+<span class="nolinebreak"><img src="/eq/3-303.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex"></span> может ока­заться её диа­го­наль. Т.е. воз­можно суще­ствует индекс <span class="nolinebreak"><img src="/eq/3-304.png" style="height: 9px; width: 8px; vertical-align: -0px;" class="latex">,</span> такой, что <span class="nolinebreak"><img src="/eq/3-305.png" style="height: 19px; width: 52px; vertical-align: -5px;" class="latex">.</span></p>
+<p>Нас инте­ре­сует слу­чай замкну­то­сти набора строк мат­рицы отно­си­тельно дей­ствия <span class="nolinebreak"><img src="/eq/3-306.png" style="height: 9px; width: 10px; vertical-align: -0px;" class="latex">:</span> для любой
+строки <span class="nolinebreak"><img src="/eq/3-307.png" style="height: 15px; width: 13px; vertical-align: -0px;" class="latex"></span> суще­ствует строка <span class="nolinebreak"><img src="/eq/3-308.png" style="height: 15px; width: 15px; vertical-align: -0px;" class="latex"></span> рав­ная образу <span class="nolinebreak"><img src="/eq/3-309.png" style="height: 15px; width: 13px; vertical-align: -0px;" class="latex">,</span> т.е., <span class="nolinebreak"><img src="/eq/3-310.png" style="height: 21px; width: 102px; vertical-align: -5px;" class="latex">.</span> Итак, если диа­го­наль мат­рицы равна её строке <span class="nolinebreak"><img src="/eq/3-311.png" style="height: 13px; width: 15px; vertical-align: -0px;" class="latex">,</span> то в силу замкну­то­сти
+строк отно­си­тельно <span class="nolinebreak"><img src="/eq/3-312.png" style="height: 9px; width: 10px; vertical-align: -0px;" class="latex">,</span> суще­ствует строка <span class="nolinebreak"><img src="/eq/3-313.png" style="height: 18px; width: 81px; vertical-align: -5px;" class="latex">,</span> а так как <span class="nolinebreak"><img src="/eq/3-314.png" style="height: 19px; width: 72px; vertical-align: -5px;" class="latex">,</span> то и образ диа­го­нали под дей­ствием <span class="nolinebreak"><img src="/eq/3-315.png" style="height: 9px; width: 10px; vertical-align: -0px;" class="latex"></span> тоже ока­зы­ва­ется среди строк: <span class="nolinebreak"><img src="/eq/3-316.png" style="height: 19px; width: 99px; vertical-align: -5px;" class="latex">.</span></p>
+<p>Но если резуль­тат пре­об­ра­зо­ва­ния диа­го­нали равен одной из строк, то это озна­чает, что на
+пере­се­че­нии этой строки с глав­ной диа­го­на­лью мат­рицы есть эле­мент, пере­хо­дя­щий в себя под
+дей­ствием пре­об­ра­зо­ва­ния <span class="nolinebreak"><img src="/eq/3-317.png" style="height: 9px; width: 10px; vertical-align: -0px;" class="latex">.</span> Дру­гими сло­вами, <span class="nolinebreak"><img src="/eq/3-318.png" style="height: 18px; width: 84px; vertical-align: -5px;" class="latex">,</span> i.e., <span class="nolinebreak"><img src="/eq/3-319.png" style="height: 16px; width: 19px; vertical-align: -4px;" class="latex"></span> –
+непо­движ­ная точка <span class="nolinebreak"><img src="/eq/3-320.png" style="height: 9px; width: 10px; vertical-align: -0px;" class="latex">.</span></p>
+<p>Воз­можно, в визу­а­ли­за­ции этой идеи помо­жет сле­ду­ю­щий рису­нок (мат­рица <span class="nolinebreak"><img src="/eq/3-321.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex"></span> схе­ма­тично изоб­ра­жена
+в виде таб­ли­цы; вме­сто каких-либо кон­крет­ных зна­че­ний её ячеек исполь­зу­ется сим­вол <span class="nolinebreak"><img src="/eq/3-322.png" style="height: 7px; width: 7px; vertical-align: -0px;" class="latex">):</span>
+<br></p>
+<center><img src="/eq/3-323.png" style="height: 314px; width: 353px;" class="latex"></center>
+<br>
+<p>Ну вот, связь диа­го­на­ли­за­ции и непо­движ­ных точек в общих чер­тах про­де­мон­стри­ро­вана. Оста­лось
+выяс­нить, что же может пойти не так при постро­е­нии век­тора <span class="nolinebreak"><img src="/eq/3-324.png" style="height: 13px; width: 7px; vertical-align: -0px;" class="latex">.</span> Напомню, что в слу­чае с тео­ре­мой
+Кан­тора и про­бле­мой оста­нова диа­го­на­ли­за­ция про­хо­дила успеш­но… Раз­гадка здесь всего-лишь в
+том, что в слу­чае с непо­движ­ными точ­ками мы не строим функ­цию <span class="nolinebreak"><img src="/eq/3-325.png" style="height: 9px; width: 10px; vertical-align: -0px;" class="latex"></span> спе­ци­ально так, чтобы у
+неё не было непо­движ­ных точек. И лишь пред­по­ла­гая, допус­кая их нали­чие, мы при­ме­няем
+диа­го­наль­ный про­цесс для кон­стру­и­ро­ва­ния такой непо­движ­ной точки. Полу­чив же кон­крет­ное реше­ние,
+можно легко убе­диться, что это дей­стви­тельно непо­движ­ная точ­ка; с тем же успе­хом, мы могли бы
+про­сто уга­дать вид реше­ния, а потом убе­диться в его пра­виль­но­сти. Т.о., если отбро­сить вари­ант с
+уга­ды­ва­нием, то кон­струк­тив­ный харак­тер диа­го­наль­ной схемы суще­стве­нен для её логи­че­ской основы:
+мы создаём объ­ект с нуж­ными свой­ствами и назад пути уже нет в силу непро­ти­во­ре­чи­во­сти
+исполь­зу­е­мых фор­маль­ных систем (ведь если выве­дено неко­то­рое утвер­жде­ние, выве­сти его отри­ца­ние
+в таких систе­мах уже не полу­чится). (Реко­мен­дую так­же гля­нуть инте­рес­ное обсуж­де­ние логи­че­ской
+основы диа­го­на­ли­за­ции в [57].)</p>
+<p>При­мер при­ве­дем для тео­ремы Род­жерса, более удоб­ной из-за одно­мест­но­сти фигу­ри­ру­ю­щей в ней
+функ­ции. Тре­бу­ется решить урав­не­ние <span class="nolinebreak"><img src="/eq/3-326.png" style="height: 18px; width: 85px; vertical-align: -5px;" class="latex"></span>
+отно­си­тельно <span class="nolinebreak"><img src="/eq/3-327.png" style="height: 12px; width: 9px; vertical-align: -4px;" class="latex"></span> для любой всюду опре­делён­ной вычис­ли­мой <span class="nolinebreak"><img src="/eq/3-328.png" style="height: 16px; width: 9px; vertical-align: -3px;" class="latex">.</span> В соот­вет­ствии с выше­из­ло­жен­ной
+схе­мой дока­за­тель­ства диа­го­на­ли­за­цией, далее пред­стоит опре­де­лить мат­рицу <span class="nolinebreak"><img src="/eq/3-329.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex"></span> и пре­об­ра­зо­ва­ние
+<span class="nolinebreak"><img src="/eq/3-330.png" style="height: 9px; width: 10px; vertical-align: -0px;" class="latex"></span> так, чтобы непо­движ­ная точка функ­ции <span class="nolinebreak"><img src="/eq/3-331.png" style="height: 9px; width: 10px; vertical-align: -0px;" class="latex"></span> под­хо­дила бы в каче­стве реше­ния к
+урав­не­нию из тео­ремы Род­жерса.</p>
+<p>По тех­ни­че­ским при­чи­нам, о кото­рых ещё будет ска­зано позже, вме­сто функ­ции <span class="nolinebreak"><img src="/eq/3-332.png" style="height: 9px; width: 10px; vertical-align: -0px;" class="latex"></span> мы вве­дем
+отно­ше­ние <span class="nolinebreak"><img src="/eq/3-333.png" style="height: 11px; width: 20px; vertical-align: -3px;" class="latex"></span> (его кон­крет­ный вид будет опре­делён ниже). Вме­сто
+<span class="nolinebreak"><img src="/eq/3-334.png" style="height: 18px; width: 64px; vertical-align: -5px;" class="latex"></span> будем писать <span class="nolinebreak"><img src="/eq/3-335.png" style="height: 16px; width: 51px; vertical-align: -3px;" class="latex">;</span> в част­но­сти, если неко­то­рая
+функ­ция <span class="nolinebreak"><img src="/eq/3-336.png" style="height: 16px; width: 11px; vertical-align: -3px;" class="latex"></span> – иско­мая непо­движ­ная точка, то будет выпол­няться <span class="nolinebreak"><img src="/eq/3-337.png" style="height: 16px; width: 54px; vertical-align: -3px;" class="latex">.</span> К
+стро­кам мат­рицы и вообще к после­до­ва­тель­но­стям это отно­ше­ние при­ме­ня­ется поэле­ментно.</p>
+<p>Пусть эле­менты мат­рицы равны <span class="nolinebreak"><img src="/eq/3-338.png" style="height: 21px; width: 93px; vertical-align: -7px;" class="latex">.</span> Т.е.
+строка с индек­сом <span class="nolinebreak"><img src="/eq/3-339.png" style="height: 12px; width: 5px; vertical-align: -0px;" class="latex"></span> соот­вет­ствует вычис­ли­мой функ­ции с номе­ром <span class="nolinebreak"><img src="/eq/3-340.png" style="height: 12px; width: 5px; vertical-align: -0px;" class="latex">;</span> номера столб­цов
+соот­вет­ствуют зна­че­ниям аргу­мен­тов. (Заметьте, что эле­менты мат­рицы <span class="nolinebreak"><img src="/eq/3-341.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex"></span> равны не самим зна­че­ниям
+<span class="nolinebreak"><img src="/eq/3-342.png" style="height: 18px; width: 37px; vertical-align: -5px;" class="latex">,</span> а вычис­ли­мым функ­циям с номе­рами <span class="nolinebreak"><img src="/eq/3-343.png" style="height: 18px; width: 37px; vertical-align: -5px;" class="latex">.)</span> Если
+<span class="nolinebreak"><img src="/eq/3-344.png" style="height: 18px; width: 72px; vertical-align: -5px;" class="latex"></span> для неко­то­рых <span class="nolinebreak"><img src="/eq/3-345.png" style="height: 12px; width: 5px; vertical-align: -0px;" class="latex"></span> и <span class="nolinebreak"><img src="/eq/3-346.png" style="height: 15px; width: 8px; vertical-align: -3px;" class="latex">,</span> то счи­та­ется, что эле­мент <span class="nolinebreak"><img src="/eq/3-347.png" style="height: 21px; width: 15px; vertical-align: -7px;" class="latex"></span>
+содер­жит нигде не опре­делён­ную функ­цию: <span class="nolinebreak"><img src="/eq/3-348.png" style="height: 21px; width: 97px; vertical-align: -7px;" class="latex">.</span> Диа­го­наль <span class="nolinebreak"><img src="/eq/3-349.png" style="height: 19px; width: 34px; vertical-align: -5px;" class="latex"></span>
+обо­зна­чим <span class="nolinebreak"><img src="/eq/3-350.png" style="height: 12px; width: 13px; vertical-align: -3px;" class="latex"></span> и будем счи­тать <span class="nolinebreak"><img src="/eq/3-351.png" style="height: 19px; width: 55px; vertical-align: -5px;" class="latex">.</span></p>
+<p>Если неко­то­рый гипо­те­ти­че­ский объ­ект <span class="nolinebreak"><img src="/eq/3-352.png" style="height: 13px; width: 9px; vertical-align: -0px;" class="latex">,</span> для кото­рого спра­вед­ливо <span class="nolinebreak"><img src="/eq/3-353.png" style="height: 15px; width: 55px; vertical-align: -3px;" class="latex"></span> не
+явля­ется «па­то­ло­ги­че­ским», т.е. гаран­ти­ро­ванно отсут­ству­ю­щим среди строк мат­рицы, то диа­го­наль
+может ока­заться рав­ной одной из строк.</p>
+<p>Мы можем опре­де­лить функ­цию <span class="nolinebreak"><img src="/eq/3-354.png" style="height: 18px; width: 28px; vertical-align: -5px;" class="latex">,</span> кон­стру­и­ру­ю­щую про­грамму, кото­рая при­ни­мая аргу­мент <span class="nolinebreak"><img src="/eq/3-355.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex">,</span>
+при­ме­няет к нему диа­го­наль­ный эле­мент мат­рицы, нахо­дя­щийся на пере­се­че­нии строки <span class="nolinebreak"><img src="/eq/3-356.png" style="height: 9px; width: 7px; vertical-align: -0px;" class="latex"></span> и столбца
+<span class="nolinebreak"><img src="/eq/3-357.png" style="height: 9px; width: 7px; vertical-align: -0px;" class="latex">.</span> А именно, выпол­ня­ется <br></p>
+<center><img src="/eq/3-358.png" style="height: 18px; width: 326px;" class="latex"></center>
+<br> Важно, что для
+вычис­ле­ния <span class="nolinebreak"><img src="/eq/3-359.png" style="height: 18px; width: 28px; vertical-align: -5px;" class="latex"></span> тоже можно напи­сать про­грамму <span class="nolinebreak"><img src="/eq/3-360.png" style="height: 9px; width: 8px; vertical-align: -0px;" class="latex">,</span> т.е. <span class="nolinebreak"><img src="/eq/3-361.png" style="height: 18px; width: 28px; vertical-align: -5px;" class="latex"></span> – вычис­ли­мая функ­ция. Это
+озна­чает, что в мат­рице <span class="nolinebreak"><img src="/eq/3-362.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex"></span> суще­ствует строка <span class="nolinebreak"><img src="/eq/3-363.png" style="height: 13px; width: 15px; vertical-align: -0px;" class="latex"></span> рав­ная <span class="nolinebreak"><img src="/eq/3-364.png" style="height: 12px; width: 13px; vertical-align: -3px;" class="latex">;</span> дей­стви­тельно, из того,
+что <span class="nolinebreak"><img src="/eq/3-365.png" style="height: 9px; width: 8px; vertical-align: -0px;" class="latex"></span> явля­ется про­грам­мой для <span class="nolinebreak"><img src="/eq/3-366.png" style="height: 13px; width: 8px; vertical-align: -0px;" class="latex">,</span> а так­же из опре­де­ле­ния эле­мен­тов <span class="nolinebreak"><img src="/eq/3-367.png" style="height: 21px; width: 15px; vertical-align: -7px;" class="latex"></span> и из <span class="nolinebreak"><img src="/eq/3-368.png" style="height: 18px; width: 19px; vertical-align: -5px;" class="latex"></span> сле­дует
+<span class="nolinebreak"><img src="/eq/3-369.png" style="height: 21px; width: 216px; vertical-align: -6px;" class="latex">.</span> Если набор строк замкнут отно­си­тельно <span class="nolinebreak"><img src="/eq/3-370.png" style="height: 11px; width: 20px; vertical-align: -3px;" class="latex">,</span> то суще­ствует
+строка <span class="nolinebreak"><img src="/eq/3-371.png" style="height: 15px; width: 66px; vertical-align: -3px;" class="latex">;</span> и именно её пере­се­че­ние с <span class="nolinebreak"><img src="/eq/3-372.png" style="height: 12px; width: 13px; vertical-align: -3px;" class="latex"></span> дает непо­движ­ную точку:
+<span class="nolinebreak"><img src="/eq/3-373.png" style="height: 16px; width: 70px; vertical-align: -4px;" class="latex">.</span>
+<p>Чтобы послед­нее урав­не­ние выгля­дело как урав­не­ние из тео­ремы Род­жерса, опре­де­лим отно­ше­ние
+<span class="nolinebreak"><img src="/eq/3-374.png" style="height: 11px; width: 20px; vertical-align: -3px;" class="latex"></span> так, что для функ­ций <span class="nolinebreak"><img src="/eq/3-375.png" style="height: 13px; width: 8px; vertical-align: -0px;" class="latex"></span> и <span class="nolinebreak"><img src="/eq/3-376.png" style="height: 16px; width: 11px; vertical-align: -3px;" class="latex"></span> выпол­ня­ется
+<span class="nolinebreak"><img src="/eq/3-377.png" style="height: 18px; width: 269px; vertical-align: -5px;" class="latex">.</span> Попро­буем пока­зать, что <span class="nolinebreak"><img src="/eq/3-378.png" style="height: 19px; width: 120px; vertical-align: -4px;" class="latex">.</span> Пусть <span class="nolinebreak"><img src="/eq/3-379.png" style="height: 12px; width: 6px; vertical-align: -0px;" class="latex"></span> – такая после­до­ва­тель­ность, что <span class="nolinebreak"><img src="/eq/3-380.png" style="height: 17px; width: 55px; vertical-align: -3px;" class="latex">.</span> Из опре­де­ле­ний
+эле­мен­тов мат­рицы <span class="nolinebreak"><img src="/eq/3-381.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex"></span> и отно­ше­ния <span class="nolinebreak"><img src="/eq/3-382.png" style="height: 11px; width: 20px; vertical-align: -3px;" class="latex"></span> сле­дует <span class="nolinebreak"><img src="/eq/3-383.png" style="height: 21px; width: 95px; vertical-align: -6px;" class="latex"></span> и <span class="nolinebreak"><img src="/eq/3-384.png" style="height: 21px; width: 110px; vertical-align: -6px;" class="latex">.</span> В силу вычис­ли­мо­сти <span class="nolinebreak"><img src="/eq/3-385.png" style="height: 16px; width: 9px; vertical-align: -3px;" class="latex">,</span> ком­по­зи­ция <span class="nolinebreak"><img src="/eq/3-386.png" style="height: 18px; width: 46px; vertical-align: -5px;" class="latex"></span> тоже вычис­лима и имеет неко­то­рый индекс <span class="nolinebreak"><img src="/eq/3-387.png" style="height: 9px; width: 8px; vertical-align: -0px;" class="latex">,</span> т.е., <span class="nolinebreak"><img src="/eq/3-388.png" style="height: 21px; width: 83px; vertical-align: -6px;" class="latex">.</span> В соот­вет­ствии с опре­де­ле­нием эле­мен­тов мат­рицы <span class="nolinebreak"><img src="/eq/3-389.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex">,</span> это
+выра­же­ние озна­чает, что <span class="nolinebreak"><img src="/eq/3-390.png" style="height: 12px; width: 6px; vertical-align: -0px;" class="latex"></span> равна строке с индек­сом <span class="nolinebreak"><img src="/eq/3-391.png" style="height: 9px; width: 8px; vertical-align: -0px;" class="latex">.</span> Т.о., мы только что пока­зали, что набор
+строк замкнут отно­си­тельно <span class="nolinebreak"><img src="/eq/3-392.png" style="height: 11px; width: 20px; vertical-align: -3px;" class="latex">.</span></p>
+<p>Выше было уста­нов­лено, что <span class="nolinebreak"><img src="/eq/3-393.png" style="height: 17px; width: 108px; vertical-align: -5px;" class="latex">.</span> Левую часть пере­пи­шем
+с помо­щью <span class="nolinebreak"><img src="/eq/3-394.png" style="height: 18px; width: 19px; vertical-align: -5px;" class="latex">,</span> учи­ты­вая равен­ство <span class="nolinebreak"><img src="/eq/3-395.png" style="height: 13px; width: 53px; vertical-align: -3px;" class="latex">,</span> а пра­вую – с помо­щью опре­де­ле­ния эле­мен­тов
+мат­рицы <span class="nolinebreak"><img src="/eq/3-396.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex">.</span> Это даёт <span class="nolinebreak"><img src="/eq/3-397.png" style="height: 21px; width: 131px; vertical-align: -6px;" class="latex">.</span> Из опре­де­ле­ния отно­ше­ния <span class="nolinebreak"><img src="/eq/3-398.png" style="height: 11px; width: 20px; vertical-align: -3px;" class="latex"></span> сле­дует, что
+<span class="nolinebreak"><img src="/eq/3-399.png" style="height: 21px; width: 146px; vertical-align: -6px;" class="latex">.</span>
+Это урав­не­ние гово­рит, что <span class="nolinebreak"><img src="/eq/3-400.png" style="height: 9px; width: 12px; vertical-align: -0px;" class="latex"></span> – один из воз­мож­ных тек­стов про­грамм, вычис­ля­ю­щих ком­по­зи­цию
+функ­ций <span class="nolinebreak"><img src="/eq/3-401.png" style="height: 16px; width: 34px; vertical-align: -3px;" class="latex">;</span> кроме того, то же самое урав­не­ние вме­сте с <span class="nolinebreak"><img src="/eq/3-402.png" style="height: 18px; width: 19px; vertical-align: -5px;" class="latex"></span> в слу­чае с <span class="nolinebreak"><img src="/eq/3-403.png" style="height: 12px; width: 40px; vertical-align: -0px;" class="latex"></span> немед­ленно
+даёт <span class="nolinebreak"><img src="/eq/3-404.png" style="height: 21px; width: 140px; vertical-align: -6px;" class="latex">.</span> Таким обра­зом, <span class="nolinebreak"><img src="/eq/3-405.png" style="height: 18px; width: 33px; vertical-align: -5px;" class="latex">,</span>
+где <span class="nolinebreak"><img src="/eq/3-406.png" style="height: 9px; width: 12px; vertical-align: -0px;" class="latex"></span> явля­ется про­грам­мой для вычис­ле­ния ком­по­зи­ции <span class="nolinebreak"><img src="/eq/3-407.png" style="height: 16px; width: 34px; vertical-align: -3px;" class="latex">,</span> – иско­мая непо­движ­ная точка
+из тео­ремы Род­жерса, т.е., <span class="nolinebreak"><img src="/eq/3-408.png" style="height: 21px; width: 311px; vertical-align: -6px;" class="latex">.</span></p>
+<p>Да, это постро­е­ние выгля­дит более гро­мозд­ким и запу­тан­ным чем изна­чально при­ве­ден­ное почти
+одно­строч­ное дока­за­тель­ство тео­ремы Род­жерса, но оно, я наде­юсь, поз­во­ляет более глу­боко уви­деть
+связь диа­го­наль­ного про­цесса с тео­ре­мами о непо­движ­ных точ­ках.</p>
+<p><strong>При­ме­ча­ние.</strong></p>
+<p>Ранее я гово­рил, что лучше исполь­зо­вать отно­ше­ние <span class="nolinebreak"><img src="/eq/3-409.png" style="height: 11px; width: 20px; vertical-align: -3px;" class="latex"></span> вме­сто функ­ции <span class="nolinebreak"><img src="/eq/3-410.png" style="height: 9px; width: 10px; vertical-align: -0px;" class="latex">.</span> Чтобы
+непо­движ­ная точка <span class="nolinebreak"><img src="/eq/3-411.png" style="height: 12px; width: 9px; vertical-align: -4px;" class="latex"></span> функ­ции <span class="nolinebreak"><img src="/eq/3-412.png" style="height: 9px; width: 10px; vertical-align: -0px;" class="latex"></span> удо­вле­тво­ряла урав­не­нию <span class="nolinebreak"><img src="/eq/3-413.png" style="height: 18px; width: 85px; vertical-align: -5px;" class="latex">,</span> можно было бы опре­де­лить <span class="nolinebreak"><img src="/eq/3-414.png" style="height: 9px; width: 10px; vertical-align: -0px;" class="latex"></span> как <span class="nolinebreak"><img src="/eq/3-415.png" style="height: 18px; width: 109px; vertical-align: -5px;" class="latex">.</span> В прин­ципе, та же схема дока­за­тель­ства рабо­тала бы и в
+этом слу­чае: сна­чала мы бы выяс­нили, что строки замкнуты отно­си­тельно <span class="nolinebreak"><img src="/eq/3-416.png" style="height: 9px; width: 10px; vertical-align: -0px;" class="latex">,</span> затем
+пре­об­ра­зо­вали бы строку <span class="nolinebreak"><img src="/eq/3-417.png" style="height: 13px; width: 15px; vertical-align: -0px;" class="latex">,</span> рав­ную диа­го­нали <span class="nolinebreak"><img src="/eq/3-418.png" style="height: 12px; width: 13px; vertical-align: -3px;" class="latex">,</span> и полу­чили бы новую строку
+<span class="nolinebreak"><img src="/eq/3-419.png" style="height: 18px; width: 81px; vertical-align: -5px;" class="latex">;</span> завер­ши­лось бы такое дока­за­тель­ство про­вер­кой, что эле­мент <span class="nolinebreak"><img src="/eq/3-420.png" style="height: 16px; width: 19px; vertical-align: -4px;" class="latex">,</span>
+нахо­дя­щийся на пере­се­че­нии <span class="nolinebreak"><img src="/eq/3-421.png" style="height: 13px; width: 19px; vertical-align: -0px;" class="latex"></span> и <span class="nolinebreak"><img src="/eq/3-422.png" style="height: 12px; width: 13px; vertical-align: -3px;" class="latex">,</span> удо­вле­тво­ряет урав­не­нию <span class="nolinebreak"><img src="/eq/3-423.png" style="height: 18px; width: 84px; vertical-align: -5px;" class="latex">.</span></p>
+<p>Пусть неко­то­рый эле­мент в <span class="nolinebreak"><img src="/eq/3-424.png" style="height: 12px; width: 13px; vertical-align: -3px;" class="latex"></span> равен <span class="nolinebreak"><img src="/eq/3-425.png" style="height: 18px; width: 18px; vertical-align: -5px;" class="latex"></span> для неко­то­рого <span class="nolinebreak"><img src="/eq/3-426.png" style="height: 12px; width: 9px; vertical-align: -4px;" class="latex">.</span> Тогда
+соот­вет­ству­ю­щий эле­мент в <span class="nolinebreak"><img src="/eq/3-427.png" style="height: 13px; width: 15px; vertical-align: -0px;" class="latex"></span> равен <span class="nolinebreak"><img src="/eq/3-428.png" style="height: 18px; width: 18px; vertical-align: -5px;" class="latex"></span> и равен­ство после­до­ва­тель­но­стей
+<span class="nolinebreak"><img src="/eq/3-429.png" style="height: 13px; width: 53px; vertical-align: -3px;" class="latex"></span> озна­чает, что <span class="nolinebreak"><img src="/eq/3-430.png" style="height: 18px; width: 62px; vertical-align: -5px;" class="latex">.</span> В строке <span class="nolinebreak"><img src="/eq/3-431.png" style="height: 13px; width: 19px; vertical-align: -0px;" class="latex"></span>
+эле­менту <span class="nolinebreak"><img src="/eq/3-432.png" style="height: 18px; width: 18px; vertical-align: -5px;" class="latex"></span> из строки <span class="nolinebreak"><img src="/eq/3-433.png" style="height: 13px; width: 15px; vertical-align: -0px;" class="latex"></span> соот­вет­ствует эле­мент <span class="nolinebreak"><img src="/eq/3-434.png" style="height: 18px; width: 110px; vertical-align: -5px;" class="latex">.</span> Про­блема в том, что исход­ный эле­мент <span class="nolinebreak"><img src="/eq/3-435.png" style="height: 18px; width: 18px; vertical-align: -5px;" class="latex"></span> из <span class="nolinebreak"><img src="/eq/3-436.png" style="height: 12px; width: 13px; vertical-align: -3px;" class="latex">,</span> под дей­ствием пре­об­ра­зо­ва­ния <span class="nolinebreak"><img src="/eq/3-437.png" style="height: 9px; width: 10px; vertical-align: -0px;" class="latex"></span> дол­жен перейти в <span class="nolinebreak"><img src="/eq/3-438.png" style="height: 18px; width: 41px; vertical-align: -5px;" class="latex"></span> и мы вынуж­дены потре­бо­вать, чтобы этот резуль­тат сов­па­дал с <span class="nolinebreak"><img src="/eq/3-439.png" style="height: 18px; width: 41px; vertical-align: -5px;" class="latex">,</span> ведь иначе нельзя будет гово­рить о <span class="nolinebreak"><img src="/eq/3-440.png" style="height: 18px; width: 86px; vertical-align: -5px;" class="latex"></span> если <span class="nolinebreak"><img src="/eq/3-441.png" style="height: 18px; width: 18px; vertical-align: -5px;" class="latex"></span> будет жела­е­мым эле­мен­том на пере­се­че­нии <span class="nolinebreak"><img src="/eq/3-442.png" style="height: 13px; width: 19px; vertical-align: -0px;" class="latex"></span> и
+<span class="nolinebreak"><img src="/eq/3-443.png" style="height: 12px; width: 13px; vertical-align: -3px;" class="latex">.</span></p>
+<p>Дру­гими сло­вами, из равен­ства <span class="nolinebreak"><img src="/eq/3-444.png" style="height: 13px; width: 53px; vertical-align: -3px;" class="latex"></span> должно сле­до­вать <span class="nolinebreak"><img src="/eq/3-445.png" style="height: 18px; width: 141px; vertical-align: -5px;" class="latex">,</span> а для этого тре­бу­ется экс­тен­си­о­наль­ность функ­ции <span class="nolinebreak"><img src="/eq/3-446.png" style="height: 16px; width: 9px; vertical-align: -3px;" class="latex"></span> – должно выпол­няться
+<span class="nolinebreak"><img src="/eq/3-447.png" style="height: 18px; width: 199px; vertical-align: -5px;" class="latex">,</span> i.e., оди­на­ково веду­щие себя про­граммы, должны пре­об­ра­зо­вы­ваться функ­цией <span class="nolinebreak"><img src="/eq/3-448.png" style="height: 16px; width: 9px; vertical-align: -3px;" class="latex"></span>
+снова в оди­на­ково себя веду­щие, однако не вся­кая вычис­ли­мая функ­ция обла­дает такой фор­мой
+моно­тон­но­сти. Трюк с заме­ной пре­об­ра­зо­ва­ния <span class="nolinebreak"><img src="/eq/3-449.png" style="height: 9px; width: 10px; vertical-align: -0px;" class="latex"></span> (вме­сте с обыч­ным срав­не­нием функ­ций)
+отно­ше­нием <span class="nolinebreak"><img src="/eq/3-450.png" style="height: 11px; width: 20px; vertical-align: -3px;" class="latex">,</span> поз­во­ляет обойти это огра­ни­че­ние и рас­ши­рить класс при­год­ных функ­ций
+до всех вычис­ли­мых всюду опре­делён­ных.</p>
+<h3 id="section-14">
+<a class="anchor" href="#section-14" aria-hidden="true"><span class="octicon octicon-link"></span></a>Вер­сия «от про­тив­но­го».</h3>
+<p>Рас­суж­де­ния по схеме «а вдруг», могут пока­заться не все­гда удо­вле­тво­ри­тель­ными. Можно ли
+вме­сто попытки скон­стру­и­ро­вать жела­е­мый объ­ект — непо­движ­ную точку — вопреки диа­го­на­ли­за­ции
+(при­зван­ной дока­зать невоз­мож­ность подоб­ного меро­при­я­тия) попро­бо­вать обла­чить выше­из­ло­жен­ное в
+при­выч­ную схему дока­за­тель­ства от про­тив­ного? Такое дока­за­тель­ство выгля­дело бы более при­вычно и
+ощу­ща­лось бы более весо­мым (ведь дока­за­тель­ство от про­тив­ного осно­вано на надёж­ном про­цессе
+поиска ошибки в цепочке умо­за­клю­че­ний, при­вед­ших к абсур­ду; такой поиск при­зван, в итоге,
+лока­ли­зо­вать ошибку, загнав её в един­ствен­ный туман­ный уго­лок дока­за­тель­ства, а именно, в самое
+его началь­ное пред­по­ло­же­ние, после чего спо­соб исправ­ле­ния ошибки — отри­ца­нием пред­по­ло­же­ния
+— немед­ленно сле­дует из закона исклю­чён­ного тре­тьего, и, таким обра­зом любые пре­тен­зии к
+каче­ству такого дока­за­тель­ства сво­дятся к вере в этот закон). Ока­зы­ва­ется, что, да,
+дока­за­тель­ство, одно­вре­менно явно исполь­зу­ю­щее диа­го­на­ли­за­цию и пока­зы­ва­ю­щее нали­чие непо­движ­ной
+точки мето­дом от про­тив­ного, суще­ствует, и, в общем-то, обще­из­вестно.</p>
+<p>Итак. Опре­де­лим бинар­ное отно­ше­ние <span class="nolinebreak"><img src="/eq/3-451.png" style="height: 8px; width: 11px; vertical-align: -0px;" class="latex"></span> так, что <span class="nolinebreak"><img src="/eq/3-452.png" style="height: 18px; width: 158px; vertical-align: -5px;" class="latex">.</span></p>
+<p><strong>Тео­рема (пере­фор­му­ли­ровка тео­ремы Род­жерса).</strong></p>
+<p>Если <span class="nolinebreak"><img src="/eq/3-453.png" style="height: 16px; width: 9px; vertical-align: -3px;" class="latex"></span> – всюду опре­делён­ная вычис­ли­мая функ­ция, то <span class="nolinebreak"><img src="/eq/3-454.png" style="height: 18px; width: 87px; vertical-align: -5px;" class="latex">.</span></p>
+<p><strong>Дока­за­тель­ство тео­ремы Род­жерса мето­дом от про­тив­ного.</strong></p>
+<p>(N.B., Акцент в этой вер­сии дока­за­тель­ства сде­лан на диа­го­на­ли­за­ции, пусть и в ущерб
+кон­струк­тив­но­сти, — здесь я не буду выво­дить явный вид непо­движ­ной точки, хотя при жела­нии
+его можно извлечь и из такой уре­зан­ной вер­сии.)</p>
+<p>Основ­ное пред­по­ло­же­ние: <span class="nolinebreak"><img src="/eq/3-455.png" style="height: 20px; width: 87px; vertical-align: -5px;" class="latex">.</span></p>
+<p><strong>Лемма 1 (без дока­за­тель­ства).</strong> Для любой вычис­ли­мой функ­ции <span class="nolinebreak"><img src="/eq/3-456.png" style="height: 16px; width: 9px; vertical-align: -3px;" class="latex"></span> суще­ствует вычис­ли­мая всюду
+опре­делён­ная <span class="nolinebreak"><img src="/eq/3-457.png" style="height: 12px; width: 8px; vertical-align: -4px;" class="latex"></span> (т.н., <span class="nolinebreak"><img src="/eq/3-458.png" style="height: 8px; width: 11px; vertical-align: -0px;" class="latex">-продолжение</span> функ­ции <span class="nolinebreak"><img src="/eq/3-459.png" style="height: 16px; width: 9px; vertical-align: -3px;" class="latex">),</span> такая, что <span class="nolinebreak"><img src="/eq/3-460.png" style="height: 18px; width: 202px; vertical-align: -5px;" class="latex">.</span></p>
+<p>Опре­де­лим вычис­ли­мую всюду опре­делён­ную функ­цию <span class="nolinebreak"><img src="/eq/3-461.png" style="height: 13px; width: 8px; vertical-align: -0px;" class="latex">,</span> такую, что <span class="nolinebreak"><img src="/eq/3-462.png" style="height: 18px; width: 170px; vertical-align: -5px;" class="latex">.</span></p>
+<p><strong>Утвер­жде­ние 1.</strong> Не суще­ствует вычис­ли­мой функ­ции <span class="nolinebreak"><img src="/eq/3-463.png" style="height: 12px; width: 8px; vertical-align: -4px;" class="latex">,</span> такой, что <span class="nolinebreak"><img src="/eq/3-464.png" style="height: 18px; width: 108px; vertical-align: -5px;" class="latex"></span>
+(иначе это бы про­ти­во­ре­чило опре­де­ле­нию уни­вер­саль­ной функ­ции <span class="nolinebreak"><img src="/eq/3-465.png" style="height: 12px; width: 11px; vertical-align: -4px;" class="latex">).</span></p>
+<p>(N.B., кон­крет­ный вид <span class="nolinebreak"><img src="/eq/3-466.png" style="height: 13px; width: 8px; vertical-align: -0px;" class="latex"></span> на самом деле не важен, — тре­бу­ется лишь спра­вед­ли­вость утвер­жде­ния
+1, — но здесь мы всё-таки зафик­си­руем такое «диа­го­наль­ное» выра­же­ние, и даже вос­поль­зу­емся
+им в конце этого под­раз­дела для луч­шей визу­а­ли­за­ции про­цесса.)</p>
+<p>По лемме 1, <span class="nolinebreak"><img src="/eq/3-467.png" style="height: 18px; width: 125px; vertical-align: -5px;" class="latex">,</span> т.е., <span class="nolinebreak"><img src="/eq/3-468.png" style="height: 18px; width: 84px; vertical-align: -5px;" class="latex">.</span> Опре­де­лим функ­цию
+<span class="nolinebreak"><img src="/eq/3-469.png" style="height: 21px; width: 104px; vertical-align: -6px;" class="latex">.</span> Т.к. <span class="nolinebreak"><img src="/eq/3-470.png" style="height: 16px; width: 9px; vertical-align: -3px;" class="latex"></span> и <span class="nolinebreak"><img src="/eq/3-471.png" style="height: 12px; width: 8px; vertical-align: -4px;" class="latex"></span> и их ком­по­зи­ция <span class="nolinebreak"><img src="/eq/3-472.png" style="height: 16px; width: 62px; vertical-align: -3px;" class="latex"></span> – вычис­лима. Допу­стим,
+<span class="nolinebreak"><img src="/eq/3-473.png" style="height: 18px; width: 105px; vertical-align: -5px;" class="latex">.</span> Это вме­сте с <span class="nolinebreak"><img src="/eq/3-474.png" style="height: 18px; width: 84px; vertical-align: -5px;" class="latex"></span> и с опре­де­ле­нием отно­ше­ния <span class="nolinebreak"><img src="/eq/3-475.png" style="height: 8px; width: 11px; vertical-align: -0px;" class="latex"></span> ведет
+к <span class="nolinebreak"><img src="/eq/3-476.png" style="height: 18px; width: 168px; vertical-align: -5px;" class="latex">,</span> из чего
+сле­дует <span class="nolinebreak"><img src="/eq/3-477.png" style="height: 18px; width: 80px; vertical-align: -5px;" class="latex">.</span> Но <span class="nolinebreak"><img src="/eq/3-478.png" style="height: 16px; width: 62px; vertical-align: -3px;" class="latex">,</span> откуда <span class="nolinebreak"><img src="/eq/3-479.png" style="height: 18px; width: 106px; vertical-align: -5px;" class="latex">,</span> однако по основ­ному
+пред­по­ло­же­нию, <span class="nolinebreak"><img src="/eq/3-480.png" style="height: 20px; width: 87px; vertical-align: -5px;" class="latex"></span> (<span class="nolinebreak"><img src="/eq/3-481.png" style="height: 18px; width: 30px; vertical-align: -5px;" class="latex"></span> выгля­дит как непо­движ­ная точка, но мы
+пред­по­ла­гаем, что их не суще­ствует). Про­ти­во­ре­чие, зна­чит, <span class="nolinebreak"><img src="/eq/3-482.png" style="height: 12px; width: 6px; vertical-align: -0px;" class="latex"></span> отли­ча­ется всюду от <span class="nolinebreak"><img src="/eq/3-483.png" style="height: 13px; width: 8px; vertical-align: -0px;" class="latex">.</span> Но это
+про­ти­во­ре­чит уже утвер­жде­нию 1. Сле­до­ва­тельно, основ­ное пред­по­ло­же­ние неверно и мы
+должны его испра­вить, заме­нив на <span class="nolinebreak"><img src="/eq/3-484.png" style="height: 18px; width: 87px; vertical-align: -5px;" class="latex">.</span> <span class="nolinebreak"><img src="/eq/3-485.png" style="height: 12px; width: 11px; vertical-align: -0px;" class="latex"></span></p>
+<p>Обра­тите вни­ма­ние, здесь мы имеем дело с мат­ри­цей <span class="nolinebreak"><img src="/eq/3-486.png" style="height: 21px; width: 81px; vertical-align: -7px;" class="latex"></span> в кото­рой строки, как и
+преж­де, соот­вет­ствуют вычис­ли­мым функ­циям, а столбцы – их аргу­мен­там (изме­ни­лись только сами
+эле­менты мат­рицы). Функ­ция <span class="nolinebreak"><img src="/eq/3-487.png" style="height: 18px; width: 102px; vertical-align: -5px;" class="latex"></span> порож­дена диа­го­на­лью <span class="nolinebreak"><img src="/eq/3-488.png" style="height: 19px; width: 66px; vertical-align: -5px;" class="latex">.</span>
+Лемма 1 гово­рит, что в мат­рице <span class="nolinebreak"><img src="/eq/3-489.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex"></span> при­сут­ствует строка <span class="nolinebreak"><img src="/eq/3-490.png" style="height: 13px; width: 53px; vertical-align: -3px;" class="latex"></span> (отно­ше­ние <span class="nolinebreak"><img src="/eq/3-491.png" style="height: 8px; width: 11px; vertical-align: -0px;" class="latex"></span>
+при­ме­нено поэле­ментно). Мы исполь­зуем эту строку для кон­стру­и­ро­ва­ния кан­ди­дата в анти­диа­го­наль,
+а именно мы дей­ствуем на <span class="nolinebreak"><img src="/eq/3-492.png" style="height: 13px; width: 15px; vertical-align: -0px;" class="latex"></span> дан­ной вычис­ли­мой функ­цией <span class="nolinebreak"><img src="/eq/3-493.png" style="height: 16px; width: 9px; vertical-align: -3px;" class="latex">,</span> но т.к. строка <span class="nolinebreak"><img src="/eq/3-494.png" style="height: 13px; width: 15px; vertical-align: -0px;" class="latex"></span>
+соот­вет­ствует функ­ции <span class="nolinebreak"><img src="/eq/3-495.png" style="height: 12px; width: 8px; vertical-align: -4px;" class="latex">,</span> а ком­по­зи­ция <span class="nolinebreak"><img src="/eq/3-496.png" style="height: 16px; width: 33px; vertical-align: -3px;" class="latex"></span> вычис­лима, то среди строк должна най­тись
+строка <span class="nolinebreak"><img src="/eq/3-497.png" style="height: 13px; width: 19px; vertical-align: -0px;" class="latex"></span> (пере­се­ка­ю­щая диа­го­наль в неко­то­рой точке).</p>
+<p>Откуда же тогда берутся подо­зре­ния в анти­диа­го­наль­но­сти <span class="nolinebreak"><img src="/eq/3-498.png" style="height: 16px; width: 33px; vertical-align: -3px;" class="latex">,</span> т.е. в том, что <span class="nolinebreak"><img src="/eq/3-499.png" style="height: 21px; width: 133px; vertical-align: -6px;" class="latex">?</span> Мы знаем, что <span class="nolinebreak"><img src="/eq/3-500.png" style="height: 16px; width: 40px; vertical-align: -3px;" class="latex"></span> (так мы стро­или строку <span class="nolinebreak"><img src="/eq/3-501.png" style="height: 13px; width: 15px; vertical-align: -0px;" class="latex">).</span> Теперь если
+для какого-то <span class="nolinebreak"><img src="/eq/3-502.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex"></span> верно <span class="nolinebreak"><img src="/eq/3-503.png" style="height: 21px; width: 108px; vertical-align: -6px;" class="latex">,</span> то в строке <span class="nolinebreak"><img src="/eq/3-504.png" style="height: 13px; width: 15px; vertical-align: -0px;" class="latex"></span> най­дётся эле­мент <span class="nolinebreak"><img src="/eq/3-505.png" style="height: 18px; width: 70px; vertical-align: -5px;" class="latex">,</span> но по опре­де­ле­нию эле­мен­тов мат­рицы <span class="nolinebreak"><img src="/eq/3-506.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex">,</span> <span class="nolinebreak"><img src="/eq/3-507.png" style="height: 18px; width: 69px; vertical-align: -5px;" class="latex">,</span> откуда и выте­кает выра­же­ние
+<span class="nolinebreak"><img src="/eq/3-508.png" style="height: 21px; width: 107px; vertical-align: -6px;" class="latex">,</span> про­ти­во­ре­ча­щее основ­ному пред­по­ло­же­нию [о несу­ще­ство­ва­нии
+непо­движ­ной точки <span class="nolinebreak"><img src="/eq/3-509.png" style="height: 18px; width: 64px; vertical-align: -5px;" class="latex">],</span> а зна­чит опро­вер­га­ю­щее, мето­дом от про­тив­ного, наше
+пред­по­ло­же­ние о том, что <span class="nolinebreak"><img src="/eq/3-510.png" style="height: 16px; width: 33px; vertical-align: -3px;" class="latex"></span> сов­па­дает с <span class="nolinebreak"><img src="/eq/3-511.png" style="height: 13px; width: 8px; vertical-align: -0px;" class="latex"></span> в точке <span class="nolinebreak"><img src="/eq/3-512.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex">.</span></p>
+<p>На дан­ный момент мы имеем уже два утвер­жде­ния: одно гово­рит о том, что анти­диа­го­наль на самом
+деле равна строке <span class="nolinebreak"><img src="/eq/3-513.png" style="height: 13px; width: 19px; vertical-align: -0px;" class="latex"></span> и пере­се­ка­ется с диа­го­на­лью в неко­то­рой точке, а вто­рое утвер­жде­ние
+гово­рит, что анти­диа­го­наль дей­стви­тельно нигде не сов­па­дает с диа­го­на­лью. Эти утвер­жде­ния
+про­ти­во­ре­чат друг другу, что абсурдно, и, опять мето­дом от про­тив­ного, при­во­дит к утвер­жде­нию,
+прямо про­ти­во­по­лож­ному основ­ному пред­по­ло­же­нию об отсут­ствии непо­движ­ных точек у дан­ной функ­ции
+<span class="nolinebreak"><img src="/eq/3-514.png" style="height: 16px; width: 9px; vertical-align: -3px;" class="latex">.</span></p>
+<p>Я спе­ци­ально вос­про­из­вел послед­нее дока­за­тель­ство от про­тив­ного в уже зна­ко­мых тер­ми­нах мат­риц,
+диа­го­на­лей, строк, антидиа­го­на­лей, и т.д., чтобы при­дать мак­си­маль­ную нагляд­ность про­цессу и
+окон­ча­тельно уда­лить мисти­че­ский налёт с диа­го­наль­ного дока­за­тель­ства тео­ремы о рекур­сии.</p>
+<h1 id="section-15">
+<a class="anchor" href="#section-15" aria-hidden="true"><span class="octicon octicon-link"></span></a>Немного о пре­де­лах позна­ва­е­мо­сти</h1>
+<p>Про­блема оста­нова раз­ре­шима для мно­гих систем, напри­мер, для конеч­ных авто­ма­тов,
+коими, кстати говоря, и явля­ются реаль­ные ком­пью­теры. Правда, в силу огром­ного коли­че­ства
+состо­я­ний таких авто­ма­тов, они, с прак­ти­че­ской точки зре­ния, хорошо моде­ли­ру­ются маши­ной
+Тью­ринга (или экви­ва­лент­ными моде­лями, типа лямбда-исчисления). Поэтому, мно­гие тео­ре­ти­че­ские
+резуль­таты, выте­ка­ю­щие из про­блемы оста­нова или дока­зы­ва­е­мые редук­цией к ней, по преж­нему
+при­ме­нимы в обыч­ном про­грам­ми­ро­ва­нии.</p>
+<p>Так­же про­блема оста­нова может быть вполне раз­ре­ши­мой для опре­де­лен­ных част­ных слу­чаев. Напри­мер,
+в тео­рии, анти­ви­русы невоз­можны (это дока­зы­ва­ется редук­цией к про­блеме оста­новки), но они
+всё-таки <s>вер­тятся</s> суще­ствуют как про­грамм­ные про­дукты (в том числе, бла­го­даря
+«мар­ке­тин­гу», навер­ное). В тео­рии, невоз­можно напи­сать программу-детек­тор, без­оши­бочно
+опре­де­ля­ю­щую, что дру­гая про­грамма печа­тает на экране, напри­мер, слово «при­вет» [28, 29]. Но
+ведь мно­гие бы без труда напи­сали такой детек­тор. Даже сами дока­за­тель­ства тео­рем, в силу
+соот­вет­ствия Карри-Ховарда, вообще говоря, тре­буют реше­ния про­блемы оста­новки. Но ведь
+мате­ма­тики как-то дока­зы­вают тео­ремы! Ино­гда при помощи ком­пью­тера (и авто­ма­ти­зи­ро­ванно и даже
+авто­ма­ти­че­ски).</p>
+<p>Эти исклю­че­ния не явля­ются ошиб­ками или фак­тами, опро­вер­га­ю­щими упо­мя­ну­тые кон­трин­ту­и­тив­ные
+утвер­жде­ния (содер­жа­щие кван­тор все­общ­но­сти). А поло­жи­тель­ные резуль­таты имеют вполне кон­крет­ное
+при­ме­не­ние. Ком­пи­ля­торы, интер­пре­та­торы, квайны и мно­гие дру­гие инте­рес­ные арте­факты тео­рии
+вычис­ли­мо­сти суще­ствуют не только тео­ре­ти­че­ски, но и имеют ося­за­е­мые реа­ли­за­ции в виде реаль­ных
+кус­ков кода и даже устройств (e.g. те же ком­пью­теры). А тео­рема Гёделя о непол­ноте гово­рит, что
+неко­то­рые тео­ремы про­сто не могут быть дока­заны, – не стоит даже и пытаться.</p>
+<p>Нако­нец, диа­го­на­ли­за­ция внесла неко­то­рый вклад и в более абстракт­ные обла­сти фило­со­фии.
+Напри­мер, при­ме­не­нием диа­го­наль­ного про­цесса к демону Лапласа — «древ­не­му» супер­ком­пью­теру,
+име­ю­щему неогра­ни­чен­ный доступ к любой инфор­ма­ции обо всех части­цах все­лен­ной — была
+уста­нов­лена «мо­но­те­и­сти­че­ская» тео­рема о невоз­мож­но­сти суще­ство­ва­ния более чем одного демона
+Лапласа [27].</p>
+<p>В сле­ду­ю­щих сооб­ще­ниях этой серии я напишу о неко­то­рых из этих [как клас­си­че­ских, так и
+отно­си­тельно новых] резуль­та­тов подроб­нее.</p>
+<h1 id="section-16">
+<a class="anchor" href="#section-16" aria-hidden="true"><span class="octicon octicon-link"></span></a>Дру­гие под­ходы и «слегка откры­тые» вопросы</h1>
+<p>В этом раз­деле обсуж­да­ются доста­точно про­стые, но до сих пор пред­став­ля­ю­щие неко­то­рый
+иссле­до­ва­тель­ский инте­рес аль­тер­на­тив­ные под­ходы к кон­стру­и­ро­ва­нию квай­нов. Неко­то­рые из
+рас­смот­рен­ных здесь вопро­сов могут быть три­ви­аль­ными и, воз­можно, пред­став­ля­ю­щими слож­ность лишь
+для меня; дру­гие – могут ока­заться объ­ек­тивно сто­я­щими даль­ней­шей про­ра­ботки.</p>
+<p>Более подробно все эти воросы будет или не будут осве­щены в следующем(-их) сообщении(-ях) этой
+серии.</p>
+<h2 id="vs-">
+<a class="anchor" href="#vs-" aria-hidden="true"><span class="octicon octicon-link"></span></a>«Кре­а­ци­а­низм» vs. «абио­ге­нез»</h2>
+<p>Я условно назвал сово­куп­ность мето­дов (как руч­ных, так и авто­ма­ти­че­ских), при­ме­ня­е­мых для
+кон­стру­и­ро­ва­ния квай­нов и осно­ван­ных на суще­ствен­ном при­вне­се­нии спе­ци­ально под­го­тов­лен­ной
+внеш­ней информации/знаний в этот про­цесс [квай­но­ло­ги­че­ским] «кре­а­ци­а­низ­мом». Тра­ди­ци­он­ное
+напи­са­ние квайна вруч­ную, а так­же его кон­стру­и­ро­ва­ния на основе вто­рой рекур­сив­ной тео­ремы Клини
+– суть при­меры кре­а­ци­а­нист­кого под­хода в квай­но­ло­гии. В них тре­бу­ется суще­ствен­ный кон­троль со
+сто­роны про­грам­ми­ста.</p>
+<p>В под­раз­де­лах же, при­ве­ден­ных ниже, акцент сде­лан на авто­ма­ти­че­ском ите­ра­тив­ном кон­стру­и­ро­ва­нии
+квай­нов (если оно воз­можно). «Абио­ге­не­ти­че­ское», само­сто­я­тель­ное «за­рож­де­ние» квай­нов
+потен­ци­ально могло бы пред­став­лять неко­то­рую цен­ность в ряде обла­стей. Так, напри­мер,
+квай­но­ло­ги­че­ский абио­ге­нез был бы инте­ре­сен в таком раз­деле инфор­ма­ци­он­ной без­опас­но­сти как
+ком­пью­тер­ная виру­со­ло­гия; он был бы при­ме­ним в авто­ном­ных систе­мах (e.g., само­мо­ди­фи­ци­ру­ю­ще­еся
+ПО каких-нибудь мар­со­хо­дов) и, воз­можно, инте­ре­сен экзо­био­ло­гам (в том смысле, что квайны,
+будучи «ди­стил­ли­ро­ван­ной» моде­лью жизни, подо­шли бы для изу­че­ния тва­рей с <em>terra incognita</em>,
+– будь-то оке­ан­ские впа­дины, асте­ро­иды, кос­ми­че­ская пыль/мусор, или любые дру­гие суб­страты).</p>
+<h2 id="section-17">
+<a class="anchor" href="#section-17" aria-hidden="true"><span class="octicon octicon-link"></span></a>Кими­ан­ские квайны и ите­ра­тив­ное вычис­ле­ние непо­движ­ной точки</h2>
+<p>Хофштад­тер в [26] не только ввел тер­мин «квайн», но и опи­сал там же ещё одну раз­но­вид­ность
+само­реп­ли­ци­ру­ю­ще­гося кода – кими­ан­ские квайны, назван­ные в честь Скотта Кима (Scott Kim),
+под­ска­зав­шего эту идею Хофштад­теру.</p>
+<p>Кими­ан­ский квайн пред­став­ляет собой текст, кото­рый будучи пода­ным на вход
+компилятора/интерпретатора, не рас­по­зна­ется как кор­рект­ный исход­ный текст, а при­во­дит к выводу
+сооб­ще­ния об ошибке [31]. При­чём такое сооб­ще­ние побук­венно сов­па­дает с самим кими­ан­ским
+квай­ном. Т.е. при попытке запуска или ком­пи­ля­ции, подоб­ный код всё-таки вос­про­из­во­дит себя, как
+и поло­жено квайну.</p>
+<p>Если обо­зна­чить среду испол­не­ния для кими­ан­ского квайна (e.g., ком­пи­ля­тор, интер­пре­та­тор или
+команд­ную обо­лочку) как функ­цию <span class="nolinebreak"><img src="/eq/3-515.png" style="height: 18px; width: 34px; vertical-align: -5px;" class="latex">,</span> при­ни­ма­ю­щую и воз­вра­ща­ю­щую тек­сто­вую строку, то
+неко­то­рый кими­ан­ский квайн <span class="nolinebreak"><img src="/eq/3-516.png" style="height: 12px; width: 8px; vertical-align: -4px;" class="latex"></span> будет непо­движ­ной точ­кой этой функ­ции: <span class="nolinebreak"><img src="/eq/3-517.png" style="height: 18px; width: 64px; vertical-align: -5px;" class="latex">.</span></p>
+<p>Инте­ресно, что в дан­ном слу­чае <span class="nolinebreak"><img src="/eq/3-518.png" style="height: 12px; width: 8px; vertical-align: -4px;" class="latex"></span> может быть вычис­лен ите­ри­ро­ва­нием функ­ции <span class="nolinebreak"><img src="/eq/3-519.png" style="height: 12px; width: 13px; vertical-align: -0px;" class="latex"></span> начи­ная с
+под­хо­дя­щего (ино­гда пустого) началь­ного при­бли­же­ния. Т.е. алго­ритм кон­стру­и­ро­ва­ния
+кими­ан­ского квайна дол­жен будет вычис­лить <span class="nolinebreak"><img src="/eq/3-520.png" style="height: 19px; width: 131px; vertical-align: -4px;" class="latex">,</span> где
+<span class="nolinebreak"><img src="/eq/3-521.png" style="height: 21px; width: 152px; vertical-align: -6px;" class="latex">,</span> <span class="nolinebreak"><img src="/eq/3-522.png" style="height: 19px; width: 74px; vertical-align: -4px;" class="latex"></span> для неко­то­рого началь­ного зна­че­ния <span class="nolinebreak"><img src="/eq/3-523.png" style="height: 9px; width: 7px; vertical-align: -0px;" class="latex">.</span></p>
+<p>Сле­дует заме­тить, что такая функ­ция <span class="nolinebreak"><img src="/eq/3-524.png" style="height: 18px; width: 34px; vertical-align: -5px;" class="latex"></span> опре­де­лена для всех <span class="nolinebreak"><img src="/eq/3-525.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex"></span> (и к тому же все­гда
+завер­ша­ется, если речь идет о ком­пи­ля­торе без под­держки вычислительно-универсальных
+мета­линг­ви­сти­че­ских средств, — напри­мер, подоб­ных C++ шаб­ло­нам, — могу­щих при­во­дить к
+«за­ви­са­нию» ком­пи­ля­тора).</p>
+<p>В мини­ре­по­зи­то­рии (gist) [33] можно найти про­стую реа­ли­за­цию подоб­ного метода ите­ра­тив­ного
+кон­стру­и­ро­ва­ния кими­ан­ского квайна, выпол­нен­ную на языке команд­ной обо­лочки bash. Скрипт
+при­ни­мает в каче­стве аргу­мента путь до испол­ня­е­мого файла интер­пре­та­тора или ком­пи­ля­тора,
+запус­кает его и пере­дает ему имя файла, хра­ня­щего началь­ное при­бли­же­ние. Резуль­тат из пото­ков
+вывода сохра­ня­ется в этот же файл если этот резуль­тат отли­ча­ется от содер­жи­мого файла, после
+чего про­цесс повто­ря­ется. И так до ста­би­ли­за­ции про­цесса, т.е. пока дан­ный интер­пре­та­тор не
+будет выда­вать тот же текст, кото­рый он полу­чил на вход.</p>
+<p>Экс­пе­ри­менты пока­зы­вают, что таким спо­со­бом непо­движ­ная точки нахо­дится не все­гда. И это не
+уди­ви­тельно. Тео­рема о непо­движ­ной точке может быть пере­фор­му­ли­ро­вана в форме утвер­жде­ния о том,
+что алго­ритм пре­об­ра­зо­ва­ния про­грамм­ного кода не может все­гда воз­вра­щать про­грамму, отлич­ную от
+дан­ной. И если непо­движ­ная точка суще­ствует, то ите­ри­ро­ва­ние при­ме­не­ния этого алго­ритма <em>может</em>
+поро­дить после­до­ва­тель­ность про­грамм, схо­дя­щу­юся к непо­движ­ной точке. Но после­до­ва­тель­ность
+может сой­тись и к какому-нибудь циклу. Т.е. даже если <span class="nolinebreak"><img src="/eq/3-526.png" style="height: 18px; width: 97px; vertical-align: -5px;" class="latex">,</span> то воз­можно
+суще­ствует после­до­ва­тель­ность <span class="nolinebreak"><img src="/eq/3-527.png" style="height: 12px; width: 72px; vertical-align: -4px;" class="latex"></span> такая, что <span class="nolinebreak"><img src="/eq/3-528.png" style="height: 18px; width: 94px; vertical-align: -5px;" class="latex"></span> и <span class="nolinebreak"><img src="/eq/3-529.png" style="height: 18px; width: 82px; vertical-align: -5px;" class="latex">.</span>
+При­чем, воз­можно, что <span class="nolinebreak"><img src="/eq/3-530.png" style="height: 19px; width: 120px; vertical-align: -4px;" class="latex">.</span></p>
+<p>Обсуж­да­е­мый скрипт [33] имеют руди­мен­тар­ную под­держку опре­де­ле­ния таких цик­лов, но для меня
+оста­ется откры­тым вопрос о воз­мож­но­сти авто­ма­ти­че­ского «пре­об­ра­зо­ва­ния» такого цикла в
+насто­я­щую непо­движ­ную точку (фор­мально, в цикл из одного эле­мента).</p>
+<p>(Несмотря на наблю­да­е­мую эмпи­ри­че­скую схо­ди­мость ите­ра­ций к непо­движ­ной точке или к циклу, мне
+неиз­вестны какие-либо осо­бые свой­ства функ­ции <span class="nolinebreak"><img src="/eq/3-531.png" style="height: 12px; width: 13px; vertical-align: -0px;" class="latex">,</span> гаран­ти­ру­ю­щие ста­би­ли­за­цию про­цесса после
+конеч­ного коли­че­ства шагов.)</p>
+<h2 id="section-18">
+<a class="anchor" href="#section-18" aria-hidden="true"><span class="octicon octicon-link"></span></a>Дру­гие кон­струк­тив­ные тео­ремы о непо­движ­ной точке</h2>
+<p>Пожа­луй, это самый спе­ку­ля­тив­ный и нефор­маль­ный под­раз­дел этого сооб­ще­ния. Здесь пере­чис­ля­ются
+неко­то­рые извест­ные тео­ремы о непо­движ­ных точ­ках, кото­рые, воз­можно, могли бы быть при­ме­нены для
+кон­стру­и­ро­ва­ния квай­нов. Сама эта воз­можность нахо­дится под вопро­сом, но эти тео­ремы всё-же
+заслу­жи­вают упо­ми­на­ния в таком кон­тек­сте.</p>
+<h3 id="section-19">
+<a class="anchor" href="#section-19" aria-hidden="true"><span class="octicon octicon-link"></span></a>Пер­вая рекур­сив­ная тео­рема Клини</h3>
+<p>(Этот раз­дел напи­сан по моти­вам соот­вет­ству­ю­щего мате­ри­ала из [50].)</p>
+<p>Для функ­ций <span class="nolinebreak"><img src="/eq/3-532.png" style="height: 16px; width: 93px; vertical-align: -3px;" class="latex"></span> и <span class="nolinebreak"><img src="/eq/3-533.png" style="height: 16px; width: 93px; vertical-align: -3px;" class="latex">,</span> таких, что <span class="nolinebreak"><img src="/eq/3-534.png" style="height: 16px; width: 63px; vertical-align: -3px;" class="latex">,</span>
+<span class="nolinebreak"><img src="/eq/3-535.png" style="height: 16px; width: 61px; vertical-align: -3px;" class="latex"></span> и <span class="nolinebreak"><img src="/eq/3-536.png" style="height: 18px; width: 163px; vertical-align: -5px;" class="latex"></span> вве­дем обо­зна­че­ние <span class="nolinebreak"><img src="/eq/3-537.png" style="height: 16px; width: 51px; vertical-align: -3px;" class="latex">,</span>
+чита­ю­ще­еся как «<span class="nolinebreak"><img src="/eq/3-538.png" style="height: 16px; width: 13px; vertical-align: -3px;" class="latex"></span> про­дол­жает <span class="nolinebreak"><img src="/eq/3-539.png" style="height: 16px; width: 13px; vertical-align: -3px;" class="latex">».</span> (Дру­гими сло­вами, выпол­ня­ется импли­ка­ция
+<span class="nolinebreak"><img src="/eq/3-540.png" style="height: 18px; width: 195px; vertical-align: -5px;" class="latex">.)</span></p>
+<p>Функ­ция назы­ва­ется конеч­ной если она имеет конеч­ную область опре­де­ле­ния. <em>Конеч­ной частью</em>
+функ­ции <span class="nolinebreak"><img src="/eq/3-541.png" style="height: 16px; width: 9px; vertical-align: -3px;" class="latex"></span> назо­вём конеч­ную функ­цию <span class="nolinebreak"><img src="/eq/3-542.png" style="height: 16px; width: 41px; vertical-align: -3px;" class="latex">.</span> Сопо­ста­вим функ­ции <span class="nolinebreak"><img src="/eq/3-543.png" style="height: 13px; width: 8px; vertical-align: -0px;" class="latex"></span>
+нату­раль­ное число <span class="nolinebreak"><img src="/eq/3-544.png" style="height: 18px; width: 29px; vertical-align: -5px;" class="latex">.</span></p>
+<p>Под­ра­зу­ме­ва­ется, что суще­ствует алго­ритм, кото­рый по чис­лам <span class="nolinebreak"><img src="/eq/3-545.png" style="height: 9px; width: 8px; vertical-align: -0px;" class="latex"></span> и <span class="nolinebreak"><img src="/eq/3-546.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex"></span> вычис­ляет <span class="nolinebreak"><img src="/eq/3-547.png" style="height: 18px; width: 30px; vertical-align: -5px;" class="latex"></span> если
+суще­ствует <span class="nolinebreak"><img src="/eq/3-548.png" style="height: 13px; width: 8px; vertical-align: -0px;" class="latex">,</span> такая, что <span class="nolinebreak"><img src="/eq/3-549.png" style="height: 18px; width: 59px; vertical-align: -5px;" class="latex"></span> и <span class="nolinebreak"><img src="/eq/3-550.png" style="height: 13px; width: 8px; vertical-align: -0px;" class="latex"></span> опре­де­лена в точке <span class="nolinebreak"><img src="/eq/3-551.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex">.</span></p>
+<p>Опе­ра­тор <span class="nolinebreak"><img src="/eq/3-552.png" style="height: 12px; width: 13px; vertical-align: -0px;" class="latex"></span> назы­ва­ется рекур­сив­ным опе­ра­то­ром если суще­ствует вычис­ли­мая функ­ция <span class="nolinebreak"><img src="/eq/3-553.png" style="height: 18px; width: 47px; vertical-align: -5px;" class="latex">,</span>
+такая, что <span class="nolinebreak"><img src="/eq/3-554.png" style="height: 18px; width: 145px; vertical-align: -5px;" class="latex"></span> тогда и только тогда, когда суще­ствует конеч­ная
+<span class="nolinebreak"><img src="/eq/3-555.png" style="height: 16px; width: 41px; vertical-align: -3px;" class="latex">,</span> такая, что <span class="nolinebreak"><img src="/eq/3-556.png" style="height: 21px; width: 102px; vertical-align: -6px;" class="latex">.</span></p>
+<p>Опе­ра­тор <span class="nolinebreak"><img src="/eq/3-557.png" style="height: 12px; width: 13px; vertical-align: -0px;" class="latex"></span> непре­ры­вен если <span class="nolinebreak"><img src="/eq/3-558.png" style="height: 18px; width: 145px; vertical-align: -5px;" class="latex"></span> тогда и только тогда, когда суще­ствует
+конеч­ная <span class="nolinebreak"><img src="/eq/3-559.png" style="height: 16px; width: 41px; vertical-align: -3px;" class="latex">,</span> такая, что <span class="nolinebreak"><img src="/eq/3-560.png" style="height: 18px; width: 87px; vertical-align: -5px;" class="latex">.</span></p>
+<p>Опе­ра­тор <span class="nolinebreak"><img src="/eq/3-561.png" style="height: 12px; width: 13px; vertical-align: -0px;" class="latex"></span> назы­вают моно­тон­ным, если <span class="nolinebreak"><img src="/eq/3-562.png" style="height: 18px; width: 197px; vertical-align: -5px;" class="latex">.</span></p>
+<p><strong>Утвер­жде­ние (без дока­за­тель­ства).</strong></p>
+<p>Рекур­сив­ные опе­ра­торы непре­рывны и моно­тонны.</p>
+<p><strong>Тео­рема (без дока­за­тель­ства).</strong></p>
+<p>Для любого рекур­сив­ного опе­ра­тора <span class="nolinebreak"><img src="/eq/3-563.png" style="height: 12px; width: 13px; vertical-align: -0px;" class="latex"></span> суще­ствует непо­движ­ная точка <span class="nolinebreak"><img src="/eq/3-564.png" style="height: 16px; width: 9px; vertical-align: -3px;" class="latex">,</span> т.е. <span class="nolinebreak"><img src="/eq/3-565.png" style="height: 18px; width: 68px; vertical-align: -5px;" class="latex">.</span> При­чём
+<span class="nolinebreak"><img src="/eq/3-566.png" style="height: 16px; width: 9px; vertical-align: -3px;" class="latex"></span> – наи­мень­шая из непо­движ­ных точек, в том смысле, что если для какой-нибудь дру­гой функ­ции
+<span class="nolinebreak"><img src="/eq/3-567.png" style="height: 12px; width: 8px; vertical-align: -4px;" class="latex"></span> выпол­ня­ется <span class="nolinebreak"><img src="/eq/3-568.png" style="height: 18px; width: 65px; vertical-align: -5px;" class="latex">,</span> то <span class="nolinebreak"><img src="/eq/3-569.png" style="height: 16px; width: 39px; vertical-align: -3px;" class="latex">.</span> (Всюду опре­де­лен­ная функ­ция <span class="nolinebreak"><img src="/eq/3-570.png" style="height: 16px; width: 9px; vertical-align: -3px;" class="latex"></span> авто­ма­ти­че­ски
+будет един­ствен­ной непо­движ­ной точ­кой.)</p>
+<p>Для демон­стра­ции связи с квай­нами в [50] (и это прак­ти­че­ски един­ствен­ная обна­ру­жен­ная мной в
+лите­ра­туре зацепка, свя­зы­ва­ю­щая первую рекур­сив­ную тео­рему с квай­нами) по-сути пред­ла­га­ется
+попро­бо­вать в каче­стве рекур­сив­ного опе­ра­тора взять опе­ра­тор, ана­ло­гич­ный опе­ра­тору
+<span class="nolinebreak"><img src="/eq/3-571.png" style="height: 15px; width: 40px; vertical-align: -4px;" class="latex">,</span> опре­де­лен­ному в раз­деле о тео­реме Род­жерса (см. выше). Опе­ра­тор
+<span class="nolinebreak"><img src="/eq/3-572.png" style="height: 15px; width: 40px; vertical-align: -4px;" class="latex"></span> пре­об­ра­зует про­грамму <span class="nolinebreak"><img src="/eq/3-573.png" style="height: 12px; width: 9px; vertical-align: -4px;" class="latex"></span> в про­грамму, печа­та­ю­щую текст <span class="nolinebreak"><img src="/eq/3-574.png" style="height: 12px; width: 9px; vertical-align: -4px;" class="latex">,</span> а по только
+что изло­жен­ной пер­вой рекур­сив­ной тео­реме Клини, рекур­сив­ный опе­ра­тор (с семан­ти­кой опе­ра­тора
+<span class="nolinebreak"><img src="/eq/3-575.png" style="height: 15px; width: 40px; vertical-align: -4px;" class="latex">)</span> дол­жен иметь непо­движ­ную точку <span class="nolinebreak"><img src="/eq/3-576.png" style="height: 16px; width: 9px; vertical-align: -3px;" class="latex"></span> и если из этого сле­дует, что и сам
+опе­ра­тор <span class="nolinebreak"><img src="/eq/3-577.png" style="height: 15px; width: 40px; vertical-align: -4px;" class="latex"></span> имеет непо­движ­ную точку <span class="nolinebreak"><img src="/eq/3-578.png" style="height: 12px; width: 8px; vertical-align: -4px;" class="latex">,</span> такую, что <span class="nolinebreak"><img src="/eq/3-579.png" style="height: 15px; width: 81px; vertical-align: -4px;" class="latex">,</span> то, коль скоро про­грамма <span class="nolinebreak"><img src="/eq/3-580.png" style="height: 12px; width: 8px; vertical-align: -4px;" class="latex"></span> равна про­грамме, печа­та­ю­щей себя, <span class="nolinebreak"><img src="/eq/3-581.png" style="height: 12px; width: 8px; vertical-align: -4px;" class="latex"></span> есть квайн.</p>
+<p>Здесь уместно про­ком­мен­ти­ро­вать согла­со­ван­ность этого вывода с дан­ным выше опре­де­ле­нием
+рекур­сив­ного опе­ра­тора, ведь <span class="nolinebreak"><img src="/eq/3-582.png" style="height: 15px; width: 40px; vertical-align: -4px;" class="latex"></span> дей­ствует не на мно­же­стве вычис­ли­мых
+функ­ций, а на мно­же­стве исход­ных тек­стов про­грамм. Идея состоит в том, что опе­ра­тор
+<span class="nolinebreak"><img src="/eq/3-583.png" style="height: 15px; width: 40px; vertical-align: -4px;" class="latex">,</span> пре­об­ра­зуя неко­то­рую про­грамму <span class="nolinebreak"><img src="/eq/3-584.png" style="height: 12px; width: 16px; vertical-align: -4px;" class="latex"></span> в про­грамму <span class="nolinebreak"><img src="/eq/3-585.png" style="height: 12px; width: 16px; vertical-align: -4px;" class="latex">,</span> порож­дает
+рекур­сив­ный опе­ра­тор <span class="nolinebreak"><img src="/eq/3-586.png" style="height: 12px; width: 10px; vertical-align: -0px;" class="latex">,</span> пре­об­ра­зу­ю­щий функ­цию <span class="nolinebreak"><img src="/eq/3-587.png" style="height: 18px; width: 65px; vertical-align: -5px;" class="latex"></span> в функ­цию
+<span class="nolinebreak"><img src="/eq/3-588.png" style="height: 18px; width: 65px; vertical-align: -5px;" class="latex">.</span> Обо­зна­чим <span class="nolinebreak"><img src="/eq/3-589.png" style="height: 18px; width: 75px; vertical-align: -5px;" class="latex">,</span> тогда
+выше­опи­сан­ную идею можно про­ил­лю­стри­ро­вать сле­ду­ю­щей диа­грам­мой:
+<br></p>
+<center><img src="/eq/3-590.png" style="height: 85px; width: 104px;" class="latex"></center>
+<br>
+<p>К опе­ра­тору <span class="nolinebreak"><img src="/eq/3-591.png" style="height: 12px; width: 10px; vertical-align: -0px;" class="latex"></span> напря­мую при­ме­нима пер­вая рекур­сив­ная тео­рема, т.е. суще­ствует <span class="nolinebreak"><img src="/eq/3-592.png" style="height: 16px; width: 9px; vertical-align: -3px;" class="latex">,</span> такая,
+что <span class="nolinebreak"><img src="/eq/3-593.png" style="height: 18px; width: 65px; vertical-align: -5px;" class="latex">.</span> Из этого сле­дует, что суще­ствуют про­граммы <span class="nolinebreak"><img src="/eq/3-594.png" style="height: 12px; width: 14px; vertical-align: -4px;" class="latex"></span> и <span class="nolinebreak"><img src="/eq/3-595.png" style="height: 12px; width: 14px; vertical-align: -4px;" class="latex">,</span> при­чем
+<br></p>
+<center><img src="/eq/3-596.png" style="height: 18px; width: 335px;" class="latex"></center>
+<br> Т.к., <span class="nolinebreak"><img src="/eq/3-597.png" style="height: 18px; width: 58px; vertical-align: -5px;" class="latex"></span> и
+<span class="nolinebreak"><img src="/eq/3-598.png" style="height: 18px; width: 58px; vertical-align: -5px;" class="latex">,</span> то <br><center><img src="/eq/3-599.png" style="height: 18px; width: 325px;" class="latex"></center>
+<br> Под­став­ляя (4) в (5) и при­ме­няя опре­де­ле­ние опе­ра­тора <span class="nolinebreak"><img src="/eq/3-600.png" style="height: 15px; width: 40px; vertical-align: -4px;" class="latex"></span> полу­чаем
+<span class="nolinebreak"><img src="/eq/3-601.png" style="height: 18px; width: 223px; vertical-align: -5px;" class="latex">,</span> т.е. <span class="nolinebreak"><img src="/eq/3-602.png" style="height: 12px; width: 14px; vertical-align: -4px;" class="latex"></span> удо­вле­тво­ряет «урав­не­нию квай­на» <span class="nolinebreak"><img src="/eq/3-603.png" style="height: 18px; width: 83px; vertical-align: -5px;" class="latex"></span> и,
+соот­вет­ственно, явля­ется квай­ном.
+<p>(Для меня оста­ется откры­тым вопрос о воз­мож­но­сти при­ме­не­ния пер­вой рекур­сив­ной тео­ремы для
+авто­ма­ти­че­ского кон­стру­и­ро­ва­ния квай­нов, как в слу­чае со вто­рой рекур­сив­ной тео­ре­мой.)</p>
+<h3 id="section-20">
+<a class="anchor" href="#section-20" aria-hidden="true"><span class="octicon octicon-link"></span></a>Тео­рема Клини о непо­движ­ной точке [из тео­рии решёток]</h3>
+<p>Про­из­воль­ное отоб­ра­же­ние <span class="nolinebreak"><img src="/eq/3-604.png" style="height: 13px; width: 87px; vertical-align: -0px;" class="latex">,</span> непре­рыв­ное по Скотту и опре­де­лен­ное на пол­ном
+частично упо­ря­до­чен­ном мно­же­стве <span class="nolinebreak"><img src="/eq/3-605.png" style="height: 12px; width: 18px; vertical-align: -0px;" class="latex"></span> с отно­ше­нием порядка <span class="nolinebreak"><img src="/eq/3-606.png" style="height: 14px; width: 11px; vertical-align: -2px;" class="latex"></span> имеет наи­мень­шую
+непо­движ­ную точку.</p>
+<p>Непре­рыв­ность по Скотту озна­чает суще­ство­ва­ние <span class="nolinebreak"><img src="/eq/3-607.png" style="height: 18px; width: 64px; vertical-align: -5px;" class="latex"></span> и выпол­не­ние  <span class="nolinebreak"><img src="/eq/3-608.png" style="height: 18px; width: 151px; vertical-align: -5px;" class="latex"></span>
+для вся­кого направ­лен­ного под­мно­же­ства <span class="nolinebreak"><img src="/eq/3-609.png" style="height: 15px; width: 51px; vertical-align: -2px;" class="latex">.</span></p>
+<h3 id="section-21">
+<a class="anchor" href="#section-21" aria-hidden="true"><span class="octicon octicon-link"></span></a>Тео­рема Кнастера-Тарского</h3>
+<p>В [37] при­ве­дена тео­рема о суще­ство­ва­нии непо­движ­ных точек моно­тон­ных отоб­ра­же­ний на пол­ной
+решетке. Пусть <span class="nolinebreak"><img src="/eq/3-610.png" style="height: 13px; width: 73px; vertical-align: -0px;" class="latex"></span> – моно­тон­ное отоб­ра­же­ние на пол­ной решетке <span class="nolinebreak"><img src="/eq/3-611.png" style="height: 12px; width: 11px; vertical-align: -0px;" class="latex"></span> с отно­ше­нием
+частич­ного порядка <span class="nolinebreak"><img src="/eq/3-612.png" style="height: 14px; width: 11px; vertical-align: -2px;" class="latex">.</span> Т.е. <span class="nolinebreak"><img src="/eq/3-613.png" style="height: 18px; width: 261px; vertical-align: -5px;" class="latex">.</span> Тео­рема Тар­ского утвер­ждает, что <span class="nolinebreak"><img src="/eq/3-614.png" style="height: 12px; width: 34px; vertical-align: -0px;" class="latex">,</span> i.e. мно­же­ство
+непо­движ­ных точек отоб­ра­же­ния <span class="nolinebreak"><img src="/eq/3-615.png" style="height: 12px; width: 13px; vertical-align: -0px;" class="latex">,</span> само явля­ется непу­стой пол­ной решет­кой.</p>
+<p>В [38] дока­зана кон­струк­тив­ная вер­сия этой тео­ремы. До этой работы, непо­движ­ные точки моно­тон­ных
+отоб­ра­же­ний уже кон­стру­и­ро­вали как <span class="nolinebreak"><img src="/eq/3-616.png" style="height: 19px; width: 71px; vertical-align: -4px;" class="latex">,</span> где <span class="nolinebreak"><img src="/eq/3-617.png" style="height: 13px; width: 38px; vertical-align: -1px;" class="latex">,</span> а <span class="nolinebreak"><img src="/eq/3-618.png" style="height: 12px; width: 68px; vertical-align: -0px;" class="latex">.</span> Но
+это тре­бо­вало от <span class="nolinebreak"><img src="/eq/3-619.png" style="height: 12px; width: 13px; vertical-align: -0px;" class="latex"></span> непре­рыв­но­сти по Скотту. В [38] же дока­зы­ва­ется тео­рема, кото­рая не тре­бует
+от <span class="nolinebreak"><img src="/eq/3-620.png" style="height: 12px; width: 13px; vertical-align: -0px;" class="latex"></span> этого свой­ства и утвер­ждая, что <span class="nolinebreak"><img src="/eq/3-621.png" style="height: 12px; width: 34px; vertical-align: -0px;" class="latex"></span> явля­ется пол­ной решет­кой
+отно­си­тельно <span class="nolinebreak"><img src="/eq/3-622.png" style="height: 14px; width: 11px; vertical-align: -2px;" class="latex">,</span> пред­ла­гает, среди про­чего, рецепт вычис­ле­ния непо­движ­ной точки в
+виде <span class="nolinebreak"><img src="/eq/3-623.png" style="height: 19px; width: 151px; vertical-align: -4px;" class="latex">.</span></p>
+<p>Здесь <span class="nolinebreak"><img src="/eq/3-624.png" style="height: 19px; width: 72px; vertical-align: -4px;" class="latex"></span> опре­де­ля­ется как пре­дел ста­ци­о­нар­ной после­до­ва­тель­но­сти
+<span class="nolinebreak"><img src="/eq/3-625.png" style="height: 20px; width: 109px; vertical-align: -5px;" class="latex"></span> при <span class="nolinebreak"><img src="/eq/3-626.png" style="height: 14px; width: 57px; vertical-align: -0px;" class="latex">.</span> Счи­та­ется, что <span class="nolinebreak"><img src="/eq/3-627.png" style="height: 20px; width: 122px; vertical-align: -5px;" class="latex"></span> для пре­дель­ного орди­нала <span class="nolinebreak"><img src="/eq/3-628.png" style="height: 13px; width: 8px; vertical-align: -0px;" class="latex">.</span> Под ста­ци­о­нар­но­стью пони­ма­ется, что начи­ная с
+неко­торго индекса, эле­менты после­до­ва­тель­но­сти имеют одно и то же зна­че­ние. Для кор­рект­ного
+погру­же­ния в исполь­зо­ван­ные в [38] транс­фи­нит­ные опре­де­ле­ния необ­хо­димо чте­ние ори­ги­наль­ной
+ста­тьи.</p>
+<p>(Эти резуль­таты обоб­ща­ются на слу­чай пол­ных частично упо­ря­до­чен­ных мно­жеств, только
+направ­лен­ные, а не про­из­воль­ные подмно­жества кото­рых обя­заны иметь супре­мум.)</p>
+<h2 id="section-22">
+<a class="anchor" href="#section-22" aria-hidden="true"><span class="octicon octicon-link"></span></a>Ком­би­на­тор непо­движ­ной точки в лямбда-исчислении</h2>
+<p>В <span class="nolinebreak"><img src="/eq/3-629.png" style="height: 13px; width: 8px; vertical-align: -0px;" class="latex">-исчислении</span> [34] для реа­ли­за­ции рекур­сии исполь­зу­ются ком­би­на­торы непо­движ­ной точки,
+в основ­ном <span class="nolinebreak"><img src="/eq/3-630.png" style="height: 12px; width: 13px; vertical-align: -0px;" class="latex">-комбинатор.</span> Этот ком­би­на­тор опре­де­ля­ется урав­не­нием <span class="nolinebreak"><img src="/eq/3-631.png" style="height: 18px; width: 89px; vertical-align: -5px;" class="latex"></span> и в соот­вет­ствии с этим опре­де­ле­нием вычис­ляет непо­движ­ную точку функ­ции <span class="nolinebreak"><img src="/eq/3-632.png" style="height: 16px; width: 9px; vertical-align: -3px;" class="latex">,</span>
+т.е. такое выра­же­ние <span class="nolinebreak"><img src="/eq/3-633.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex">,</span> что <span class="nolinebreak"><img src="/eq/3-634.png" style="height: 16px; width: 50px; vertical-align: -3px;" class="latex">.</span></p>
+<p>Если кон­крет­ная реа­ли­за­ция <span class="nolinebreak"><img src="/eq/3-635.png" style="height: 13px; width: 8px; vertical-align: -0px;" class="latex">-исчисления</span> под­дер­жи­вает рекур­сив­ные опре­де­ле­ния име­но­ван­ных
+сим­во­лов, то выше­при­ве­ден­ного опре­де­ле­ния доста­точно для работы с <span class="nolinebreak"><img src="/eq/3-636.png" style="height: 12px; width: 13px; vertical-align: -0px;" class="latex">-комбинатором</span>
+(могут воз­ра­зить, что в таком слу­чае он не особо-то и нужен; однако, здесь <span class="nolinebreak"><img src="/eq/3-637.png" style="height: 12px; width: 13px; vertical-align: -0px;" class="latex">-комбинатор</span> может
+слу­жить полез­ной обёрт­кой для неко­то­рых функ­ций, поз­во­ля­ю­щей, к при­меру, доба­вить вре­мен­ное
+хра­не­ние про­ме­жу­точ­ных резуль­та­тов с целью исклю­че­ния их повтор­ного вычис­ле­ния, — т.е.,
+кэши­ро­ва­ние, — и, соот­вет­ственно, полу­чить уско­ре­ние в духе дина­ми­че­ского про­грам­ми­ро­ва­ния).</p>
+<p>В чистом же <span class="nolinebreak"><img src="/eq/3-638.png" style="height: 13px; width: 8px; vertical-align: -0px;" class="latex">-исчислении</span> тре­бу­ется опре­де­лить <span class="nolinebreak"><img src="/eq/3-639.png" style="height: 12px; width: 13px; vertical-align: -0px;" class="latex">-комбинатор</span> в явном виде,
+напри­мер как <span class="nolinebreak"><img src="/eq/3-640.png" style="height: 21px; width: 218px; vertical-align: -6px;" class="latex"></span> (извест­ный как ком­би­на­тор Карри или пара­док­саль­ный ком­би­на­тор) или, в слу­чае
+исполь­зо­ва­ния импе­ра­тив­ного языка, задей­ство­вать [энер­гич­ный] ком­би­на­тор Тью­ринга <span class="nolinebreak"><img src="/eq/3-641.png" style="height: 15px; width: 60px; vertical-align: -3px;" class="latex">,</span> где <span class="nolinebreak"><img src="/eq/3-642.png" style="height: 18px; width: 157px; vertical-align: -5px;" class="latex">.</span></p>
+<p><strong>Тео­рема о непо­движ­ной точке.</strong></p>
+<p>Несмотря на неоче­вид­ность этого утвер­жде­ния, в нети­пи­зи­ро­ван­ном <span class="nolinebreak"><img src="/eq/3-643.png" style="height: 13px; width: 8px; vertical-align: -0px;" class="latex">-исчислении</span> любое
+выра­же­ние имеет непо­движ­ную точку (хотя бы одну).</p>
+<p><strong>Дока­за­тель­ство.</strong></p>
+<p>Пусть <span class="nolinebreak"><img src="/eq/3-644.png" style="height: 18px; width: 130px; vertical-align: -5px;" class="latex">.</span> Ком­би­на­тор Тью­ринга есть <span class="nolinebreak"><img src="/eq/3-645.png" style="height: 13px; width: 59px; vertical-align: -0px;" class="latex">.</span> Утвер­жда­ется, что для любого <span class="nolinebreak"><img src="/eq/3-646.png" style="height: 13px; width: 8px; vertical-align: -0px;" class="latex">-выражения</span> <span class="nolinebreak"><img src="/eq/3-647.png" style="height: 12px; width: 13px; vertical-align: -0px;" class="latex">,</span> выра­же­ние <span class="nolinebreak"><img src="/eq/3-648.png" style="height: 13px; width: 64px; vertical-align: -0px;" class="latex"></span> есть
+его непо­движ­ная точка. Чтобы уви­деть это, запи­шем сле­ду­ю­щую цепочку урав­не­ний:</p>
+<p><br></p>
+<center><img src="/eq/3-649.png" style="height: 45px; width: 439px;" class="latex"></center>
+<br>
+<p>где <span class="nolinebreak"><img src="/eq/3-650.png" style="height: 6px; width: 15px; vertical-align: -0px;" class="latex"></span> обо­зна­чает после­до­ва­тель­ность из нуля или несколь­ких шагов
+<span class="nolinebreak"><img src="/eq/3-651.png" style="height: 16px; width: 10px; vertical-align: -3px;" class="latex">-редукции.</span> <span class="nolinebreak"><img src="/eq/3-652.png" style="height: 12px; width: 11px; vertical-align: -0px;" class="latex"></span></p>
+<p>Теперь <span class="nolinebreak"><img src="/eq/3-653.png" style="height: 12px; width: 13px; vertical-align: -0px;" class="latex">-комбинатор</span> может быть при­ме­нен для вычис­ле­ния зна­че­ний функ­ций, вызы­ва­ю­щих
+сами себя, в среде, не име­ю­щей воз­мож­но­сти выпол­нять име­но­ван­ный рекур­сив­ный вызов или вообще не
+под­дер­жи­ва­ю­щей име­но­ва­ние объ­ек­тов.</p>
+<p>Напри­мер, если тре­бу­ется вычис­лить функ­цию <span class="nolinebreak"><img src="/eq/3-654.png" style="height: 18px; width: 121px; vertical-align: -5px;" class="latex">,</span> вызы­ва­ю­щую саму себя
+по имени <span class="nolinebreak"><img src="/eq/3-655.png" style="height: 16px; width: 9px; vertical-align: -3px;" class="latex">,</span> то можно опре­де­лить новую функ­цию <span class="nolinebreak"><img src="/eq/3-656.png" style="height: 12px; width: 13px; vertical-align: -0px;" class="latex">,</span> при­ни­ма­ю­щую <span class="nolinebreak"><img src="/eq/3-657.png" style="height: 16px; width: 9px; vertical-align: -3px;" class="latex"></span> как аргу­мент:
+<span class="nolinebreak"><img src="/eq/3-658.png" style="height: 18px; width: 148px; vertical-align: -5px;" class="latex"></span> (а при исполь­зо­ва­нии индек­сов де Брёйна или
+бинар­ного лямбда-исчисления мы можем изба­виться и от име­но­ван­ных пере­мен­ных вовсе). После
+опре­де­ле­ния <span class="nolinebreak"><img src="/eq/3-659.png" style="height: 12px; width: 13px; vertical-align: -0px;" class="latex"></span> мы можем вычис­лить <span class="nolinebreak"><img src="/eq/3-660.png" style="height: 16px; width: 9px; vertical-align: -3px;" class="latex"></span> как <span class="nolinebreak"><img src="/eq/3-661.png" style="height: 16px; width: 57px; vertical-align: -3px;" class="latex">,</span> потому что <span class="nolinebreak"><img src="/eq/3-662.png" style="height: 16px; width: 9px; vertical-align: -3px;" class="latex"></span> есть непо­движ­ная
+точка <span class="nolinebreak"><img src="/eq/3-663.png" style="height: 12px; width: 13px; vertical-align: -0px;" class="latex">,</span> т.е., <span class="nolinebreak"><img src="/eq/3-664.png" style="height: 18px; width: 168px; vertical-align: -5px;" class="latex">,</span> а <span class="nolinebreak"><img src="/eq/3-665.png" style="height: 12px; width: 26px; vertical-align: -0px;" class="latex">,</span> как было ска­зано выше,
+как раз и нахо­дит такую непо­движ­ную точку. Жела­ю­щие могут непо­сред­ствен­ной под­ста­нов­кой
+убе­диться, что в этом слу­чае дей­стви­тельно выпол­ня­ется <span class="nolinebreak"><img src="/eq/3-666.png" style="height: 18px; width: 100px; vertical-align: -5px;" class="latex">.</span></p>
+<p>Учи­ты­вая уни­вер­саль­ность <span class="nolinebreak"><img src="/eq/3-667.png" style="height: 13px; width: 8px; vertical-align: -0px;" class="latex">-исчисления</span> и выше­при­ве­ден­ную тео­рему о непо­движ­ной точке [в
+<span class="nolinebreak"><img src="/eq/3-668.png" style="height: 13px; width: 8px; vertical-align: -0px;" class="latex">-исчислении],</span> есте­ственно воз­ни­кает идея об исполь­зо­ва­нии ком­би­на­тора непо­движ­ной точки
+для кон­стру­и­ро­ва­ния квай­нов. (См. так­же [2, 47].)</p>
+<p>(Утвер­жде­ние о суще­ство­ва­нии ком­би­на­тора непо­движ­ной точки прак­ти­че­ски экви­ва­лентно
+выше­при­ве­ден­ный пер­вой рекур­сив­ной тео­реме Клини, но выгля­дит более кон­крет­ным.)</p>
+<h2 id="section-23">
+<a class="anchor" href="#section-23" aria-hidden="true"><span class="octicon octicon-link"></span></a>Логи­че­ское про­грам­ми­ро­ва­ние в огра­ни­че­ниях</h2>
+<p>В [12, 49] при­во­дится инте­рес­ный метод гене­ра­ции квай­нов с исполь­зо­ва­нием логи­че­ского
+про­грам­ми­ро­ва­ния. Авторы исполь­зо­вали язык логи­че­ского про­грам­ми­ро­ва­ния miniKanren [52],
+поз­во­ля­ю­щий напи­сать на нём ана­лог «ос­нов­ного урав­не­ния квай­нов» <span class="nolinebreak"><img src="/eq/3-669.png" style="height: 18px; width: 72px; vertical-align: -5px;" class="latex"></span>
+и дать системе решить его отно­си­тельно <span class="nolinebreak"><img src="/eq/3-670.png" style="height: 12px; width: 12px; vertical-align: -4px;" class="latex"></span></p>
+<p>С исполь­зо­ва­нием реа­ли­за­ции miniKanren, выпол­нен­ной на языке scheme, квайны можно
+гене­ри­ро­вать при­мерно так (<code>q.scm</code> взят из [49]):</p>
+<div class="language-scheme highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="nb">load</span> <span class="s">"q.scm"</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">run</span> <span class="mi">1</span> <span class="p">(</span><span class="nf">q</span><span class="p">)</span> <span class="p">(</span><span class="nf">eval-expo</span> <span class="nv">q</span> <span class="o">'</span><span class="p">()</span> <span class="nv">q</span><span class="p">)))</span>
+</code></pre></div></div>
+<p>Квайны вычис­ля­ются быстро (за секунду) и имеют малые раз­меры.</p>
+<p>(Суще­ствует мно­же­ство реа­ли­за­ций miniKanren и на дру­гих язы­ках, e.g., на ECMAScript/JavaScript,
+Python, Ruby, etc.)</p>
+<h2 id="section-24">
+<a class="anchor" href="#section-24" aria-hidden="true"><span class="octicon octicon-link"></span></a>Эво­лю­ци­он­ные алго­ритмы</h2>
+<p>Крайне инте­рес­ной пред­став­ля­ется потен­ци­аль­ная воз­мож­ность гене­ра­ции квай­нов с помо­щью
+гене­ти­че­ских алго­рит­мов. Среди мно­гих про­блем, воз­ни­ка­ю­щих при гене­ра­ции про­грамм эво­лю­ци­он­ными
+мето­дами, выде­ля­ется про­блема сохра­не­ния допу­сти­мо­сти или син­так­си­че­ской «кор­рект­но­сти»
+про­грамм при дей­ствии гене­ти­че­ских опе­ра­то­ров (крос­со­вер, мута­ция).</p>
+<p>В этом смысле, одним из наи­бо­лее при­год­ных пред­став­ле­ний для инкре­мент­ной эво­лю­ци­он­ной
+гене­ра­ции, явля­ются искус­ствен­ные ней­рон­ные сети (далее ИНС или ней­ро­сети). Будучи сетями
+одно­тип­ных нели­ней­ных сум­ма­то­ров, работа кото­рых зави­сит от весов свя­зей (синап­сов) между ними,
+ней­ро­сети про­дол­жают сохра­нять рабо­то­спо­соб­ность даже при почти слу­чай­ных
+изменениях/«повреждениях» в мат­рице их весо­вых коэф­фи­ци­ен­тов. Это довольно сильно
+кон­тра­сти­рует с тра­ди­ци­он­ными язы­ками про­грам­ми­ро­ва­ния, про­граммы на кото­рых с гораздо боль­шей
+веро­ят­но­стью под­вер­жены выходу из строя при малей­ших необ­ду­ман­ных моди­фи­ка­циях их исход­ного
+тек­ста.</p>
+<p>Квайны в виде ней­ро­се­тей уже известны. В [41] опи­сана ИНС, обу­ча­ю­ща­яся выво­дить зна­че­ния своих
+же синап­ти­че­ских коэф­фи­ци­ен­тов. Я же хотел бы здесь сосре­до­то­чится на дру­гом спо­собе гене­ра­ции
+квай­нов, а именно на кон­стру­и­ро­ва­нии про­грамм посред­ством при­ме­не­ния гене­ти­че­ских алго­рит­мов к
+про­ме­жу­точ­ному пред­став­ле­нию на основе ней­ро­се­тей.</p>
+<p>Есть инте­рес­ный экс­пе­ри­мен­таль­ный язык Anne, [40], при­ду­ман­ный спе­ци­ально для работы с
+ней­ро­се­тями и транс­ля­тор neuralbf [16, 51] того же автора, пре­об­ра­зу­ю­щий про­грамму на bf в
+опи­са­ние рекур­рент­ной ИНС. Послед­няя работа (кому-то могу­щая пока­заться несерь­ёз­ной)
+фоку­си­ру­ется на при­ме­не­нии гене­ти­че­ских алго­рит­мов для совер­шен­ство­ва­ния и исправ­ле­ния уже
+напи­сан­ных вруч­ную про­грамм (вме­сто их гене­ра­ции без началь­ного при­бли­же­ния).</p>
+<h2 id="section-25">
+<a class="anchor" href="#section-25" aria-hidden="true"><span class="octicon octicon-link"></span></a>Цеп­ные квайны</h2>
+<p>Назо­вём <em>цеп­ным квай­ном</em> (или ите­ра­тив­ным квай­ном) с пери­о­дом <span class="nolinebreak"><img src="/eq/3-671.png" style="height: 9px; width: 10px; vertical-align: -0px;" class="latex">,</span> после­до­ва­тель­ность <span class="nolinebreak"><img src="/eq/3-672.png" style="height: 9px; width: 10px; vertical-align: -0px;" class="latex"></span> про­грамм
+<span class="nolinebreak"><img src="/eq/3-673.png" style="height: 12px; width: 95px; vertical-align: -4px;" class="latex">,</span> такую, что <span class="nolinebreak"><img src="/eq/3-674.png" style="height: 18px; width: 199px; vertical-align: -5px;" class="latex"></span> и <span class="nolinebreak"><img src="/eq/3-675.png" style="height: 12px; width: 52px; vertical-align: -4px;" class="latex">.</span></p>
+<p>Можно полу­чить инте­рес­ное обоб­ще­ние — мно­го­язы­ко­вой или «ре­лей­ный» квайн — если заме­нить в
+только-что дан­ном опре­де­ле­нии скобки <span class="nolinebreak"><img src="/eq/3-676.png" style="height: 18px; width: 15px; vertical-align: -5px;" class="latex"></span> на <span class="nolinebreak"><img src="/eq/3-677.png" style="height: 18px; width: 25px; vertical-align: -5px;" class="latex">,</span> где <span class="nolinebreak"><img src="/eq/3-678.png" style="height: 18px; width: 30px; vertical-align: -5px;" class="latex"></span> – воз­можно раз­лич­ные языки про­грам­ми­ро­ва­ния
+(под­ра­зу­ме­ва­ется <span class="nolinebreak"><img src="/eq/3-679.png" style="height: 16px; width: 47px; vertical-align: -3px;" class="latex">).</span></p>
+<p><strong>Тео­рема (без дока­за­тель­ства).</strong></p>
+<p>Цеп­ные квайны суще­ствуют для любого пери­ода <span class="nolinebreak"><img src="/eq/3-680.png" style="height: 9px; width: 10px; vertical-align: -0px;" class="latex">.</span></p>
+<p>Вся­кий, кто пытался писать квайны и цеп­ные квайны, не мог не отме­тить неко­то­рое отли­чие в
+слож­но­сти их напи­са­ния – цеп­ные квайны [при <span class="nolinebreak"><img src="/eq/3-681.png" style="height: 12px; width: 39px; vertical-align: -1px;" class="latex">]</span> обычно проще истин­ных квай­нов (i.e., тоже
+цеп­ных квай­нов, но с пери­о­дом <span class="nolinebreak"><img src="/eq/3-682.png" style="height: 12px; width: 39px; vertical-align: -0px;" class="latex">).</span></p>
+<p>Соот­вет­ственно, не может не воз­ник­нуть вопрос о реа­ли­зу­е­мо­сти пол­но­стью авто­ма­ти­че­ского
+пре­об­ра­зо­ва­ния дан­ной после­до­ва­тель­но­сти <span class="nolinebreak"><img src="/eq/3-683.png" style="height: 18px; width: 33px; vertical-align: -5px;" class="latex"></span> в насто­я­щий квайн <span class="nolinebreak"><img src="/eq/3-684.png" style="height: 18px; width: 105px; vertical-align: -5px;" class="latex">.</span></p>
+<h2 id="section-26">
+<a class="anchor" href="#section-26" aria-hidden="true"><span class="octicon octicon-link"></span></a>Гене­ра­тор квай­нов, не зави­си­мый от языка</h2>
+<p>В раз­деле о кон­стру­и­ро­ва­нии квай­нов на основе вто­рой рекур­сив­ной тео­ремы Клини, при­во­дился
+гото­вый рецепт, алго­ритм гене­ра­ции квайна для кон­крет­ного зара­нее выбран­ного языка
+про­грам­ми­ро­ва­ния. (Похо­жий алго­ритм воз­мо­жен и в кон­тек­сте дока­за­тель­ства тео­ремы Род­жерса.)
+Воз­можно, что слово «алго­ритм» здесь можно пони­мать более фор­мально и бук­вально.</p>
+<p>Пред­став­ля­ется инте­рес­ным вопрос о суще­ство­ва­нии про­граммы <span class="nolinebreak"><img src="/eq/3-685.png" style="height: 13px; width: 13px; vertical-align: -0px;" class="latex">,</span> — «квайн­ти­фи­ка­то­ра», —
+гене­ри­ру­ю­щей квайн на ука­зан­ном языке <span class="nolinebreak"><img src="/eq/3-686.png" style="height: 12px; width: 11px; vertical-align: -0px;" class="latex"></span> с исполь­зо­ва­нием неко­то­рого коли­че­ства образ­цов кода
+на этом языке. При­чем и разум­ной спе­ци­фи­ка­цией языка <span class="nolinebreak"><img src="/eq/3-687.png" style="height: 12px; width: 11px; vertical-align: -0px;" class="latex"></span> и одно­вре­менно образ­цом кода на нём
+может слу­жить интер­пре­та­тор языка <span class="nolinebreak"><img src="/eq/3-688.png" style="height: 12px; width: 11px; vertical-align: -0px;" class="latex"></span> (суще­ству­ю­щий по тео­реме об уни­вер­саль­ной функ­ции).</p>
+<p>Чуть более фор­мально задача может быть постав­лена так. Пусть дан интер­пре­та­тор <span class="nolinebreak"><img src="/eq/3-689.png" style="height: 15px; width: 17px; vertical-align: -3px;" class="latex"></span> языка <span class="nolinebreak"><img src="/eq/3-690.png" style="height: 12px; width: 11px; vertical-align: -0px;" class="latex">,</span>
+напи­сан­ный на своем же вход­ном языке, т.е. для любой про­граммы <span class="nolinebreak"><img src="/eq/3-691.png" style="height: 12px; width: 9px; vertical-align: -4px;" class="latex"></span> на языка <span class="nolinebreak"><img src="/eq/3-692.png" style="height: 12px; width: 11px; vertical-align: -0px;" class="latex"></span> выпол­ня­ется
+<span class="nolinebreak"><img src="/eq/3-693.png" style="height: 18px; width: 152px; vertical-align: -5px;" class="latex">.</span> Пусть так­же <span class="nolinebreak"><img src="/eq/3-694.png" style="height: 15px; width: 17px; vertical-align: -3px;" class="latex"></span> оттранс­ли­ро­ван
+на рефе­ренс­ный язык (семан­ти­че­ские скобки без индекса) и суще­ствует на нём в виде про­граммы
+<span class="nolinebreak"><img src="/eq/3-695.png" style="height: 18px; width: 17px; vertical-align: -5px;" class="latex">.</span> В этом слу­чае спра­вед­ливо <span class="nolinebreak"><img src="/eq/3-696.png" style="height: 18px; width: 142px; vertical-align: -5px;" class="latex">.</span></p>
+<p>Спра­ши­ва­ется, как может выгля­деть про­грамма <span class="nolinebreak"><img src="/eq/3-697.png" style="height: 13px; width: 13px; vertical-align: -0px;" class="latex">,</span> такая, что <span class="nolinebreak"><img src="/eq/3-698.png" style="height: 18px; width: 110px; vertical-align: -5px;" class="latex"></span> и <span class="nolinebreak"><img src="/eq/3-699.png" style="height: 18px; width: 97px; vertical-align: -5px;" class="latex">?</span> Выше мы видели, что <span class="nolinebreak"><img src="/eq/3-700.png" style="height: 12px; width: 8px; vertical-align: -4px;" class="latex"></span> есть непо­движ­ная точка
+(по Род­жерсу) опе­ра­тора <span class="nolinebreak"><img src="/eq/3-701.png" style="height: 15px; width: 40px; vertical-align: -4px;" class="latex">.</span> При попытке реа­ли­зо­вать <span class="nolinebreak"><img src="/eq/3-702.png" style="height: 15px; width: 40px; vertical-align: -4px;" class="latex"></span> выяс­ня­ется,
+что струк­тура соот­вет­ству­ю­щей про­граммы сильно схожа со струк­ту­рой интер­пре­та­тора. Воз­можно, это
+сход­ство можно исполь­зо­вать для напи­са­ния <span class="nolinebreak"><img src="/eq/3-703.png" style="height: 13px; width: 13px; vertical-align: -0px;" class="latex">…</span> Но это тре­бует даль­ней­шего обду­мы­ва­ния.</p>
+<p>Вме­сто само­ин­тер­пре­та­то­ров можно исполь­зо­вать обычно более про­стые про­граммы, —
+<em>спе­ци­а­ли­за­торы,</em> — реа­ли­зу­ю­щие <span class="nolinebreak"><img src="/eq/3-704.png" style="height: 16px; width: 22px; vertical-align: -4px;" class="latex">-функцию,</span> ведь именно она явля­ется глав­ным ингре­ди­ен­том
+(после диа­го­на­ли­за­ции, конечно) в дока­за­тель­стве тео­ремы Клини о рекур­сии. (В сле­ду­ю­щих
+сооб­ще­ниях этот вопрос, воз­можно, будет иссле­до­ван более подробно.)</p>
+<h1 id="section-27">
+<a class="anchor" href="#section-27" aria-hidden="true"><span class="octicon octicon-link"></span></a>Заклю­че­ние</h1>
+<p>Целью этого сооб­ще­ния была демон­стра­ция воз­мож­но­сти авто­ма­ти­че­ского кон­стру­и­ро­ва­ния квай­нов на
+языке редак­тора sed с исполь­зо­ва­нием дока­за­тель­ства вто­рой рекур­сив­ной тео­ремы Клини в каче­стве
+основы. Резуль­тат про­ве­ден­ного экс­пе­ри­мента можно счи­тать поло­жи­тель­ным, хотя <em>авто­ма­ти­че­ским</em>
+такой спо­соб напи­са­ния квай­нов можно назвать только в смысле доста­точ­но­сти запуска един­ствен­ного
+скрипта <code>generate.sh</code> и лик­ви­да­ции наи­бо­лее слож­ной, и, если можно так выра­зиться, твор­че­ской
+состав­ля­ю­щей в кон­стру­и­ро­ва­нии само­реп­ли­ци­ру­ю­щейся системы.</p>
+<p>В целом, сооб­ще­ние уже немного вышло за рамки очер­чен­ных целей. Но о квай­нах можно ска­зать
+боль­ше… В сле­ду­ю­щих сооб­ще­ниях этой серии.</p>
+<h1 id="section-28">
+<a class="anchor" href="#section-28" aria-hidden="true"><span class="octicon octicon-link"></span></a>Ссылки</h1>
+<div class="bib">
+<ul>
+<li>[1] <a href="http://www.madore.org/~david/computers/quine.html">http://www.madore.org/~david/computers/quine.html</a>
+</li>
+<li>[2] <a href="http://math.berkeley.edu/~kmill/blog/blog_2018_5_31_universality_quines.html">http://math.berkeley.edu/~kmill/blog/blog_2018_5_31_universality_quines.html</a>
+</li>
+<li>[3] <a href="http://en.wikipedia.org/wiki/Smn_theorem">http://en.wikipedia.org/wiki/Smn_theorem</a>
+</li>
+<li>[4] <a href="http://en.wikipedia.org/wiki/partial_evaluation">http://en.wikipedia.org/wiki/partial_evaluation</a>
+</li>
+<li>[5] <a href="http://fi.ftmr.info">http://fi.ftmr.info</a>
+</li>
+<li>[6] <a href="http://ru.wikipedia.org/wiki/%D0%B4%D0%B8%D0%B0%D0%B3%D0%BE%D0%BD%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9_%D0%B0%D1%80%D0%B3%D1%83%D0%BC%D0%B5%D0%BD%D1%82">http://ru.wikipedia.org/wiki/диагональный_аргумент</a>
+</li>
+<li>[7] <a href="http://ru.wikipedia.org/wiki/%D1%82%D0%B5%D0%BE%D1%80%D0%B5%D0%BC%D0%B0_%D0%9A%D0%B0%D0%BD%D1%82%D0%BE%D1%80%D0%B0">http://ru.wikipedia.org/wiki/теорема_Кантора</a>
+</li>
+<li>[8] <a href="http://ru.wikipedia.org/wiki/%D0%BF%D1%80%D0%BE%D0%B1%D0%BB%D0%B5%D0%BC%D0%B0_%D0%BE%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B8">http://ru.wikipedia.org/wiki/проблема_остановки</a>
+</li>
+<li>[9] <a href="http://ru.wikipedia.org/wiki/%D0%B0%D0%B2%D1%82%D0%BE%D0%BC%D0%B0%D1%82_%D1%84%D0%BE%D0%BD_%D0%9D%D0%B5%D0%B9%D0%BC%D0%B0%D0%BD%D0%B0">http://ru.wikipedia.org/wiki/автомат_фон_Неймана</a>
+</li>
+<li>[10] <a href="http://ru.wikipedia.org/wiki/%D0%B7%D0%BE%D0%BD%D0%B4_%D1%84%D0%BE%D0%BD_%D0%9D%D0%B5%D0%B9%D0%BC%D0%B0%D0%BD%D0%B0">http://ru.wikipedia.org/wiki/зонд_фон_Неймана</a>
+</li>
+<li>[11] Jiazhen Cai, Robert Paige, Program derivation by fixed point computation, 1989</li>
+<li>[12] William E.Byrd, Eric Holk, Daniel P.Friedman, miniKanren, live and untagged: Quine generation via relational interpreters, 2012</li>
+<li>[14] S.C.Kleene, Introduction to Meta-Mathematics, 1952</li>
+<li>[15] <a href="http://en.wikipedia.org/wiki/Quine%27s_paradox">http://en.wikipedia.org/wiki/Quine%27s_paradox</a>
+</li>
+<li>[16] <a href="http://www.domob.eu/projects/neuralbf.php">http://www.domob.eu/projects/neuralbf.php</a>
+</li>
+<li>[17] <a href="https://github.com/MakeNowJust/quine/blob/master/quine.sed">https://github.com/MakeNowJust/quine/blob/master/quine.sed</a>
+</li>
+<li>[18] <a href="https://github.com/MakeNowJust/quine">https://github.com/MakeNowJust/quine</a>
+</li>
+<li>[19] H.Rogers, Theory of Recursive Functions and Effective Computability</li>
+<li>[20] T.A.Hansen, T.Nikolajsen, J.L.Traff, N.D.Jones, Experiments with Implementation of two Theoretical Constructions</li>
+<li>[21] G.Bonfante, M.Kaczmarek, J-Y.Marion, Toward an Abstract Computer Virology</li>
+<li>[22] G.Bonfante, M.Kaczmarek, J-Y.Marion, A Classification of Viruses through Recursion Theorems, 2007</li>
+<li>[23] Julia L. Lawall, Olivier Danvy, Continuation-Based Partial Evaluation</li>
+<li>[24] Anders Bondorf, Improving Binding Times Without Explicit CPS-Conversion</li>
+<li>[25] D.A.Wheeler, Fully Countering Trusting Trust through Diverse Double-Compiling, 2009</li>
+<li>[26] Douglas R.Hofstadter, Goedel, Escher, Bach: an Eternal Golden Braid, 1979</li>
+<li>[27] P.-M. Binder, Theories of almost everything, 2008</li>
+<li>[28] H.G.Rice, Classes of recursively enumerable sets and their decision problems, 1953</li>
+<li>[29] <a href="https://en.wikipedia.org/wiki/Rice_theorem">https://en.wikipedia.org/wiki/Rice_theorem</a>
+</li>
+<li>[30] Gary P.Thompson II, The quine page
+(self-reproducing code), <a href="http://www.nyx.net/~gthompso/quine.htm">http://www.nyx.net/~gthompso/quine.htm</a>
+</li>
+<li>[31] <a href="http://www.nyx.net/~gthompso/self_kim.txt">http://www.nyx.net/~gthompso/self_kim.txt</a>
+</li>
+<li>[32] <a href="http://www.latrobe.edu.au/phimvt/joy">http://www.latrobe.edu.au/phimvt/joy</a>
+</li>
+<li>[33] <a href="https://gist.github.com/Circiter/7152686">https://gist.github.com/Circiter/7152686</a>
+</li>
+<li>[34] <a href="http://en.wikipedia.org/wiki/lambda_calculus">http://en.wikipedia.org/wiki/lambda_calculus</a>
+</li>
+<li>[35] Lawrence S.Moss, Recursion Theorems and Self-Replication Via Text Register Machine
+Programs</li>
+<li>[36] Neil Jones, Computer implementation and application of Kleene’s s-m-n and recursion
+theorem.</li>
+<li>[37] A.Tarski, A lattice theoretical fixpoint theorem and its applications, 1955</li>
+<li>[38] P.Cousot, R.Cousot, Constructive versions of Tarski’s fixed point theorems, 1979</li>
+<li>[39] J.Case, S.E.Moelius III, Program Self-Reference in Constructive Scott Subdomains, 2009</li>
+<li>[40] <a href="http://compann.sourceforge.net">http://compann.sourceforge.net</a>
+</li>
+<li>[41] O.Chang, H.Lipson, Neural Network Quine, 2018</li>
+<li>[42] <a href="http://en.wikipedia.org/wiki/quine">http://en.wikipedia.org/wiki/quine</a>
+</li>
+<li>[43] F.William Lawvere, Diagonal arguments and cartesian closed categories, 1969</li>
+<li>[44] Noson S.Yanofsky, A Universal Approach to Self-Referential Paradoxes, Incompleteness and
+Fixed Points, 2003</li>
+<li>[45] Jean-Yves Marion, From Turing machines to computer viruses, 2012</li>
+<li>[46] <a href="https://github.com/Circiter/quine-kleene-generator">https://github.com/Circiter/quine-kleene-generator</a>
+</li>
+<li>[47] Kleene Second Recursion Theorem: A Functional Pearl // Proc. ACM
+Program. Lang., Vol 1, 2018</li>
+<li>[48] Дж. фон Ней­ман, Тео­рия само­вос­про­из­во­дя­щихся авто­ма­тов, 1971</li>
+<li>[49] <a href="https://github.com/webyrd/quines">https://github.com/webyrd/quines</a>
+</li>
+<li>[50] В.М.Зюзьков, Тео­рия алго­рит­мов: Учеб­ное посо­бие, 2005</li>
+<li>[51] <a href="https://gitlab.com/domob/neuralbf">https://gitlab.com/domob/neuralbf</a>
+</li>
+<li>[52] <a href="https://github.com/miniKanren">https://github.com/miniKanren</a>
+</li>
+<li>[53] <a href="http://www.michaelwehar.com/quines">http://www.michaelwehar.com/quines</a>
+</li>
+<li>[54] <a href="http://www.keithschwarz.com/kleene">http://www.keithschwarz.com/kleene</a>
+</li>
+<li>[55] <a href="http://www.nyx.net/~gthompso/quine-1.1.0.tar.gz">http://www.nyx.net/~gthompso/quine-1.1.0.tar.gz</a>
+</li>
+<li>[56] J.C.Owings млад­ший, Diagonalization and the Recursion Theorem, 1973</li>
+<li>[57] E.Alonso, M.Manzano, Diagonalization and Church’s Thesis: Kleene’s Homework, 2005</li>
+</ul>
+</div>
+
+</div>
+
+
+    <p>
+    М.И.Никитин<br>
+    г.Алматы, июль, 2020
+    
+        <br>
+        (послед­няя правка: ноябрь, 2020)
+    
+    </p>
+    <br>
+
+
+
+
+
+    <p>
+    <small>метки-категории: <em>
+        
+            <a class="post" href="/tag/%D0%BD%D0%B5%D0%BF%D0%BE%D0%B4%D0%B2%D0%B8%D0%B6%D0%BD%D1%8B%D0%B5-%D1%82%D0%BE%D1%87%D0%BA%D0%B8">неподвижные-точки</a>, 
+        
+            <a class="post" href="/tag/sed">sed</a>, 
+        
+            <a class="post" href="/tag/%D1%8D%D0%B7%D0%BE%D1%82%D0%B5%D1%80%D0%B8%D0%BA%D0%B0">эзо­те­рика</a>, 
+        
+            <a class="post" href="/tag/%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5">про­грам­ми­ро­ва­ние</a>, 
+        
+            <a class="post" href="/tag/%D0%BA%D0%B2%D0%B0%D0%B9%D0%BD%D0%BE%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE">квай­но­вод­ство</a>, 
+        
+            <a class="post" href="/tag/%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F-%D0%B2%D1%8B%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D0%BC%D0%BE%D1%81%D1%82%D0%B8">теория-вычислимости</a>, 
+        
+            <a class="post" href="/tag/%D0%BC%D0%B0%D1%82%D0%B5%D0%BC%D0%B0%D1%82%D0%B8%D0%BA%D0%B0">мате­ма­тика</a>, 
+        
+            <a class="post" href="/tag/%D1%84%D0%B8%D0%BB%D0%BE%D1%81%D0%BE%D1%84%D0%B8%D1%8F">фило­со­фия</a>, 
+        
+            <a class="post" href="/tag/%D1%81%D0%B0%D0%BC%D0%BE%D1%80%D0%B5%D0%BF%D0%BB%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D1%8F">само­ре­пли­ка­ция</a>
+        
+    </em></small>
+    </p>
+
+
+
+    <p><small>[<a href="/sig/quinelogy-part-1.md.sha256.sig">ЭЦП (SHA-256, RSA)</a>] (<a href="https://gist.github.com/Circiter/92e7b9368c1e29c055a688d12d61466c">ключ</a>)<small></small></small></p>
+
+
+    </div>
+
+  <footer>
+    <a href="mailto:xcirciter@gmail.com"><i class="svg-icon email"></i></a>
+    <a href="https://github.com/Circiter"><i class="svg-icon github"></i></a>
+    <a href="/rss.xml"><i class="svg-icon rss"></i></a>
+    <!--<img src="/public/images/no-cookies.png" alt="no cookies"></img>-->
+    <!-- From catb.org/hacker-emblem/glider-small.png -->
+    <h2><a href="http://catb.org/hacker-emblem"><img src="/public/images/glider-small.png" /></a>&nbsp;EOF</h2>
+    <p><small>&copy;&nbsp;Circiter,&nbsp;2020&ndash;2022. Все права защищены. (см. также <a href="/LICENSE">LICENSE</a>)</small></p>
+</footer>
+
+
+  </body>
+</html>

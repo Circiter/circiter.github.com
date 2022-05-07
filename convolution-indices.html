@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Индексы в определении свертки последовательностей [или функций]. &middot; Дневник Circiter'а
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/hyde.css">
+  <link rel="stylesheet" href="/public/css/style.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Exo+2">
+  <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml" />
+  <link type="text/plain" rel="author" href="/humans.txt" />
+  <!-- From catb.org/hacker-emblem/glider.ico  -->
+  <link rel="shortcut icon" href="/public/images/glider.ico" />
+
+</head>
+
+
+  <body>
+
+    <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <!--<h1>
+        <a href="/">
+          Дневник Circiter'а
+        </a>
+      </h1>-->
+      <p class="lead">Технический блог о программировании, математике, радиолюбительской практике, электронике и занимательной науке.</p>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="sidebar-nav-item" href="/">Главная страница</a>
+
+      
+      
+        
+          
+        
+      
+        
+          
+            <a class="sidebar-nav-item" href="/about">Справка</a>
+          
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+
+    </nav>
+  </div>
+</div>
+
+
+    <div class="content container">
+      <div class="post">
+    <h2 class="post-title no-toc">Индексы в опре­де­ле­нии свертки после­до­ва­тель­но­стей [или функ­ций].</h2>
+    <!-- <span class="post-date">7 May 2022</span> -->
+    
+        <br>
+        <center><span class="post-date">Июнь, 2020</span></center>
+    
+    
+        <span class="abstract">
+        <center><b>Анно­та­ция</b></center>
+        
+            <p>Попытка объ­яс­не­ния необыч­ных индек­сов в опре­де­ле­нии опе­ра­ции свёртки.</p>
+
+        
+        <hr>
+        </span>
+    
+    
+    <h3>Содер­жа­ние:</h3>
+    <ul id="toc" class="section-nav">
+<li class="toc-entry toc-h1"><a href="#section">Вве­де­ние</a></li>
+<li class="toc-entry toc-h1"><a href="#section-1">Немного опре­де­ле­ний</a></li>
+<li class="toc-entry toc-h1"><a href="#section-2">Умно­же­ние чисел</a></li>
+<li class="toc-entry toc-h1"><a href="#section-3">Кор­ре­ля­ция</a></li>
+<li class="toc-entry toc-h1"><a href="#section-4">Линей­ные системы</a></li>
+<li class="toc-entry toc-h1"><a href="#section-5">Заклю­че­ние, выводы</a></li>
+<li class="toc-entry toc-h1"><a href="#section-6">Ссылки</a></li>
+</ul>
+
+
+    <h1 id="section">
+<a class="anchor" href="#section" aria-hidden="true"><span class="octicon octicon-link"></span></a>Вве­де­ние</h1>
+<p>Что общего между поис­ком котов на фото­гра­фии, сжа­тием музыки, про­гно­зи­ро­ван­нием кур­сов валют,
+уга­ды­ва­нием мело­дии по нотам, умно­же­нием чисел на бумаге (или на счётах), и добав­ле­нием,
+ска­жем, эффекта зву­ча­ния в боль­шом желе­зо­бе­тон­ном зале к речи, запи­сан­ной на улице?</p>
+<p>А общ­ность их заклю­чена хотя-бы в том, что с точки зре­ния про­грам­ми­ста, все эти задачи (при­чем,
+спи­сок подоб­ных — на пер­вый взгляд раз­роз­нен­ных — при­ме­ров на самом деле длин­нее) могут быть
+более или менее успешно решены прак­ти­че­ски одним и тем же неболь­шим кус­ком кода, реа­ли­зу­ю­щим
+свёртку <a class="citation" href="#wiki-convolution">[1]</a> функ­ций или после­до­ва­тель­но­стей. (С точки зре­ния же
+заказ­чи­ков и управляющих/начальства этого про­грам­ми­ста, такие задачи должны, конечно, счи­таться
+абсо­лютно не свя­зан­ными друг с дру­гом и, соот­вет­ственно, тре­бу­ю­щими отдель­ного неза­ви­си­мого
+финан­си­ро­ва­ния. :) )</p>
+<p>Взгля­нув на пер­вое попав­ше­еся опре­де­ле­ние свертки, неко­то­рым нелегко сразу понять, почему в фор­муле
+запи­саны минусы в индек­сах, и почему при нагляд­ной интер­пре­та­ции в виде нало­же­ния гра­фи­ков тре­бу­ется
+сна­чала отра­зить один из них.</p>
+<p>В насто­я­щем сооб­ще­нии я хотел бы пока­зать есте­ствен­ность свертки исполь­зуя ряд про­стых при­ме­ров,
+среди кото­рых будут пере­мно­же­ние чисел, тео­рема о свертке и рас­суж­де­ния о сдви­го­вой инва­ри­ант­но­сти
+линей­ных пре­об­ра­зо­ва­ний.</p>
+<h1 id="section-1">
+<a class="anchor" href="#section-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Немного опре­де­ле­ний</h1>
+<p>Цик­ли­че­ской (или кру­го­вой) свёрт­кой двух после­до­ва­тель­но­стей <span class="nolinebreak"><img src="/eq/2-0.png" style="height: 11px; width: 13px; vertical-align: -3px;" class="latex"></span> и <span class="nolinebreak"><img src="/eq/2-1.png" style="height: 15px; width: 11px; vertical-align: -3px;" class="latex"></span> длины <span class="nolinebreak"><img src="/eq/2-2.png" style="height: 9px; width: 10px; vertical-align: -0px;" class="latex"></span> назы­вают
+<span class="nolinebreak"><img src="/eq/2-3.png" style="height: 9px; width: 10px; vertical-align: -0px;" class="latex">-элементную</span> после­до­ва­тель­ность <span class="nolinebreak"><img src="/eq/2-4.png" style="height: 13px; width: 62px; vertical-align: -0px;" class="latex"></span> с эле­мен­тами
+<br></p>
+<center><img src="/eq/2-5.png" style="height: 52px; width: 367px;" class="latex"></center>
+<br>
+<p>Выра­же­ние <span class="nolinebreak"><img src="/eq/2-6.png" style="height: 18px; width: 19px; vertical-align: -5px;" class="latex"></span> может быть запи­сано и более сим­мет­рич­ным обра­зом (обра­тите вни­ма­ние, что такая
+запись уже поз­во­ляет изба­виться от мину­сов, правда ценой пере­носа сла­га­е­мого в индекс/предел
+суммы): <br></p>
+<center><img src="/eq/2-7.png" style="height: 39px; width: 372px;" class="latex"></center>
+<br>
+<p><strong>Тео­рема о свертке:</strong>
+<br></p>
+<center><img src="/eq/2-8.png" style="height: 21px; width: 177px;" class="latex"></center>
+<br> где
+<span class="nolinebreak"><img src="/eq/2-9.png" style="height: 13px; width: 14px; vertical-align: -0px;" class="latex"></span> – пре­об­ра­зо­ва­ние Фурье; при­чем пере­мно­же­ние Фурье-образов про­из­во­дится поэле­ментно.
+<p>В сло­вес­ной фор­му­ли­ровке можно ска­зать, что спектр свертки равен про­из­ве­де­нию
+спек­тров исход­ных сиг­на­лов.</p>
+<p><strong>Набро­сок дока­за­тель­ства (из <a class="citation" href="#matters-computational">[2]</a>):</strong>
+<br></p>
+<center><img src="/eq/2-10.png" style="height: 200px; width: 490px;" class="latex"></center>
+<br>
+где <span class="nolinebreak"><img src="/eq/2-11.png" style="height: 18px; width: 120px; vertical-align: -5px;" class="latex"></span> и исполь­зу­ется опре­де­ле­ние пре­об­ра­зо­ва­ния Фурье для
+после­до­ва­тель­но­сти: <span class="nolinebreak"><img src="/eq/2-12.png" style="height: 19px; width: 131px; vertical-align: -5px;" class="latex"></span> (здесь игно­ри­ру­ется неболь­шое отли­чие
+между пря­мым и обрат­ным пре­об­ра­зо­ва­ни­ями Фурье, заклю­ча­ю­ще­еся в знаке аргу­мента экс­по­ненты и
+в мно­жи­теле <span class="nolinebreak"><img src="/eq/2-13.png" style="height: 17px; width: 26px; vertical-align: -4px;" class="latex"></span> [перед обрат­ным пре­об­ра­зо­ва­нием]). <span class="nolinebreak"><img src="/eq/2-14.png" style="height: 12px; width: 11px; vertical-align: -0px;" class="latex"></span>
+<p>Ана­ло­гич­ный резуль­тат изве­стен и для пре­об­ра­зо­ва­ния Лапласа:
+<span class="nolinebreak"><img src="/eq/2-15.png" style="height: 21px; width: 237px; vertical-align: -6px;" class="latex">.</span></p>
+<p>Уместно заме­тить, что тео­рема о свертке имеет важ­ное при­клад­ное зна­че­ние, т.к. дает метод
+эффек­тив­ного вычис­ле­ния свертки с помо­щью быст­рого пре­об­ра­зо­ва­ния Фурье <a class="citation" href="#wiki-fft">[3]</a>. В
+нашем же слу­чае важно видеть как в при­ве­ден­ном про­стом дока­за­тель­стве появ­ля­ются минусы в
+индек­сах и, что гораздо более инте­ресно, как они исполь­зу­ются далее для пре­об­ра­зо­ва­ния гра­ниц
+сум­ми­ро­ва­ния.</p>
+<p>Линей­ной (или ацик­лич­ной) свёрт­кой <span class="nolinebreak"><img src="/eq/2-16.png" style="height: 9px; width: 10px; vertical-align: -0px;" class="latex">-элементных</span> после­до­ва­тель­но­стей <span class="nolinebreak"><img src="/eq/2-17.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex"></span> и <span class="nolinebreak"><img src="/eq/2-18.png" style="height: 13px; width: 7px; vertical-align: -0px;" class="latex"></span> назы­ва­ется
+после­до­ва­тель­ность <span class="nolinebreak"><img src="/eq/2-19.png" style="height: 15px; width: 78px; vertical-align: -3px;" class="latex"></span> длины <span class="nolinebreak"><img src="/eq/2-20.png" style="height: 12px; width: 19px; vertical-align: -0px;" class="latex">,</span> с эле­мен­тами:
+<br></p>
+<center><img src="/eq/2-21.png" style="height: 52px; width: 345px;" class="latex"></center>
+<br>
+<p>Линей­ная свертка может быть най­дена с помо­щью цик­ли­че­ской свертки если исход­ные после­до­ва­тель­но­сти
+длины <span class="nolinebreak"><img src="/eq/2-22.png" style="height: 9px; width: 10px; vertical-align: -0px;" class="latex"></span> допол­нить нулями до длины <span class="nolinebreak"><img src="/eq/2-23.png" style="height: 12px; width: 19px; vertical-align: -0px;" class="latex">,</span> а затем свер­нуть.</p>
+<p>Линей­ная свертка фак­ти­че­ски может рас­смат­ри­ваться как про­из­ве­де­ние чисел — суть строк
+цифр [в неко­то­рой пози­ци­он­ной системе счис­ле­ния], — или как про­из­ве­де­ние поли­но­мов.</p>
+<p>Опре­де­ле­ние свертки обоб­ща­ется и на непре­рыв­ный слу­чай. А именно, если <span class="nolinebreak"><img src="/eq/2-24.png" style="height: 18px; width: 30px; vertical-align: -5px;" class="latex"></span> и <span class="nolinebreak"><img src="/eq/2-25.png" style="height: 18px; width: 30px; vertical-align: -5px;" class="latex"></span> – непре­рыв­ные
+функ­ции, то их свертка равна
+<br></p>
+<center><img src="/eq/2-26.png" style="height: 57px; width: 240px;" class="latex"></center>
+<br>
+<p>N.B., этот инте­грал тоже явля­ется функ­цией от <span class="nolinebreak"><img src="/eq/2-27.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex">.</span> (Вопросы, свя­зан­ные с квад­ра­тич­ной инте­гри­ру­е­мо­стью
+функ­ций <span class="nolinebreak"><img src="/eq/2-28.png" style="height: 16px; width: 9px; vertical-align: -3px;" class="latex"></span> и <span class="nolinebreak"><img src="/eq/2-29.png" style="height: 12px; width: 8px; vertical-align: -4px;" class="latex"></span> здесь не рас­смат­ри­ва­ются.)</p>
+<h1 id="section-2">
+<a class="anchor" href="#section-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>Умно­же­ние чисел</h1>
+<p>Пере­мно­жим два целых поло­жи­тель­ных числа <span class="nolinebreak"><img src="/eq/2-30.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex"></span> и <span class="nolinebreak"><img src="/eq/2-31.png" style="height: 13px; width: 7px; vertical-align: -0px;" class="latex">,</span> име­ю­щих деся­тич­ные раз­ло­же­ния
+<span class="nolinebreak"><img src="/eq/2-32.png" style="height: 21px; width: 109px; vertical-align: -6px;" class="latex"></span> и
+<span class="nolinebreak"><img src="/eq/2-33.png" style="height: 21px; width: 107px; vertical-align: -6px;" class="latex">,</span>
+соот­вет­ственно, где <span class="nolinebreak"><img src="/eq/2-34.png" style="height: 18px; width: 122px; vertical-align: -5px;" class="latex">.</span> Резуль­тат будет равен
+<br></p>
+<center><img src="/eq/2-35.png" style="height: 39px; width: 381px;" class="latex"></center>
+<br>
+<p>Но если мы построим подоб­ное раз­ло­же­ние и для <span class="nolinebreak"><img src="/eq/2-36.png" style="height: 9px; width: 7px; vertical-align: -0px;" class="latex">,</span> т.е. запи­шем его как <br></p>
+<center><img src="/eq/2-37.png" style="height: 37px; width: 336px;" class="latex"></center>
+<br> где <span class="nolinebreak"><img src="/eq/2-38.png" style="height: 15px; width: 78px; vertical-align: -3px;" class="latex"></span> (N.B., здесь, в отли­чии от раз­ло­же­ний для <span class="nolinebreak"><img src="/eq/2-39.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex"></span> и
+<span class="nolinebreak"><img src="/eq/2-40.png" style="height: 13px; width: 7px; vertical-align: -0px;" class="latex"></span> мы не исполь­зуем нера­вен­ство <span class="nolinebreak"><img src="/eq/2-41.png" style="height: 14px; width: 54px; vertical-align: -3px;" class="latex">,</span> поз­во­ляя такой записи числа оста­ваться
+«не­нор­ма­ли­зо­ван­ной», т.е. воз­можно тре­бу­ю­щей серии даль­ней­ших пере­но­сов в стар­ший раз­ряд), то
+при­рав­ни­вая <span class="nolinebreak"><img src="/eq/2-42.png" style="height: 18px; width: 19px; vertical-align: -5px;" class="latex"></span> и <span class="nolinebreak"><img src="/eq/2-43.png" style="height: 18px; width: 19px; vertical-align: -5px;" class="latex"></span> мы полу­чим выра­же­ния для «цифр» числа <span class="nolinebreak"><img src="/eq/2-44.png" style="height: 9px; width: 7px; vertical-align: -0px;" class="latex">:</span> <br><center><img src="/eq/2-45.png" style="height: 39px; width: 135px;" class="latex"></center>
+<br> где при­ме­нено равен­ство <span class="nolinebreak"><img src="/eq/2-46.png" style="height: 16px; width: 65px; vertical-align: -3px;" class="latex"></span> из-за того, что в сла­га­е­мом <span class="nolinebreak"><img src="/eq/2-47.png" style="height: 19px; width: 66px; vertical-align: -5px;" class="latex"></span>
+раз­ло­же­ния <span class="nolinebreak"><img src="/eq/2-48.png" style="height: 18px; width: 19px; vertical-align: -5px;" class="latex"></span> мно­жи­тель <span class="nolinebreak"><img src="/eq/2-49.png" style="height: 17px; width: 28px; vertical-align: -5px;" class="latex"></span> нахо­дится при сте­пени десяти <span class="nolinebreak"><img src="/eq/2-50.png" style="height: 15px; width: 37px; vertical-align: -0px;" class="latex">,</span> а <span class="nolinebreak"><img src="/eq/2-51.png" style="height: 11px; width: 15px; vertical-align: -3px;" class="latex"></span> в
+раз­ло­же­нии <span class="nolinebreak"><img src="/eq/2-52.png" style="height: 18px; width: 19px; vertical-align: -5px;" class="latex"></span> нахо­дится при <span class="nolinebreak"><img src="/eq/2-53.png" style="height: 15px; width: 23px; vertical-align: -0px;" class="latex">.</span>
+<p>Из <span class="nolinebreak"><img src="/eq/2-54.png" style="height: 16px; width: 65px; vertical-align: -3px;" class="latex"></span> можно выра­зить <span class="nolinebreak"><img src="/eq/2-55.png" style="height: 12px; width: 5px; vertical-align: -0px;" class="latex"></span> как <span class="nolinebreak"><img src="/eq/2-56.png" style="height: 16px; width: 65px; vertical-align: -3px;" class="latex">.</span> Под­ста­новка в выра­же­ния для <span class="nolinebreak"><img src="/eq/2-57.png" style="height: 11px; width: 15px; vertical-align: -3px;" class="latex"></span> дает:
+<br></p>
+<center><img src="/eq/2-58.png" style="height: 52px; width: 403px;" class="latex"></center>
+<br>
+<p>Срав­не­ние <span class="nolinebreak"><img src="/eq/2-59.png" style="height: 18px; width: 19px; vertical-align: -5px;" class="latex"></span> с <span class="nolinebreak"><img src="/eq/2-60.png" style="height: 18px; width: 19px; vertical-align: -5px;" class="latex"></span> пока­зы­вает, что мы здесь имеем дело именно с линей­ной сверт­кой
+после­до­ва­тель­но­стей цифр исход­ных чисел <span class="nolinebreak"><img src="/eq/2-61.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex"></span> и <span class="nolinebreak"><img src="/eq/2-62.png" style="height: 13px; width: 7px; vertical-align: -0px;" class="latex">.</span> (Доста­точ­ное коли­че­ство пере­но­сов в стар­ший
+раз­ряд, выпол­нен­ных в про­из­воль­ном порядке, поз­во­лит пре­об­ра­зо­вать каж­дое <span class="nolinebreak"><img src="/eq/2-63.png" style="height: 11px; width: 15px; vertical-align: -3px;" class="latex"></span> в <span class="nolinebreak"><img src="/eq/2-64.png" style="height: 18px; width: 103px; vertical-align: -5px;" class="latex">,</span> т.е. в насто­я­щую цифру числа <span class="nolinebreak"><img src="/eq/2-65.png" style="height: 23px; width: 158px; vertical-align: -6px;" class="latex">.)</span></p>
+<h1 id="section-3">
+<a class="anchor" href="#section-3" aria-hidden="true"><span class="octicon octicon-link"></span></a>Кор­ре­ля­ция</h1>
+<p>Для непре­рыв­ных функ­ций <span class="nolinebreak"><img src="/eq/2-66.png" style="height: 16px; width: 9px; vertical-align: -3px;" class="latex"></span> и <span class="nolinebreak"><img src="/eq/2-67.png" style="height: 12px; width: 8px; vertical-align: -4px;" class="latex">,</span> их кор­ре­ля­ция (или кросс-кор­ре­ля­ция) <a class="citation" href="#wiki-cross-correlation">[4]</a> опре­де­ля­ется как <br></p>
+<center><img src="/eq/2-68.png" style="height: 57px; width: 230px;" class="latex"></center>
+<br>
+<p>(<span class="nolinebreak"><img src="/eq/2-69.png" style="height: 12px; width: 10px; vertical-align: -0px;" class="latex"></span> обо­зна­чает ком­плекс­ное сопря­же­ние неко­то­рого числа <span class="nolinebreak"><img src="/eq/2-70.png" style="height: 13px; width: 42px; vertical-align: -1px;" class="latex">.)</span></p>
+<p>Это опре­де­ле­ние можно запи­сать в экви­ва­лент­ной форме, без минуса:
+<br></p>
+<center><img src="/eq/2-71.png" style="height: 57px; width: 230px;" class="latex"></center>
+<br>
+<p>Если <span class="nolinebreak"><img src="/eq/2-72.png" style="height: 16px; width: 9px; vertical-align: -3px;" class="latex"></span> и <span class="nolinebreak"><img src="/eq/2-73.png" style="height: 12px; width: 8px; vertical-align: -4px;" class="latex"></span> пери­о­дичны с пери­о­дом <span class="nolinebreak"><img src="/eq/2-74.png" style="height: 12px; width: 12px; vertical-align: -0px;" class="latex">,</span> то можно инте­гри­ро­ва­ние про­из­во­дить по
+интер­валу <span class="nolinebreak"><img src="/eq/2-75.png" style="height: 18px; width: 87px; vertical-align: -5px;" class="latex">.</span></p>
+<p>Связь кор­ре­ля­ции со сверт­кой:
+<br></p>
+<center><img src="/eq/2-76.png" style="height: 30px; width: 277px;" class="latex"></center>
+<br>
+<p>Инте­рес­ное свой­ство:
+<br></p>
+<center><img src="/eq/2-77.png" style="height: 18px; width: 170px;" class="latex"></center>
+<br>
+<p>Ана­лог тео­ремы о сверт­ке; при­вожу без дока­за­тель­ства (кото­рое, однако, легко постро­ить
+по ана­ло­гии с выше­при­ве­ден­ным слу­чаем для обыч­ной тео­ремы о свертке):
+<br></p>
+<center><img src="/eq/2-78.png" style="height: 21px; width: 159px;" class="latex"></center>
+<br>
+<p>Так­же как и в слу­чае со сверт­кой, мы можем огра­ни­читься рас­смот­ре­нием зна­че­ний функ­ций в
+отдель­ных точ­ках, что после замены инте­гра­лов зна­ками суммы при­во­дит к ана­ло­гич­ным фор­му­лам
+для чис­ло­вых после­до­ва­тель­но­стей.</p>
+<h1 id="section-4">
+<a class="anchor" href="#section-4" aria-hidden="true"><span class="octicon octicon-link"></span></a>Линей­ные системы</h1>
+<p>Широ­кое прак­ти­че­ское при­ме­не­ние свертки (в част­но­сти физи­ками и инже­не­рами) обу­слов­ленно воз­мож­но­стью
+её исполь­зо­ва­ния для опи­са­ния отклика линей­ных систем, в том числе мно­гих реаль­ных физи­че­ских систем,
+обла­да­ю­щих свой­ствами линей­но­сти и сдви­го­вой инва­ри­ант­но­сти (сим­мет­рич­но­сти) по вре­мени (или
+заменяющей(-им) его переменной(-ым)).</p>
+<p>(Ниже, в основ­ном, при­ве­дена сво­бод­ная адап­та­ция мате­ри­ала из <a class="citation" href="#wiki-linear-time-invariant-system">[5]</a> с неко­то­рым упро­ще­нием нота­ции, и не факт, что без ущерба
+стро­го­сти изло­же­ния. Кроме того, я огра­ни­чусь рас­смот­ре­нием только непре­рыв­ного слу­чая,
+под­ра­зу­ме­вая, что дис­крет­ная вер­сия выте­кает из него как част­ный слу­чай.)</p>
+<p>Допу­стим, неко­то­рая система моде­ли­ру­ется функ­цией <span class="nolinebreak"><img src="/eq/2-79.png" style="height: 15px; width: 16px; vertical-align: -3px;" class="latex">,</span> пре­об­ра­зу­ю­щей вход­ной сиг­нал <span class="nolinebreak"><img src="/eq/2-80.png" style="height: 18px; width: 31px; vertical-align: -5px;" class="latex"></span> в отклик
+<span class="nolinebreak"><img src="/eq/2-81.png" style="height: 18px; width: 103px; vertical-align: -5px;" class="latex">.</span> Отоб­ра­же­ние <span class="nolinebreak"><img src="/eq/2-82.png" style="height: 15px; width: 16px; vertical-align: -3px;" class="latex"></span> (фак­ти­че­ски, опе­ра­тор) линейно:
+<span class="nolinebreak"><img src="/eq/2-83.png" style="height: 21px; width: 353px; vertical-align: -6px;" class="latex">.</span>
+Послед­нее выра­же­ние, оче­видно, легко обоб­ща­ется и на про­из­воль­ное коли­че­ство слагаемых-сигналов
+<span class="nolinebreak"><img src="/eq/2-84.png" style="height: 18px; width: 39px; vertical-align: -5px;" class="latex"></span> и на непре­рыв­ный слу­чай с заме­ной сум­ми­ро­ва­ния
+инте­гри­ро­ва­нием: <br></p>
+<center><img src="/eq/2-85.png" style="height: 57px; width: 412px;" class="latex"></center>
+<br> где <span class="nolinebreak"><img src="/eq/2-86.png" style="height: 15px; width: 16px; vertical-align: -3px;" class="latex"></span> пре­об­ра­зует
+<span class="nolinebreak"><img src="/eq/2-87.png" style="height: 18px; width: 39px; vertical-align: -5px;" class="latex"></span> в <span class="nolinebreak"><img src="/eq/2-88.png" style="height: 18px; width: 40px; vertical-align: -5px;" class="latex">.</span>
+<p>Кроме этого, отоб­ра­же­ние <span class="nolinebreak"><img src="/eq/2-89.png" style="height: 15px; width: 16px; vertical-align: -3px;" class="latex"></span> инва­ри­антно отно­си­тельно сдви­гов [по «вре­ме­ни»]:
+<br></p>
+<center><img src="/eq/2-90.png" style="height: 18px; width: 413px;" class="latex"></center>
+<br> Т.е. в дан­ном слу­чае моде­ли­ру­ется
+важ­ное свой­ство реаль­ных систем, а именно неза­ви­си­мость резуль­та­тов экс­пе­ри­мента от вре­мени его
+начала: если мы опоз­дали с нача­лом экс­пе­ри­мента на неко­то­рое время <span class="nolinebreak"><img src="/eq/2-91.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex">,</span> то и резуль­таты мы полу­чим
+с опоз­да­нием <span class="nolinebreak"><img src="/eq/2-92.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex">.</span>
+<p>Так как <span class="nolinebreak"><img src="/eq/2-93.png" style="height: 18px; width: 103px; vertical-align: -5px;" class="latex">,</span> то (про­сто за счет под­ста­новки <span class="nolinebreak"><img src="/eq/2-94.png" style="height: 12px; width: 67px; vertical-align: -1px;" class="latex">)</span>
+<br></p>
+<center><img src="/eq/2-95.png" style="height: 18px; width: 363px;" class="latex"></center>
+<br>
+<p>Если в каче­стве сиг­нала взять [одно­мер­ную] дельта-функцию Дирака <span class="nolinebreak"><img src="/eq/2-96.png" style="height: 18px; width: 29px; vertical-align: -5px;" class="latex"></span> <a class="citation" href="#wiki-delta-function-en">[6,7]</a>, рав­ную нулю всюду за исклю­че­нием един­ствен­ной
+точки <span class="nolinebreak"><img src="/eq/2-97.png" style="height: 12px; width: 40px; vertical-align: -0px;" class="latex"></span> (в кото­рой она равна бес­ко­неч­но­сти) и моде­ли­ру­ю­щую иде­аль­ный импульс [бес­ко­нечно
+малой про­дол­жи­тель­но­сти], то с помо­щью <span class="nolinebreak"><img src="/eq/2-98.png" style="height: 15px; width: 16px; vertical-align: -3px;" class="latex"></span> мы полу­чим импульс­ный отклик <span class="nolinebreak"><img src="/eq/2-99.png" style="height: 18px; width: 95px; vertical-align: -5px;" class="latex">.</span></p>
+<p>Это выра­же­ние с исполь­зо­ва­нием урав­не­ний <span class="nolinebreak"><img src="/eq/2-100.png" style="height: 18px; width: 19px; vertical-align: -5px;" class="latex"></span> и <span class="nolinebreak"><img src="/eq/2-101.png" style="height: 18px; width: 19px; vertical-align: -5px;" class="latex"></span> при­во­дит к
+<br></p>
+<center><img src="/eq/2-102.png" style="height: 18px; width: 408px;" class="latex"></center>
+<br>
+<p>Инте­ресно, что несмотря на <em>de-facto</em> опре­де­ле­ние
+<br></p>
+<center><img src="/eq/2-103.png" style="height: 50px; width: 157px;" class="latex"></center>
+<br> инте­грал по всему про­стран­ству равен 1:
+<br><center><img src="/eq/2-104.png" style="height: 57px; width: 112px;" class="latex"></center>
+<br> При­чем из этого урав­не­ния сле­дует
+<em>филь­тру­ю­щее свой­ство</em> <span class="nolinebreak"><img src="/eq/2-105.png" style="height: 13px; width: 8px; vertical-align: -0px;" class="latex">-функции</span> (для неко­то­рой функ­ции <span class="nolinebreak"><img src="/eq/2-106.png" style="height: 16px; width: 9px; vertical-align: -3px;" class="latex">):</span>
+<br><center><img src="/eq/2-107.png" style="height: 57px; width: 386px;" class="latex"></center>
+<br>
+<p><strong>Дока­за­тель­ство филь­тру­ю­щего свой­ства.</strong></p>
+<p>Т.к. <span class="nolinebreak"><img src="/eq/2-108.png" style="height: 18px; width: 90px; vertical-align: -5px;" class="latex"></span> при <span class="nolinebreak"><img src="/eq/2-109.png" style="height: 16px; width: 41px; vertical-align: -3px;" class="latex">,</span> то инте­грал <span class="nolinebreak"><img src="/eq/2-110.png" style="height: 18px; width: 27px; vertical-align: -5px;" class="latex"></span> не зави­сит от зна­че­ний <span class="nolinebreak"><img src="/eq/2-111.png" style="height: 18px; width: 30px; vertical-align: -5px;" class="latex"></span>
+при <span class="nolinebreak"><img src="/eq/2-112.png" style="height: 16px; width: 41px; vertical-align: -3px;" class="latex">,</span> а зави­сит только от зна­че­ния в един­ствен­ной точке <span class="nolinebreak"><img src="/eq/2-113.png" style="height: 18px; width: 61px; vertical-align: -5px;" class="latex">.</span> Поэтому функ­цию
+<span class="nolinebreak"><img src="/eq/2-114.png" style="height: 18px; width: 30px; vertical-align: -5px;" class="latex"></span> можно про­сто заме­нить кон­стан­той <span class="nolinebreak"><img src="/eq/2-115.png" style="height: 18px; width: 127px; vertical-align: -5px;" class="latex">,</span> кото­рую можно будет выне­сти
+за знак инте­грала: <br></p>
+<center><img src="/eq/2-116.png" style="height: 57px; width: 179px;" class="latex"></center>
+<br> Но
+теперь остав­шийся инте­грал равен еди­нице (несмотря на дру­гие пере­мен­ные, это всё-равно инте­грал
+от дельта-функции по всему про­стран­ству) и <span class="nolinebreak"><img src="/eq/2-117.png" style="height: 18px; width: 27px; vertical-align: -5px;" class="latex"></span> пре­вра­ща­ется в тож­де­ство <span class="nolinebreak"><img src="/eq/2-118.png" style="height: 18px; width: 66px; vertical-align: -5px;" class="latex">.</span>
+<span class="nolinebreak"><img src="/eq/2-119.png" style="height: 12px; width: 11px; vertical-align: -0px;" class="latex"></span>
+<p>Воз­можно расчи­тать отклик <span class="nolinebreak"><img src="/eq/2-120.png" style="height: 18px; width: 33px; vertical-align: -5px;" class="latex"></span> системы на неко­то­рый вход­ной сиг­нал <span class="nolinebreak"><img src="/eq/2-121.png" style="height: 18px; width: 31px; vertical-align: -5px;" class="latex"></span> не зная
+<span class="nolinebreak"><img src="/eq/2-122.png" style="height: 15px; width: 16px; vertical-align: -3px;" class="latex"></span> в явном виде, а только рас­по­ла­гая импульс­ным откли­ком <span class="nolinebreak"><img src="/eq/2-123.png" style="height: 18px; width: 26px; vertical-align: -5px;" class="latex">.</span> Именно (исполь­зу­ется ком­му­та­тив­ность
+свертки): <br></p>
+<center><img src="/eq/2-124.png" style="height: 57px; width: 505px;" class="latex"></center>
+<br>
+<p>Демон­стра­ция адек­ват­но­сти свертки для опи­са­ния [сдвигово-инвариантных] линей­ный систем может быть
+про­из­ве­дена с помо­щью дока­за­тель­ства спра­вед­ли­во­сти урав­не­ния <span class="nolinebreak"><img src="/eq/2-125.png" style="height: 18px; width: 27px; vertical-align: -5px;" class="latex">.</span></p>
+<p><strong>Набро­сок дока­за­тель­ства.</strong></p>
+<p>Под­ста­новка <span class="nolinebreak"><img src="/eq/2-126.png" style="height: 18px; width: 27px; vertical-align: -5px;" class="latex"></span> в выра­же­ние <span class="nolinebreak"><img src="/eq/2-127.png" style="height: 18px; width: 27px; vertical-align: -5px;" class="latex"></span> для свертки даёт:
+<br></p>
+<center><img src="/eq/2-128.png" style="height: 57px; width: 400px;" class="latex"></center>
+<br>
+<p>Исполь­зуя выра­жа­е­мую урав­не­нием <span class="nolinebreak"><img src="/eq/2-129.png" style="height: 18px; width: 19px; vertical-align: -5px;" class="latex"></span> линей­ность, т.е. вынося <span class="nolinebreak"><img src="/eq/2-130.png" style="height: 15px; width: 16px; vertical-align: -3px;" class="latex"></span> за знак инте­грала, полу­чаем:
+<br></p>
+<center><img src="/eq/2-131.png" style="height: 57px; width: 246px;" class="latex"></center>
+<br>
+<p>При­ме­няя филь­тру­ю­щее свой­ство <span class="nolinebreak"><img src="/eq/2-132.png" style="height: 18px; width: 27px; vertical-align: -5px;" class="latex"></span> дельта-функции, а так­же опре­де­ле­ние <span class="nolinebreak"><img src="/eq/2-133.png" style="height: 15px; width: 16px; vertical-align: -3px;" class="latex"></span> как отоб­ра­же­ния
+<span class="nolinebreak"><img src="/eq/2-134.png" style="height: 18px; width: 91px; vertical-align: -5px;" class="latex">,</span> при­хо­дим к урав­не­нию <span class="nolinebreak"><img src="/eq/2-135.png" style="height: 18px; width: 191px; vertical-align: -5px;" class="latex">.</span></p>
+<p>Таким обра­зом, спра­вед­ли­вость <span class="nolinebreak"><img src="/eq/2-136.png" style="height: 18px; width: 27px; vertical-align: -5px;" class="latex"></span> дока­зана. <span class="nolinebreak"><img src="/eq/2-137.png" style="height: 12px; width: 11px; vertical-align: -0px;" class="latex"></span></p>
+<h1 id="section-5">
+<a class="anchor" href="#section-5" aria-hidden="true"><span class="octicon octicon-link"></span></a>Заклю­че­ние, выводы</h1>
+<p>Как видно из выше­при­ве­ден­ных при­ме­ров, свертка явля­ется доста­точно есте­ствен­ной кон­цеп­цией,
+всем хорошо зна­ко­мой по умно­же­нию мно­го­знач­ных чисел (под­хо­дит для демон­стра­ции линей­ной свертки).
+Тео­рема о свертке тоже выгля­дит доста­точно про­сто (и под­хо­дит для демон­стра­ции цик­ли­че­ской свертки).
+При­чем из обоих при­ме­ров сразу ста­но­вится понят­ным про­ис­хож­де­ние «не­обыч­ных» индек­сов в
+опре­де­ле­нии свертки после­до­ва­тель­но­стей (и не менее «не­обыч­ных» аргу­мен­тов у функ­ций в непре­рыв­ном
+слу­чае).</p>
+<p>Инте­ресно, что кор­ре­ля­ция, не тре­бу­ю­щая отра­же­ния гра­фика одной из функ­ций при нагляд­ной интер­пре­та­ции,
+и могу­щая быть запи­сан­ной без вычи­та­ния в выра­же­ниях для индексов/аргументов, ока­зы­ва­ется даже более
+отда­лен­ной от при­клад­ного, «бы­то­во­го» при­ме­не­ния мате­ма­ти­ки; а ана­лог тео­ремы о свертке в слу­чае
+с кор­ре­ля­цией тре­бует исполь­зо­ва­ния  лиш­ней опе­ра­ции ком­плекс­ного сопря­же­ния.</p>
+<p>Нако­нец, про­де­мон­стри­ро­вана само­со­гла­со­ван­ность опе­ра­ции свертки при опи­са­нии доста­точно боль­шого
+класса реаль­ных систем (со свой­ствами линей­но­сти и сдви­го­вой инва­ри­ант­но­сти).</p>
+<h1 id="section-6">
+<a class="anchor" href="#section-6" aria-hidden="true"><span class="octicon octicon-link"></span></a>Ссылки</h1>
+<ul class="bibliography">
+<li>
+<span id="wiki-convolution">1. </span> <a href="http://en.wikipedia.org/wiki/convolution">http://en.wikipedia.org/wiki/convolution</a>
+</li>
+<li>
+<span id="matters-computational">2. Arndt J. Matters Computational</span> </li>
+<li>
+<span id="wiki-fft">3. </span> <a href="http://en.wikipedia.org/wiki/Fast_Fourier_Transform">http://en.wikipedia.org/wiki/Fast_Fourier_Transform</a>
+</li>
+<li>
+<span id="wiki-cross-correlation">4. </span> <a href="http://en.wikipedia.org/wiki/cross-correlation">http://en.wikipedia.org/wiki/cross-correlation</a>
+</li>
+<li>
+<span id="wiki-linear-time-invariant-system">5. </span> <a href="http://en.wikipedia.org/wiki/linear_time-invariant_system">http://en.wikipedia.org/wiki/linear_time-invariant_system</a>
+</li>
+<li>
+<span id="wiki-delta-function-en">6. </span> <a href="http://en.wikipedia.org/wiki/Dirac_delta_function">http://en.wikipedia.org/wiki/Dirac_delta_function</a>
+</li>
+<li>
+<span id="wiki-delta-function-ru">7. </span> <a href="http://ru.wikipedia.org/wiki/%D0%B4%D0%B5%D0%BB%D1%8C%D1%82%D0%B0-%D1%84%D1%83%D0%BD%D0%BA%D1%86%D0%B8%D1%8F">http://ru.wikipedia.org/wiki/дельта-функция</a>
+</li>
+</ul>
+
+</div>
+
+
+    <p>
+    М.И.Никитин<br>
+    г.Алматы, июнь, 2020
+    
+    </p>
+    <br>
+
+
+
+
+
+    <p>
+    <small>метки-категории: <em>
+        
+            <a class="post" href="/tag/%D0%BC%D0%B0%D1%82%D0%B5%D0%BC%D0%B0%D1%82%D0%B8%D0%BA%D0%B0">мате­ма­тика</a>, 
+        
+            <a class="post" href="/tag/trivia">trivia</a>
+        
+    </em></small>
+    </p>
+
+
+
+    <p><small>[<a href="/sig/convolution-indices.md.sha256.sig">ЭЦП (SHA-256, RSA)</a>] (<a href="https://gist.github.com/Circiter/92e7b9368c1e29c055a688d12d61466c">ключ</a>)<small></small></small></p>
+
+
+    </div>
+
+  <footer>
+    <a href="mailto:xcirciter@gmail.com"><i class="svg-icon email"></i></a>
+    <a href="https://github.com/Circiter"><i class="svg-icon github"></i></a>
+    <a href="/rss.xml"><i class="svg-icon rss"></i></a>
+    <!--<img src="/public/images/no-cookies.png" alt="no cookies"></img>-->
+    <!-- From catb.org/hacker-emblem/glider-small.png -->
+    <h2><a href="http://catb.org/hacker-emblem"><img src="/public/images/glider-small.png" /></a>&nbsp;EOF</h2>
+    <p><small>&copy;&nbsp;Circiter,&nbsp;2020&ndash;2022. Все права защищены. (см. также <a href="/LICENSE">LICENSE</a>)</small></p>
+</footer>
+
+
+  </body>
+</html>

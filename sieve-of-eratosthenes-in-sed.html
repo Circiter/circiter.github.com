@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Решето Эратосфена на sed. &middot; Дневник Circiter'а
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/public/css/poole.css">
+  <link rel="stylesheet" href="/public/css/syntax.css">
+  <link rel="stylesheet" href="/public/css/hyde.css">
+  <link rel="stylesheet" href="/public/css/style.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Exo+2">
+  <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml" />
+  <link type="text/plain" rel="author" href="/humans.txt" />
+  <!-- From catb.org/hacker-emblem/glider.ico  -->
+  <link rel="shortcut icon" href="/public/images/glider.ico" />
+
+</head>
+
+
+  <body>
+
+    <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <!--<h1>
+        <a href="/">
+          Дневник Circiter'а
+        </a>
+      </h1>-->
+      <p class="lead">Технический блог о программировании, математике, радиолюбительской практике, электронике и занимательной науке.</p>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="sidebar-nav-item" href="/">Главная страница</a>
+
+      
+      
+        
+          
+        
+      
+        
+          
+            <a class="sidebar-nav-item" href="/about">Справка</a>
+          
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+
+    </nav>
+  </div>
+</div>
+
+
+    <div class="content container">
+      <div class="post">
+    <h2 class="post-title no-toc">Решето Эра­то­сфена на sed.</h2>
+    <!-- <span class="post-date">7 May 2022</span> -->
+    
+        <br>
+        <center><span class="post-date">Сен­тябрь, 2020</span></center>
+    
+    
+        <span class="abstract">
+        <center><b>Анно­та­ция</b></center>
+        
+            <p>Опи­сы­ва­ется сце­на­рий для широко извест­ного тек­сто­вого редак­тора sed, гене­ри­ру­ю­щий про­стые числа с помо­щью решета Эра­то­сфена. На основе дан­ной реа­ли­за­ции решета напи­сан скрипт фак­то­ри­за­ции чисел, а так­же скрипты, реа­ли­зу­ю­щие аль­тер­на­тив­ные под­ходы к обнаружению/детектированию ана­грамм и к чис­лен­ной симу­ля­ции дина­ми­че­ской системы из гипо­тезы Кол­латца. В конце сооб­ще­ния речь идёт о воз­мож­ных опти­ми­за­циях решета Эра­то­сфена, и, в част­но­сти, опи­сы­ва­ется решето Эйлера, тоже реа­ли­зо­ван­ное в виде скрипта для sed.</p>
+
+        
+        <hr>
+        </span>
+    
+    
+    <h3>Содер­жа­ние:</h3>
+    <ul id="toc" class="section-nav">
+<li class="toc-entry toc-h1"><a href="#section">Вве­де­ние</a></li>
+<li class="toc-entry toc-h1"><a href="#section-1">Тео­ре­ти­че­ская основа про­се­и­ва­ния</a></li>
+<li class="toc-entry toc-h1">
+<a href="#section-2">Реа­ли­за­ция</a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#codesievesedcode">Прин­цип работы sieve.sed</a></li>
+<li class="toc-entry toc-h2"><a href="#codefactorsedcode">Прин­цип работы factor.sed</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h1"><a href="#section-3">Больше эзо­те­рики</a></li>
+<li class="toc-entry toc-h1">
+<a href="#section-4">Об опти­ми­за­ции</a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#section-5">Решето Эйлера</a></li>
+<li class="toc-entry toc-h2">
+<a href="#section-6">Даёт ли решето Эйлера уско­ре­ние?</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#codeeuler-sievesedcode">Прин­цип работы euler-sieve.sed</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h1"><a href="#section-7">Вычис­ле­ние неко­то­рых теоретико-числовых функ­ций про­се­и­ва­нием</a></li>
+<li class="toc-entry toc-h1"><a href="#section-8">Ком­плек­та­ция поставки</a></li>
+<li class="toc-entry toc-h1"><a href="#section-9">Ссылки</a></li>
+</ul>
+
+
+    <h1 id="section">
+<a class="anchor" href="#section" aria-hidden="true"><span class="octicon octicon-link"></span></a>Вве­де­ние</h1>
+<p>Ино­гда в сце­на­риях (скрип­тах) для поточ­ного редак­тора sed тре­бу­ются про­стые числа. И, учи­ты­вая
+отсут­ствие в sed нор­маль­ной под­держки ариф­ме­тики, исполь­зо­ва­ние решета Эра­то­сфена <a class="citation" href="#wiki-sieve">[1]</a> выгля­дит удач­ным реше­нием для гене­ра­ции про­стых чисел прямо в sed-скрипте.
+Поверх­ност­ный поиск в поис­ко­вых маши­нах интер­нета не дал кон­крет­ных резуль­та­тов, поэтому я решил
+напи­сать этот скрипт само­сто­я­тельно, а в этой заметке рас­ска­зать о его работе.</p>
+<p>Скрипт (<code>sieve.sed</code>) полу­чился довольно ком­пакт­ным, по край­ней мере в том смысле, что код печати
+резуль­та­тов зани­мает лишь немного меньше поло­вины всего исход­ного тек­ста. Инте­ресно, что на
+основе этой реа­ли­за­ции решета не состав­ляет труда напи­сать ути­литу фак­то­ри­за­ции чисел (см.
+<code>factor.sed</code>). Фак­ти­че­ски, пер­вая вер­сия <code>factor.sed</code> была полу­чена уда­ле­нием кода печати
+резуль­та­тов (i.e. уда­ле­нием почти поло­вины кода, см. выше) и добав­ле­нием всего одной
+строчки/инструкции в код решета. Она печа­тала фак­торы в унар­ной системе счис­ле­ния и не
+опре­де­ляла сте­пени най­ден­ных про­стых дели­те­лей (т.е., строго говоря, нахо­дила не все дели­тели).
+Её улуч­ше­ние потре­бо­вало неко­то­рых уси­лий и при­вело к неко­то­рому уве­ли­че­нию и дуб­ли­ро­ва­нию кода
+(дру­гими сло­вами, суще­ствует потен­циал для сокра­ще­ния объ­ема кода <code>factor.sed</code>).</p>
+<p>(Обсуж­да­е­мые скрипты могут быть най­дены в <a class="citation" href="#sieve-in-sed">[2]</a>.)</p>
+<h1 id="section-1">
+<a class="anchor" href="#section-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Тео­ре­ти­че­ская основа про­се­и­ва­ния</h1>
+<p>Работа решета заклю­ча­ется в ите­ра­тив­ном уда­ле­нии — вычер­ки­ва­нии — состав­ных чисел из
+теку­щего рабо­чего мно­же­ства чисел <span class="nolinebreak"><img src="/eq/7-0.png" style="height: 15px; width: 56px; vertical-align: -3px;" class="latex">.</span> На каж­дом шаге <span class="nolinebreak"><img src="/eq/7-1.png" style="height: 12px; width: 5px; vertical-align: -0px;" class="latex"></span> уда­ля­ются все
+числа, крат­ные оче­ред­ному най­ден­ному про­стому числу <span class="nolinebreak"><img src="/eq/7-2.png" style="height: 12px; width: 14px; vertical-align: -4px;" class="latex">.</span> Новым про­стым чис­лом <span class="nolinebreak"><img src="/eq/7-3.png" style="height: 12px; width: 31px; vertical-align: -4px;" class="latex"></span>
+ста­но­вится наи­мень­шее невы­черк­ну­тое число, боль­шее <span class="nolinebreak"><img src="/eq/7-4.png" style="height: 12px; width: 14px; vertical-align: -4px;" class="latex">:</span> <span class="nolinebreak"><img src="/eq/7-5.png" style="height: 16px; width: 125px; vertical-align: -4px;" class="latex">,</span> где
+<span class="nolinebreak"><img src="/eq/7-6.png" style="height: 18px; width: 218px; vertical-align: -5px;" class="latex">.</span> Если же <span class="nolinebreak"><img src="/eq/7-7.png" style="height: 13px; width: 54px; vertical-align: -1px;" class="latex">,</span> то про­цесс
+завер­ша­ется, а послед­нее мно­же­ство <span class="nolinebreak"><img src="/eq/7-8.png" style="height: 16px; width: 77px; vertical-align: -4px;" class="latex"></span> (N.B., рав­ное <span class="nolinebreak"><img src="/eq/7-9.png" style="height: 18px; width: 34px; vertical-align: -5px;" class="latex">)</span> ста­но­вится резуль­та­том
+его работы.</p>
+<p>В каче­стве началь­ного при­бли­же­ния выби­ра­ется интер­вал <span class="nolinebreak"><img src="/eq/7-10.png" style="height: 18px; width: 79px; vertical-align: -5px;" class="latex"></span> для дан­ного <span class="nolinebreak"><img src="/eq/7-11.png" style="height: 9px; width: 10px; vertical-align: -0px;" class="latex">,</span> — длины
+решета, — и пола­га­ется <span class="nolinebreak"><img src="/eq/7-12.png" style="height: 15px; width: 47px; vertical-align: -3px;" class="latex">.</span></p>
+<p>Более струк­ту­ри­ро­ванно:
+<br></p>
+<center><img src="/eq/7-13.png" style="height: 167px; width: 192px;" class="latex"></center>
+<br>
+<p>Утвер­жда­ется, что <span class="nolinebreak"><img src="/eq/7-14.png" style="height: 18px; width: 149px; vertical-align: -5px;" class="latex">,</span> где <span class="nolinebreak"><img src="/eq/7-15.png" style="height: 12px; width: 10px; vertical-align: -0px;" class="latex"></span> – мно­же­ство
+про­стых чисел.</p>
+<p><strong>Набро­сок дока­за­тель­ства</strong></p>
+<p>Озву­чен­ный алго­ритм порож­дает индук­тив­ное дока­за­тель­ство.</p>
+<p>База: <span class="nolinebreak"><img src="/eq/7-16.png" style="height: 16px; width: 123px; vertical-align: -4px;" class="latex">.</span></p>
+<p>Пред­по­ло­же­ние индук­ции: <span class="nolinebreak"><img src="/eq/7-17.png" style="height: 18px; width: 207px; vertical-align: -5px;" class="latex">,</span> где
+<span class="nolinebreak"><img src="/eq/7-18.png" style="height: 18px; width: 161px; vertical-align: -5px;" class="latex">.</span> Эта рекур­рент­ная фор­мула своим след­ствием имеет <br></p>
+<center><img src="/eq/7-19.png" style="height: 18px; width: 381px;" class="latex"></center>
+<br>
+<p>Шаг индук­ции: необ­хо­димо пока­зать, что <span class="nolinebreak"><img src="/eq/7-20.png" style="height: 12px; width: 31px; vertical-align: -4px;" class="latex"></span> – сле­ду­ю­щее про­стое число. Итак, допу­стим мы
+выбрали <span class="nolinebreak"><img src="/eq/7-21.png" style="height: 16px; width: 125px; vertical-align: -4px;" class="latex">.</span> Фак­то­ри­зуем его, <span class="nolinebreak"><img src="/eq/7-22.png" style="height: 20px; width: 94px; vertical-align: -7px;" class="latex">,</span> где
+<span class="nolinebreak"><img src="/eq/7-23.png" style="height: 17px; width: 46px; vertical-align: -5px;" class="latex">.</span> Фор­мула (1) гово­рит, что числа, крат­ные про­стым <span class="nolinebreak"><img src="/eq/7-24.png" style="height: 15px; width: 44px; vertical-align: -4px;" class="latex"></span> уже
+уда­лены из <span class="nolinebreak"><img src="/eq/7-25.png" style="height: 16px; width: 37px; vertical-align: -4px;" class="latex">,</span> а зна­чит и из <span class="nolinebreak"><img src="/eq/7-26.png" style="height: 16px; width: 41px; vertical-align: -4px;" class="latex">;</span> поэтому <span class="nolinebreak"><img src="/eq/7-27.png" style="height: 14px; width: 50px; vertical-align: -5px;" class="latex">.</span></p>
+<p>(Име­ется в виду, что для неко­то­рого <span class="nolinebreak"><img src="/eq/7-28.png" style="height: 15px; width: 8px; vertical-align: -3px;" class="latex">,</span> <span class="nolinebreak"><img src="/eq/7-29.png" style="height: 13px; width: 15px; vertical-align: -5px;" class="latex"></span> можно выне­сти за знак про­из­ве­де­ния:
+<span class="nolinebreak"><img src="/eq/7-30.png" style="height: 20px; width: 77px; vertical-align: -7px;" class="latex">,</span> и именно поэтому <span class="nolinebreak"><img src="/eq/7-31.png" style="height: 13px; width: 15px; vertical-align: -5px;" class="latex"></span> не может быть меньше или равен <span class="nolinebreak"><img src="/eq/7-32.png" style="height: 12px; width: 14px; vertical-align: -4px;" class="latex"></span> –
+такие крат­ные уже вычерк­ну­ты; если же <span class="nolinebreak"><img src="/eq/7-33.png" style="height: 13px; width: 15px; vertical-align: -5px;" class="latex"></span> есть един­ствен­ный мно­жи­тель, то тем более он
+дол­жен быть больше <span class="nolinebreak"><img src="/eq/7-34.png" style="height: 12px; width: 14px; vertical-align: -4px;" class="latex"></span> – по опре­де­ле­нию мно­же­ства <span class="nolinebreak"><img src="/eq/7-35.png" style="height: 16px; width: 41px; vertical-align: -4px;" class="latex">,</span> по кото­рому и берется
+мини­мум для нахож­де­ния раз­ла­га­е­мого <span class="nolinebreak"><img src="/eq/7-36.png" style="height: 12px; width: 31px; vertical-align: -4px;" class="latex">.)</span></p>
+<p>Так­же понятно, что мно­жи­тели <span class="nolinebreak"><img src="/eq/7-37.png" style="height: 13px; width: 15px; vertical-align: -5px;" class="latex"></span> не пре­вы­шают самого числа <span class="nolinebreak"><img src="/eq/7-38.png" style="height: 12px; width: 31px; vertical-align: -4px;" class="latex">,</span> т.е. <span class="nolinebreak"><img src="/eq/7-39.png" style="height: 16px; width: 67px; vertical-align: -5px;" class="latex">.</span></p>
+<p>Кон­кретно, из <span class="nolinebreak"><img src="/eq/7-40.png" style="height: 16px; width: 67px; vertical-align: -5px;" class="latex"></span> и нефак­то­ри­зу­е­мо­сти <span class="nolinebreak"><img src="/eq/7-41.png" style="height: 17px; width: 46px; vertical-align: -5px;" class="latex"></span> сле­дует, что
+<span class="nolinebreak"><img src="/eq/7-42.png" style="height: 17px; width: 73px; vertical-align: -5px;" class="latex"></span> (i.e., <span class="nolinebreak"><img src="/eq/7-43.png" style="height: 13px; width: 15px; vertical-align: -5px;" class="latex"></span> нико­гда не вычер­ки­ва­лось и не будет вычер­ки­ваться). А из
+<span class="nolinebreak"><img src="/eq/7-44.png" style="height: 14px; width: 50px; vertical-align: -5px;" class="latex"></span> сле­дует, что <span class="nolinebreak"><img src="/eq/7-45.png" style="height: 17px; width: 77px; vertical-align: -5px;" class="latex">.</span> При этом, если <span class="nolinebreak"><img src="/eq/7-46.png" style="height: 14px; width: 67px; vertical-align: -5px;" class="latex"></span> (а не
+<span class="nolinebreak"><img src="/eq/7-47.png" style="height: 13px; width: 67px; vertical-align: -5px;" class="latex">),</span> то это про­ти­во­ре­чит мини­маль­но­сти <span class="nolinebreak"><img src="/eq/7-48.png" style="height: 16px; width: 125px; vertical-align: -4px;" class="latex">.</span></p>
+<p>Зна­чит, от про­тив­ного, <span class="nolinebreak"><img src="/eq/7-49.png" style="height: 13px; width: 67px; vertical-align: -5px;" class="latex">.</span> Т.е. <span class="nolinebreak"><img src="/eq/7-50.png" style="height: 16px; width: 62px; vertical-align: -4px;" class="latex"></span> и дру­гих про­стых между
+<span class="nolinebreak"><img src="/eq/7-51.png" style="height: 12px; width: 14px; vertical-align: -4px;" class="latex"></span> и <span class="nolinebreak"><img src="/eq/7-52.png" style="height: 12px; width: 31px; vertical-align: -4px;" class="latex"></span> нет (иначе они не были бы вычерк­нуты на преды­ду­щих шагах и вхо­дили бы в
+<span class="nolinebreak"><img src="/eq/7-53.png" style="height: 16px; width: 41px; vertical-align: -4px;" class="latex">,</span> что опять про­ти­во­ре­чило бы мини­маль­но­сти <span class="nolinebreak"><img src="/eq/7-54.png" style="height: 12px; width: 31px; vertical-align: -4px;" class="latex"></span> в <span class="nolinebreak"><img src="/eq/7-55.png" style="height: 13px; width: 19px; vertical-align: -0px;" class="latex">).</span>
+<span class="nolinebreak"><img src="/eq/7-56.png" style="height: 12px; width: 11px; vertical-align: -0px;" class="latex"></span></p>
+<h1 id="section-2">
+<a class="anchor" href="#section-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>Реа­ли­за­ция</h1>
+<h2 id="codesievesedcode">
+<a class="anchor" href="#codesievesedcode" aria-hidden="true"><span class="octicon octicon-link"></span></a>Прин­цип работы <code>sieve.sed</code>
+</h2>
+<p>Общий поша­го­вый вид алго­ритма:</p>
+<ul>
+<li>Чте­ние длины решета (кон­вер­та­ция деся­тич­ного числа в унар­ное).</li>
+<li>Про­се­и­ва­ние бинар­ной строки, полу­чен­ной на основе унар­ного числа из преды­ду­щего шага.
+<ul>
+<li>Поиск сле­ду­ю­щего про­стого, т.е. пер­вой бли­жай­шей еди­ницы, лежа­щей пра­вее теку­щего про­стого.</li>
+<li>Вычер­ки­ва­ние чисел, крат­ных най­ден­ному про­сто­му; под вычер­ки­ва­нием пони­ма­ется изме­не­ние 1 на
+0 в соот­вет­ству­ю­щих пози­циях решета.</li>
+</ul>
+</li>
+<li>Печать решета.
+<ul>
+<li>Решето про­хо­дится слева-направо.</li>
+<li>На каж­дом шаге инкре­мен­ти­ру­ется счет­чик (изна­чально обнулён­ный).</li>
+<li>Если в теку­щей пози­ции решета запи­сана еди­ница, то зна­ча­ние счёт­чика выво­дится на экран.</li>
+</ul>
+</li>
+</ul>
+<p>Воз­можно есть смысл немного дета­ли­зи­ро­вать работу решета на этапе поиска сле­ду­ю­щего про­стого
+числа. Сна­чала перед реше­том при­пи­сы­ва­ется мар­кер <code>#</code>. Далее, в уже частично запол­нен­ном решете
+отыс­ки­ва­ется пер­вая еди­ница, лежа­щая пра­вее мар­кера <code>#</code>, после чего этот мар­кер пере­ме­ща­ется на
+пози­цию сразу после этой еди­ницы. Длина части решета, лежа­щей левее мар­кера есть новое про­стое
+число. Этот пре­фикс копи­ру­ется на сле­ду­ю­щую строчку и может счи­таться запи­сью най­ден­ного
+про­стого числа в унар­ной системе счис­ле­ния.</p>
+<p>После сим­вола <code>#</code> добав­ля­ется вспо­мо­га­тель­ный мар­кер <code>@</code>, а в начало сле­ду­ю­щей строки – мар­кер
+<code>:</code>, после чего оба мар­кера начи­нают сдви­гаться вправо на один сим­вол за раз. Если мар­кер <code>:</code>
+ока­зы­ва­ется в конце вто­рой строки, а <code>@</code> ещё не дошёл до конца пер­вой, то мар­кер <code>@</code> с
+необ­хо­ди­мо­стью ока­зы­ва­ется сразу после сле­ду­ю­щего состав­ного числа и мы можем запи­сать в эту
+пози­цию ноль, неза­ви­симо от зна­че­ния, кото­рое было там ранее. Теперь мар­кер <code>:</code> воз­вра­ща­ется в
+начало вто­рой строки.</p>
+<p>Про­цесс пере­ме­ще­ния мар­ке­ров <code>@</code> и <code>:</code> про­дол­жа­ется до вычер­ки­ва­ния всех мно­жи­те­лей теку­щего
+про­стого числа (i.e., пока <code>@</code> не дой­дёт до конца пер­вой строки), после чего эти мар­керы
+уда­ля­ются и опи­сан­ный про­цесс повто­ря­ется.</p>
+<h2 id="codefactorsedcode">
+<a class="anchor" href="#codefactorsedcode" aria-hidden="true"><span class="octicon octicon-link"></span></a>Прин­цип работы <code>factor.sed</code>
+</h2>
+<p>Этот скрипт напи­сан на основе выше­опи­сан­ного <code>sieve.sed</code>, но код обна­ру­же­ния нового
+про­стого числа слегка моди­фи­ци­ро­ван, а после него добав­лен код опре­де­ле­ния пока­за­теля сте­пени
+для най­ден­ного про­стого мно­жи­теля.</p>
+<p>Число, под­ле­жа­щее фак­то­ри­за­ции исполь­зу­ется про­сто в каче­стве длины решета. Понятно, что
+про­стые, вхо­дя­щие в этого решето (и только они) будут вхо­дить в раз­ло­же­ние дан­ного числа на
+про­стые мно­жи­тели.</p>
+<p>Поиск сле­ду­ю­щего про­стого отли­ча­ется от ана­ло­гич­ного кода в скрипте <code>sieve.sed</code> фак­ти­че­ски лишь
+тем, что при обна­ру­же­нии про­стого числа обну­ля­ется отдель­ный счет­чик, а при вычер­ки­ва­нии каж­дого
+состав­ного числа этот счёт­чик инкре­мен­ти­ру­ется. Оче­видно, что после вычер­ки­ва­ния всех мно­жи­те­лей
+теку­щего про­стого числа (не выхо­дя­щих за пре­делы решета, есте­ственно) зна­че­ние счёт­чика будет
+равно целой части резуль­тата деле­ния исход­ного фак­то­ри­зу­е­мого числа на теку­щий про­стой
+мно­жи­тель.</p>
+<p>Далее мы должны про­сто про­дол­жать делить зна­че­ние этого счёт­чика на теку­щее про­стое число, пока
+счёт­чик не обну­лится. При­чём после каж­дой опе­ра­ции деле­ния мы снова пере­хо­дим к коду,
+выпол­нен­ному после обна­ру­же­ния теку­щего про­стого числа (т.е. мы печа­таем тоже самое про­стое
+число ещё раз, делим счёт­чик на это про­стое и т.д.).</p>
+<p>В резуль­тате, скрипт печа­тает теку­щий про­стой мно­жи­тель нуж­ное коли­че­ство раз, а после печати
+всех про­стых мно­жи­те­лей, мы полу­чаем пол­ное раз­ло­же­ние исход­ного числа, рав­ного длине решета.</p>
+<h1 id="section-3">
+<a class="anchor" href="#section-3" aria-hidden="true"><span class="octicon octicon-link"></span></a>Больше эзо­те­рики</h1>
+<p>Так­же были напи­саны два демон­стра­ци­он­ных скрипта, <code>anagram.sed</code> и <code>collatz.sed</code>, исполь­зу­ю­щих
+про­стые числа и фак­то­ри­за­цию для реше­ния задач, в кото­рых в явном виде про­стые числа обычно не
+при­ме­няют. Пер­вый скрипт (вме­сто кото­рого, есте­ственно, гораздо эффек­тив­нее было бы исполь­зо­вать
+ком­по­зи­цию сор­ти­ровки сим­во­лов в стро­ках и срав­не­ния резуль­ти­ру­ю­щих строк-последовательностей)
+реа­ли­зует идею из <a class="citation" href="#anagrams-alg">[3,4]</a> и экс­плу­а­ти­рует основ­ную тео­рему
+ариф­ме­тики <a class="citation" href="#wiki-fta">[5]</a> для детек­ти­ро­ва­ния ана­грамм, т.е. для опре­де­ле­ния, явля­ются ли
+две дан­ные строки-последовательности пере­ста­нов­ками друг-друга. Каж­дому сим­волу
+после­до­ва­тель­но­стей сопо­став­ля­ется един­ствен­ным обра­зом неко­то­рое про­стое число, после чего все
+эти числа, соот­вет­ству­ю­щие сим­во­лам из кон­крет­ной строки, пере­мно­жа­ются. Основ­ная тео­рема
+ариф­ме­тики вме­сте с ком­му­та­тив­но­стью умно­же­ния гаран­ти­руют, что ана­граммы будут давать
+оди­на­ко­вые произведения-сигнатуры.</p>
+<p>Ранее напи­сан­ный алго­ритм про­се­и­ва­ния был модифицирован/упрощён для работы только с дво­ич­ными
+чис­лами. Для умно­же­ния дво­ич­ных чисел я исполь­зо­вал код из gist’а <a class="citation" href="#gist-mult">[6]</a>.</p>
+<p>Вто­рой скрипт, <code>collatz.sed</code>, реа­ли­зует извест­ную дина­ми­че­скую систему из гипо­тезы <span class="nolinebreak"><img src="/eq/7-57.png" style="height: 13px; width: 45px; vertical-align: -1px;" class="latex"></span> (см.
+<a class="citation" href="#wiki-collatz">[7,8]</a>), но вме­сто при­выч­ных опе­ра­ций <span class="nolinebreak"><img src="/eq/7-58.png" style="height: 13px; width: 45px; vertical-align: -1px;" class="latex"></span> и <span class="nolinebreak"><img src="/eq/7-59.png" style="height: 17px; width: 26px; vertical-align: -4px;" class="latex"></span> исполь­зу­ются
+мани­пу­ля­ции с про­стыми чис­лами, на мой взгляд лучше пока­зы­ва­ю­щие истин­ную теоретико-числовую
+суть гипо­тезы Кол­латца.</p>
+<p>Пусть дана функ­ция <br></p>
+<center><img src="/eq/7-60.png" style="height: 50px; width: 252px;" class="latex"></center>
+<br>
+<p>Гипо­теза Кол­латца утвер­ждает, что <span class="nolinebreak"><img src="/eq/7-61.png" style="height: 19px; width: 185px; vertical-align: -4px;" class="latex">.</span>
+Более точно, похоже, что для всех нату­раль­ных <span class="nolinebreak"><img src="/eq/7-62.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex"></span> ите­ра­ции <span class="nolinebreak"><img src="/eq/7-63.png" style="height: 18px; width: 33px; vertical-align: -5px;" class="latex"></span> схо­дятся к циклу <span class="nolinebreak"><img src="/eq/7-64.png" style="height: 13px; width: 114px; vertical-align: -0px;" class="latex">.</span></p>
+<p>Если при каж­дом при­ме­не­нии <span class="nolinebreak"><img src="/eq/7-65.png" style="height: 18px; width: 33px; vertical-align: -5px;" class="latex"></span> сна­чала про­из­во­дить раз­ло­же­ние <span class="nolinebreak"><img src="/eq/7-66.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex"></span> на про­стые мно­жи­тели, то
+деле­ние на два будет сво­дится к вычер­ки­ва­нию двойки (на деле, можно заодно вычер­ки­вать все
+двойки сразу) из фак­то­ри­за­ции. Опе­ра­ция <span class="nolinebreak"><img src="/eq/7-67.png" style="height: 13px; width: 45px; vertical-align: -1px;" class="latex"></span> будет соот­вет­ство­вать при­пи­сы­ва­нию тройки,
+пере­мно­же­нию остав­шихся фак­то­ров и при­бав­ле­нию еди­ницы к резуль­тату.</p>
+<p>При­бав­ле­ние еди­ницы гаран­ти­рует, что резуль­тат не будет делиться на всё, на что дели­лось число
+<span class="nolinebreak"><img src="/eq/7-68.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex">,</span> или, дру­гими сло­вами, в фак­то­ри­за­ции резуль­тата опе­ра­ции <span class="nolinebreak"><img src="/eq/7-69.png" style="height: 13px; width: 45px; vertical-align: -1px;" class="latex"></span> будут задей­ство­ваны совсем
+дру­гие мно­жи­тели, ни одного из кото­рых не было в фак­то­ри­за­ции <span class="nolinebreak"><img src="/eq/7-70.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex">;</span> с исполь­зо­ва­нием наи­боль­шего
+общего дели­теля, <span class="nolinebreak"><img src="/eq/7-71.png" style="height: 18px; width: 144px; vertical-align: -5px;" class="latex">.</span> Добав­ле­ние же тройки гаран­ти­рует, что в
+раз­ло­же­нии <span class="nolinebreak"><img src="/eq/7-72.png" style="height: 13px; width: 45px; vertical-align: -1px;" class="latex"></span> ника­ких троек тоже не будет, даже если их и не было в раз­ло­же­нии <span class="nolinebreak"><img src="/eq/7-73.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex"></span>
+изна­чально.</p>
+<p>Если доста­точно раз­но­об­раз­ных мно­жи­те­лей для фор­ми­ро­ва­ния <span class="nolinebreak"><img src="/eq/7-74.png" style="height: 13px; width: 45px; vertical-align: -1px;" class="latex"></span> не най­дется, это будет
+озна­чать, что после вычер­ки­ва­ния двоек у нас оста­нется пустая фак­то­ри­за­ция, т.е. резуль­тат
+пре­вра­тится в еди­ницу.</p>
+<p>(Фак­ти­че­ски, мы имеем дело с гон­кой двух про­цес­сов – про­цес­сом «ге­не­ра­ции» про­стых чисел,
+ска­жем, реше­том, и про­цес­сом их «по­треб­ле­ния» за счёт при­бав­ле­ния еди­ни­цы; судя по
+экс­пе­ри­мен­там, про­цесс потреб­ле­ния рабо­тает быст­рее – в какой-то момент, неза­ви­симо от
+стар­то­вого зна­че­ния, новых про­стых не ока­зы­ва­ется в нали­чии и ите­ра­ции схо­дятся к уже
+упо­ми­нав­ше­муся циклу <span class="nolinebreak"><img src="/eq/7-75.png" style="height: 16px; width: 81px; vertical-align: -4px;" class="latex">)</span></p>
+<p>Гипо­теза <span class="nolinebreak"><img src="/eq/7-76.png" style="height: 13px; width: 45px; vertical-align: -1px;" class="latex"></span> по праву отно­сится к классу задач, мно­гими назы­ва­е­мыми «ма­те­ма­ти­че­скими
+болез­ня­ми»; в таких зада­чах соче­та­ется пре­дель­ная про­стота фор­му­ли­ровки усло­вия с непод­да­ю­щейся
+мно­гим мате­ма­ти­кам слож­но­стью реше­ния, а в дан­ном слу­чае, по всей види­мо­сти, вообще с пол­ной
+него­тов­но­стью совре­мен­ной мате­ма­тики к дока­за­тель­ству этой гипо­тезы.</p>
+<h1 id="section-4">
+<a class="anchor" href="#section-4" aria-hidden="true"><span class="octicon octicon-link"></span></a>Об опти­ми­за­ции</h1>
+<p>В этом сооб­ще­нии и в пред­ло­жен­ных скрип­тах вообще не при­ме­ня­ются рас­про­странён­ные опти­ми­за­ции
+решета Эра­то­сфена. Но для пол­ноты кар­тины, навер­ное стоит упо­мя­нуть воз­мож­ные направ­ле­ния для
+улуч­ше­ния. Во-первых, можно огра­ни­читься рас­смот­ре­нием только чисел <span class="nolinebreak"><img src="/eq/7-77.png" style="height: 9px; width: 14px; vertical-align: -0px;" class="latex">,</span> таких, что <span class="nolinebreak"><img src="/eq/7-78.png" style="height: 18px; width: 184px; vertical-align: -5px;" class="latex"></span> для неко­то­рого <span class="nolinebreak"><img src="/eq/7-79.png" style="height: 15px; width: 39px; vertical-align: -2px;" class="latex">;</span>
+e.g., при <span class="nolinebreak"><img src="/eq/7-80.png" style="height: 13px; width: 39px; vertical-align: -0px;" class="latex"></span> это соот­вет­ствует игно­ри­ро­ва­нию всех чёт­ных чисел, боль­ших двух, все­гда
+по-определению явля­ю­щихся состав­ными.</p>
+<p>Во-вторых, пере­бор крат­ных для нечёт­ных про­стых чисел <span class="nolinebreak"><img src="/eq/7-81.png" style="height: 12px; width: 9px; vertical-align: -4px;" class="latex"></span> можно вести с шагом <span class="nolinebreak"><img src="/eq/7-82.png" style="height: 15px; width: 17px; vertical-align: -3px;" class="latex">,</span> а не <span class="nolinebreak"><img src="/eq/7-83.png" style="height: 12px; width: 9px; vertical-align: -4px;" class="latex">;</span>
+при исполь­зо­ва­нии выше­опи­сан­ного обоб­ще­ния на слу­чай чисел <span class="nolinebreak"><img src="/eq/7-84.png" style="height: 9px; width: 14px; vertical-align: -0px;" class="latex">,</span> вза­имно про­стых с несколь­кими
+пер­выми про­стыми чис­лами [не пре­вы­ша­ю­щими <span class="nolinebreak"><img src="/eq/7-85.png" style="height: 13px; width: 8px; vertical-align: -0px;" class="latex">],</span> можно гене­ри­ро­вать крат­ные так, чтобы они
+тоже были вза­имно про­стыми с чис­лами из <span class="nolinebreak"><img src="/eq/7-86.png" style="height: 17px; width: 29px; vertical-align: -5px;" class="latex">.</span> См. так­же <a class="citation" href="#wiki-wheel">[9]</a>.</p>
+<p>В-третьих, про­цесс вычер­ки­ва­ния чисел, крат­ных оче­ред­ному най­ден­ному про­стому <span class="nolinebreak"><img src="/eq/7-87.png" style="height: 12px; width: 9px; vertical-align: -4px;" class="latex">,</span> можно
+начи­нать сразу с <span class="nolinebreak"><img src="/eq/7-88.png" style="height: 18px; width: 16px; vertical-align: -3px;" class="latex">,</span> а не с <span class="nolinebreak"><img src="/eq/7-89.png" style="height: 15px; width: 17px; vertical-align: -3px;" class="latex">;</span> как след­ствие, не имеет смысла про­дол­жать вычер­ки­ва­ние
+крат­ных если <span class="nolinebreak"><img src="/eq/7-90.png" style="height: 18px; width: 49px; vertical-align: -3px;" class="latex">.</span> Т.е., мно­жи­тели для <span class="nolinebreak"><img src="/eq/7-91.png" style="height: 12px; width: 9px; vertical-align: -4px;" class="latex">,</span> исполь­зу­ю­щи­еся при вычер­ки­ва­нии состав­ных чисел,
+обра­зуют мно­же­ство <span class="nolinebreak"><img src="/eq/7-92.png" style="height: 21px; width: 65px; vertical-align: -6px;" class="latex"></span> (мак­си­мум здесь выбран так, чтобы после
+умно­же­ния на <span class="nolinebreak"><img src="/eq/7-93.png" style="height: 12px; width: 9px; vertical-align: -4px;" class="latex"></span> полу­чи­лось <span class="nolinebreak"><img src="/eq/7-94.png" style="height: 18px; width: 83px; vertical-align: -5px;" class="latex">,</span> а мини­мум соот­вет­ствует началу
+вычер­ки­ва­ния с <span class="nolinebreak"><img src="/eq/7-95.png" style="height: 18px; width: 16px; vertical-align: -3px;" class="latex">).</span></p>
+<p>(Есте­ственно, жела­ю­щие могут попро­бо­вать доба­вить эти опти­ми­за­ции в обсуж­да­е­мый скрипт, хотя с
+квад­ра­тами в sed, навер­ное, лучше не свя­зы­ваться).</p>
+<h2 id="section-5">
+<a class="anchor" href="#section-5" aria-hidden="true"><span class="octicon octicon-link"></span></a>Решето Эйлера</h2>
+<p>Решето Эра­то­сфена может вычер­ки­вать одни и те же числа по нескольку раз. Эйлер при­ду­мал (для
+реша­е­мой им в тот момент вполне прак­ти­че­ской мате­ма­ти­че­ской задачи) моди­фи­ка­цию <a class="citation" href="#euler1737">[10]</a> решета, поз­во­ля­ю­щую вычер­ки­вать состав­ные числа только один раз. Алго­ритм можно
+опи­сать так:
+<br></p>
+<center><img src="/eq/7-96.png" style="height: 219px; width: 196px;" class="latex"></center>
+<br>
+<p>Здесь <span class="nolinebreak"><img src="/eq/7-97.png" style="height: 9px; width: 10px; vertical-align: -0px;" class="latex"></span> явля­ется дли­ной решета (как и в ранее опи­сан­ном алго­ритме для решета Эра­то­сфена).
+Сге­не­ри­ро­ван­ные про­стые числа кол­лек­ци­о­ни­ру­ются в мно­же­стве <span class="nolinebreak"><img src="/eq/7-98.png" style="height: 18px; width: 30px; vertical-align: -5px;" class="latex">,</span> кото­рое и воз­вра­ща­ется
+при завер­ше­нии работы алго­ритма.</p>
+<p>Все опе­ра­ции про­из­во­дятся с рабо­чим мно­же­ством чисел <span class="nolinebreak"><img src="/eq/7-99.png" style="height: 12px; width: 11px; vertical-align: -0px;" class="latex">,</span> изна­чально рав­ным отрезку <span class="nolinebreak"><img src="/eq/7-100.png" style="height: 18px; width: 32px; vertical-align: -5px;" class="latex">.</span> На
+каж­дой ите­ра­ции выби­ра­ется мини­маль­ный эле­мент <span class="nolinebreak"><img src="/eq/7-101.png" style="height: 12px; width: 42px; vertical-align: -0px;" class="latex"></span> этого мно­же­ства и объ­яв­ля­ется сле­ду­ю­щим
+про­стым чис­лом (сразу же сохра­ня­е­мым в <span class="nolinebreak"><img src="/eq/7-102.png" style="height: 12px; width: 14px; vertical-align: -4px;" class="latex"></span> при теку­щем зна­че­нии <span class="nolinebreak"><img src="/eq/7-103.png" style="height: 12px; width: 5px; vertical-align: -0px;" class="latex">),</span> после чего фор­ми­ру­ется
+новое мно­же­ство про­из­ве­де­ний <span class="nolinebreak"><img src="/eq/7-104.png" style="height: 18px; width: 179px; vertical-align: -5px;" class="latex">,</span> т.е., числа крат­ные <span class="nolinebreak"><img src="/eq/7-105.png" style="height: 12px; width: 14px; vertical-align: -4px;" class="latex">,</span> но ещё не
+ни разу не вычерк­ну­тые, поме­ча­ются для после­ду­ю­щего уда­ле­ния. После этого, поме­чен­ные числа
+уда­ля­ются из рабо­чего мно­же­ства с помо­щью теоретико-множественной опе­ра­ции вычи­та­ния <span class="nolinebreak"><img src="/eq/7-106.png" style="height: 17px; width: 79px; vertical-align: -4px;" class="latex">.</span> Став­ший теперь ненуж­ным эле­мент <span class="nolinebreak"><img src="/eq/7-107.png" style="height: 12px; width: 14px; vertical-align: -4px;" class="latex">,</span> до сих пор оста­вав­шийся в мно­же­стве <span class="nolinebreak"><img src="/eq/7-108.png" style="height: 12px; width: 11px; vertical-align: -0px;" class="latex"></span>
+(т.к. до этого, при фор­ми­ро­ва­нии вспо­мо­га­тель­ного мно­же­ства поме­чен­ных чисел <span class="nolinebreak"><img src="/eq/7-109.png" style="height: 12px; width: 15px; vertical-align: -0px;" class="latex">,</span> умно­жался как
+мини­мум на 2), уда­ля­ется из <span class="nolinebreak"><img src="/eq/7-110.png" style="height: 12px; width: 11px; vertical-align: -0px;" class="latex">.</span> И если это мно­же­ство стало пустым, то алго­ритм завер­ша­ется, в
+про­тив­ном же слу­чае инкре­мен­ти­ру­ется счёт­чик ите­ра­ций <span class="nolinebreak"><img src="/eq/7-111.png" style="height: 12px; width: 5px; vertical-align: -0px;" class="latex"></span> и про­цесс повто­ря­ется (с поиска нового
+мини­маль­ного эле­мента <span class="nolinebreak"><img src="/eq/7-112.png" style="height: 12px; width: 11px; vertical-align: -0px;" class="latex">).</span></p>
+<p>Несмотря на неко­то­рые внеш­ние раз­ли­чия, суть этого алго­ритма всё та же: для каж­дого оче­ред­ного
+про­стого числа из решета уда­ля­ются/вычеркиваются все числа, крат­ные ему, в резуль­тате чего
+сле­ду­ю­щее невы­черк­ну­тое число тоже ока­зы­ва­ется про­стым. Ите­ри­ро­ва­ние этих мани­пу­ля­ций при­во­дит к
+«про­се­и­ва­нию» исход­ного набора чисел и к уда­ле­нию всех состав­ных чисел (в решете Эйлера, в
+отли­чии от ори­ги­наль­ного решета Эра­то­сфена, про­стые числа тоже уда­ля­ются из рабо­чего мно­же­ства,
+но по мере их обна­ру­же­ния они накап­ли­ва­ются в дру­гом мно­же­стве или, ска­жем, выво­дятся на
+печать).</p>
+<p>Важно, что эле­менты, поме­ча­е­мые для уда­ле­ния (т.е. добав­ля­е­мые в <span class="nolinebreak"><img src="/eq/7-113.png" style="height: 12px; width: 15px; vertical-align: -0px;" class="latex">),</span> по преж­нему участ­вуют в
+про­цессе попол­не­ния мно­же­ства <span class="nolinebreak"><img src="/eq/7-114.png" style="height: 12px; width: 15px; vertical-align: -0px;" class="latex">.</span></p>
+<p>(Ниже­сле­ду­ю­щий мате­риал напи­сан по моти­вам <a class="citation" href="#sorenson1990">[11]</a>.)</p>
+<p>Чем же обес­пе­чи­ва­ется глав­ное свой­ство решета Эйлера, т.е. почему в <span class="nolinebreak"><img src="/eq/7-115.png" style="height: 12px; width: 15px; vertical-align: -0px;" class="latex"></span> нико­гда не попа­дают уже
+уда­лен­ные из <span class="nolinebreak"><img src="/eq/7-116.png" style="height: 12px; width: 11px; vertical-align: -0px;" class="latex"></span> числа? Если в <span class="nolinebreak"><img src="/eq/7-117.png" style="height: 12px; width: 15px; vertical-align: -0px;" class="latex"></span> попало число, боль­шее <span class="nolinebreak"><img src="/eq/7-118.png" style="height: 9px; width: 10px; vertical-align: -0px;" class="latex">,</span> то оно, оче­видно, не может быть
+уда­лено повторно из <span class="nolinebreak"><img src="/eq/7-119.png" style="height: 12px; width: 11px; vertical-align: -0px;" class="latex">,</span> так как там таких боль­ших чисел про­сто не было изна­чально: <span class="nolinebreak"><img src="/eq/7-120.png" style="height: 15px; width: 98px; vertical-align: -2px;" class="latex"></span> по постро­е­нию. Если же <span class="nolinebreak"><img src="/eq/7-121.png" style="height: 13px; width: 44px; vertical-align: -1px;" class="latex"></span> не пре­вы­шает <span class="nolinebreak"><img src="/eq/7-122.png" style="height: 9px; width: 10px; vertical-align: -0px;" class="latex">,</span> то исходя из смысла
+при­сва­и­ва­ния <span class="nolinebreak"><img src="/eq/7-123.png" style="height: 16px; width: 66px; vertical-align: -4px;" class="latex"></span> (см. шаг 4 выше­при­ве­ден­ного алго­ритма), <span class="nolinebreak"><img src="/eq/7-124.png" style="height: 16px; width: 52px; vertical-align: -3px;" class="latex">,</span> где <span class="nolinebreak"><img src="/eq/7-125.png" style="height: 13px; width: 39px; vertical-align: -1px;" class="latex">.</span></p>
+<p>Суть в том, что любое нату­раль­ное число <span class="nolinebreak"><img src="/eq/7-126.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex"></span> можно един­ствен­ным обра­зом пред­ста­вить в виде
+<span class="nolinebreak"><img src="/eq/7-127.png" style="height: 16px; width: 50px; vertical-align: -3px;" class="latex">,</span> где <span class="nolinebreak"><img src="/eq/7-128.png" style="height: 12px; width: 9px; vertical-align: -4px;" class="latex"></span> – наи­мень­ший про­стой дели­тель (фак­тор) числа <span class="nolinebreak"><img src="/eq/7-129.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex">.</span> При этом среди фак­то­ров числа
+<span class="nolinebreak"><img src="/eq/7-130.png" style="height: 16px; width: 9px; vertical-align: -3px;" class="latex">,</span> оче­видно, не будет чисел, мень­ших <span class="nolinebreak"><img src="/eq/7-131.png" style="height: 12px; width: 9px; vertical-align: -4px;" class="latex">.</span> (Т.е. мы про­сто «от­со­еди­ня­ем» наи­мень­ший фак­тор
+<span class="nolinebreak"><img src="/eq/7-132.png" style="height: 12px; width: 9px; vertical-align: -4px;" class="latex"></span> от <span class="nolinebreak"><img src="/eq/7-133.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex"></span> и фор­ми­руем раз­ло­же­ние <span class="nolinebreak"><img src="/eq/7-134.png" style="height: 16px; width: 50px; vertical-align: -3px;" class="latex"></span> пола­гая <span class="nolinebreak"><img src="/eq/7-135.png" style="height: 17px; width: 57px; vertical-align: -4px;" class="latex">;</span> тогда из основ­ной тео­ремы ариф­ме­тики
+<a class="citation" href="#wiki-fta">[5]</a>, т.е. из един­ствен­но­сти фак­то­ри­за­ции, как раз и сле­дует един­ствен­ность
+тре­бу­е­мого раз­ло­же­ния <span class="nolinebreak"><img src="/eq/7-136.png" style="height: 16px; width: 20px; vertical-align: -3px;" class="latex">.)</span></p>
+<p>При­ме­ни­тельно к решету, это озна­чает, что для теку­щего най­ден­ного про­стого <span class="nolinebreak"><img src="/eq/7-137.png" style="height: 12px; width: 9px; vertical-align: -4px;" class="latex">,</span> мно­же­ство
+<span class="nolinebreak"><img src="/eq/7-138.png" style="height: 18px; width: 32px; vertical-align: -5px;" class="latex"></span> мно­жи­те­лей, при пере­мно­же­нии <span class="nolinebreak"><img src="/eq/7-139.png" style="height: 12px; width: 9px; vertical-align: -4px;" class="latex"></span> на кото­рые будут полу­чаться новые состав­ные
+числа, под­ле­жа­щие вычер­ки­ва­нию, равно <span class="nolinebreak"><img src="/eq/7-140.png" style="height: 18px; width: 325px; vertical-align: -5px;" class="latex">.</span></p>
+<p>Пока­жем, что такое опре­де­ле­ние <span class="nolinebreak"><img src="/eq/7-141.png" style="height: 18px; width: 32px; vertical-align: -5px;" class="latex"></span> сов­па­дает с <span class="nolinebreak"><img src="/eq/7-142.png" style="height: 12px; width: 11px; vertical-align: -0px;" class="latex"></span> из алго­ритма (см. выше). На
+каж­дой ите­ра­ции, если <span class="nolinebreak"><img src="/eq/7-143.png" style="height: 12px; width: 44px; vertical-align: -4px;" class="latex">,</span> то <span class="nolinebreak"><img src="/eq/7-144.png" style="height: 18px; width: 230px; vertical-align: -5px;" class="latex">,</span> т.е. все числа из <span class="nolinebreak"><img src="/eq/7-145.png" style="height: 12px; width: 11px; vertical-align: -0px;" class="latex">,</span> боль­шие чем <span class="nolinebreak"><img src="/eq/7-146.png" style="height: 12px; width: 14px; vertical-align: -4px;" class="latex"></span> не делятся на про­стые мень­шие <span class="nolinebreak"><img src="/eq/7-147.png" style="height: 12px; width: 14px; vertical-align: -4px;" class="latex"></span> ведь
+состав­ные числа, деля­щи­еся на <span class="nolinebreak"><img src="/eq/7-148.png" style="height: 12px; width: 14px; vertical-align: -4px;" class="latex"></span> уже были вычерк­нуты на преды­ду­щих ите­ра­циях алго­ритма.
+(Здесь идет речь об <span class="nolinebreak"><img src="/eq/7-149.png" style="height: 12px; width: 11px; vertical-align: -0px;" class="latex"></span> до шага 5, т.е. до опе­ра­ции <span class="nolinebreak"><img src="/eq/7-150.png" style="height: 17px; width: 79px; vertical-align: -4px;" class="latex">.)</span></p>
+<p>Т.о., <span class="nolinebreak"><img src="/eq/7-151.png" style="height: 12px; width: 11px; vertical-align: -0px;" class="latex"></span> содер­жит числа из про­ме­жутка <span class="nolinebreak"><img src="/eq/7-152.png" style="height: 18px; width: 32px; vertical-align: -5px;" class="latex">,</span> не деля­щи­еся на про­стые, мень­шие <span class="nolinebreak"><img src="/eq/7-153.png" style="height: 12px; width: 9px; vertical-align: -4px;" class="latex">,</span> т.е.
+<span class="nolinebreak"><img src="/eq/7-154.png" style="height: 18px; width: 304px; vertical-align: -5px;" class="latex">.</span> Это сов­па­дает с
+выра­же­нием для <span class="nolinebreak"><img src="/eq/7-155.png" style="height: 18px; width: 32px; vertical-align: -5px;" class="latex">.</span></p>
+<p>Оста­лось пока­зать, что <span class="nolinebreak"><img src="/eq/7-156.png" style="height: 16px; width: 210px; vertical-align: -3px;" class="latex">,</span> т.е., что под­ле­жа­щие
+вычер­ки­ва­нию числа <span class="nolinebreak"><img src="/eq/7-157.png" style="height: 12px; width: 15px; vertical-align: -0px;" class="latex"></span> уже при­сут­ствуют в <span class="nolinebreak"><img src="/eq/7-158.png" style="height: 12px; width: 11px; vertical-align: -0px;" class="latex"></span> (либо про­сто выхо­дят за пре­делы решета) и их не
+при­дётся вычер­ки­вать повторно. Как мы уже выяс­нили, каж­дый такой <span class="nolinebreak"><img src="/eq/7-159.png" style="height: 16px; width: 50px; vertical-align: -3px;" class="latex">,</span> для неко­то­рого <span class="nolinebreak"><img src="/eq/7-160.png" style="height: 18px; width: 95px; vertical-align: -5px;" class="latex"></span> един­стве­нен и так как на всех преды­ду­щих ите­ра­циях алго­ритма мы уда­ляли лишь
+числа, наи­мень­ший фак­тор кото­рых был меньше <span class="nolinebreak"><img src="/eq/7-161.png" style="height: 12px; width: 9px; vertical-align: -4px;" class="latex">,</span> то из <span class="nolinebreak"><img src="/eq/7-162.png" style="height: 14px; width: 42px; vertical-align: -2px;" class="latex"></span> и началь­ного при­бли­же­ния
+для <span class="nolinebreak"><img src="/eq/7-163.png" style="height: 12px; width: 11px; vertical-align: -0px;" class="latex">,</span> рав­ного <span class="nolinebreak"><img src="/eq/7-164.png" style="height: 18px; width: 32px; vertical-align: -5px;" class="latex">,</span> как раз и сле­дует, что <span class="nolinebreak"><img src="/eq/7-165.png" style="height: 13px; width: 41px; vertical-align: -1px;" class="latex">.</span></p>
+<p>За более подроб­ной инфор­ма­цией о решете Эйлера сле­дует обра­титься, e.g., к <a class="citation" href="#wiki-sieve">[1,12,11]</a> . Инте­ресно, что в неко­то­рых рабо­тах, напри­мер, в той же <a class="citation" href="#gries-misra">[12]</a>, пря­мые отсылы к Эйлеру отсут­ствуют, поэтому ино­гда гово­рят, что это решето
+неод­но­кратно пере­и­зоб­ре­та­лось раз­лич­ными авто­рами.</p>
+<p>Воз­можно, что при­чи­ной этого биб­лио­гра­фи­че­ского казуса явля­ется неко­то­рая неяв­ность вве­де­ния
+решета в работе Эйлера. Эйлер игрался с <span class="nolinebreak"><img src="/eq/7-166.png" style="height: 16px; width: 8px; vertical-align: -3px;" class="latex">-функцией</span> Римана, раз­ла­га­ю­щейся в ряд Дири­хле
+<br></p>
+<center><img src="/eq/7-167.png" style="height: 47px; width: 340px;" class="latex"></center>
+<br> для <span class="nolinebreak"><img src="/eq/7-168.png" style="height: 13px; width: 40px; vertical-align: -1px;" class="latex">.</span> Для дока­за­тель­ства важ­ного
+тож­де­ства <span class="nolinebreak"><img src="/eq/7-169.png" style="height: 22px; width: 175px; vertical-align: -8px;" class="latex">,</span> Эйлер строил после­до­ва­тель­ность
+<span class="nolinebreak"><img src="/eq/7-170.png" style="height: 18px; width: 291px; vertical-align: -4px;" class="latex"></span> начи­ная с <span class="nolinebreak"><img src="/eq/7-171.png" style="height: 18px; width: 65px; vertical-align: -5px;" class="latex">.</span>
+Здесь <span class="nolinebreak"><img src="/eq/7-172.png" style="height: 15px; width: 51px; vertical-align: -3px;" class="latex"></span> – такое мно­же­ство, что <span class="nolinebreak"><img src="/eq/7-173.png" style="height: 19px; width: 113px; vertical-align: -6px;" class="latex">.</span>
+<p>Сна­чала, есте­ственно, <span class="nolinebreak"><img src="/eq/7-174.png" style="height: 16px; width: 70px; vertical-align: -4px;" class="latex">,</span> и поэтому <span class="nolinebreak"><img src="/eq/7-175.png" style="height: 18px; width: 165px; vertical-align: -5px;" class="latex"></span> равен 2,
+т.е. пер­вому про­стому числу. Умно­же­ние <span class="nolinebreak"><img src="/eq/7-176.png" style="height: 12px; width: 25px; vertical-align: -0px;" class="latex"></span> на сумму <span class="nolinebreak"><img src="/eq/7-177.png" style="height: 16px; width: 14px; vertical-align: -3px;" class="latex">,</span> рав­ную <span class="nolinebreak"><img src="/eq/7-178.png" style="height: 18px; width: 19px; vertical-align: -5px;" class="latex"></span> даёт новую
+сумму, в кото­рой все осно­ва­ния кратны двум. Соот­вет­ственно, вычи­та­ние <span class="nolinebreak"><img src="/eq/7-179.png" style="height: 16px; width: 74px; vertical-align: -3px;" class="latex"></span>
+обну­лит в <span class="nolinebreak"><img src="/eq/7-180.png" style="height: 16px; width: 14px; vertical-align: -3px;" class="latex"></span> такие сла­га­е­мые (в дан­ном слу­чае, с чёт­ными осно­ва­ни­ями сте­пе­ней). Если
+постро­ить для только что полу­чен­ной суммы <span class="nolinebreak"><img src="/eq/7-181.png" style="height: 16px; width: 14px; vertical-align: -3px;" class="latex"></span> мно­же­ство осно­ва­ний <span class="nolinebreak"><img src="/eq/7-182.png" style="height: 15px; width: 18px; vertical-align: -3px;" class="latex">,</span> то ока­жется, что
+<span class="nolinebreak"><img src="/eq/7-183.png" style="height: 18px; width: 165px; vertical-align: -5px;" class="latex"></span> равно трём – вто­рому про­стому числу. Про­дол­жая этот про­цесс мы
+будем на каж­дом шаге полу­чать новое про­стое число и исполь­зо­вать его для обнуления/вычеркивания
+сла­га­е­мых с осно­ва­ни­ями, крат­ными ему, фак­ти­че­ски, вос­про­из­водя про­се­и­ва­ние Эратосфена/Эйлера
+без повтор­ных вычер­ки­ва­ний. (Кстати, нетрудно видеть, что здесь мно­же­ство <span class="nolinebreak"><img src="/eq/7-184.png" style="height: 15px; width: 16px; vertical-align: -3px;" class="latex"></span> почти пол­но­стью
+соот­вет­ствует мно­же­ству <span class="nolinebreak"><img src="/eq/7-185.png" style="height: 12px; width: 11px; vertical-align: -0px;" class="latex"></span> из разо­бран­ного ранее алго­ритма решета Эйле­ра; разве что в <span class="nolinebreak"><img src="/eq/7-186.png" style="height: 16px; width: 18px; vertical-align: -3px;" class="latex"></span>
+есть лиш­няя еди­ни­ца…)</p>
+<h2 id="section-6">
+<a class="anchor" href="#section-6" aria-hidden="true"><span class="octicon octicon-link"></span></a>Даёт ли решето Эйлера уско­ре­ние?</h2>
+<p>При работе решета Эра­то­сфена тре­бу­ется вычерк­нуть числа, крат­ные всем про­стым <span class="nolinebreak"><img src="/eq/7-187.png" style="height: 15px; width: 42px; vertical-align: -4px;" class="latex">.</span>
+Для каж­дого <span class="nolinebreak"><img src="/eq/7-188.png" style="height: 16px; width: 40px; vertical-align: -4px;" class="latex">,</span> оче­видно, тре­бу­ется <span class="nolinebreak"><img src="/eq/7-189.png" style="height: 17px; width: 27px; vertical-align: -4px;" class="latex"></span> вычер­ки­ва­ний. Т.о. для оценки коли­че­ства
+тре­бу­е­мых опе­ра­ций нужно про­сум­ми­ро­вать это выра­же­ние по всем про­стым, не пре­вы­ша­ю­щим <span class="nolinebreak"><img src="/eq/7-190.png" style="height: 9px; width: 10px; vertical-align: -0px;" class="latex">,</span> т.е.
+общее коли­че­ство опе­ра­ций равно <span class="nolinebreak"><img src="/eq/7-191.png" style="height: 22px; width: 71px; vertical-align: -9px;" class="latex">.</span> Известно, что
+<span class="nolinebreak"><img src="/eq/7-192.png" style="height: 24px; width: 206px; vertical-align: -9px;" class="latex">.</span> Таким обра­зом,
+вре­мен­на́я асимп­то­ти­че­ская слож­ность решета Эра­то­сфена оце­ни­ва­ется как
+<span class="nolinebreak"><img src="/eq/7-193.png" style="height: 21px; width: 97px; vertical-align: -6px;" class="latex">,</span> где <span class="nolinebreak"><img src="/eq/7-194.png" style="height: 16px; width: 59px; vertical-align: -3px;" class="latex"></span> выпол­няет роль сред­него коли­че­ства
+раз­лич­ных дели­те­лей числа <span class="nolinebreak"><img src="/eq/7-195.png" style="height: 9px; width: 10px; vertical-align: -0px;" class="latex">.</span> (N.B., за <span class="nolinebreak"><img src="/eq/7-196.png" style="height: 13px; width: 12px; vertical-align: -0px;" class="latex">-нотацией</span> ещё пря­чется сла­га­е­мое
+<span class="nolinebreak"><img src="/eq/7-197.png" style="height: 18px; width: 34px; vertical-align: -5px;" class="latex">,</span> т.е. время, тре­бу­е­мое на ини­ци­а­ли­за­цию решета постро­е­нием мно­же­ства <span class="nolinebreak"><img src="/eq/7-198.png" style="height: 18px; width: 32px; vertical-align: -5px;" class="latex">.)</span></p>
+<p>Эта асимп­то­ти­че­ская оценка ста­но­вится линей­ной (если вычер­ки­ва­ние оче­ред­ного числа выпол­ня­ется
+за кон­стант­ное <span class="nolinebreak"><img src="/eq/7-199.png" style="height: 18px; width: 33px; vertical-align: -5px;" class="latex"></span> время) в слу­чае решета Эйлера. Для языка про­грам­ми­ро­ва­ния с
+дешё­вым умно­же­нием это поз­во­ляет рабо­тать решету Эйлера быст­рее (в тео­рии): <span class="nolinebreak"><img src="/eq/7-200.png" style="height: 18px; width: 34px; vertical-align: -5px;" class="latex"></span>
+про­тив <span class="nolinebreak"><img src="/eq/7-201.png" style="height: 18px; width: 96px; vertical-align: -5px;" class="latex">.</span></p>
+<p>Но sed, оче­видно, не отно­сится к таким язы­кам – в нём вообще нет поня­тия умно­же­ния, хотя
+уни­вер­саль­ность sed и поз­во­ляет реа­ли­зо­вать умно­же­ние низ­ко­уров­не­выми сред­ствами. При­чем,
+выбран­ный для рас­смат­ри­ва­е­мой здесь реа­ли­за­ции решета Эйлера спо­соб умно­же­ния в унар­ной системе
+счис­ле­ния, пол­но­стью ниве­ли­рует какие бы то ни было пре­иму­ще­ства этого вари­анта решета.</p>
+<p>Фак­ти­че­ски, поли­чив­шийся код рабо­тает даже мед­лен­нее чем исход­ное решето Эра­то­сфена или его
+наив­ная «эй­ле­ро­фи­ка­ция» заме­ной <code>s/1@/0@/</code> на <code>/1@/ s/1@/0@/</code>. :) Но раз он всё-таки был
+напи­сан, то я вклю­чил файл <code>euler-sieve.sed</code> в основ­ной репо­зи­то­рий <a class="citation" href="#sieve-in-sed">[2]</a>.</p>
+<p>Решето Эйлера могло бы быть полез­ным в гипо­те­ти­че­ском слу­чае про­се­и­ва­ния чисел, нахо­дя­щихся не в
+опе­ра­тив­ной памяти, а на носи­теле типа flash-микросхем, име­ю­щем огра­ни­че­ние на коли­че­ство
+опе­ра­ций пере­за­писи содер­жи­мого. Кроме этого, можно вооб­ра­зить ситу­а­цию с про­се­и­ва­нием чисел в
+удалён­ной базе дан­ных: в этом слу­чае решето Эйлера поз­во­ляет мини­ми­зи­ро­вать как вос­хо­дя­щий (для
+отправки команд записи/вычер­ки­ва­ния), так и нис­хо­дя­щий (для счи­ты­ва­ния содер­жи­мого ячеек решета)
+сете­вой тра­фик. Нако­нец, при теоретико-игровой интер­пре­та­ции, это решето сго­ди­лось бы при [даже
+ещё более гипо­те­ти­че­ской] игре типа «мор­ской бой», в кото­рой состо­я­ние поля-решета
+замас­ки­ро­вано «ту­ма­ном вой­ны» и можно полу­чать лишь про­ре­жен­ные све­де­ния о послед­нем най­ден­ном
+про­стом числе. При этом нельзя попа­дать в «сво­их» (в про­стые числа) или тра­тить «бо­е­при­па­сы»
+и время впу­стую в попыт­ках вычер­ки­ва­ния уже вычерк­ну­тых чисел.</p>
+<p>Похоже, что у решета Эйлера в реаль­но­сти два при­ме­не­ния – уско­ре­ние гене­ра­ции про­стых чисел при
+исполь­зо­ва­нии под­хо­дя­щих язы­ков про­грам­ми­ро­ва­ния типа C, и при­ме­не­ние тео­ре­ти­че­ское (для чего,
+соб­ственно, Эйлер и при­ду­мал это решето <a class="citation" href="#euler1737">[10]</a>), e.g. в зада­чах, тре­бу­ю­щих
+един­ствен­но­сти каж­дого гене­ри­ру­е­мого реше­том состав­ного числа.</p>
+<h3 id="codeeuler-sievesedcode">
+<a class="anchor" href="#codeeuler-sievesedcode" aria-hidden="true"><span class="octicon octicon-link"></span></a>Прин­цип работы <code>euler-sieve.sed</code>
+</h3>
+<p>Скрипт <code>euler-sieve.sed</code> полу­чен из <code>sieve.sed</code> исправ­ле­нием несколь­ких стро­чек. Набор
+вспо­мо­га­тель­ных мар­ке­ров был рас­ши­рен с <code>#@:</code> до <code>#_@:,</code>. Мар­кет <code>#</code> как и преж­де нахо­дится
+после оче­ред­ного най­ден­ного про­стого числа. Справа от него нахо­дится мар­кер <code>_</code>, отме­ча­ю­щий
+оче­ред­ной мно­жи­тель, на кото­рый тре­бу­ется умно­жить теку­щее про­стое число (N.B., если <code>_</code> стоит
+сразу после <code>#</code>, то это озна­чает, что мно­жи­те­лем будет само про­стое число, т.е. это
+соот­вет­ствует вычис­ле­нию <span class="nolinebreak"><img src="/eq/7-202.png" style="height: 18px; width: 16px; vertical-align: -3px;" class="latex">).</span> Мар­кер дви­жется вправо и уста­нав­ли­ва­ется на сле­ду­ю­щее
+невы­черк­ну­тое число.</p>
+<p>Для каж­дого поло­же­ния мар­ке­ров <code>#</code> и <code>_</code>, пре­фиксы, состо­я­щие из сим­во­лов, рас­по­ло­жен­ных левее
+каж­дого из этих мар­ке­ров, копи­ру­ются на две сле­ду­ю­щие за реше­том строки. Из пре­фик­сов уда­ля­ются
+лиш­ние сим­волы (в т.ч. выше­упо­мя­ну­тые мар­керы), а перед пре­фик­сами добав­ля­ются новые мар­керы:
+мар­кер <code>:</code> перед пер­вым пре­фик­сом и <code>,</code> – перед вто­рым. Оба пре­фикса, т.о., всего-лишь
+обо­зна­чают под­ле­жа­щие пере­мно­же­нию числа [в унар­ной системе счис­ле­ния]. Их про­из­ве­де­ние сле­дует
+вычерк­нуть из решета.</p>
+<p>Для этого перед реше­том добав­ля­ется мар­кер <code>@</code> (N.B., изна­чально <em>левее</em> мар­ке­ров <code>#</code> и <code>_</code>, что
+кон­тра­сти­рует с выше­опи­сан­ным кодом для решета Эра­то­сфена). Далее, в двух вло­жен­ных цик­лах
+начи­нают сме­щаться вправо мар­керы <code>:</code> и <code>,</code>. При­чем мар­кер <code>,</code> сме­ща­ется на одну пози­цию когда
+мар­кер <code>:</code> дохо­дит до конца его строки. После каж­дого сме­ще­ния мар­кера <code>,</code> мар­кер <code>:</code>
+реи­ни­ци­а­ли­зи­ру­ется и вновь ока­зы­ва­ется перед своей стро­кой. При каж­дом пере­ме­ще­нии мар­кера <code>:</code>
+на одну пози­цию, на одну пози­цию вправо сме­ща­ется и мар­кер <code>@</code>. Т.к. на пути мар­кера <code>@</code> лежат
+мар­керы <code>#</code> и <code>_</code> (кото­рых он гаран­ти­ро­ванно обго­нит), то после окон­ча­ния работы обоих цик­лов,
+т.е. по дости­же­нию мар­ке­ром <code>,</code> конца своей строки, пози­ция <code>@</code> кор­рек­ти­ру­ется, сме­ща­ясь вправо
+на две пози­ции.</p>
+<p>В конеч­ном счета, мар­кер <code>@</code> ока­зы­ва­ется сразу после состав­ного числа, рав­ного про­из­ве­де­нию двух
+выде­лен­ных пре­фик­сов и под­ле­жа­щего вычер­ки­ва­нию. Однако, если в реа­ли­за­ции решета Эра­то­сфена, на
+ана­ло­гич­ном этапе про­из­во­ди­лось, соб­ственно, вычер­ки­ва­ние коман­дой <code>s/1@/0@/</code>, то сей­час
+выбран­ный эле­мент решета лишь поме­ча­ется к уда­ле­нию, заме­ня­ясь не на <code>0</code>, а на <code>x</code>.</p>
+<p>После всего этого мы можем перейти к новой ите­ра­ции по пере­ме­ще­нию мар­кера <code>_</code>, отме­ча­ю­щего
+сле­ду­ю­щий мно­жи­тель для теку­щего про­стого числа (мар­кер <code>_</code> пере­пры­ги­вает к пер­вому нену­ле­вому
+сим­волу, лежа­щему пра­вее него). Если же пра­вее мар­кера <code>_</code> не ока­за­лось ни одного сим­вола <code>1</code>
+или <code>x</code> (т.е. невы­черк­ну­того, хотя, воз­можно, и поме­чен­ного числа), то все поме­чен­ные к уда­ле­нию
+числа вычер­ки­ва­ются окон­ча­тельно коман­дой <code>s/x/0/g</code> и мы пере­хо­дим к сле­ду­ю­щей ите­ра­ции сме­ще­ния
+мар­кера <code>#</code>. Если пра­вее от мар­кера <code>#</code> не ока­зы­ва­ется про­стых чисел, т.е. если нет ячеек со
+зна­че­нием <code>1</code>, то алго­ритм про­се­и­ва­ния завер­шает свою работу, пере­да­вая управ­ле­ние финаль­ной
+части скрипта, про­из­во­дя­щей печать резуль­та­тов.</p>
+<h1 id="section-7">
+<a class="anchor" href="#section-7" aria-hidden="true"><span class="octicon octicon-link"></span></a>Вычис­ле­ние неко­то­рых теоретико-числовых функ­ций про­се­и­ва­нием</h1>
+<p>(Этот раз­дел был добав­лен в апреле 2021 г.)</p>
+<p>[Моди­фи­ци­ро­ван­ное] решето Эра­то­сфена может при­ме­няться для вычис­ле­ния неко­то­рых функ­ций,
+хорошо извест­ных в тео­рии чисел. При­меры таких функ­ций <a class="citation" href="#versatile-sieve">[13]</a>:</p>
+<ul>
+<li>Про­стота числа; основ­ное при­ме­не­ние обыч­ного решета Эра­то­сфена.</li>
+<li>Ради­кал целого числа (функ­ция <span class="nolinebreak"><img src="/eq/7-203.png" style="height: 13px; width: 37px; vertical-align: -0px;" class="latex">);</span> <span class="nolinebreak"><img src="/eq/7-204.png" style="height: 13px; width: 37px; vertical-align: -0px;" class="latex"></span> равен
+про­из­ве­де­нию всех раз­лич­ных про­стых дели­те­лей числа <span class="nolinebreak"><img src="/eq/7-205.png" style="height: 9px; width: 10px; vertical-align: -0px;" class="latex">.</span>
+</li>
+<li>Функ­ция Эйлера (<span class="nolinebreak"><img src="/eq/7-206.png" style="height: 12px; width: 11px; vertical-align: -4px;" class="latex">-функция);</span> <span class="nolinebreak"><img src="/eq/7-207.png" style="height: 18px; width: 33px; vertical-align: -5px;" class="latex"></span> равно коли­че­ству чисел, вза­имно про­стых с
+<span class="nolinebreak"><img src="/eq/7-208.png" style="height: 9px; width: 10px; vertical-align: -0px;" class="latex">.</span>
+</li>
+<li>Коли­че­ство раз­лич­ных про­стых дели­те­лей (<span class="nolinebreak"><img src="/eq/7-209.png" style="height: 9px; width: 10px; vertical-align: -0px;" class="latex">-функция).</span>
+</li>
+<li>Наи­мень­ший про­стой дели­тель.</li>
+<li>Фак­то­ри­за­ция (раз­ло­же­ние на про­стые мно­жи­тели).</li>
+</ul>
+<h1 id="section-8">
+<a class="anchor" href="#section-8" aria-hidden="true"><span class="octicon octicon-link"></span></a>Ком­плек­та­ция поставки</h1>
+<ul>
+<li>
+<p><code>plain-sieve.sed</code> – при­ни­мает длину решета и воз­вра­щает бинар­ную после­до­ва­тель­ность с
+еди­ни­цами только в пози­циях, соот­вет­ству­ю­щих про­стым чис­лам (самая пер­вая, левая пози­ция
+соот­вет­ствует еди­нице и поэтому все­гда равна 0).</p>
+<p>При­мер: <code>echo 10 | ./plain-sieve.sed</code> вер­нёт <code>0110101000</code> (еди­ницы в пози­циях 2, 3, 5 и 7).</p>
+</li>
+<li>
+<p><code>sieve.sed</code> – основ­ной скрипт (кратко опи­сан­ный в раз­деле «Ре­а­ли­за­ци­я»; см. выше),
+при­ни­ма­ю­щий длину решета и воз­вра­ща­ю­щий (точ­нее говоря, печа­та­ю­щий) спи­сок (с раз­делением
+пере­во­дом строки) про­стых чисел, не пре­вы­ша­ю­щих дан­ной длины.</p>
+<p>При­мер: <code>echo 10 | ./sieve.sed</code> воз­вра­щает:</p>
+<pre><code>2
+3
+5
+7
+</code></pre>
+</li>
+<li>
+<p><code>binary-sieve.sed</code> – скрипт ана­ло­ги­чен преды­ду­щему, но рабо­тает в дво­ич­ной системе счис­ле­ния
+(i.e. и длину решета при­ни­мает в виде бинар­ного числа и про­стые числа печа­тает тоже в
+дво­ич­ной запи­си; это немного упро­щает код чте­ния и печати чисел) .</p>
+<p>При­мер:</p>
+<pre><code>echo 1010 | ./binary-sieve.sed
+
+10
+11
+101
+111
+</code></pre>
+<p>Дей­стви­тельно, <span class="nolinebreak"><img src="/eq/7-210.png" style="height: 14px; width: 78px; vertical-align: -3px;" class="latex">,</span> <span class="nolinebreak"><img src="/eq/7-211.png" style="height: 14px; width: 54px; vertical-align: -3px;" class="latex">,</span> <span class="nolinebreak"><img src="/eq/7-212.png" style="height: 14px; width: 54px; vertical-align: -3px;" class="latex">,</span> <span class="nolinebreak"><img src="/eq/7-213.png" style="height: 14px; width: 62px; vertical-align: -3px;" class="latex"></span> и <span class="nolinebreak"><img src="/eq/7-214.png" style="height: 15px; width: 62px; vertical-align: -3px;" class="latex">.</span></p>
+</li>
+<li>
+<p><code>anagram.sed</code> и <code>collatz.sed</code> были опи­саны в преды­ду­щем раз­деле этого сооб­ще­ния. Скрипт
+<code>anagram.sed</code> сей­час под­дер­жи­вает только латин­ские сим­волы, а <code>collatz.sed</code> печа­тает только
+«клю­че­вые» точки тра­ек­то­рии <span class="nolinebreak"><img src="/eq/7-215.png" style="height: 13px; width: 45px; vertical-align: -1px;" class="latex">,</span> т.е. строит после­до­ва­тель­ность ите­ри­руя отоб­ра­же­ние
+<span class="nolinebreak"><img src="/eq/7-216.png" style="height: 19px; width: 123px; vertical-align: -4px;" class="latex">,</span> где <span class="nolinebreak"><img src="/eq/7-217.png" style="height: 18px; width: 29px; vertical-align: -5px;" class="latex"></span> есть [мак­си­маль­ная] сте­пень мно­жи­теля 2 в фак­то­ри­за­ции
+числа <span class="nolinebreak"><img src="/eq/7-218.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex">.</span> E.g. для началь­ного числа <span class="nolinebreak"><img src="/eq/7-219.png" style="height: 14px; width: 77px; vertical-align: -3px;" class="latex"></span> будет постро­ена после­до­ва­тель­ность <span class="nolinebreak"><img src="/eq/7-220.png" style="height: 14px; width: 148px; vertical-align: -3px;" class="latex">,</span> i.e. 10 будет поде­лено на 2, затем этот резуль­тат без печати на экране будет
+утроен и инкре­мен­ти­ро­ван, что даст 16 (<span class="nolinebreak"><img src="/eq/7-221.png" style="height: 14px; width: 47px; vertical-align: -3px;" class="latex">),</span> а это послед­нее число будет напе­ча­тано и
+сразу же [цело­чис­ленно] раз­де­лено на мак­си­мально воз­мож­ную здесь сте­пень двойки, <span class="nolinebreak"><img src="/eq/7-222.png" style="height: 14px; width: 16px; vertical-align: -0px;" class="latex">,</span> что
+даст послед­нюю точку тра­ек­то­рии, 1.</p>
+</li>
+<li>
+<p><code>anagrams.txt</code> – при­меры ана­грамм для тести­ро­ва­ния <code>anagram.sed</code>.</p>
+</li>
+<li>
+<p><code>factor.sed</code> – про­из­во­дит раз­ло­же­ние дан­ного числа на про­стые мно­жи­тели (работа скрипта уже
+была опи­сана в рез­деле «Ре­а­ли­за­ция»).</p>
+<p>При­мер:</p>
+<pre><code>echo 18 | ./factor.sed
+
+2
+3
+3
+</code></pre>
+<p>Как и ожи­да­лось, <span class="nolinebreak"><img src="/eq/7-223.png" style="height: 12px; width: 87px; vertical-align: -0px;" class="latex">.</span></p>
+</li>
+<li>
+<p><code>factor-hack-unary.sed</code> – про­стой скрипт, вме­сто решета исполь­зу­ю­щий «об­рат­ные ссыл­ки» в
+регу­ляр­ном выра­же­нии (сле­дуя <a class="citation" href="#factor-hack">[14,15,16]</a>) для
+фак­то­ри­за­ции числа, пред­став­лен­ного в унар­ной системе счис­ле­ния.</p>
+<p>При­ме­ча­ние: здесь исполь­зу­ются рас­ши­рен­ные «ре­гу­ляр­ные» выра­же­ния, под­дер­жи­ва­ю­щие ссылки
+вида <code>\1</code>, <code>\2</code>, etc., и не явля­ю­щи­еся именно регу­ляр­ными в при­выч­ном смысле – такие
+выра­же­ния с обрат­ными ссыл­ками не удастся ском­пи­ли­ро­вать в конеч­ный авто­мат.</p>
+<p>Скрипт на самом деле имеет дело со спис­ком чисел (раз­де­лен­ных пере­во­дом строки), под­ле­жа­щих
+раз­ло­же­нию. Но раз­ло­же­нию под­вер­га­ется только одно из них, поме­чен­ное спе­ци­аль­ным мар­ке­ром.</p>
+<p>Для числа <span class="nolinebreak"><img src="/eq/7-224.png" style="height: 9px; width: 10px; vertical-align: -0px;" class="latex"></span> исполь­зу­ется регу­ляр­ное выра­же­ние, ана­ло­гич­ное выра­же­нию <code>/^(11+)(\1+)$/</code>. Как видно, оно выде­ляет некую группу из не менее чем двух
+еди­ниц при помощи под­вы­ра­же­ния <code>(11+)</code>, т.е. выде­ляет один мно­жи­тель <span class="nolinebreak"><img src="/eq/7-225.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex"></span> (воз­можно состав­ной),
+и с помо­щью под­вы­ра­же­ния <code>(\1+)</code> про­ве­ряет, можно ли пред­ста­вить остав­шу­юся часть числа
+кон­ка­те­на­цией неко­то­рого нену­ле­вого коли­че­ства копий этой группы (без остатка).</p>
+<p>Если это не уда­лось сде­лать, то <span class="nolinebreak"><img src="/eq/7-226.png" style="height: 9px; width: 10px; vertical-align: -0px;" class="latex"></span> либо равно еди­нице, либо явля­ется про­стым. В про­тив­ном
+слу­чае скрипт про­из­во­дит деле­ние числа на най­ден­ный мно­жи­тель: <span class="nolinebreak"><img src="/eq/7-227.png" style="height: 17px; width: 57px; vertical-align: -4px;" class="latex">.</span> Для этого, в цикле,
+най­ден­ная ранее группа еди­ниц, нахо­дя­ща­яся в самом начале числа, заме­ня­ется на под­хо­дя­щий
+мар­кер (в дан­ном слу­чае исполь­зу­ется сим­вол <code>_</code>). Т.о., по завер­ше­нию цикла, коли­че­ство
+сим­во­лов под­чер­ки­ва­ния равно <span class="nolinebreak"><img src="/eq/7-228.png" style="height: 13px; width: 7px; vertical-align: -0px;" class="latex"></span> и заме­ной <code>s/_/1/g</code> можно полу­чить этот вто­рой, воз­можно тоже
+состав­ной мно­жи­тель. Мно­жи­тель <span class="nolinebreak"><img src="/eq/7-229.png" style="height: 13px; width: 7px; vertical-align: -0px;" class="latex"></span> добав­ля­ется в спи­сок чисел.</p>
+<p>Теперь скрипт рекур­сивно обра­ба­ты­вает най­ден­ный мно­жи­тель <span class="nolinebreak"><img src="/eq/7-230.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex"></span> (поме­тив его спе­ци­аль­ным
+мар­ке­ром и начав фак­то­ри­за­цию заново) по уже опи­сан­ной схеме и про­дол­жает про­цесс, пере­ма­щая
+мар­кер к сле­ду­ю­щему числу в списке при каж­дой «не­удач­ной» фак­то­ри­за­ции (т.е. когда
+поме­чен­ный мно­жи­тель ока­зы­ва­ется про­стым или рав­ным еди­нице), пока всё исход­ное число не
+ока­жется раз­ло­жен­ным на про­стые мно­жи­тели.</p>
+<p>В дру­гих диа­лек­тах регу­ляр­ных выра­же­ний могут под­дер­жи­ваться те или иные сред­ства управ­ле­ния
+жад­но­стью – так в источ­нике <a class="citation" href="#nongreedy-factor">[16]</a> вме­сто <code>11+</code> при­ме­нено под­вы­ра­же­ние
+<code>11+?</code>, кото­рое как раз и ука­зы­вает меха­низму сопо­став­ле­ния с образ­цом дей­ство­вать нежадно,
+мини­ми­зи­руя длину най­ден­ной под­стро­ки; но в sed таких средств, кажется, нет, а в дан­ном
+кон­крет­ном слу­чае, за счёт рекур­сив­ной обра­ботки всё вновь полу­ча­е­мых мно­жи­те­лей,
+неопре­де­лен­ной жад­но­сти вполне доста­точно.</p>
+<p>Инте­ресно, что если для сопо­став­ле­ния с образ­цом <code>11+</code> исполь­зу­ется гаран­ти­ро­ванно жад­ная
+стра­те­гия, то, коль скоро это соот­вет­ствует мак­си­ми­за­ции <span class="nolinebreak"><img src="/eq/7-231.png" style="height: 9px; width: 9px; vertical-align: -0px;" class="latex"></span> в раз­ло­же­нии <span class="nolinebreak"><img src="/eq/7-232.png" style="height: 13px; width: 60px; vertical-align: -0px;" class="latex">,</span> это
+мини­ми­зи­рует <span class="nolinebreak"><img src="/eq/7-233.png" style="height: 13px; width: 7px; vertical-align: -0px;" class="latex"></span> и обес­пе­чи­вает т.о. его про­стоту. Дан­ное наблю­де­ние могло бы поз­во­лить слегка
+сокра­тить и уско­рить скрипт, но я не вос­поль­зо­вался такой воз­мож­но­стью (потому что всё и так
+рабо­тает, да ещё и не зави­сит от стра­те­гии поиска, выбран­ной кон­крет­ной реа­ли­за­цией регу­ляр­ных
+выра­же­ний).</p>
+<p>При­мер работы скрипта:</p>
+<pre><code>echo 111111111111111111 | ./factor-hack-unary.sed
+
+111
+111
+11
+</code></pre>
+<p>Так и должно быть: <span class="nolinebreak"><img src="/eq/7-234.png" style="height: 12px; width: 87px; vertical-align: -0px;" class="latex">.</span></p>
+</li>
+<li>
+<p><code>euler-sieve.sed</code> – попытка реа­ли­за­ции решета Эйлера. Деталь­ное опи­са­ние при­ве­дено в
+преды­ду­щем раз­деле. С точки зре­ния запуска и исполь­зо­ва­ния, скрипт дол­жен рабо­тать в точ­но­сти
+как и <code>sieve.sed</code> (см. выше).</p>
+</li>
+</ul>
+<h1 id="section-9">
+<a class="anchor" href="#section-9" aria-hidden="true"><span class="octicon octicon-link"></span></a>Ссылки</h1>
+<ul class="bibliography">
+<li>
+<span id="wiki-sieve">1. </span> <a href="http://ru.wikipedia.org/wiki/%D1%80%D0%B5%D1%88%D0%B5%D1%82%D0%BE_%D0%AD%D1%80%D0%B0%D1%82%D0%BE%D1%81%D1%84%D0%B5%D0%BD%D0%B0">http://ru.wikipedia.org/wiki/решето_Эратосфена</a>
+</li>
+<li>
+<span id="sieve-in-sed">2. </span> <a href="https://github.com/Circiter/sieve-in-sed">https://github.com/Circiter/sieve-in-sed</a>
+</li>
+<li>
+<span id="anagrams-alg">3. </span> <a href="http://skerritt.blog/an-algorithm-for-finding-anagrams">http://skerritt.blog/an-algorithm-for-finding-anagrams</a>
+</li>
+<li>
+<span id="anagrams-math">4. </span> <a href="http://quanterocapital.com/anagrams-mathematically-speaking">http://quanterocapital.com/anagrams-mathematically-speaking</a>
+</li>
+<li>
+<span id="wiki-fta">5. </span> <a href="http://en.wikipedia.org/wiki/fundamental_theorem_of_arithmetic">http://en.wikipedia.org/wiki/fundamental_theorem_of_arithmetic</a>
+</li>
+<li>
+<span id="gist-mult">6. </span> <a href="https://gist.github.com/Circiter/042264eb9e9ee360d0eafa10eedf3f21">https://gist.github.com/Circiter/042264eb9e9ee360d0eafa10eedf3f21</a>
+</li>
+<li>
+<span id="wiki-collatz">7. </span> <a href="http://ru.wikipedia.org/wiki/%D0%B3%D0%B8%D0%BF%D0%BE%D1%82%D0%B5%D0%B7%D0%B0_%D0%9A%D0%BE%D0%BB%D0%BB%D0%B0%D1%82%D1%86%D0%B0">http://ru.wikipedia.org/wiki/гипотеза_Коллатца</a>
+</li>
+<li>
+<span id="lagarias2010">8. Lagarias J. The Ultimate Challenge: the 3x+1 problem. 2010</span> </li>
+<li>
+<span id="wiki-wheel">9. </span> <a href="http://en.wikipedia.org/wiki/wheel_factorization">http://en.wikipedia.org/wiki/wheel_factorization</a>
+</li>
+<li>
+<span id="euler1737">10. Euler L. Variae observationes circa series infinitas. 1737</span> </li>
+<li>
+<span id="sorenson1990">11. Sorenson J. An Introduction to Prime Number Sieves. 1990</span> </li>
+<li>
+<span id="gries-misra">12. Gries D. и др. A Linear Sieve Algorithm for Finding Prime Numbers</span> </li>
+<li>
+<span id="versatile-sieve">13. </span> <a href="http://www.nayuki.io/page/the-versatile-sieve-of-eratosthenes">http://www.nayuki.io/page/the-versatile-sieve-of-eratosthenes</a>
+</li>
+<li>
+<span id="factor-hack">14. </span> <a href="http://news.ycombinator.com/item?id=9039537">http://news.ycombinator.com/item?id=9039537</a>
+</li>
+<li>
+<span id="another-factor-hack">15. </span> <a href="http://montreal.pm.org/tech/neil_kandalgaonkar.shtml">http://montreal.pm.org/tech/neil_kandalgaonkar.shtml</a>
+</li>
+<li>
+<span id="nongreedy-factor">16. </span> <a href="http://www.mit.edu:8008/bloom-picayune.mit.edu/perl/10138">http://www.mit.edu:8008/bloom-picayune.mit.edu/perl/10138</a>
+</li>
+</ul>
+
+</div>
+
+
+    <p>
+    М.И.Никитин<br>
+    г.Алматы, сен­тябрь, 2020
+    
+        <br>
+        (послед­няя правка: апрель, 2021)
+    
+    </p>
+    <br>
+
+
+
+
+
+    <p>
+    <small>метки-категории: <em>
+        
+            <a class="post" href="/tag/%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5">про­грам­ми­ро­ва­ние</a>, 
+        
+            <a class="post" href="/tag/%D0%BC%D0%B0%D1%82%D0%B5%D0%BC%D0%B0%D1%82%D0%B8%D0%BA%D0%B0">мате­ма­тика</a>, 
+        
+            <a class="post" href="/tag/%D1%8D%D0%B7%D0%BE%D1%82%D0%B5%D1%80%D0%B8%D0%BA%D0%B0">эзо­те­рика</a>, 
+        
+            <a class="post" href="/tag/sed">sed</a>, 
+        
+            <a class="post" href="/tag/%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F-%D1%87%D0%B8%D1%81%D0%B5%D0%BB">теория-чисел</a>, 
+        
+            <a class="post" href="/tag/trivia">trivia</a>, 
+        
+            <a class="post" href="/tag/%D0%B3%D0%B8%D0%BF%D0%BE%D1%82%D0%B5%D0%B7%D0%B0-%D0%9A%D0%BE%D0%BB%D0%BB%D0%B0%D1%82%D1%86%D0%B0">гипотеза-Коллатца</a>, 
+        
+            <a class="post" href="/tag/3x+1">3x+1</a>, 
+        
+            <a class="post" href="/tag/%D0%BC%D0%B0%D1%82%D0%B5%D0%BC%D0%B0%D1%82%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D0%B5-%D0%B1%D0%BE%D0%BB%D0%B5%D0%B7%D0%BD%D0%B8">математические-болезни</a>
+        
+    </em></small>
+    </p>
+
+
+
+    <p><small>[<a href="/sig/sieve-of-eratosthenes-in-sed.md.sha256.sig">ЭЦП (SHA-256, RSA)</a>] (<a href="https://gist.github.com/Circiter/92e7b9368c1e29c055a688d12d61466c">ключ</a>)<small></small></small></p>
+
+
+    </div>
+
+  <footer>
+    <a href="mailto:xcirciter@gmail.com"><i class="svg-icon email"></i></a>
+    <a href="https://github.com/Circiter"><i class="svg-icon github"></i></a>
+    <a href="/rss.xml"><i class="svg-icon rss"></i></a>
+    <!--<img src="/public/images/no-cookies.png" alt="no cookies"></img>-->
+    <!-- From catb.org/hacker-emblem/glider-small.png -->
+    <h2><a href="http://catb.org/hacker-emblem"><img src="/public/images/glider-small.png" /></a>&nbsp;EOF</h2>
+    <p><small>&copy;&nbsp;Circiter,&nbsp;2020&ndash;2022. Все права защищены. (см. также <a href="/LICENSE">LICENSE</a>)</small></p>
+</footer>
+
+
+  </body>
+</html>

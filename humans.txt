@@ -1,0 +1,15 @@
+/* TEAM */
+    Author: Michael I. Nikitin, programmer
+    Contact: xcirciter@gmail.com
+    Location: Almaty
+    
+/* THANKS */
+    github team
+    [future] contributors
+    git creators
+    viewers
+    many others
+    
+/* SITE */
+    Language: Russian/English
+    Tools: nano, git, latex, github, jekyll, ruby, linux, gnu, emacs, gcc, sed, markdown, etc.
